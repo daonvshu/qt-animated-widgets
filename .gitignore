@@ -1,0 +1,11 @@
+/.idea/
+/.vs/
+/.vscode/
+/build/
+/cmake-build-*/
+*.user
+*.user.*
+*.suo
+*.vcxproj*
+*.pro.user
+
