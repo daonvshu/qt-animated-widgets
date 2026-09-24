@@ -5,7 +5,7 @@
 AnimatedWidgetsDesignerPlugin::AnimatedWidgetsDesignerPlugin(QObject* parent)
     : QObject(parent)
 {
-    for (int kind = 0; kind < 8; ++kind) {
+    for (int kind = 0; kind < 10; ++kind) {
         m_widgets.append(new VariantButtonPlugin(kind, this));
     }
 }

@@ -50,6 +50,12 @@ add_library(AnimatedWidgetsWidgets
     src/animatedwidgets/buttons/buttonstatestyle.h
     src/animatedwidgets/buttons/buttonpainter.h
     src/animatedwidgets/buttons/buttonpainter.cpp
+    src/animatedwidgets/buttons/checkableiconpainter.h
+    src/animatedwidgets/buttons/checkableiconpainter.cpp
+    src/animatedwidgets/buttons/radiobutton.h
+    src/animatedwidgets/buttons/radiobutton.cpp
+    src/animatedwidgets/buttons/checkbox.h
+    src/animatedwidgets/buttons/checkbox.cpp
     src/animatedwidgets/buttons/filledbutton.h
     src/animatedwidgets/buttons/filledbutton.cpp
     src/animatedwidgets/buttons/outlinebutton.h

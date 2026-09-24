@@ -126,6 +126,37 @@
        </item>
       </layout>
      </widget>
+     <widget class="QWidget" name="selectionPage">
+      <attribute name="title"><string>Selection controls</string></attribute>
+      <layout class="QVBoxLayout" name="selectionPageLayout">
+       <property name="leftMargin"><number>20</number></property>
+       <property name="topMargin"><number>16</number></property>
+       <property name="rightMargin"><number>20</number></property>
+       <property name="bottomMargin"><number>16</number></property>
+       <item>
+        <widget class="QGroupBox" name="radioButtonsGroup">
+         <property name="title"><string>Radio buttons</string></property>
+         <layout class="QVBoxLayout" name="radioButtonsLayout">
+          <item><widget class="animatedwidgets::RadioButton" name="radioInteractive"><property name="text"><string>Interactive</string></property></widget></item>
+          <item><widget class="animatedwidgets::RadioButton" name="radioChecked"><property name="text"><string>Checked</string></property><property name="checked"><bool>true</bool></property></widget></item>
+          <item><widget class="animatedwidgets::RadioButton" name="radioDisabled"><property name="text"><string>Disabled</string></property><property name="enabled"><bool>false</bool></property></widget></item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="checkBoxesGroup">
+         <property name="title"><string>Check boxes</string></property>
+         <layout class="QVBoxLayout" name="checkBoxesLayout">
+          <item><widget class="animatedwidgets::CheckBox" name="checkInteractive"><property name="text"><string>Interactive</string></property></widget></item>
+          <item><widget class="animatedwidgets::CheckBox" name="checkPartial"><property name="text"><string>Partially checked</string></property><property name="tristate"><bool>true</bool></property></widget></item>
+          <item><widget class="animatedwidgets::CheckBox" name="checkChecked"><property name="text"><string>Checked</string></property><property name="checked"><bool>true</bool></property></widget></item>
+          <item><widget class="animatedwidgets::CheckBox" name="checkDisabled"><property name="text"><string>Disabled</string></property><property name="enabled"><bool>false</bool></property></widget></item>
+         </layout>
+        </widget>
+       </item>
+       <item><spacer name="selectionContentSpacer"><property name="orientation"><enum>Qt::Vertical</enum></property><property name="sizeHint" stdset="0"><size><width>20</width><height>40</height></size></property></spacer></item>
+      </layout>
+     </widget>
     </widget>
    </item>
   </layout>
@@ -139,6 +170,8 @@
   <customwidget><class>animatedwidgets::OutlineIconButton</class><extends>QPushButton</extends><header>animatedwidgets/buttons/outlineiconbutton.h</header></customwidget>
   <customwidget><class>animatedwidgets::BorderedIconButton</class><extends>QPushButton</extends><header>animatedwidgets/buttons/borderediconbutton.h</header></customwidget>
   <customwidget><class>animatedwidgets::HoverIconButton</class><extends>QPushButton</extends><header>animatedwidgets/buttons/hovericonbutton.h</header></customwidget>
+  <customwidget><class>animatedwidgets::RadioButton</class><extends>QRadioButton</extends><header>animatedwidgets/buttons/radiobutton.h</header></customwidget>
+  <customwidget><class>animatedwidgets::CheckBox</class><extends>QCheckBox</extends><header>animatedwidgets/buttons/checkbox.h</header></customwidget>
  </customwidgets>
  <resources/>
  <connections/>

@@ -3,35 +3,45 @@
 #include "animatedwidgets/buttons/buttonstatestyle.h"
 
 #include <QApplication>
-#include <QPainter>
+#include <QIcon>
 #include <QPixmap>
-#include <QSvgRenderer>
 #include <QVector>
 
 namespace {
 
 QIcon sampleCheckIcon()
 {
-    static const QByteArray svg = QByteArrayLiteral(
-        "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\">"
-        "<path d=\"M4.5 12.5 9.5 17.5 19.5 6.5\" fill=\"none\" "
-        "stroke=\"#202124\" stroke-width=\"2.4\" stroke-linecap=\"round\" "
-        "stroke-linejoin=\"round\"/>"
-        "</svg>");
-    static const QIcon icon = [] {
-        QIcon result;
-        QSvgRenderer renderer(svg);
-        for (const QSize size : {QSize(16, 16), QSize(18, 18), QSize(20, 20), QSize(24, 24)}) {
-            QPixmap pixmap(size);
-            pixmap.fill(Qt::transparent);
-            QPainter painter(&pixmap);
-            renderer.render(&painter);
-            result.addPixmap(pixmap, QIcon::Normal, QIcon::Off);
-            result.addPixmap(pixmap, QIcon::Normal, QIcon::On);
-        }
-        return result;
-    }();
-    return icon;
+    return QIcon(QStringLiteral(":/animatedwidgets/gallery/buttoncheck.svg"));
+}
+
+void configureSelection(Ui::Gallery& ui)
+{
+    const QPixmap radioUnchecked(QStringLiteral(":/animatedwidgets/gallery/radiounchecked.svg"));
+    const QPixmap radioChecked(QStringLiteral(":/animatedwidgets/gallery/radiochecked.svg"));
+    const QPixmap checkboxUnchecked(QStringLiteral(":/animatedwidgets/gallery/checkboxunchecked.svg"));
+    const QPixmap checkboxPartial(QStringLiteral(":/animatedwidgets/gallery/checkboxpartial.svg"));
+    const QPixmap checkboxChecked(QStringLiteral(":/animatedwidgets/gallery/checkboxchecked.svg"));
+
+    const QVector<animatedwidgets::RadioButton*> radios = {
+        ui.radioInteractive, ui.radioChecked, ui.radioDisabled
+    };
+    for (auto* radio : radios) {
+        radio->setUncheckedIcon(radioUnchecked);
+        radio->setCheckedIcon(radioChecked);
+        radio->setIconSize(QSize(18, 18));
+    }
+
+    const QVector<animatedwidgets::CheckBox*> checkBoxes = {
+        ui.checkInteractive, ui.checkPartial, ui.checkChecked, ui.checkDisabled
+    };
+    for (auto* checkBox : checkBoxes) {
+        checkBox->setUncheckedIcon(checkboxUnchecked);
+        checkBox->setPartiallyCheckedIcon(checkboxPartial);
+        checkBox->setCheckedIcon(checkboxChecked);
+        checkBox->setIconSize(QSize(18, 18));
+    }
+    // checkState is not a Qt property, so Designer cannot round-trip it in the .ui file.
+    ui.checkPartial->setCheckState(Qt::PartiallyChecked);
 }
 
 void configureGallery(Ui::Gallery& ui)
@@ -112,6 +122,7 @@ int main(int argc, char* argv[])
     Ui::Gallery ui;
     ui.setupUi(&gallery);
     configureGallery(ui);
+    configureSelection(ui);
     gallery.show();
     return app.exec();
 }

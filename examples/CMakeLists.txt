@@ -3,6 +3,7 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Svg)
 add_executable(animatedwidgets-gallery
     main.cpp
     gallery.ui
+    resources/gallery.qrc
 )
 target_link_libraries(animatedwidgets-gallery PRIVATE
     AnimatedWidgets::AnimatedWidgets

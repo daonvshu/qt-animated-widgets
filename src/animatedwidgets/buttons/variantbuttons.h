@@ -1,5 +1,7 @@
 #pragma once
 
+#include "animatedwidgets/buttons/checkbox.h"
+#include "animatedwidgets/buttons/radiobutton.h"
 #include "animatedwidgets/buttons/filledbutton.h"
 #include "animatedwidgets/buttons/outlinebutton.h"
 #include "animatedwidgets/buttons/borderedbutton.h"
