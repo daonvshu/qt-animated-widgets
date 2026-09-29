@@ -83,6 +83,8 @@ add_library(AnimatedWidgetsWidgets
     src/animatedwidgets/switches/switch.cpp
     src/animatedwidgets/progressbars/progressbar.h
     src/animatedwidgets/progressbars/progressbar.cpp
+    src/animatedwidgets/sliders/slider.h
+    src/animatedwidgets/sliders/slider.cpp
 )
 add_library(AnimatedWidgets::Widgets ALIAS AnimatedWidgetsWidgets)
 target_include_directories(AnimatedWidgetsWidgets PUBLIC

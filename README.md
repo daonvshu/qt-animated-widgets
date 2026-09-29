@@ -87,10 +87,22 @@ control. `borderWidth` applies when `borderColor` is set. Existing widget QSS
 is kept before the generated rules; generated declarations take precedence
 over earlier rules for the same part.
 
+## Slider
+
+`Slider` retains `QSlider`'s integer range, orientation, ticks, and input
+behavior. Its logical `value()` and `valueChanged` update immediately, while
+programmatic, keyboard, and wheel changes animate the displayed handle from
+its current position. Pointer presses and drags use the native position
+immediately so the handle stays under the pointer. `animationEnabled` defaults
+to true; `animationDuration` (milliseconds) and `animationEasingCurve`
+(`QEasingCurve::Type`) control the position transition. A zero duration or
+disabled animation snaps to the target. The gallery has a Sliders page, and
+Designer registers `Slider` in the `animated-widgets` group.
+
 ## Qt Designer plugin
 
 `BUILD_DESIGNER_PLUGIN` is ON by default. The `animatedwidgetsdesigner` module
-registers the buttons, selection controls, Switch, and ProgressBar with short class names
+registers the buttons, selection controls, Switch, ProgressBar, and Slider with short class names
 and distinct icons in the `animated-widgets` group. The concrete classes use
 those short names; `animatedwidgets::` aliases preserve namespaced C++ usage.
 More widget adapters can be added under

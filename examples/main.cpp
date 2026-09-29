@@ -57,6 +57,36 @@ void configureProgress(Ui::Gallery& ui)
     });
 }
 
+void configureSliders(Ui::Gallery& ui)
+{
+    const QVector<animatedwidgets::Slider*> sliders = {
+        ui.sliderHorizontal, ui.sliderTicks, ui.sliderVertical, ui.sliderDisabled
+    };
+    QObject::connect(ui.sliderTargetSpin, QOverload<int>::of(&QSpinBox::valueChanged),
+                     ui.slidersPage, [sliders](int value) {
+        for (auto* slider : sliders) slider->setValue(value);
+    });
+    QObject::connect(ui.sliderHorizontal, &QSlider::valueChanged,
+                     ui.sliderTargetSpin, &QSpinBox::setValue);
+    QObject::connect(ui.sliderAnimationCheck, &QCheckBox::toggled,
+                     ui.slidersPage, [sliders](bool enabled) {
+        for (auto* slider : sliders) slider->setAnimationEnabled(enabled);
+    });
+    QObject::connect(ui.sliderDurationSpin, QOverload<int>::of(&QSpinBox::valueChanged),
+                     ui.slidersPage, [sliders](int duration) {
+        for (auto* slider : sliders) slider->setAnimationDuration(duration);
+    });
+    QObject::connect(ui.sliderCurveCombo, QOverload<int>::of(&QComboBox::currentIndexChanged),
+                     ui.slidersPage, [sliders](int index) {
+        const QEasingCurve::Type curves[] = {
+            QEasingCurve::OutCubic, QEasingCurve::Linear,
+            QEasingCurve::InOutCubic, QEasingCurve::OutQuart
+        };
+        if (index < 0 || index >= 4) return;
+        for (auto* slider : sliders) slider->setAnimationEasingCurve(curves[index]);
+    });
+}
+
 void configureGallery(Ui::Gallery& ui)
 {
     const QVector<QPushButton*> textButtons = {
@@ -139,6 +169,7 @@ int main(int argc, char* argv[])
     ui.checkPartial->setCheckState(Qt::PartiallyChecked);
     configureSwitches(ui);
     configureProgress(ui);
+    configureSliders(ui);
     gallery.show();
     return app.exec();
 }
