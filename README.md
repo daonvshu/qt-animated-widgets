@@ -66,10 +66,31 @@ default circle. A zero handle radius restores automatic sizing. Repeated toggles
 continue from the current animation value. The gallery shows it on a separate
 Switches page, and Qt Designer registers it in the `animated-widgets` group.
 
+## ProgressBar
+
+`ProgressBar` keeps `QProgressBar`'s range, value, text, orientation, and style
+behavior while animating the displayed fill and formatted value. Use the
+`realValue` property for fractional targets; the inherited integer `value()`
+and `valueChanged` remain available for native Qt compatibility. `realValueChanged`
+reports fractional targets immediately. Repeated value
+updates redirect the animation from the currently displayed value. Animation is
+enabled by default; `animationEnabled`, `animationDuration` (milliseconds), and
+`animationEasingCurve` (`QEasingCurve::Type`) configure it. A zero duration or
+disabled animation snaps the display to the target. Range changes and busy
+mode also synchronize immediately. `valueDecimals` controls the displayed
+decimal places of `%v` and `%p` (default 1). The gallery has a Progress page, and the
+Designer plugin exposes `ProgressBar` in the `animated-widgets` group.
+`trackColor`, `progressColor`, `borderColor`, `textColor`, `borderWidth`, and
+`cornerRadius` generate local QSS rules for the configured parts. Colors and
+radius are unset by default, leaving the native style or application QSS in
+control. `borderWidth` applies when `borderColor` is set. Existing widget QSS
+is kept before the generated rules; generated declarations take precedence
+over earlier rules for the same part.
+
 ## Qt Designer plugin
 
 `BUILD_DESIGNER_PLUGIN` is ON by default. The `animatedwidgetsdesigner` module
-registers the buttons, selection controls, and Switch with short class names
+registers the buttons, selection controls, Switch, and ProgressBar with short class names
 and distinct icons in the `animated-widgets` group. The concrete classes use
 those short names; `animatedwidgets::` aliases preserve namespaced C++ usage.
 More widget adapters can be added under

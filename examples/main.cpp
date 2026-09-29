@@ -5,6 +5,7 @@
 #include <QApplication>
 #include <QIcon>
 #include <QPixmap>
+#include <QSignalBlocker>
 #include <QVector>
 
 namespace {
@@ -19,6 +20,41 @@ void configureSwitches(Ui::Gallery& ui)
     ui.switchChecked->setHandleRadius(7);
     ui.switchChecked->setCheckedThumbColor(QColor(QStringLiteral("#e8f5e9")));
     ui.switchCustom->setHandleIcon(QIcon(QStringLiteral(":/animatedwidgets/gallery/switchhandle.svg")));
+}
+
+void configureProgress(Ui::Gallery& ui)
+{
+    const QVector<animatedwidgets::ProgressBar*> bars = {
+        ui.progressStandard, ui.progressCount, ui.progressDisabled
+    };
+    QObject::connect(ui.progressValueSlider, &QSlider::valueChanged,
+                     ui.progressPage, [ui](int value) {
+        ui.progressValueSpin->setValue(value);
+    });
+    QObject::connect(ui.progressValueSpin, QOverload<double>::of(&QDoubleSpinBox::valueChanged),
+                     ui.progressPage, [ui](double value) {
+        const QSignalBlocker blocker(ui.progressValueSlider);
+        ui.progressValueSlider->setValue(qRound(value));
+        ui.progressStandard->setRealValue(value);
+        ui.progressCount->setRealValue(value * 2.0);
+    });
+    QObject::connect(ui.progressAnimationCheck, &QCheckBox::toggled,
+                     ui.progressPage, [bars](bool enabled) {
+        for (auto* bar : bars) bar->setAnimationEnabled(enabled);
+    });
+    QObject::connect(ui.progressDurationSpin, QOverload<int>::of(&QSpinBox::valueChanged),
+                     ui.progressPage, [bars](int duration) {
+        for (auto* bar : bars) bar->setAnimationDuration(duration);
+    });
+    QObject::connect(ui.progressCurveCombo, QOverload<int>::of(&QComboBox::currentIndexChanged),
+                     ui.progressPage, [bars](int index) {
+        const QEasingCurve::Type curves[] = {
+            QEasingCurve::OutCubic, QEasingCurve::Linear,
+            QEasingCurve::InOutCubic, QEasingCurve::OutQuart
+        };
+        if (index < 0 || index >= 4) return;
+        for (auto* bar : bars) bar->setAnimationEasingCurve(curves[index]);
+    });
 }
 
 void configureGallery(Ui::Gallery& ui)
@@ -102,6 +138,7 @@ int main(int argc, char* argv[])
     // checkState is not a Qt property, so Designer cannot round-trip it in the .ui file.
     ui.checkPartial->setCheckState(Qt::PartiallyChecked);
     configureSwitches(ui);
+    configureProgress(ui);
     gallery.show();
     return app.exec();
 }

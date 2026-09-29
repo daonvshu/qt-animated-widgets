@@ -1,6 +1,7 @@
 #include "plugins.h"
 
 #include "buttons/variantbuttonplugin.h"
+#include "progressbars/progressbarplugin.h"
 #include "switches/switchplugin.h"
 
 AnimatedWidgetsDesignerPlugin::AnimatedWidgetsDesignerPlugin(QObject* parent)
@@ -10,6 +11,7 @@ AnimatedWidgetsDesignerPlugin::AnimatedWidgetsDesignerPlugin(QObject* parent)
         m_widgets.append(new VariantButtonPlugin(kind, this));
     }
     m_widgets.append(new SwitchPlugin(this));
+    m_widgets.append(new ProgressBarPlugin(this));
 }
 
 QList<QDesignerCustomWidgetInterface*> AnimatedWidgetsDesignerPlugin::customWidgets() const
