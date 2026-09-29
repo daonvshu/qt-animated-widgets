@@ -87,14 +87,15 @@ void ButtonPainter::drawContent(QPainter& painter, const QRect& bounds, const Bu
                         || options.placement == ButtonContentOptions::Placement::AboveText;
     const int contentWidth = vertical ? qMax(textWidth, iconWidth) : textWidth + iconWidth + gap;
     const int contentHeight = vertical ? textHeight + iconHeight + gap : qMax(textHeight, iconHeight);
-    const QRect content(bounds.center().x() - contentWidth / 2,
-                        bounds.center().y() - contentHeight / 2, contentWidth, contentHeight);
+    const QRect content(bounds.left() + (bounds.width() - contentWidth) / 2,
+                        bounds.top() + (bounds.height() - contentHeight) / 2,
+                        contentWidth, contentHeight);
     const QRect iconRect(vertical
-                             ? QRect(content.center().x() - iconWidth / 2,
+                             ? QRect(content.left() + (content.width() - iconWidth) / 2,
                                      content.top() + (iconFirst ? 0 : textHeight + gap),
                                      iconWidth, iconHeight)
                              : QRect(content.left() + (iconFirst ? 0 : textWidth + gap),
-                                     content.center().y() - iconHeight / 2,
+                                     content.top() + (content.height() - iconHeight) / 2,
                                      iconWidth, iconHeight));
     const QRect textRect(vertical
                              ? QRect(content.left(),

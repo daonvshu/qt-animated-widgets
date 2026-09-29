@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui version="4.0">
+ <class>SlidersPage</class>
+ <widget class="QWidget" name="SlidersPage">
+  <layout class="QVBoxLayout" name="slidersPageLayout">
+   <property name="spacing">
+    <number>16</number>
+   </property>
+   <property name="leftMargin">
+    <number>20</number>
+   </property>
+   <property name="topMargin">
+    <number>16</number>
+   </property>
+   <property name="rightMargin">
+    <number>20</number>
+   </property>
+   <property name="bottomMargin">
+    <number>16</number>
+   </property>
+   <item>
+    <layout class="QHBoxLayout" name="sliderSettingsLayout">
+     <item>
+      <widget class="QLabel" name="sliderTargetLabel">
+       <property name="text">
+        <string>Value</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QSpinBox" name="sliderTargetSpin">
+       <property name="maximum">
+        <number>100</number>
+       </property>
+       <property name="value">
+        <number>35</number>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="sliderAnimationCheck">
+       <property name="text">
+        <string>Animate</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="sliderDurationLabel">
+       <property name="text">
+        <string>Duration (ms)</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QSpinBox" name="sliderDurationSpin">
+       <property name="maximum">
+        <number>2000</number>
+       </property>
+       <property name="singleStep">
+        <number>25</number>
+       </property>
+       <property name="value">
+        <number>220</number>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="sliderCurveLabel">
+       <property name="text">
+        <string>Easing</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="sliderCurveCombo">
+       <item>
+        <property name="text">
+         <string>Out cubic</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Linear</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>In-out cubic</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Out quart</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item>
+      <spacer name="sliderSettingsSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QLabel" name="sliderHorizontalLabel">
+     <property name="text">
+      <string>Horizontal</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="Slider" name="sliderHorizontal">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="maximum">
+      <number>100</number>
+     </property>
+     <property name="value">
+      <number>35</number>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="sliderTicksLabel">
+     <property name="text">
+      <string>Ticks</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="Slider" name="sliderTicks">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="maximum">
+      <number>100</number>
+     </property>
+     <property name="value">
+      <number>35</number>
+     </property>
+     <property name="tickPosition">
+      <enum>QSlider::TicksBelow</enum>
+     </property>
+     <property name="tickInterval">
+      <number>10</number>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="sliderDisabledLabel">
+     <property name="text">
+      <string>Disabled</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="Slider" name="sliderDisabled">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="maximum">
+      <number>100</number>
+     </property>
+     <property name="value">
+      <number>65</number>
+     </property>
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="sliderVerticalLabel">
+     <property name="text">
+      <string>Vertical</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="sliderVerticalLayout">
+     <item>
+      <widget class="Slider" name="sliderVertical">
+       <property name="minimumSize">
+        <size>
+         <width>40</width>
+         <height>150</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>40</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="maximum">
+        <number>100</number>
+       </property>
+       <property name="value">
+        <number>35</number>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="sliderVerticalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <spacer name="slidersContentSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>Slider</class>
+   <extends>QSlider</extends>
+   <header>animatedwidgets/sliders/slider.h</header>
+  </customwidget>
+ </customwidgets>
+ <connections />
+</ui>

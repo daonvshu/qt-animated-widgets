@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui version="4.0">
+ <class>InputsPage</class>
+ <widget class="QWidget" name="InputsPage">
+  <layout class="QVBoxLayout" name="inputsPageLayout">
+   <property name="spacing">
+    <number>16</number>
+   </property>
+   <property name="leftMargin">
+    <number>20</number>
+   </property>
+   <property name="topMargin">
+    <number>16</number>
+   </property>
+   <property name="rightMargin">
+    <number>20</number>
+   </property>
+   <property name="bottomMargin">
+    <number>16</number>
+   </property>
+   <item>
+    <layout class="QHBoxLayout" name="inputSettingsLayout">
+     <item>
+      <widget class="QCheckBox" name="inputErrorCheck">
+       <property name="text">
+        <string>Error state</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="inputDurationLabel">
+       <property name="text">
+        <string>Duration (ms)</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QSpinBox" name="inputDurationSpin">
+       <property name="maximum">
+        <number>2000</number>
+       </property>
+       <property name="singleStep">
+        <number>25</number>
+       </property>
+       <property name="value">
+        <number>300</number>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="passwordAutoHideCheck">
+       <property name="text">
+        <string>Auto-hide password</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="inputSettingsSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QGridLayout" name="inputsGrid">
+     <property name="horizontalSpacing">
+      <number>18</number>
+     </property>
+     <property name="verticalSpacing">
+      <number>12</number>
+     </property>
+     <item row="0" column="0">
+      <widget class="QLabel" name="inputNormalLabel">
+       <property name="text">
+        <string>Standard</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="LineEdit" name="inputNormal">
+       <property name="placeholderText">
+        <string>Enter text</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="inputErrorLabel">
+       <property name="text">
+        <string>Error</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="LineEdit" name="inputError">
+       <property name="placeholderText">
+        <string>Review this value</string>
+       </property>
+       <property name="hasError">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="inputDisabledLabel">
+       <property name="text">
+        <string>Disabled</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="LineEdit" name="inputDisabled">
+       <property name="text">
+        <string>Unavailable</string>
+       </property>
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="inputReadOnlyLabel">
+       <property name="text">
+        <string>Read-only</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="LineEdit" name="inputReadOnly">
+       <property name="text">
+        <string>Read-only value</string>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="inputLeadingIconLabel">
+       <property name="text">
+        <string>Leading icon</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="IconLineEdit" name="inputLeadingIcon">
+       <property name="placeholderText">
+        <string>Search</string>
+       </property>
+       <property name="leadingIcon">
+        <iconset resource="../src/animatedwidgets/inputs/resources/inputs.qrc">
+         <normaloff>:/animatedwidgets/inputs/search.svg</normaloff>
+        </iconset>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="0">
+      <widget class="QLabel" name="inputTrailingIconLabel">
+       <property name="text">
+        <string>Trailing action</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="1">
+      <widget class="IconLineEdit" name="inputTrailingIcon">
+       <property name="text">
+        <string>Clear this text</string>
+       </property>
+       <property name="trailingIcon">
+        <iconset resource="../src/animatedwidgets/inputs/resources/inputs.qrc">
+         <normaloff>:/animatedwidgets/inputs/clear.svg</normaloff>
+        </iconset>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="0">
+      <widget class="QLabel" name="inputPasswordLabel">
+       <property name="text">
+        <string>Password</string>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="1">
+      <widget class="PasswordLineEdit" name="inputPassword">
+       <property name="text">
+        <string>sample-password</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="0">
+      <widget class="QLabel" name="inputCompositeLabel">
+       <property name="text">
+        <string>Composite</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="1">
+      <widget class="CompositeLineEdit" name="inputComposite">
+       <property name="placeholderText">
+        <string>Amount</string>
+       </property>
+      </widget>
+     </item>
+     <item row="8" column="0">
+      <widget class="QLabel" name="inputStateColorsLabel">
+       <property name="text">
+        <string>State backgrounds</string>
+       </property>
+      </widget>
+     </item>
+     <item row="8" column="1">
+      <widget class="LineEdit" name="inputStateColors">
+       <property name="placeholderText">
+        <string>Focus or change the state</string>
+       </property>
+       <property name="normalBackgroundColor">
+        <color><red>243</red><green>246</green><blue>250</blue></color>
+       </property>
+       <property name="hoverBackgroundColor">
+        <color><red>235</red><green>244</green><blue>252</blue></color>
+       </property>
+       <property name="focusBackgroundColor">
+        <color><red>225</red><green>239</green><blue>255</blue></color>
+       </property>
+       <property name="errorBackgroundColor">
+        <color><red>255</red><green>231</green><blue>233</blue></color>
+       </property>
+       <property name="disabledBackgroundColor">
+        <color><red>230</red><green>233</green><blue>237</blue></color>
+       </property>
+      </widget>
+     </item>
+     <item row="8" column="2">
+      <layout class="QHBoxLayout" name="inputStateColorsControls">
+       <item>
+        <widget class="QCheckBox" name="inputStateErrorCheck">
+         <property name="text"><string>Error</string></property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="inputStateDisabledCheck">
+         <property name="text"><string>Disabled</string></property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <spacer name="inputsContentSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>LineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>animatedwidgets/inputs/lineedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>IconLineEdit</class>
+   <extends>LineEdit</extends>
+   <header>animatedwidgets/inputs/iconlineedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>PasswordLineEdit</class>
+   <extends>IconLineEdit</extends>
+   <header>animatedwidgets/inputs/passwordlineedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>CompositeLineEdit</class>
+   <extends>QWidget</extends>
+   <header>animatedwidgets/inputs/compositelineedit.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="../src/animatedwidgets/inputs/resources/inputs.qrc" />
+ </resources>
+ <connections />
+</ui>

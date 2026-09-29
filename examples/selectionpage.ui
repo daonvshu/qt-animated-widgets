@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui version="4.0">
+ <class>SelectionPage</class>
+ <widget class="QWidget" name="SelectionPage">
+  <layout class="QVBoxLayout" name="selectionPageLayout">
+   <property name="leftMargin">
+    <number>20</number>
+   </property>
+   <property name="topMargin">
+    <number>16</number>
+   </property>
+   <property name="rightMargin">
+    <number>20</number>
+   </property>
+   <property name="bottomMargin">
+    <number>16</number>
+   </property>
+   <item>
+    <widget class="QGroupBox" name="radioButtonsGroup">
+     <property name="title">
+      <string>Radio buttons</string>
+     </property>
+     <layout class="QVBoxLayout" name="radioButtonsLayout">
+      <item>
+       <widget class="RadioButton" name="radioInteractive">
+        <property name="text">
+         <string>Interactive</string>
+        </property>
+        <property name="uncheckedIcon">
+         <pixmap resource="resources/gallery.qrc">:/animatedwidgets/gallery/radiounchecked.svg</pixmap>
+        </property>
+        <property name="checkedIcon">
+         <pixmap resource="resources/gallery.qrc">:/animatedwidgets/gallery/radiochecked.svg</pixmap>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="RadioButton" name="radioChecked">
+        <property name="text">
+         <string>Checked</string>
+        </property>
+        <property name="uncheckedIcon">
+         <pixmap resource="resources/gallery.qrc">:/animatedwidgets/gallery/radiounchecked.svg</pixmap>
+        </property>
+        <property name="checkedIcon">
+         <pixmap resource="resources/gallery.qrc">:/animatedwidgets/gallery/radiochecked.svg</pixmap>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="RadioButton" name="radioDisabled">
+        <property name="text">
+         <string>Disabled</string>
+        </property>
+        <property name="uncheckedIcon">
+         <pixmap resource="resources/gallery.qrc">:/animatedwidgets/gallery/radiounchecked.svg</pixmap>
+        </property>
+        <property name="checkedIcon">
+         <pixmap resource="resources/gallery.qrc">:/animatedwidgets/gallery/radiochecked.svg</pixmap>
+        </property>
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="checkBoxesGroup">
+     <property name="title">
+      <string>Check boxes</string>
+     </property>
+     <layout class="QVBoxLayout" name="checkBoxesLayout">
+      <item>
+       <widget class="CheckBox" name="checkInteractive">
+        <property name="text">
+         <string>Interactive</string>
+        </property>
+        <property name="uncheckedIcon">
+         <pixmap resource="resources/gallery.qrc">:/animatedwidgets/gallery/checkboxunchecked.svg</pixmap>
+        </property>
+        <property name="partiallyCheckedIcon">
+         <pixmap resource="resources/gallery.qrc">:/animatedwidgets/gallery/checkboxpartial.svg</pixmap>
+        </property>
+        <property name="checkedIcon">
+         <pixmap resource="resources/gallery.qrc">:/animatedwidgets/gallery/checkboxchecked.svg</pixmap>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="CheckBox" name="checkPartial">
+        <property name="text">
+         <string>Partially checked</string>
+        </property>
+        <property name="uncheckedIcon">
+         <pixmap resource="resources/gallery.qrc">:/animatedwidgets/gallery/checkboxunchecked.svg</pixmap>
+        </property>
+        <property name="partiallyCheckedIcon">
+         <pixmap resource="resources/gallery.qrc">:/animatedwidgets/gallery/checkboxpartial.svg</pixmap>
+        </property>
+        <property name="checkedIcon">
+         <pixmap resource="resources/gallery.qrc">:/animatedwidgets/gallery/checkboxchecked.svg</pixmap>
+        </property>
+        <property name="tristate">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="CheckBox" name="checkChecked">
+        <property name="text">
+         <string>Checked</string>
+        </property>
+        <property name="uncheckedIcon">
+         <pixmap resource="resources/gallery.qrc">:/animatedwidgets/gallery/checkboxunchecked.svg</pixmap>
+        </property>
+        <property name="partiallyCheckedIcon">
+         <pixmap resource="resources/gallery.qrc">:/animatedwidgets/gallery/checkboxpartial.svg</pixmap>
+        </property>
+        <property name="checkedIcon">
+         <pixmap resource="resources/gallery.qrc">:/animatedwidgets/gallery/checkboxchecked.svg</pixmap>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="CheckBox" name="checkDisabled">
+        <property name="text">
+         <string>Disabled</string>
+        </property>
+        <property name="uncheckedIcon">
+         <pixmap resource="resources/gallery.qrc">:/animatedwidgets/gallery/checkboxunchecked.svg</pixmap>
+        </property>
+        <property name="partiallyCheckedIcon">
+         <pixmap resource="resources/gallery.qrc">:/animatedwidgets/gallery/checkboxpartial.svg</pixmap>
+        </property>
+        <property name="checkedIcon">
+         <pixmap resource="resources/gallery.qrc">:/animatedwidgets/gallery/checkboxchecked.svg</pixmap>
+        </property>
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <spacer name="selectionContentSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>RadioButton</class>
+   <extends>QRadioButton</extends>
+   <header>animatedwidgets/buttons/radiobutton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>CheckBox</class>
+   <extends>QCheckBox</extends>
+   <header>animatedwidgets/buttons/checkbox.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="resources/gallery.qrc" />
+ </resources>
+ <connections />
+</ui>

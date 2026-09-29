@@ -11,6 +11,8 @@ add_library(animatedwidgetsdesigner MODULE
     progressbars/progressbarplugin.cpp
     sliders/sliderplugin.h
     sliders/sliderplugin.cpp
+    inputs/inputplugin.h
+    inputs/inputplugin.cpp
 )
 target_link_libraries(animatedwidgetsdesigner PRIVATE
     AnimatedWidgets::Widgets

@@ -36,9 +36,11 @@ QColor ButtonStateColorUtils::resolve(const ButtonStateColors& colors, ButtonSta
 QColor ButtonStateColorUtils::resolveHoverOnly(const ButtonStateColors& colors, ButtonState state, int darkerStep)
 {
     const QColor& activeFill = colors.normal;
+    QColor transparentFill = colors.hover.isValid() ? colors.hover : activeFill;
+    transparentFill.setAlpha(0);
     switch (state) {
     case ButtonState::Normal:
-        break;
+        return transparentFill;
     case ButtonState::Hover:
         if (colors.hover.isValid()) return colors.hover;
         return activeFill;
@@ -52,10 +54,10 @@ QColor ButtonStateColorUtils::resolveHoverOnly(const ButtonStateColors& colors, 
         if (colors.hover.isValid()) return darker(colors.hover, darkerStep);
         return darker(activeFill, darkerStep, 2);
     case ButtonState::Disabled:
-        if (colors.disabled.isValid()) return colors.disabled;
-        return QColor(Qt::transparent);
+        if (colors.disabled.isValid() && colors.disabled.alpha() != 0) return colors.disabled;
+        return transparentFill;
     }
-    return QColor(Qt::transparent);
+    return transparentFill;
 }
 
 QColor ButtonStateColorUtils::defaultActiveFill()

@@ -2,6 +2,24 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Svg)
 
 add_executable(animatedwidgets-gallery
     main.cpp
+    buttonspage.cpp
+    buttonspage.h
+    buttonspage.ui
+    inputspage.cpp
+    inputspage.h
+    inputspage.ui
+    progresspage.cpp
+    progresspage.h
+    progresspage.ui
+    selectionpage.cpp
+    selectionpage.h
+    selectionpage.ui
+    sliderspage.cpp
+    sliderspage.h
+    sliderspage.ui
+    switchespage.cpp
+    switchespage.h
+    switchespage.ui
     gallery.ui
     resources/gallery.qrc
 )

@@ -15,8 +15,8 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Gui Widgets)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Gui Widgets)
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Gui Widgets Svg)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Gui Widgets Svg)
 
 add_library(AnimatedWidgetsCore
     src/animatedwidgets/core/animationspec.h
@@ -85,6 +85,15 @@ add_library(AnimatedWidgetsWidgets
     src/animatedwidgets/progressbars/progressbar.cpp
     src/animatedwidgets/sliders/slider.h
     src/animatedwidgets/sliders/slider.cpp
+    src/animatedwidgets/inputs/lineedit.h
+    src/animatedwidgets/inputs/lineedit.cpp
+    src/animatedwidgets/inputs/iconlineedit.h
+    src/animatedwidgets/inputs/iconlineedit.cpp
+    src/animatedwidgets/inputs/passwordlineedit.h
+    src/animatedwidgets/inputs/passwordlineedit.cpp
+    src/animatedwidgets/inputs/compositelineedit.h
+    src/animatedwidgets/inputs/compositelineedit.cpp
+    src/animatedwidgets/inputs/resources/inputs.qrc
 )
 add_library(AnimatedWidgets::Widgets ALIAS AnimatedWidgetsWidgets)
 target_include_directories(AnimatedWidgetsWidgets PUBLIC
@@ -94,6 +103,7 @@ target_include_directories(AnimatedWidgetsWidgets PUBLIC
 target_link_libraries(AnimatedWidgetsWidgets PUBLIC
     AnimatedWidgetsStyle
     Qt${QT_VERSION_MAJOR}::Widgets
+    Qt${QT_VERSION_MAJOR}::Svg
 )
 
 add_library(AnimatedWidgets INTERFACE)

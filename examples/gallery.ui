@@ -1,258 +1,38 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <ui version="4.0">
  <class>Gallery</class>
  <widget class="QWidget" name="Gallery">
-  <property name="geometry"><rect><x>0</x><y>0</y><width>900</width><height>760</height></rect></property>
-  <property name="windowTitle"><string>Animated Widgets Gallery</string></property>
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>900</width>
+    <height>760</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Animated Widgets Gallery</string>
+  </property>
   <layout class="QVBoxLayout" name="galleryLayout">
-   <property name="leftMargin"><number>0</number></property>
-   <property name="topMargin"><number>0</number></property>
-   <property name="rightMargin"><number>0</number></property>
-   <property name="bottomMargin"><number>0</number></property>
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
    <item>
-    <widget class="QTabWidget" name="pages">
-     <widget class="QWidget" name="buttonsPage">
-      <attribute name="title"><string>Buttons</string></attribute>
-      <layout class="QVBoxLayout" name="buttonsPageLayout">
-       <property name="leftMargin"><number>0</number></property>
-       <property name="topMargin"><number>0</number></property>
-       <property name="rightMargin"><number>0</number></property>
-       <property name="bottomMargin"><number>0</number></property>
-       <item>
-        <widget class="QScrollArea" name="buttonsScrollArea">
-         <property name="frameShape"><enum>QFrame::NoFrame</enum></property>
-         <property name="widgetResizable"><bool>true</bool></property>
-         <widget class="QWidget" name="buttonsScrollContent">
-          <property name="geometry"><rect><x>0</x><y>0</y><width>896</width><height>728</height></rect></property>
-          <layout class="QVBoxLayout" name="buttonsContentLayout">
-           <property name="spacing"><number>18</number></property>
-           <property name="leftMargin"><number>20</number></property>
-           <property name="topMargin"><number>16</number></property>
-           <property name="rightMargin"><number>20</number></property>
-           <property name="bottomMargin"><number>16</number></property>
-           <item>
-            <widget class="QWidget" name="controls" native="true">
-             <layout class="QHBoxLayout" name="controlsLayout">
-              <property name="leftMargin"><number>0</number></property>
-              <property name="topMargin"><number>0</number></property>
-              <property name="rightMargin"><number>0</number></property>
-              <property name="bottomMargin"><number>0</number></property>
-              <item><widget class="QLabel" name="layoutLabel"><property name="text"><string>Layout</string></property></widget></item>
-              <item><widget class="QComboBox" name="placementCombo">
-               <item><property name="text"><string>Mixed</string></property></item>
-               <item><property name="text"><string>Icon first</string></property></item>
-               <item><property name="text"><string>Text first</string></property></item>
-               <item><property name="text"><string>Icon above</string></property></item>
-               <item><property name="text"><string>Icon below</string></property></item>
-              </widget></item>
-              <item><widget class="QLabel" name="spacingLabel"><property name="text"><string>Spacing</string></property></widget></item>
-              <item><widget class="QSpinBox" name="spacingSpin"><property name="maximum"><number>32</number></property><property name="value"><number>6</number></property></widget></item>
-              <item><widget class="QLabel" name="depthLabel"><property name="text"><string>Darker step</string></property></widget></item>
-              <item><widget class="QSpinBox" name="depthSpin"><property name="maximum"><number>100</number></property><property name="value"><number>15</number></property></widget></item>
-              <item><widget class="QCheckBox" name="animateContentCheck"><property name="text"><string>Animate icon and text</string></property><property name="checked"><bool>true</bool></property></widget></item>
-              <item><widget class="QLabel" name="shapeLabel"><property name="text"><string>Icon shape</string></property></widget></item>
-              <item><widget class="QComboBox" name="shapeCombo">
-               <item><property name="text"><string>Mixed</string></property></item>
-               <item><property name="text"><string>Circle</string></property></item>
-               <item><property name="text"><string>Rounded rectangle</string></property></item>
-              </widget></item>
-              <item><spacer name="controlsSpacer"><property name="orientation"><enum>Qt::Horizontal</enum></property><property name="sizeHint" stdset="0"><size><width>40</width><height>20</height></size></property></spacer></item>
-             </layout>
-            </widget>
-           </item>
-           <item>
-            <widget class="QGroupBox" name="textButtonsGroup">
-             <property name="title"><string>Text buttons</string></property>
-             <layout class="QGridLayout" name="textButtonsGrid">
-              <property name="horizontalSpacing"><number>20</number></property>
-              <property name="verticalSpacing"><number>8</number></property>
-              <item row="0" column="0"><widget class="QLabel" name="textStyleHeader"><property name="text"><string>Style</string></property></widget></item>
-              <item row="0" column="1"><widget class="QLabel" name="textInteractiveHeader"><property name="text"><string>Interactive</string></property></widget></item>
-              <item row="0" column="2"><widget class="QLabel" name="textCheckedHeader"><property name="text"><string>Checked</string></property></widget></item>
-              <item row="0" column="3"><widget class="QLabel" name="textDisabledHeader"><property name="text"><string>Disabled</string></property></widget></item>
-              <item row="1" column="0"><widget class="QLabel" name="filledLabel"><property name="text"><string>Filled</string></property></widget></item>
-              <item row="1" column="1"><widget class="FilledButton" name="filledInteractive"><property name="minimumSize"><size><width>150</width><height>72</height></size></property><property name="text"><string>Filled</string></property></widget></item>
-              <item row="1" column="2"><widget class="FilledButton" name="filledChecked"><property name="minimumSize"><size><width>150</width><height>72</height></size></property><property name="text"><string>Filled</string></property><property name="checkable"><bool>true</bool></property></widget></item>
-              <item row="1" column="3"><widget class="FilledButton" name="filledDisabled"><property name="minimumSize"><size><width>150</width><height>72</height></size></property><property name="text"><string>Filled</string></property><property name="enabled"><bool>false</bool></property></widget></item>
-              <item row="2" column="0"><widget class="QLabel" name="outlineLabel"><property name="text"><string>Outline</string></property></widget></item>
-              <item row="2" column="1"><widget class="OutlineButton" name="outlineInteractive"><property name="minimumSize"><size><width>150</width><height>72</height></size></property><property name="text"><string>Outline</string></property></widget></item>
-              <item row="2" column="2"><widget class="OutlineButton" name="outlineChecked"><property name="minimumSize"><size><width>150</width><height>72</height></size></property><property name="text"><string>Outline</string></property><property name="checkable"><bool>true</bool></property></widget></item>
-              <item row="2" column="3"><widget class="OutlineButton" name="outlineDisabled"><property name="minimumSize"><size><width>150</width><height>72</height></size></property><property name="text"><string>Outline</string></property><property name="enabled"><bool>false</bool></property></widget></item>
-              <item row="3" column="0"><widget class="QLabel" name="borderedLabel"><property name="text"><string>Bordered</string></property></widget></item>
-              <item row="3" column="1"><widget class="BorderedButton" name="borderedInteractive"><property name="minimumSize"><size><width>150</width><height>72</height></size></property><property name="text"><string>Bordered</string></property></widget></item>
-              <item row="3" column="2"><widget class="BorderedButton" name="borderedChecked"><property name="minimumSize"><size><width>150</width><height>72</height></size></property><property name="text"><string>Bordered</string></property><property name="checkable"><bool>true</bool></property><property name="checked"><bool>true</bool></property></widget></item>
-              <item row="3" column="3"><widget class="BorderedButton" name="borderedDisabled"><property name="minimumSize"><size><width>150</width><height>72</height></size></property><property name="text"><string>Bordered</string></property><property name="enabled"><bool>false</bool></property></widget></item>
-              <item row="4" column="0"><widget class="QLabel" name="hoverLabel"><property name="text"><string>Hover fill</string></property></widget></item>
-              <item row="4" column="1"><widget class="HoverButton" name="hoverInteractive"><property name="minimumSize"><size><width>150</width><height>72</height></size></property><property name="text"><string>Hover fill</string></property></widget></item>
-              <item row="4" column="2"><widget class="HoverButton" name="hoverChecked"><property name="minimumSize"><size><width>150</width><height>72</height></size></property><property name="text"><string>Hover fill</string></property><property name="checkable"><bool>true</bool></property><property name="checked"><bool>true</bool></property></widget></item>
-              <item row="4" column="3"><widget class="HoverButton" name="hoverDisabled"><property name="minimumSize"><size><width>150</width><height>72</height></size></property><property name="text"><string>Hover fill</string></property><property name="enabled"><bool>false</bool></property></widget></item>
-             </layout>
-            </widget>
-           </item>
-           <item>
-            <widget class="QGroupBox" name="iconButtonsGroup">
-             <property name="title"><string>Icon buttons</string></property>
-             <layout class="QGridLayout" name="iconButtonsGrid">
-              <property name="horizontalSpacing"><number>20</number></property>
-              <property name="verticalSpacing"><number>8</number></property>
-              <item row="0" column="4"><spacer name="iconButtonsGridSpacer"><property name="orientation"><enum>Qt::Horizontal</enum></property><property name="sizeHint" stdset="0"><size><width>40</width><height>20</height></size></property></spacer></item>
-              <item row="0" column="0"><widget class="QLabel" name="iconStyleHeader"><property name="text"><string>Style</string></property></widget></item>
-              <item row="0" column="1"><widget class="QLabel" name="iconInteractiveHeader"><property name="text"><string>Interactive</string></property></widget></item>
-              <item row="0" column="2"><widget class="QLabel" name="iconCheckedHeader"><property name="text"><string>Checked</string></property></widget></item>
-              <item row="0" column="3"><widget class="QLabel" name="iconDisabledHeader"><property name="text"><string>Disabled</string></property></widget></item>
-              <item row="1" column="0"><widget class="QLabel" name="filledIconLabel"><property name="text"><string>Filled</string></property></widget></item>
-              <item row="1" column="1"><widget class="FilledIconButton" name="filledIconInteractive"><property name="minimumSize"><size><width>44</width><height>44</height></size></property><property name="maximumSize"><size><width>44</width><height>44</height></size></property></widget></item>
-              <item row="1" column="2"><widget class="FilledIconButton" name="filledIconChecked"><property name="minimumSize"><size><width>44</width><height>44</height></size></property><property name="maximumSize"><size><width>44</width><height>44</height></size></property><property name="checkable"><bool>true</bool></property></widget></item>
-              <item row="1" column="3"><widget class="FilledIconButton" name="filledIconDisabled"><property name="minimumSize"><size><width>44</width><height>44</height></size></property><property name="maximumSize"><size><width>44</width><height>44</height></size></property><property name="enabled"><bool>false</bool></property></widget></item>
-              <item row="2" column="0"><widget class="QLabel" name="outlineIconLabel"><property name="text"><string>Outline</string></property></widget></item>
-              <item row="2" column="1"><widget class="OutlineIconButton" name="outlineIconInteractive"><property name="minimumSize"><size><width>44</width><height>44</height></size></property><property name="maximumSize"><size><width>44</width><height>44</height></size></property></widget></item>
-              <item row="2" column="2"><widget class="OutlineIconButton" name="outlineIconChecked"><property name="minimumSize"><size><width>44</width><height>44</height></size></property><property name="maximumSize"><size><width>44</width><height>44</height></size></property><property name="checkable"><bool>true</bool></property></widget></item>
-              <item row="2" column="3"><widget class="OutlineIconButton" name="outlineIconDisabled"><property name="minimumSize"><size><width>44</width><height>44</height></size></property><property name="maximumSize"><size><width>44</width><height>44</height></size></property><property name="enabled"><bool>false</bool></property></widget></item>
-              <item row="3" column="0"><widget class="QLabel" name="borderedIconLabel"><property name="text"><string>Bordered</string></property></widget></item>
-              <item row="3" column="1"><widget class="BorderedIconButton" name="borderedIconInteractive"><property name="minimumSize"><size><width>44</width><height>44</height></size></property><property name="maximumSize"><size><width>44</width><height>44</height></size></property></widget></item>
-              <item row="3" column="2"><widget class="BorderedIconButton" name="borderedIconChecked"><property name="minimumSize"><size><width>44</width><height>44</height></size></property><property name="maximumSize"><size><width>44</width><height>44</height></size></property><property name="checkable"><bool>true</bool></property><property name="checked"><bool>true</bool></property></widget></item>
-              <item row="3" column="3"><widget class="BorderedIconButton" name="borderedIconDisabled"><property name="minimumSize"><size><width>44</width><height>44</height></size></property><property name="maximumSize"><size><width>44</width><height>44</height></size></property><property name="enabled"><bool>false</bool></property></widget></item>
-              <item row="4" column="0"><widget class="QLabel" name="hoverIconLabel"><property name="text"><string>Hover fill</string></property></widget></item>
-              <item row="4" column="1"><widget class="HoverIconButton" name="hoverIconInteractive"><property name="minimumSize"><size><width>44</width><height>44</height></size></property><property name="maximumSize"><size><width>44</width><height>44</height></size></property></widget></item>
-              <item row="4" column="2"><widget class="HoverIconButton" name="hoverIconChecked"><property name="minimumSize"><size><width>44</width><height>44</height></size></property><property name="maximumSize"><size><width>44</width><height>44</height></size></property><property name="checkable"><bool>true</bool></property><property name="checked"><bool>true</bool></property></widget></item>
-              <item row="4" column="3"><widget class="HoverIconButton" name="hoverIconDisabled"><property name="minimumSize"><size><width>44</width><height>44</height></size></property><property name="maximumSize"><size><width>44</width><height>44</height></size></property><property name="enabled"><bool>false</bool></property></widget></item>
-             </layout>
-            </widget>
-           </item>
-           <item><spacer name="contentSpacer"><property name="orientation"><enum>Qt::Vertical</enum></property><property name="sizeHint" stdset="0"><size><width>20</width><height>40</height></size></property></spacer></item>
-          </layout>
-         </widget>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="selectionPage">
-      <attribute name="title"><string>Selection controls</string></attribute>
-      <layout class="QVBoxLayout" name="selectionPageLayout">
-       <property name="leftMargin"><number>20</number></property>
-       <property name="topMargin"><number>16</number></property>
-       <property name="rightMargin"><number>20</number></property>
-       <property name="bottomMargin"><number>16</number></property>
-       <item>
-        <widget class="QGroupBox" name="radioButtonsGroup">
-         <property name="title"><string>Radio buttons</string></property>
-         <layout class="QVBoxLayout" name="radioButtonsLayout">
-          <item><widget class="RadioButton" name="radioInteractive"><property name="text"><string>Interactive</string></property><property name="uncheckedIcon"><pixmap resource="resources/gallery.qrc">:/animatedwidgets/gallery/radiounchecked.svg</pixmap></property><property name="checkedIcon"><pixmap resource="resources/gallery.qrc">:/animatedwidgets/gallery/radiochecked.svg</pixmap></property></widget></item>
-          <item><widget class="RadioButton" name="radioChecked"><property name="text"><string>Checked</string></property><property name="uncheckedIcon"><pixmap resource="resources/gallery.qrc">:/animatedwidgets/gallery/radiounchecked.svg</pixmap></property><property name="checkedIcon"><pixmap resource="resources/gallery.qrc">:/animatedwidgets/gallery/radiochecked.svg</pixmap></property><property name="checked"><bool>true</bool></property></widget></item>
-          <item><widget class="RadioButton" name="radioDisabled"><property name="text"><string>Disabled</string></property><property name="uncheckedIcon"><pixmap resource="resources/gallery.qrc">:/animatedwidgets/gallery/radiounchecked.svg</pixmap></property><property name="checkedIcon"><pixmap resource="resources/gallery.qrc">:/animatedwidgets/gallery/radiochecked.svg</pixmap></property><property name="enabled"><bool>false</bool></property></widget></item>
-         </layout>
-        </widget>
-       </item>
-       <item>
-        <widget class="QGroupBox" name="checkBoxesGroup">
-         <property name="title"><string>Check boxes</string></property>
-         <layout class="QVBoxLayout" name="checkBoxesLayout">
-          <item><widget class="CheckBox" name="checkInteractive"><property name="text"><string>Interactive</string></property><property name="uncheckedIcon"><pixmap resource="resources/gallery.qrc">:/animatedwidgets/gallery/checkboxunchecked.svg</pixmap></property><property name="partiallyCheckedIcon"><pixmap resource="resources/gallery.qrc">:/animatedwidgets/gallery/checkboxpartial.svg</pixmap></property><property name="checkedIcon"><pixmap resource="resources/gallery.qrc">:/animatedwidgets/gallery/checkboxchecked.svg</pixmap></property></widget></item>
-          <item><widget class="CheckBox" name="checkPartial"><property name="text"><string>Partially checked</string></property><property name="uncheckedIcon"><pixmap resource="resources/gallery.qrc">:/animatedwidgets/gallery/checkboxunchecked.svg</pixmap></property><property name="partiallyCheckedIcon"><pixmap resource="resources/gallery.qrc">:/animatedwidgets/gallery/checkboxpartial.svg</pixmap></property><property name="checkedIcon"><pixmap resource="resources/gallery.qrc">:/animatedwidgets/gallery/checkboxchecked.svg</pixmap></property><property name="tristate"><bool>true</bool></property></widget></item>
-          <item><widget class="CheckBox" name="checkChecked"><property name="text"><string>Checked</string></property><property name="uncheckedIcon"><pixmap resource="resources/gallery.qrc">:/animatedwidgets/gallery/checkboxunchecked.svg</pixmap></property><property name="partiallyCheckedIcon"><pixmap resource="resources/gallery.qrc">:/animatedwidgets/gallery/checkboxpartial.svg</pixmap></property><property name="checkedIcon"><pixmap resource="resources/gallery.qrc">:/animatedwidgets/gallery/checkboxchecked.svg</pixmap></property><property name="checked"><bool>true</bool></property></widget></item>
-          <item><widget class="CheckBox" name="checkDisabled"><property name="text"><string>Disabled</string></property><property name="uncheckedIcon"><pixmap resource="resources/gallery.qrc">:/animatedwidgets/gallery/checkboxunchecked.svg</pixmap></property><property name="partiallyCheckedIcon"><pixmap resource="resources/gallery.qrc">:/animatedwidgets/gallery/checkboxpartial.svg</pixmap></property><property name="checkedIcon"><pixmap resource="resources/gallery.qrc">:/animatedwidgets/gallery/checkboxchecked.svg</pixmap></property><property name="enabled"><bool>false</bool></property></widget></item>
-         </layout>
-        </widget>
-       </item>
-       <item><spacer name="selectionContentSpacer"><property name="orientation"><enum>Qt::Vertical</enum></property><property name="sizeHint" stdset="0"><size><width>20</width><height>40</height></size></property></spacer></item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="switchesPage">
-      <attribute name="title"><string>Switches</string></attribute>
-      <layout class="QVBoxLayout" name="switchesPageLayout">
-       <property name="leftMargin"><number>20</number></property>
-       <property name="topMargin"><number>16</number></property>
-       <property name="rightMargin"><number>20</number></property>
-       <property name="bottomMargin"><number>16</number></property>
-       <item><widget class="Switch" name="switchInteractive"><property name="text"><string>Interactive</string></property></widget></item>
-       <item><widget class="Switch" name="switchChecked"><property name="text"><string>Checked</string></property><property name="checked"><bool>true</bool></property></widget></item>
-       <item><widget class="Switch" name="switchCustom"><property name="text"><string>Custom handle</string></property><property name="checked"><bool>true</bool></property></widget></item>
-       <item><widget class="Switch" name="switchDisabled"><property name="text"><string>Disabled</string></property><property name="enabled"><bool>false</bool></property></widget></item>
-       <item><widget class="Switch" name="switchDisabledChecked"><property name="text"><string>Disabled checked</string></property><property name="checked"><bool>true</bool></property><property name="enabled"><bool>false</bool></property></widget></item>
-       <item><spacer name="switchesContentSpacer"><property name="orientation"><enum>Qt::Vertical</enum></property><property name="sizeHint" stdset="0"><size><width>20</width><height>40</height></size></property></spacer></item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="progressPage">
-      <attribute name="title"><string>Progress</string></attribute>
-      <layout class="QVBoxLayout" name="progressPageLayout">
-       <property name="spacing"><number>16</number></property>
-       <property name="leftMargin"><number>20</number></property>
-       <property name="topMargin"><number>16</number></property>
-       <property name="rightMargin"><number>20</number></property>
-       <property name="bottomMargin"><number>16</number></property>
-       <item><widget class="QLabel" name="progressValueLabel"><property name="text"><string>Value</string></property></widget></item>
-       <item><layout class="QHBoxLayout" name="progressValueLayout"><item><widget class="QSlider" name="progressValueSlider"><property name="orientation"><enum>Qt::Horizontal</enum></property><property name="maximum"><number>100</number></property><property name="value"><number>35</number></property></widget></item><item><widget class="QDoubleSpinBox" name="progressValueSpin"><property name="minimumSize"><size><width>90</width><height>0</height></size></property><property name="decimals"><number>1</number></property><property name="maximum"><double>100.000000000000000</double></property><property name="singleStep"><double>0.100000000000000</double></property><property name="value"><double>35.000000000000000</double></property></widget></item></layout></item>
-       <item>
-        <layout class="QHBoxLayout" name="progressSettingsLayout">
-         <item><widget class="QCheckBox" name="progressAnimationCheck"><property name="text"><string>Animate</string></property><property name="checked"><bool>true</bool></property></widget></item>
-         <item><widget class="QLabel" name="progressDurationLabel"><property name="text"><string>Duration (ms)</string></property></widget></item>
-         <item><widget class="QSpinBox" name="progressDurationSpin"><property name="maximum"><number>3000</number></property><property name="singleStep"><number>50</number></property><property name="value"><number>450</number></property></widget></item>
-         <item><widget class="QLabel" name="progressCurveLabel"><property name="text"><string>Easing</string></property></widget></item>
-         <item><widget class="QComboBox" name="progressCurveCombo"><item><property name="text"><string>Out cubic</string></property></item><item><property name="text"><string>Linear</string></property></item><item><property name="text"><string>In-out cubic</string></property></item><item><property name="text"><string>Out quart</string></property></item></widget></item>
-         <item><spacer name="progressSettingsSpacer"><property name="orientation"><enum>Qt::Horizontal</enum></property><property name="sizeHint" stdset="0"><size><width>40</width><height>20</height></size></property></spacer></item>
-        </layout>
-       </item>
-       <item><widget class="QLabel" name="progressStandardLabel"><property name="text"><string>Percentage</string></property></widget></item>
-       <item><widget class="ProgressBar" name="progressStandard"><property name="value"><number>35</number></property></widget></item>
-       <item><widget class="QLabel" name="progressCountLabel"><property name="text"><string>Custom range and format</string></property></widget></item>
-       <item><widget class="ProgressBar" name="progressCount"><property name="maximum"><number>200</number></property><property name="value"><number>70</number></property><property name="format"><string>%v / %m</string></property><property name="trackColor"><color><red>231</red><green>236</green><blue>240</blue></color></property><property name="progressColor"><color><red>25</red><green>150</green><blue>121</blue></color></property><property name="borderColor"><color><red>175</red><green>187</green><blue>194</blue></color></property><property name="textColor"><color><red>35</red><green>47</green><blue>54</blue></color></property><property name="cornerRadius"><number>5</number></property></widget></item>
-       <item><widget class="QLabel" name="progressDisabledLabel"><property name="text"><string>Disabled</string></property></widget></item>
-       <item><widget class="ProgressBar" name="progressDisabled"><property name="value"><number>60</number></property><property name="enabled"><bool>false</bool></property></widget></item>
-       <item><widget class="QLabel" name="progressBusyLabel"><property name="text"><string>Busy</string></property></widget></item>
-       <item><widget class="ProgressBar" name="progressBusy"><property name="maximum"><number>0</number></property></widget></item>
-       <item><spacer name="progressContentSpacer"><property name="orientation"><enum>Qt::Vertical</enum></property><property name="sizeHint" stdset="0"><size><width>20</width><height>40</height></size></property></spacer></item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="slidersPage">
-      <attribute name="title"><string>Sliders</string></attribute>
-      <layout class="QVBoxLayout" name="slidersPageLayout">
-       <property name="spacing"><number>16</number></property>
-       <property name="leftMargin"><number>20</number></property>
-       <property name="topMargin"><number>16</number></property>
-       <property name="rightMargin"><number>20</number></property>
-       <property name="bottomMargin"><number>16</number></property>
-       <item><layout class="QHBoxLayout" name="sliderSettingsLayout">
-        <item><widget class="QLabel" name="sliderTargetLabel"><property name="text"><string>Value</string></property></widget></item>
-        <item><widget class="QSpinBox" name="sliderTargetSpin"><property name="maximum"><number>100</number></property><property name="value"><number>35</number></property></widget></item>
-        <item><widget class="QCheckBox" name="sliderAnimationCheck"><property name="text"><string>Animate</string></property><property name="checked"><bool>true</bool></property></widget></item>
-        <item><widget class="QLabel" name="sliderDurationLabel"><property name="text"><string>Duration (ms)</string></property></widget></item>
-        <item><widget class="QSpinBox" name="sliderDurationSpin"><property name="maximum"><number>2000</number></property><property name="singleStep"><number>25</number></property><property name="value"><number>220</number></property></widget></item>
-        <item><widget class="QLabel" name="sliderCurveLabel"><property name="text"><string>Easing</string></property></widget></item>
-        <item><widget class="QComboBox" name="sliderCurveCombo"><item><property name="text"><string>Out cubic</string></property></item><item><property name="text"><string>Linear</string></property></item><item><property name="text"><string>In-out cubic</string></property></item><item><property name="text"><string>Out quart</string></property></item></widget></item>
-        <item><spacer name="sliderSettingsSpacer"><property name="orientation"><enum>Qt::Horizontal</enum></property><property name="sizeHint" stdset="0"><size><width>40</width><height>20</height></size></property></spacer></item>
-       </layout></item>
-       <item><widget class="QLabel" name="sliderHorizontalLabel"><property name="text"><string>Horizontal</string></property></widget></item>
-       <item><widget class="Slider" name="sliderHorizontal"><property name="orientation"><enum>Qt::Horizontal</enum></property><property name="maximum"><number>100</number></property><property name="value"><number>35</number></property></widget></item>
-       <item><widget class="QLabel" name="sliderTicksLabel"><property name="text"><string>Ticks</string></property></widget></item>
-       <item><widget class="Slider" name="sliderTicks"><property name="orientation"><enum>Qt::Horizontal</enum></property><property name="maximum"><number>100</number></property><property name="value"><number>35</number></property><property name="tickPosition"><enum>QSlider::TicksBelow</enum></property><property name="tickInterval"><number>10</number></property></widget></item>
-       <item><widget class="QLabel" name="sliderDisabledLabel"><property name="text"><string>Disabled</string></property></widget></item>
-       <item><widget class="Slider" name="sliderDisabled"><property name="orientation"><enum>Qt::Horizontal</enum></property><property name="maximum"><number>100</number></property><property name="value"><number>65</number></property><property name="enabled"><bool>false</bool></property></widget></item>
-       <item><widget class="QLabel" name="sliderVerticalLabel"><property name="text"><string>Vertical</string></property></widget></item>
-       <item><layout class="QHBoxLayout" name="sliderVerticalLayout"><item><widget class="Slider" name="sliderVertical"><property name="minimumSize"><size><width>40</width><height>150</height></size></property><property name="maximumSize"><size><width>40</width><height>16777215</height></size></property><property name="orientation"><enum>Qt::Vertical</enum></property><property name="maximum"><number>100</number></property><property name="value"><number>35</number></property></widget></item><item><spacer name="sliderVerticalSpacer"><property name="orientation"><enum>Qt::Horizontal</enum></property><property name="sizeHint" stdset="0"><size><width>40</width><height>20</height></size></property></spacer></item></layout></item>
-       <item><spacer name="slidersContentSpacer"><property name="orientation"><enum>Qt::Vertical</enum></property><property name="sizeHint" stdset="0"><size><width>20</width><height>40</height></size></property></spacer></item>
-      </layout>
-     </widget>
-    </widget>
+    <widget class="QTabBar" name="tabs" />
+   </item>
+   <item>
+    <widget class="QStackedWidget" name="stack" />
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget><class>FilledButton</class><extends>QPushButton</extends><header>animatedwidgets/buttons/filledbutton.h</header></customwidget>
-  <customwidget><class>OutlineButton</class><extends>QPushButton</extends><header>animatedwidgets/buttons/outlinebutton.h</header></customwidget>
-  <customwidget><class>BorderedButton</class><extends>QPushButton</extends><header>animatedwidgets/buttons/borderedbutton.h</header></customwidget>
-  <customwidget><class>HoverButton</class><extends>QPushButton</extends><header>animatedwidgets/buttons/hoverbutton.h</header></customwidget>
-  <customwidget><class>FilledIconButton</class><extends>QPushButton</extends><header>animatedwidgets/buttons/fillediconbutton.h</header></customwidget>
-  <customwidget><class>OutlineIconButton</class><extends>QPushButton</extends><header>animatedwidgets/buttons/outlineiconbutton.h</header></customwidget>
-  <customwidget><class>BorderedIconButton</class><extends>QPushButton</extends><header>animatedwidgets/buttons/borderediconbutton.h</header></customwidget>
-  <customwidget><class>HoverIconButton</class><extends>QPushButton</extends><header>animatedwidgets/buttons/hovericonbutton.h</header></customwidget>
-  <customwidget><class>RadioButton</class><extends>QRadioButton</extends><header>animatedwidgets/buttons/radiobutton.h</header></customwidget>
-  <customwidget><class>CheckBox</class><extends>QCheckBox</extends><header>animatedwidgets/buttons/checkbox.h</header></customwidget>
-  <customwidget><class>Switch</class><extends>QCheckBox</extends><header>animatedwidgets/switches/switch.h</header></customwidget>
-  <customwidget><class>ProgressBar</class><extends>QProgressBar</extends><header>animatedwidgets/progressbars/progressbar.h</header></customwidget>
-  <customwidget><class>Slider</class><extends>QSlider</extends><header>animatedwidgets/sliders/slider.h</header></customwidget>
- </customwidgets>
- <resources>
-  <include location="resources/gallery.qrc"/>
- </resources>
- <connections/>
+ <connections />
 </ui>

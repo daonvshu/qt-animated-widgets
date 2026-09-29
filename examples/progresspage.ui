@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui version="4.0">
+ <class>ProgressPage</class>
+ <widget class="QWidget" name="ProgressPage">
+  <layout class="QVBoxLayout" name="progressPageLayout">
+   <property name="spacing">
+    <number>16</number>
+   </property>
+   <property name="leftMargin">
+    <number>20</number>
+   </property>
+   <property name="topMargin">
+    <number>16</number>
+   </property>
+   <property name="rightMargin">
+    <number>20</number>
+   </property>
+   <property name="bottomMargin">
+    <number>16</number>
+   </property>
+   <item>
+    <widget class="QLabel" name="progressValueLabel">
+     <property name="text">
+      <string>Value</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="progressValueLayout">
+     <item>
+      <widget class="QSlider" name="progressValueSlider">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="maximum">
+        <number>100</number>
+       </property>
+       <property name="value">
+        <number>35</number>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QDoubleSpinBox" name="progressValueSpin">
+       <property name="minimumSize">
+        <size>
+         <width>90</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="decimals">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <double>100.000000000000000</double>
+       </property>
+       <property name="singleStep">
+        <double>0.100000000000000</double>
+       </property>
+       <property name="value">
+        <double>35.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="progressSettingsLayout">
+     <item>
+      <widget class="QCheckBox" name="progressAnimationCheck">
+       <property name="text">
+        <string>Animate</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="progressDurationLabel">
+       <property name="text">
+        <string>Duration (ms)</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QSpinBox" name="progressDurationSpin">
+       <property name="maximum">
+        <number>3000</number>
+       </property>
+       <property name="singleStep">
+        <number>50</number>
+       </property>
+       <property name="value">
+        <number>450</number>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="progressCurveLabel">
+       <property name="text">
+        <string>Easing</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="progressCurveCombo">
+       <item>
+        <property name="text">
+         <string>Out cubic</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Linear</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>In-out cubic</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Out quart</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item>
+      <spacer name="progressSettingsSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QLabel" name="progressStandardLabel">
+     <property name="text">
+      <string>Percentage</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="ProgressBar" name="progressStandard">
+     <property name="value">
+      <number>35</number>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="progressCountLabel">
+     <property name="text">
+      <string>Custom range and format</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="ProgressBar" name="progressCount">
+     <property name="maximum">
+      <number>200</number>
+     </property>
+     <property name="value">
+      <number>70</number>
+     </property>
+     <property name="format">
+      <string>%v / %m</string>
+     </property>
+     <property name="trackColor">
+      <color>
+       <red>231</red>
+       <green>236</green>
+       <blue>240</blue>
+      </color>
+     </property>
+     <property name="progressColor">
+      <color>
+       <red>25</red>
+       <green>150</green>
+       <blue>121</blue>
+      </color>
+     </property>
+     <property name="borderColor">
+      <color>
+       <red>175</red>
+       <green>187</green>
+       <blue>194</blue>
+      </color>
+     </property>
+     <property name="textColor">
+      <color>
+       <red>35</red>
+       <green>47</green>
+       <blue>54</blue>
+      </color>
+     </property>
+     <property name="cornerRadius">
+      <number>5</number>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="progressDisabledLabel">
+     <property name="text">
+      <string>Disabled</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="ProgressBar" name="progressDisabled">
+     <property name="value">
+      <number>60</number>
+     </property>
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="progressBusyLabel">
+     <property name="text">
+      <string>Busy</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="ProgressBar" name="progressBusy">
+     <property name="maximum">
+      <number>0</number>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <spacer name="progressContentSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>ProgressBar</class>
+   <extends>QProgressBar</extends>
+   <header>animatedwidgets/progressbars/progressbar.h</header>
+  </customwidget>
+ </customwidgets>
+ <connections />
+</ui>

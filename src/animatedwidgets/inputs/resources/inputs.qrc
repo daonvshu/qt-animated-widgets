@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/animatedwidgets/inputs">
+        <file>search.svg</file>
+        <file>clear.svg</file>
+        <file>eyeopen.svg</file>
+        <file>eyeclosed.svg</file>
+    </qresource>
+</RCC>

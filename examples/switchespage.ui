@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui version="4.0">
+ <class>SwitchesPage</class>
+ <widget class="QWidget" name="SwitchesPage">
+  <layout class="QVBoxLayout" name="switchesPageLayout">
+   <property name="leftMargin">
+    <number>20</number>
+   </property>
+   <property name="topMargin">
+    <number>16</number>
+   </property>
+   <property name="rightMargin">
+    <number>20</number>
+   </property>
+   <property name="bottomMargin">
+    <number>16</number>
+   </property>
+   <item>
+    <widget class="Switch" name="switchInteractive">
+     <property name="text">
+      <string>Interactive</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="Switch" name="switchChecked">
+     <property name="text">
+      <string>Checked</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="Switch" name="switchCustom">
+     <property name="text">
+      <string>Custom handle</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="Switch" name="switchDisabled">
+     <property name="text">
+      <string>Disabled</string>
+     </property>
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="Switch" name="switchDisabledChecked">
+     <property name="text">
+      <string>Disabled checked</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <spacer name="switchesContentSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>Switch</class>
+   <extends>QCheckBox</extends>
+   <header>animatedwidgets/switches/switch.h</header>
+  </customwidget>
+ </customwidgets>
+ <connections />
+</ui>

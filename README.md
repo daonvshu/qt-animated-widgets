@@ -99,10 +99,38 @@ to true; `animationDuration` (milliseconds) and `animationEasingCurve`
 disabled animation snaps to the target. The gallery has a Sliders page, and
 Designer registers `Slider` in the `animated-widgets` group.
 
+## Inputs
+
+`LineEdit` keeps native `QLineEdit` editing, selection, validator, and context
+menu behavior. Its border and background colors transition on hover, focus,
+error, and disabled state changes. `hasError` is controlled explicitly by the
+caller and does not clear when text changes. Border and background colors,
+text colors, border width, corner radius, content padding, and animation
+duration are configurable.
+
+`IconLineEdit` positions independent leading and trailing icon buttons using
+`contentPadding` from the input edges and `iconSpacing` between each icon and
+the text. `leadingIconSize` and `trailingIconSize` set their sizes independently;
+both sides retain visibility properties and click signals. `PasswordLineEdit` adds a reveal
+button, configurable eye icons, and optional timed auto-hide; it hides the
+password again on focus loss. These classes have separate headers under
+`animatedwidgets/inputs/`. The gallery has an Inputs page, and all three
+classes are registered in Qt Designer.
+
+`CompositeLineEdit` places an `IconLineEdit` between optional leading and
+trailing widgets and paints one shared animated border for the whole group.
+Use `setLeadingWidget` / `setTrailingWidget` for existing widgets, or
+`setLeadingWidgetFactory` / `setTrailingWidgetFactory` to create them with the
+container as parent. Installed widgets belong to the container; replacing one
+deletes the old widget later. Focus on any descendant activates the shared
+focus border, while `hasError` and disabled state override it. The `editor()`
+accessor exposes the native editing and icon APIs. Designer previews the empty
+container; arbitrary factory content is supplied by application code.
+
 ## Qt Designer plugin
 
 `BUILD_DESIGNER_PLUGIN` is ON by default. The `animatedwidgetsdesigner` module
-registers the buttons, selection controls, Switch, ProgressBar, and Slider with short class names
+registers the buttons, selection controls, Switch, ProgressBar, Slider, and inputs with short class names
 and distinct icons in the `animated-widgets` group. The concrete classes use
 those short names; `animatedwidgets::` aliases preserve namespaced C++ usage.
 More widget adapters can be added under
