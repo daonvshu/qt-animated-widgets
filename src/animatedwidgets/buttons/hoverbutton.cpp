@@ -1,22 +1,11 @@
 #include "animatedwidgets/buttons/hoverbutton.h"
 
-#include "animatedwidgets/buttons/buttonpainter.h"
+#include "animatedwidgets/utils/buttonpainter.h"
+#include "animatedwidgets/utils/buttonstatecolors.h"
 
 #include <QPainter>
 
 namespace animatedwidgets {
-
-namespace {
-ButtonContentOptions::Placement contentPlacement(AnimatedButtonBase::IconPlacement placement)
-{
-    switch (placement) {
-    case AnimatedButtonBase::IconPlacement::AfterText: return ButtonContentOptions::Placement::AfterText;
-    case AnimatedButtonBase::IconPlacement::AboveText: return ButtonContentOptions::Placement::AboveText;
-    case AnimatedButtonBase::IconPlacement::BelowText: return ButtonContentOptions::Placement::BelowText;
-    default: return ButtonContentOptions::Placement::BeforeText;
-    }
-}
-}
 
 HoverButton::HoverButton(QWidget* parent) : AnimatedButtonBase(parent)
 {
@@ -86,27 +75,15 @@ void HoverButton::setIconPlacement(IconPlacement placement) { m_iconPlacement = 
 
 QColor HoverButton::backgroundForState(ButtonState state) const
 {
-    const QColor activeBackground("#3478f6");
-    switch (state) {
-    case ButtonState::Hover: return m_hoverBackground.isValid() ? m_hoverBackground : activeBackground;
-    case ButtonState::Pressed: return m_pressedBackground.isValid() ? m_pressedBackground : (m_hoverBackground.isValid() ? m_hoverBackground.darker(100 + darkerStep()) : activeBackground.darker(100 + 2 * darkerStep()));
-    case ButtonState::Disabled: return m_disabledBackground.isValid() ? m_disabledBackground : Qt::transparent;
-    case ButtonState::Checked: return m_checkedBackground.isValid() ? m_checkedBackground : (m_pressedBackground.isValid() ? m_pressedBackground : (m_hoverBackground.isValid() ? m_hoverBackground.darker(100 + darkerStep()) : activeBackground.darker(100 + 2 * darkerStep())));
-    case ButtonState::Normal: return Qt::transparent;
-    }
-    return Qt::transparent;
+    return ButtonStateColorUtils::resolveHoverOnly({ButtonStateColorUtils::defaultActiveFill(), m_hoverBackground, m_pressedBackground,
+                                m_checkedBackground, m_disabledBackground},
+                               state, darkerStep());
 }
 
 QColor HoverButton::contentForState(ButtonState state) const
 {
-    switch (state) {
-    case ButtonState::Hover: return m_hoverContent.isValid() ? m_hoverContent : darkerStateColor(m_normalContent);
-    case ButtonState::Pressed: return m_pressedContent.isValid() ? m_pressedContent : (m_hoverContent.isValid() ? m_hoverContent.darker(100 + darkerStep()) : darkerStateColor(m_normalContent, 2));
-    case ButtonState::Disabled: return m_disabledContent.isValid() ? m_disabledContent : m_normalContent;
-    case ButtonState::Checked: return m_checkedContent.isValid() ? m_checkedContent : (m_pressedContent.isValid() ? m_pressedContent : (m_hoverContent.isValid() ? m_hoverContent.darker(100 + darkerStep()) : darkerStateColor(m_normalContent, 2)));
-    case ButtonState::Normal: return m_normalContent;
-    }
-    return m_normalContent;
+    return ButtonStateColorUtils::resolve({m_normalContent, m_hoverContent, m_pressedContent,
+                       m_checkedContent, m_disabledContent}, state, darkerStep());
 }
 
 void HoverButton::updateAnimationTargets(bool immediate)
@@ -119,18 +96,18 @@ void HoverButton::updateAnimationTargets(bool immediate)
 
 QSize HoverButton::sizeHint() const
 {
-    ButtonContentOptions options{icon(), iconSize(), text(), font(), {}, m_iconSpacing, false,
-                                 contentPlacement(m_iconPlacement)};
-    const QSize content = buttonContentSize(options);
-    return QSize(qMax(80, content.width() + 28), qMax(36, content.height() + 16));
+    const QSize content = ButtonPainter::contentSize(ButtonContentOptions{
+        icon(), iconSize(), text(), font(), {}, m_iconSpacing, false,
+        contentPlacement(m_iconPlacement)});
+    return ButtonPainter::textSizeHint(content);
 }
 
 void HoverButton::paintEvent(QPaintEvent*)
 {
     QPainter painter(this);
-    drawButtonSurface(painter, QRectF(rect()), ButtonSurfaceOptions{
+    ButtonPainter::drawSurface(painter, QRectF(rect()), ButtonSurfaceOptions{
         animatedBackgroundColor(), {}, 0.0, m_cornerRadius, true, false, false});
-    drawButtonContent(painter, rect(), ButtonContentOptions{
+    ButtonPainter::drawContent(painter, rect(), ButtonContentOptions{
         icon(), iconSize(), text(), font(), animatedContentColor(), m_iconSpacing, false,
         contentPlacement(m_iconPlacement)});
 }

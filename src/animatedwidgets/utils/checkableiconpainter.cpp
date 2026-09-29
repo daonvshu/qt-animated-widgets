@@ -1,11 +1,11 @@
-#include "animatedwidgets/buttons/checkableiconpainter.h"
+#include "animatedwidgets/utils/checkableiconpainter.h"
 
 #include <QPainter>
 
 namespace animatedwidgets {
 
-void drawCheckableIcon(QPainter& painter, const QRect& rect, const QPixmap& pixmap,
-                       const QColor& color, qreal opacity)
+void CheckableIconPainter::draw(QPainter& painter, const QRect& rect, const QPixmap& pixmap,
+                                const QColor& color, qreal opacity)
 {
     if (pixmap.isNull() || rect.isEmpty() || opacity <= 0.0) return;
 

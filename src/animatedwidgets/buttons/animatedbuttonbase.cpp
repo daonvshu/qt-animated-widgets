@@ -6,15 +6,15 @@
 namespace animatedwidgets {
 
 AnimatedButtonBase::AnimatedButtonBase(QWidget* parent)
-    : QPushButton(parent), m_backgroundAnimation(this), m_borderAnimation(this),
-      m_contentAnimation(this)
+    : QPushButton(parent), m_backgroundTransition(this), m_borderTransition(this),
+      m_contentTransition(this)
 {
     setAutoDefault(false);
     setAttribute(Qt::WA_Hover, true);
-    for (auto* animation : {&m_backgroundAnimation, &m_borderAnimation, &m_contentAnimation}) {
-        animation->setDuration(m_animationDuration);
-        animation->setEasingCurve(QEasingCurve::OutCubic);
-        connect(animation, &QVariantAnimation::valueChanged, this, [this] { update(); });
+    for (auto* transition : {&m_backgroundTransition, &m_borderTransition, &m_contentTransition}) {
+        transition->setDuration(m_animationDuration);
+        transition->setEasingCurve(QEasingCurve::OutCubic);
+        connect(transition, &ValueTransition::valueChanged, this, [this] { update(); });
     }
     connect(this, &QPushButton::toggled, this, [this] { refreshButtonState(); });
 }
@@ -23,8 +23,8 @@ int AnimatedButtonBase::animationDuration() const { return m_animationDuration; 
 void AnimatedButtonBase::setAnimationDuration(int duration)
 {
     m_animationDuration = qMax(0, duration);
-    for (auto* animation : {&m_backgroundAnimation, &m_borderAnimation, &m_contentAnimation}) {
-        animation->setDuration(m_animationDuration);
+    for (auto* transition : {&m_backgroundTransition, &m_borderTransition, &m_contentTransition}) {
+        transition->setDuration(m_animationDuration);
     }
     refreshButtonState(m_animationDuration == 0);
 }
@@ -59,49 +59,45 @@ void AnimatedButtonBase::refreshButtonState(bool immediate)
     updateAnimationTargets(immediate);
 }
 
-void AnimatedButtonBase::animateColor(QVariantAnimation& animation, const QColor& target, bool immediate)
-{
-    if (!immediate && animation.endValue().value<QColor>() == target) return;
-    const QColor current = animation.currentValue().value<QColor>();
-    animation.stop();
-    animation.setStartValue(immediate || m_animationDuration == 0 || !current.isValid() ? target : current);
-    animation.setEndValue(target);
-    if (!immediate && m_animationDuration > 0 && current != target) animation.start();
-}
-
 void AnimatedButtonBase::animateBackgroundColor(const QColor& target, bool immediate)
 {
-    animateColor(m_backgroundAnimation, target, immediate);
+    m_backgroundTransition.setTarget(target, immediate);
 }
 
 void AnimatedButtonBase::animateBorderColor(const QColor& target, bool immediate)
 {
-    animateColor(m_borderAnimation, target, immediate);
+    m_borderTransition.setTarget(target, immediate);
 }
 
 void AnimatedButtonBase::animateContentColor(const QColor& target, bool immediate)
 {
-    animateColor(m_contentAnimation, target, immediate);
+    m_contentTransition.setTarget(target, immediate);
 }
 
 QColor AnimatedButtonBase::animatedBackgroundColor() const
 {
-    return m_backgroundAnimation.currentValue().value<QColor>();
+    return m_backgroundTransition.current().value<QColor>();
 }
 
 QColor AnimatedButtonBase::animatedBorderColor() const
 {
-    return m_borderAnimation.currentValue().value<QColor>();
+    return m_borderTransition.current().value<QColor>();
 }
 
 QColor AnimatedButtonBase::animatedContentColor() const
 {
-    return m_contentAnimation.currentValue().value<QColor>();
+    return m_contentTransition.current().value<QColor>();
 }
 
-QColor AnimatedButtonBase::darkerStateColor(const QColor& normal, int multiplier) const
+ButtonContentOptions::Placement AnimatedButtonBase::contentPlacement(IconPlacement placement)
 {
-    return normal.darker(100 + qMax(0, multiplier) * m_darkerStep);
+    switch (placement) {
+    case IconPlacement::AfterText: return ButtonContentOptions::Placement::AfterText;
+    case IconPlacement::AboveText: return ButtonContentOptions::Placement::AboveText;
+    case IconPlacement::BelowText: return ButtonContentOptions::Placement::BelowText;
+    case IconPlacement::BeforeText: break;
+    }
+    return ButtonContentOptions::Placement::BeforeText;
 }
 
 bool AnimatedButtonBase::event(QEvent* event)

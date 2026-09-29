@@ -1,9 +1,10 @@
 #pragma once
 
+#include "animatedwidgets/buttons/checkableiconanimator.h"
+
 #include <QCheckBox>
 #include <QColor>
 #include <QPixmap>
-#include <QVariantAnimation>
 
 namespace animatedwidgets {
 
@@ -48,27 +49,8 @@ protected:
     void changeEvent(QEvent* event) override;
 
 private:
-    QPixmap iconForState(Qt::CheckState state) const;
-    QColor colorForState(Qt::CheckState state) const;
-    QPixmap currentComposite() const;
-    void startAnimation(Qt::CheckState state);
-    void resetAnimation();
-    void drawText(QPainter& painter, const QRect& textRect) const;
-
-    QPixmap m_checkedIcon;
-    QPixmap m_uncheckedIcon;
-    QPixmap m_partiallyCheckedIcon;
-    QColor m_checkedIconColor;
-    QColor m_uncheckedIconColor;
-    QColor m_partiallyCheckedIconColor;
-    QSize m_iconSize = QSize(18, 18);
+    CheckableIconAnimator m_animator;
     int m_iconSpacing = 8;
-    QVariantAnimation m_animation;
-    Qt::CheckState m_fromState = Qt::Unchecked;
-    Qt::CheckState m_toState = Qt::Unchecked;
-    QPixmap m_transitionPixmap;
-    qreal m_progress = 1.0;
-    bool m_transitionUsesPixmap = false;
 };
 
 } // namespace animatedwidgets

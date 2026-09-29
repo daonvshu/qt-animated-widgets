@@ -22,6 +22,8 @@ add_library(AnimatedWidgetsCore
     src/animatedwidgets/core/animationspec.h
     src/animatedwidgets/core/animationcontroller.h
     src/animatedwidgets/core/animationcontroller.cpp
+    src/animatedwidgets/core/valuetransition.h
+    src/animatedwidgets/core/valuetransition.cpp
 )
 add_library(AnimatedWidgets::Core ALIAS AnimatedWidgetsCore)
 target_include_directories(AnimatedWidgetsCore PUBLIC
@@ -48,10 +50,14 @@ add_library(AnimatedWidgetsWidgets
     src/animatedwidgets/buttons/animatedbuttonbase.cpp
     src/animatedwidgets/buttons/buttonstate.h
     src/animatedwidgets/buttons/buttonstatestyle.h
-    src/animatedwidgets/buttons/buttonpainter.h
-    src/animatedwidgets/buttons/buttonpainter.cpp
-    src/animatedwidgets/buttons/checkableiconpainter.h
-    src/animatedwidgets/buttons/checkableiconpainter.cpp
+    src/animatedwidgets/utils/buttonstatecolors.h
+    src/animatedwidgets/utils/buttonstatecolors.cpp
+    src/animatedwidgets/utils/buttonpainter.h
+    src/animatedwidgets/utils/buttonpainter.cpp
+    src/animatedwidgets/utils/checkableiconpainter.h
+    src/animatedwidgets/utils/checkableiconpainter.cpp
+    src/animatedwidgets/buttons/checkableiconanimator.h
+    src/animatedwidgets/buttons/checkableiconanimator.cpp
     src/animatedwidgets/buttons/radiobutton.h
     src/animatedwidgets/buttons/radiobutton.cpp
     src/animatedwidgets/buttons/checkbox.h

@@ -1,6 +1,7 @@
 #include "animatedwidgets/buttons/fillediconbutton.h"
 
-#include "animatedwidgets/buttons/buttonpainter.h"
+#include "animatedwidgets/utils/buttonpainter.h"
+#include "animatedwidgets/utils/buttonstatecolors.h"
 
 #include <QPainter>
 
@@ -75,26 +76,14 @@ void FilledIconButton::setCornerRadius(int radius) { m_cornerRadius = qMax(0, ra
 
 QColor FilledIconButton::backgroundForState(ButtonState state) const
 {
-    switch (state) {
-    case ButtonState::Hover: return m_hoverBackground.isValid() ? m_hoverBackground : darkerStateColor(m_normalBackground);
-    case ButtonState::Pressed: return m_pressedBackground.isValid() ? m_pressedBackground : (m_hoverBackground.isValid() ? m_hoverBackground.darker(100 + darkerStep()) : darkerStateColor(m_normalBackground, 2));
-    case ButtonState::Disabled: return m_disabledBackground.isValid() ? m_disabledBackground : m_normalBackground;
-    case ButtonState::Checked: return m_checkedBackground.isValid() ? m_checkedBackground : (m_pressedBackground.isValid() ? m_pressedBackground : darkerStateColor(m_normalBackground, 2));
-    case ButtonState::Normal: return m_normalBackground;
-    }
-    return m_normalBackground;
+    return ButtonStateColorUtils::resolve({m_normalBackground, m_hoverBackground, m_pressedBackground,
+                       m_checkedBackground, m_disabledBackground}, state, darkerStep());
 }
 
 QColor FilledIconButton::contentForState(ButtonState state) const
 {
-    switch (state) {
-    case ButtonState::Hover: return m_hoverContent.isValid() ? m_hoverContent : darkerStateColor(m_normalContent);
-    case ButtonState::Pressed: return m_pressedContent.isValid() ? m_pressedContent : (m_hoverContent.isValid() ? m_hoverContent.darker(100 + darkerStep()) : darkerStateColor(m_normalContent, 2));
-    case ButtonState::Disabled: return m_disabledContent.isValid() ? m_disabledContent : m_normalContent;
-    case ButtonState::Checked: return m_checkedContent.isValid() ? m_checkedContent : (m_pressedContent.isValid() ? m_pressedContent : darkerStateColor(m_normalContent, 2));
-    case ButtonState::Normal: return m_normalContent;
-    }
-    return m_normalContent;
+    return ButtonStateColorUtils::resolve({m_normalContent, m_hoverContent, m_pressedContent,
+                       m_checkedContent, m_disabledContent}, state, darkerStep());
 }
 
 void FilledIconButton::updateAnimationTargets(bool immediate)
@@ -107,19 +96,16 @@ void FilledIconButton::updateAnimationTargets(bool immediate)
 
 QSize FilledIconButton::sizeHint() const
 {
-    const int padding = 12;
-    const QSize icon = iconSize();
-    return QSize(qMax(icon.width(), icon.height()) + padding * 2,
-                 qMax(icon.width(), icon.height()) + padding * 2);
+    return ButtonPainter::iconSizeHint(iconSize());
 }
 
 void FilledIconButton::paintEvent(QPaintEvent*)
 {
     QPainter painter(this);
-    drawButtonSurface(painter, QRectF(rect()), ButtonSurfaceOptions{
+    ButtonPainter::drawSurface(painter, QRectF(rect()), ButtonSurfaceOptions{
         animatedBackgroundColor(), {}, 0.0, m_cornerRadius, true, false,
         m_shape == Shape::Circle});
-    drawButtonContent(painter, rect(), ButtonContentOptions{
+    ButtonPainter::drawContent(painter, rect(), ButtonContentOptions{
         icon(), iconSize(), {}, font(), animatedContentColor(), 0, true,
         ButtonContentOptions::Placement::BeforeText});
 }

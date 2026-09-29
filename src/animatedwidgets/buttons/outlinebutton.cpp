@@ -1,22 +1,11 @@
 #include "animatedwidgets/buttons/outlinebutton.h"
 
-#include "animatedwidgets/buttons/buttonpainter.h"
+#include "animatedwidgets/utils/buttonpainter.h"
+#include "animatedwidgets/utils/buttonstatecolors.h"
 
 #include <QPainter>
 
 namespace animatedwidgets {
-
-namespace {
-ButtonContentOptions::Placement contentPlacement(AnimatedButtonBase::IconPlacement placement)
-{
-    switch (placement) {
-    case AnimatedButtonBase::IconPlacement::AfterText: return ButtonContentOptions::Placement::AfterText;
-    case AnimatedButtonBase::IconPlacement::AboveText: return ButtonContentOptions::Placement::AboveText;
-    case AnimatedButtonBase::IconPlacement::BelowText: return ButtonContentOptions::Placement::BelowText;
-    default: return ButtonContentOptions::Placement::BeforeText;
-    }
-}
-}
 
 OutlineButton::OutlineButton(QWidget* parent) : AnimatedButtonBase(parent)
 {
@@ -91,26 +80,14 @@ void OutlineButton::setIconPlacement(IconPlacement placement) { m_iconPlacement 
 
 QColor OutlineButton::borderForState(ButtonState state) const
 {
-    switch (state) {
-    case ButtonState::Hover: return m_hoverBorder.isValid() ? m_hoverBorder : darkerStateColor(m_normalBorder);
-    case ButtonState::Pressed: return m_pressedBorder.isValid() ? m_pressedBorder : (m_hoverBorder.isValid() ? m_hoverBorder.darker(100 + darkerStep()) : darkerStateColor(m_normalBorder, 2));
-    case ButtonState::Disabled: return m_disabledBorder.isValid() ? m_disabledBorder : m_normalBorder;
-    case ButtonState::Checked: return m_checkedBorder.isValid() ? m_checkedBorder : (m_pressedBorder.isValid() ? m_pressedBorder : darkerStateColor(m_normalBorder, 2));
-    case ButtonState::Normal: return m_normalBorder;
-    }
-    return m_normalBorder;
+    return ButtonStateColorUtils::resolve({m_normalBorder, m_hoverBorder, m_pressedBorder,
+                       m_checkedBorder, m_disabledBorder}, state, darkerStep());
 }
 
 QColor OutlineButton::contentForState(ButtonState state) const
 {
-    switch (state) {
-    case ButtonState::Hover: return m_hoverContent.isValid() ? m_hoverContent : darkerStateColor(m_normalContent);
-    case ButtonState::Pressed: return m_pressedContent.isValid() ? m_pressedContent : (m_hoverContent.isValid() ? m_hoverContent.darker(100 + darkerStep()) : darkerStateColor(m_normalContent, 2));
-    case ButtonState::Disabled: return m_disabledContent.isValid() ? m_disabledContent : m_normalContent;
-    case ButtonState::Checked: return m_checkedContent.isValid() ? m_checkedContent : (m_pressedContent.isValid() ? m_pressedContent : darkerStateColor(m_normalContent, 2));
-    case ButtonState::Normal: return m_normalContent;
-    }
-    return m_normalContent;
+    return ButtonStateColorUtils::resolve({m_normalContent, m_hoverContent, m_pressedContent,
+                       m_checkedContent, m_disabledContent}, state, darkerStep());
 }
 
 void OutlineButton::updateAnimationTargets(bool immediate)
@@ -123,20 +100,20 @@ void OutlineButton::updateAnimationTargets(bool immediate)
 
 QSize OutlineButton::sizeHint() const
 {
-    ButtonContentOptions options{icon(), iconSize(), text(), font(), {}, m_iconSpacing, false,
-                                 contentPlacement(m_iconPlacement)};
-    const QSize content = buttonContentSize(options);
-    return QSize(qMax(80, content.width() + 28), qMax(36, content.height() + 16));
+    const QSize content = ButtonPainter::contentSize(ButtonContentOptions{
+        icon(), iconSize(), text(), font(), {}, m_iconSpacing, false,
+        contentPlacement(m_iconPlacement)});
+    return ButtonPainter::textSizeHint(content);
 }
 
 void OutlineButton::paintEvent(QPaintEvent*)
 {
     QPainter painter(this);
     const qreal inset = m_borderWidth / 2;
-    drawButtonSurface(painter, QRectF(rect()).adjusted(inset, inset, -inset, -inset),
+    ButtonPainter::drawSurface(painter, QRectF(rect()).adjusted(inset, inset, -inset, -inset),
                       ButtonSurfaceOptions{{}, animatedBorderColor(), m_borderWidth,
                                            m_cornerRadius, false, true, false});
-    drawButtonContent(painter, rect(), ButtonContentOptions{
+    ButtonPainter::drawContent(painter, rect(), ButtonContentOptions{
         icon(), iconSize(), text(), font(), animatedContentColor(), m_iconSpacing, false,
         contentPlacement(m_iconPlacement)});
 }

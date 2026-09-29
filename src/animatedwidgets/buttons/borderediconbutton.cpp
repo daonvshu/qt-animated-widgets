@@ -1,6 +1,7 @@
 #include "animatedwidgets/buttons/borderediconbutton.h"
 
-#include "animatedwidgets/buttons/buttonpainter.h"
+#include "animatedwidgets/utils/buttonpainter.h"
+#include "animatedwidgets/utils/buttonstatecolors.h"
 
 #include <QPainter>
 
@@ -92,38 +93,20 @@ void BorderedIconButton::setBorderWidth(qreal width) { m_borderWidth = qMax(qrea
 
 QColor BorderedIconButton::backgroundForState(ButtonState state) const
 {
-    switch (state) {
-    case ButtonState::Hover: return m_hoverBackground.isValid() ? m_hoverBackground : darkerStateColor(m_normalBackground);
-    case ButtonState::Pressed: return m_pressedBackground.isValid() ? m_pressedBackground : (m_hoverBackground.isValid() ? m_hoverBackground.darker(100 + darkerStep()) : darkerStateColor(m_normalBackground, 2));
-    case ButtonState::Disabled: return m_disabledBackground.isValid() ? m_disabledBackground : m_normalBackground;
-    case ButtonState::Checked: return m_checkedBackground.isValid() ? m_checkedBackground : (m_pressedBackground.isValid() ? m_pressedBackground : darkerStateColor(m_normalBackground, 2));
-    case ButtonState::Normal: return m_normalBackground;
-    }
-    return m_normalBackground;
+    return ButtonStateColorUtils::resolve({m_normalBackground, m_hoverBackground, m_pressedBackground,
+                       m_checkedBackground, m_disabledBackground}, state, darkerStep());
 }
 
 QColor BorderedIconButton::borderForState(ButtonState state) const
 {
-    switch (state) {
-    case ButtonState::Hover: return m_hoverBorder.isValid() ? m_hoverBorder : darkerStateColor(m_normalBorder);
-    case ButtonState::Pressed: return m_pressedBorder.isValid() ? m_pressedBorder : (m_hoverBorder.isValid() ? m_hoverBorder.darker(100 + darkerStep()) : darkerStateColor(m_normalBorder, 2));
-    case ButtonState::Disabled: return m_disabledBorder.isValid() ? m_disabledBorder : m_normalBorder;
-    case ButtonState::Checked: return m_checkedBorder.isValid() ? m_checkedBorder : (m_pressedBorder.isValid() ? m_pressedBorder : darkerStateColor(m_normalBorder, 2));
-    case ButtonState::Normal: return m_normalBorder;
-    }
-    return m_normalBorder;
+    return ButtonStateColorUtils::resolve({m_normalBorder, m_hoverBorder, m_pressedBorder,
+                       m_checkedBorder, m_disabledBorder}, state, darkerStep());
 }
 
 QColor BorderedIconButton::contentForState(ButtonState state) const
 {
-    switch (state) {
-    case ButtonState::Hover: return m_hoverContent.isValid() ? m_hoverContent : darkerStateColor(m_normalContent);
-    case ButtonState::Pressed: return m_pressedContent.isValid() ? m_pressedContent : (m_hoverContent.isValid() ? m_hoverContent.darker(100 + darkerStep()) : darkerStateColor(m_normalContent, 2));
-    case ButtonState::Disabled: return m_disabledContent.isValid() ? m_disabledContent : m_normalContent;
-    case ButtonState::Checked: return m_checkedContent.isValid() ? m_checkedContent : (m_pressedContent.isValid() ? m_pressedContent : darkerStateColor(m_normalContent, 2));
-    case ButtonState::Normal: return m_normalContent;
-    }
-    return m_normalContent;
+    return ButtonStateColorUtils::resolve({m_normalContent, m_hoverContent, m_pressedContent,
+                       m_checkedContent, m_disabledContent}, state, darkerStep());
 }
 
 void BorderedIconButton::updateAnimationTargets(bool immediate)
@@ -137,21 +120,18 @@ void BorderedIconButton::updateAnimationTargets(bool immediate)
 
 QSize BorderedIconButton::sizeHint() const
 {
-    const int padding = 12;
-    const QSize icon = iconSize();
-    return QSize(qMax(icon.width(), icon.height()) + padding * 2,
-                 qMax(icon.width(), icon.height()) + padding * 2);
+    return ButtonPainter::iconSizeHint(iconSize());
 }
 
 void BorderedIconButton::paintEvent(QPaintEvent*)
 {
     QPainter painter(this);
     const qreal inset = m_borderWidth / 2;
-    drawButtonSurface(painter, QRectF(rect()).adjusted(inset, inset, -inset, -inset),
+    ButtonPainter::drawSurface(painter, QRectF(rect()).adjusted(inset, inset, -inset, -inset),
                       ButtonSurfaceOptions{animatedBackgroundColor(), animatedBorderColor(),
                                            m_borderWidth, m_cornerRadius, true, true,
                                            m_shape == Shape::Circle});
-    drawButtonContent(painter, rect(), ButtonContentOptions{
+    ButtonPainter::drawContent(painter, rect(), ButtonContentOptions{
         icon(), iconSize(), {}, font(), animatedContentColor(), 0, true,
         ButtonContentOptions::Placement::BeforeText});
 }

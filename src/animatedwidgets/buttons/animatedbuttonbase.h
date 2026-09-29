@@ -1,9 +1,10 @@
 #pragma once
 
+#include "animatedwidgets/utils/buttonpainter.h"
 #include "animatedwidgets/buttons/buttonstate.h"
+#include "animatedwidgets/core/valuetransition.h"
 
 #include <QPushButton>
-#include <QVariantAnimation>
 
 namespace animatedwidgets {
 
@@ -33,17 +34,15 @@ protected:
     QColor animatedBackgroundColor() const;
     QColor animatedBorderColor() const;
     QColor animatedContentColor() const;
-    QColor darkerStateColor(const QColor& normal, int multiplier = 1) const;
+    static ButtonContentOptions::Placement contentPlacement(IconPlacement placement);
 
     virtual void updateAnimationTargets(bool immediate) = 0;
     bool event(QEvent* event) override;
 
 private:
-    void animateColor(QVariantAnimation& animation, const QColor& target, bool immediate);
-
-    QVariantAnimation m_backgroundAnimation;
-    QVariantAnimation m_borderAnimation;
-    QVariantAnimation m_contentAnimation;
+    ValueTransition m_backgroundTransition;
+    ValueTransition m_borderTransition;
+    ValueTransition m_contentTransition;
     int m_animationDuration = 180;
     int m_darkerStep = 15;
     bool m_animateContentColor = false;

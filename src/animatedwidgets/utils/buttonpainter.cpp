@@ -1,10 +1,10 @@
-#include "animatedwidgets/buttons/buttonpainter.h"
+#include "animatedwidgets/utils/buttonpainter.h"
 
 #include <QPainter>
 
 namespace animatedwidgets {
 
-QSize buttonContentSize(const ButtonContentOptions& options)
+QSize ButtonPainter::contentSize(const ButtonContentOptions& options)
 {
     const bool hasIcon = !options.icon.isNull();
     const bool hasText = !options.iconOnly && !options.text.isEmpty();
@@ -21,7 +21,41 @@ QSize buttonContentSize(const ButtonContentOptions& options)
         : QSize(textWidth + iconWidth + gap, qMax(textHeight, iconHeight));
 }
 
-void drawButtonSurface(QPainter& painter, const QRectF& rect, const ButtonSurfaceOptions& options)
+QSize ButtonPainter::textSizeHint(const QSize& contentSize)
+{
+    return QSize(qMax(80, contentSize.width() + 28), qMax(36, contentSize.height() + 16));
+}
+
+QSize ButtonPainter::iconSizeHint(const QSize& iconSize)
+{
+    const int side = qMax(iconSize.width(), iconSize.height()) + 24;
+    return QSize(side, side);
+}
+
+QSize ButtonPainter::checkableSizeHint(const QSize& indicatorSize, int spacing,
+                        const QFontMetrics& fontMetrics, const QString& text)
+{
+    return QSize(indicatorSize.width() + spacing + fontMetrics.horizontalAdvance(text) + 4,
+                 qMax(indicatorSize.height(), fontMetrics.height()) + 4);
+}
+
+QRect ButtonPainter::checkableIndicatorRect(const QRect& bounds, const QSize& indicatorSize,
+                             Qt::LayoutDirection direction)
+{
+    const int x = direction == Qt::RightToLeft ? bounds.right() - indicatorSize.width() + 1 : bounds.left();
+    return QRect(x, bounds.top() + (bounds.height() - indicatorSize.height()) / 2,
+                 indicatorSize.width(), indicatorSize.height());
+}
+
+QRect ButtonPainter::checkableTextRect(const QRect& bounds, const QSize& indicatorSize, int spacing,
+                        Qt::LayoutDirection direction)
+{
+    const int x = direction == Qt::RightToLeft ? bounds.left() : bounds.left() + indicatorSize.width() + spacing;
+    const int width = bounds.width() - indicatorSize.width() - spacing - 1;
+    return QRect(x, bounds.top(), width, bounds.height());
+}
+
+void ButtonPainter::drawSurface(QPainter& painter, const QRectF& rect, const ButtonSurfaceOptions& options)
 {
     painter.setRenderHint(QPainter::Antialiasing, true);
     painter.setPen(options.drawBorder && options.borderWidth > 0
@@ -37,7 +71,7 @@ void drawButtonSurface(QPainter& painter, const QRectF& rect, const ButtonSurfac
     }
 }
 
-void drawButtonContent(QPainter& painter, const QRect& bounds, const ButtonContentOptions& options)
+void ButtonPainter::drawContent(QPainter& painter, const QRect& bounds, const ButtonContentOptions& options)
 {
     const bool hasIcon = !options.icon.isNull();
     const bool hasText = !options.iconOnly && !options.text.isEmpty();
