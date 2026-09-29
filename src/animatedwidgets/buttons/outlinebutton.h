@@ -34,24 +34,40 @@ public:
     void setDisabledStyle(const animatedwidgets::ButtonStateStyle& style);
     animatedwidgets::ButtonStateStyle checkedStyle() const;
     void setCheckedStyle(const animatedwidgets::ButtonStateStyle& style);
-    QColor normalBorderColor() const; void setNormalBorderColor(const QColor& color);
-    QColor hoverBorderColor() const; void setHoverBorderColor(const QColor& color);
-    QColor pressedBorderColor() const; void setPressedBorderColor(const QColor& color);
-    QColor disabledBorderColor() const; void setDisabledBorderColor(const QColor& color);
-    QColor checkedBorderColor() const; void setCheckedBorderColor(const QColor& color);
-    QColor normalContentColor() const; void setNormalContentColor(const QColor& color);
-    QColor hoverContentColor() const; void setHoverContentColor(const QColor& color);
-    QColor pressedContentColor() const; void setPressedContentColor(const QColor& color);
-    QColor disabledContentColor() const; void setDisabledContentColor(const QColor& color);
-    QColor checkedContentColor() const; void setCheckedContentColor(const QColor& color);
-    int cornerRadius() const; void setCornerRadius(int radius);
-    qreal borderWidth() const; void setBorderWidth(qreal width);
-    int iconSpacing() const; void setIconSpacing(int spacing);
-    IconPlacement iconPlacement() const; void setIconPlacement(IconPlacement placement);
+    QColor normalBorderColor() const;
+    void setNormalBorderColor(const QColor& color);
+    QColor hoverBorderColor() const;
+    void setHoverBorderColor(const QColor& color);
+    QColor pressedBorderColor() const;
+    void setPressedBorderColor(const QColor& color);
+    QColor disabledBorderColor() const;
+    void setDisabledBorderColor(const QColor& color);
+    QColor checkedBorderColor() const;
+    void setCheckedBorderColor(const QColor& color);
+    QColor normalContentColor() const;
+    void setNormalContentColor(const QColor& color);
+    QColor hoverContentColor() const;
+    void setHoverContentColor(const QColor& color);
+    QColor pressedContentColor() const;
+    void setPressedContentColor(const QColor& color);
+    QColor disabledContentColor() const;
+    void setDisabledContentColor(const QColor& color);
+    QColor checkedContentColor() const;
+    void setCheckedContentColor(const QColor& color);
+    int cornerRadius() const;
+    void setCornerRadius(int radius);
+    qreal borderWidth() const;
+    void setBorderWidth(qreal width);
+    int iconSpacing() const;
+    void setIconSpacing(int spacing);
+    IconPlacement iconPlacement() const;
+    void setIconPlacement(IconPlacement placement);
     QSize sizeHint() const override;
+
 protected:
     void paintEvent(QPaintEvent* event) override;
     void updateAnimationTargets(bool immediate) override;
+
 private:
     QColor borderForState(animatedwidgets::ButtonState state) const;
     QColor contentForState(animatedwidgets::ButtonState state) const;

@@ -2,9 +2,9 @@
 
 #include "animationspec.h"
 
-#include <QVariant>
 #include <QByteArray>
 #include <QObject>
+#include <QVariant>
 
 class QPropertyAnimation;
 
@@ -19,9 +19,7 @@ public:
     AnimationSpec spec() const;
     void setSpec(const AnimationSpec& spec);
 
-    void animate(QObject* target, const QByteArray& property,
-                 const QVariant& endValue,
-                 const QVariant& startValue = QVariant());
+    void animate(QObject* target, const QByteArray& property, const QVariant& endValue, const QVariant& startValue = QVariant());
     void stop();
     bool isRunning() const;
 

@@ -4,10 +4,9 @@
 
 namespace animatedwidgets {
 
-void CheckableIconPainter::draw(QPainter& painter, const QRect& rect, const QPixmap& pixmap,
-                                const QColor& color, qreal opacity)
-{
-    if (pixmap.isNull() || rect.isEmpty() || opacity <= 0.0) return;
+void CheckableIconPainter::draw(QPainter& painter, const QRect& rect, const QPixmap& pixmap, const QColor& color, qreal opacity) {
+    if (pixmap.isNull() || rect.isEmpty() || opacity <= 0.0)
+        return;
 
     QPixmap tinted = pixmap;
     if (color.isValid()) {

@@ -2,8 +2,7 @@
 
 #include <QWidget>
 
-class ButtonsPage : public QWidget
-{
+class ButtonsPage : public QWidget {
 public:
     explicit ButtonsPage(QWidget* parent = nullptr);
 };

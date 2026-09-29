@@ -13,8 +13,7 @@ private slots:
     void hoverOnlyFill();
 };
 
-void ButtonStateColorsTest::defaultFallbacks()
-{
+void ButtonStateColorsTest::defaultFallbacks() {
     const QColor normal("#808080");
     const ButtonStateColors colors{normal, {}, {}, {}, {}};
 
@@ -25,8 +24,7 @@ void ButtonStateColorsTest::defaultFallbacks()
     QCOMPARE(ButtonStateColorUtils::resolve(colors, ButtonState::Disabled, 15), normal);
 }
 
-void ButtonStateColorsTest::explicitHoverFallbacks()
-{
+void ButtonStateColorsTest::explicitHoverFallbacks() {
     const QColor normal("#808080");
     const QColor hover("#3478f6");
     const QColor pressed("#123456");
@@ -40,8 +38,7 @@ void ButtonStateColorsTest::explicitHoverFallbacks()
     QCOMPARE(ButtonStateColorUtils::resolve(withPressed, ButtonState::Checked, 15), pressed);
 }
 
-void ButtonStateColorsTest::hoverOnlyFill()
-{
+void ButtonStateColorsTest::hoverOnlyFill() {
     const QColor active("#3478f6");
     const ButtonStateColors colors{active, {}, {}, {}, {}};
     QColor transparentActive = active;

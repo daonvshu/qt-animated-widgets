@@ -4,11 +4,17 @@
 
 #include <QPainter>
 
-SwitchPlugin::SwitchPlugin(QObject* parent) : QObject(parent) {}
-bool SwitchPlugin::isContainer() const { return false; }
-bool SwitchPlugin::isInitialized() const { return m_initialized; }
-QIcon SwitchPlugin::icon() const
+SwitchPlugin::SwitchPlugin(QObject* parent)
+    : QObject(parent)
 {
+}
+bool SwitchPlugin::isContainer() const {
+    return false;
+}
+bool SwitchPlugin::isInitialized() const {
+    return m_initialized;
+}
+QIcon SwitchPlugin::icon() const {
     QPixmap pixmap(48, 32);
     pixmap.setDevicePixelRatio(2);
     pixmap.fill(Qt::transparent);
@@ -22,22 +28,29 @@ QIcon SwitchPlugin::icon() const
     painter.end();
     return QIcon(pixmap);
 }
-QString SwitchPlugin::domXml() const
-{
+QString SwitchPlugin::domXml() const {
     return QStringLiteral("<widget class=\"Switch\" name=\"switchWidget\">"
                           "<property name=\"text\"><string>Switch</string></property>"
                           "</widget>");
 }
-QString SwitchPlugin::group() const { return QStringLiteral("animated-widgets"); }
-QString SwitchPlugin::includeFile() const { return QStringLiteral("animatedwidgets/switches/switch.h"); }
-QString SwitchPlugin::name() const { return QStringLiteral("Switch"); }
-QString SwitchPlugin::toolTip() const { return QString(); }
-QString SwitchPlugin::whatsThis() const { return QString(); }
-QWidget* SwitchPlugin::createWidget(QWidget* parent)
-{
+QString SwitchPlugin::group() const {
+    return QStringLiteral("animated-widgets");
+}
+QString SwitchPlugin::includeFile() const {
+    return QStringLiteral("animatedwidgets/switches/switch.h");
+}
+QString SwitchPlugin::name() const {
+    return QStringLiteral("Switch");
+}
+QString SwitchPlugin::toolTip() const {
+    return QString();
+}
+QString SwitchPlugin::whatsThis() const {
+    return QString();
+}
+QWidget* SwitchPlugin::createWidget(QWidget* parent) {
     return new Switch(parent);
 }
-void SwitchPlugin::initialize(QDesignerFormEditorInterface*)
-{
+void SwitchPlugin::initialize(QDesignerFormEditorInterface*) {
     m_initialized = true;
 }

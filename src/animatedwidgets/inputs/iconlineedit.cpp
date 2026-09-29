@@ -26,12 +26,13 @@ IconLineEdit::IconLineEdit(QWidget* parent)
     m_trailingButton->setAnimateContentColor(true);
     connect(m_leadingButton, &QPushButton::clicked, this, &IconLineEdit::leadingIconClicked);
     connect(m_trailingButton, &QPushButton::clicked, this, &IconLineEdit::trailingIconClicked);
-    updateContentMargins();
+    IconLineEdit::updateContentMargins();
 }
 
-QIcon IconLineEdit::leadingIcon() const { return m_leadingIcon; }
-void IconLineEdit::setLeadingIcon(const QIcon& icon)
-{
+QIcon IconLineEdit::leadingIcon() const {
+    return m_leadingIcon;
+}
+void IconLineEdit::setLeadingIcon(const QIcon& icon) {
     m_leadingIcon = icon;
     m_leadingButton->setIcon(icon);
     m_leadingButton->setVisible(m_leadingVisible && !icon.isNull());
@@ -39,9 +40,10 @@ void IconLineEdit::setLeadingIcon(const QIcon& icon)
     updateGeometry();
 }
 
-QIcon IconLineEdit::trailingIcon() const { return m_trailingIcon; }
-void IconLineEdit::setTrailingIcon(const QIcon& icon)
-{
+QIcon IconLineEdit::trailingIcon() const {
+    return m_trailingIcon;
+}
+void IconLineEdit::setTrailingIcon(const QIcon& icon) {
     m_trailingIcon = icon;
     m_trailingButton->setIcon(icon);
     m_trailingButton->setVisible(m_trailingVisible && !icon.isNull());
@@ -49,60 +51,65 @@ void IconLineEdit::setTrailingIcon(const QIcon& icon)
     updateGeometry();
 }
 
-QSize IconLineEdit::leadingIconSize() const { return m_leadingIconSize; }
-void IconLineEdit::setLeadingIconSize(const QSize& size)
-{
+QSize IconLineEdit::leadingIconSize() const {
+    return m_leadingIconSize;
+}
+void IconLineEdit::setLeadingIconSize(const QSize& size) {
     const QSize bounded(qMax(1, size.width()), qMax(1, size.height()));
-    if (m_leadingIconSize == bounded) return;
+    if (m_leadingIconSize == bounded)
+        return;
     m_leadingIconSize = bounded;
     updateContentMargins();
     updateGeometry();
 }
 
-QSize IconLineEdit::trailingIconSize() const { return m_trailingIconSize; }
-void IconLineEdit::setTrailingIconSize(const QSize& size)
-{
+QSize IconLineEdit::trailingIconSize() const {
+    return m_trailingIconSize;
+}
+void IconLineEdit::setTrailingIconSize(const QSize& size) {
     const QSize bounded(qMax(1, size.width()), qMax(1, size.height()));
-    if (m_trailingIconSize == bounded) return;
+    if (m_trailingIconSize == bounded)
+        return;
     m_trailingIconSize = bounded;
     updateContentMargins();
     updateGeometry();
 }
 
-bool IconLineEdit::leadingIconVisible() const { return m_leadingVisible; }
-void IconLineEdit::setLeadingIconVisible(bool visible)
-{
+bool IconLineEdit::leadingIconVisible() const {
+    return m_leadingVisible;
+}
+void IconLineEdit::setLeadingIconVisible(bool visible) {
     m_leadingVisible = visible;
     m_leadingButton->setVisible(visible && !m_leadingIcon.isNull());
     updateContentMargins();
     updateGeometry();
 }
 
-bool IconLineEdit::trailingIconVisible() const { return m_trailingVisible; }
-void IconLineEdit::setTrailingIconVisible(bool visible)
-{
+bool IconLineEdit::trailingIconVisible() const {
+    return m_trailingVisible;
+}
+void IconLineEdit::setTrailingIconVisible(bool visible) {
     m_trailingVisible = visible;
     m_trailingButton->setVisible(visible && !m_trailingIcon.isNull());
     updateContentMargins();
     updateGeometry();
 }
 
-int IconLineEdit::iconSpacing() const { return m_iconSpacing; }
-void IconLineEdit::setIconSpacing(int spacing)
-{
+int IconLineEdit::iconSpacing() const {
+    return m_iconSpacing;
+}
+void IconLineEdit::setIconSpacing(int spacing) {
     m_iconSpacing = qMax(0, spacing);
     updateContentMargins();
 }
 
-void IconLineEdit::setAnimationDuration(int duration)
-{
+void IconLineEdit::setAnimationDuration(int duration) {
     LineEdit::setAnimationDuration(duration);
     m_leadingButton->setAnimationDuration(animationDuration());
     m_trailingButton->setAnimationDuration(animationDuration());
 }
 
-QSize IconLineEdit::sizeHint() const
-{
+QSize IconLineEdit::sizeHint() const {
     QSize hint = LineEdit::sizeHint();
     int iconHeight = 0;
     if (m_leadingVisible && !m_leadingIcon.isNull())
@@ -113,14 +120,12 @@ QSize IconLineEdit::sizeHint() const
     return hint;
 }
 
-void IconLineEdit::resizeEvent(QResizeEvent* event)
-{
+void IconLineEdit::resizeEvent(QResizeEvent* event) {
     LineEdit::resizeEvent(event);
     updateContentMargins();
 }
 
-bool IconLineEdit::event(QEvent* event)
-{
+bool IconLineEdit::event(QEvent* event) {
     const bool handled = LineEdit::event(event);
     if (event->type() == QEvent::LayoutDirectionChange && m_leadingButton && m_trailingButton) {
         updateContentMargins();
@@ -128,17 +133,17 @@ bool IconLineEdit::event(QEvent* event)
     return handled;
 }
 
-QSize IconLineEdit::effectiveIconSize(const QSize& requested) const
-{
+QSize IconLineEdit::effectiveIconSize(const QSize& requested) const {
     const int available = qMax(0, height() - 18);
-    if (available == 0) return QSize(0, 0);
-    if (requested.width() <= available && requested.height() <= available) return requested;
+    if (available == 0)
+        return QSize(0, 0);
+    if (requested.width() <= available && requested.height() <= available)
+        return requested;
     const QSize scaled = requested.scaled(available, available, Qt::KeepAspectRatio);
     return QSize(qMax(1, scaled.width()), qMax(1, scaled.height()));
 }
 
-void IconLineEdit::updateIconGeometry()
-{
+void IconLineEdit::updateIconGeometry() {
     const QSize sizes[] = {effectiveIconSize(m_leadingIconSize), effectiveIconSize(m_trailingIconSize)};
     HoverIconButton* buttons[] = {m_leadingButton, m_trailingButton};
     for (int i = 0; i < 2; ++i) {
@@ -148,22 +153,19 @@ void IconLineEdit::updateIconGeometry()
         const int buttonHeight = qMin(desiredSide, qMax(0, height() - 8));
         const int inset = (buttonWidth - iconSize.width()) / 2;
         const bool onLeft = (i == 0) == (layoutDirection() == Qt::LeftToRight);
-        const int x = onLeft ? contentPadding() - inset
-                             : width() - contentPadding() - iconSize.width() - inset;
+        const int x = onLeft ? contentPadding() - inset : width() - contentPadding() - iconSize.width() - inset;
         buttons[i]->setIconSize(iconSize);
         buttons[i]->setGeometry(x, (height() - buttonHeight) / 2, buttonWidth, buttonHeight);
     }
 }
 
-void IconLineEdit::updateContentMargins()
-{
-    if (m_leadingButton && m_trailingButton) updateIconGeometry();
+void IconLineEdit::updateContentMargins() {
+    if (m_leadingButton && m_trailingButton)
+        updateIconGeometry();
     const QSize leadingSize = effectiveIconSize(m_leadingIconSize);
     const QSize trailingSize = effectiveIconSize(m_trailingIconSize);
-    const int leadingMargin = contentPadding() +
-        (m_leadingButton && !m_leadingButton->isHidden() ? leadingSize.width() + m_iconSpacing : 0);
-    const int trailingMargin = contentPadding() +
-        (m_trailingButton && !m_trailingButton->isHidden() ? trailingSize.width() + m_iconSpacing : 0);
+    const int leadingMargin = contentPadding() + (m_leadingButton && !m_leadingButton->isHidden() ? leadingSize.width() + m_iconSpacing : 0);
+    const int trailingMargin = contentPadding() + (m_trailingButton && !m_trailingButton->isHidden() ? trailingSize.width() + m_iconSpacing : 0);
     if (layoutDirection() == Qt::RightToLeft) {
         setTextMargins(trailingMargin, 0, leadingMargin, 0);
     } else {

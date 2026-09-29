@@ -15,11 +15,7 @@ class CheckableIconAnimator final : public QObject {
     Q_OBJECT
 
 public:
-    enum State {
-        Unchecked = 0,
-        PartiallyChecked = 1,
-        Checked = 2
-    };
+    enum State { Unchecked = 0, PartiallyChecked = 1, Checked = 2 };
 
     explicit CheckableIconAnimator(QObject* parent = nullptr);
 

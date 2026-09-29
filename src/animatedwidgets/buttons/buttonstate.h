@@ -2,12 +2,6 @@
 
 namespace animatedwidgets {
 
-enum class ButtonState {
-    Normal,
-    Hover,
-    Pressed,
-    Disabled,
-    Checked
-};
+enum class ButtonState { Normal, Hover, Pressed, Disabled, Checked };
 
 } // namespace animatedwidgets

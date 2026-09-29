@@ -2,8 +2,7 @@
 
 #include <QWidget>
 
-class SwitchesPage : public QWidget
-{
+class SwitchesPage : public QWidget {
 public:
     explicit SwitchesPage(QWidget* parent = nullptr);
 };

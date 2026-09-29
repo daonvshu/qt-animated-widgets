@@ -8,7 +8,10 @@
 #include <QStyleOptionFocusRect>
 
 Switch::Switch(QWidget* parent)
-    : QCheckBox(parent), m_position(this), m_trackColor(this), m_thumbColor(this)
+    : QCheckBox(parent)
+    , m_position(this)
+    , m_trackColor(this)
+    , m_thumbColor(this)
 {
     setTristate(false);
     for (auto* transition : {&m_position, &m_trackColor, &m_thumbColor}) {
@@ -19,113 +22,116 @@ Switch::Switch(QWidget* parent)
     updateTargets(true);
 }
 
-QColor Switch::uncheckedTrackColor() const { return m_uncheckedTrackColor; }
-void Switch::setUncheckedTrackColor(const QColor& color)
-{
+QColor Switch::uncheckedTrackColor() const {
+    return m_uncheckedTrackColor;
+}
+void Switch::setUncheckedTrackColor(const QColor& color) {
     m_uncheckedTrackColor = color;
     updateTargets(true);
 }
-QColor Switch::checkedTrackColor() const { return m_checkedTrackColor; }
-void Switch::setCheckedTrackColor(const QColor& color)
-{
+QColor Switch::checkedTrackColor() const {
+    return m_checkedTrackColor;
+}
+void Switch::setCheckedTrackColor(const QColor& color) {
     m_checkedTrackColor = color;
     updateTargets(true);
 }
-QColor Switch::disabledTrackColor() const { return m_disabledTrackColor; }
-void Switch::setDisabledTrackColor(const QColor& color)
-{
+QColor Switch::disabledTrackColor() const {
+    return m_disabledTrackColor;
+}
+void Switch::setDisabledTrackColor(const QColor& color) {
     m_disabledTrackColor = color;
     updateTargets(true);
 }
-QColor Switch::uncheckedThumbColor() const { return m_uncheckedThumbColor; }
-void Switch::setUncheckedThumbColor(const QColor& color)
-{
+QColor Switch::uncheckedThumbColor() const {
+    return m_uncheckedThumbColor;
+}
+void Switch::setUncheckedThumbColor(const QColor& color) {
     m_uncheckedThumbColor = color;
     updateTargets(true);
 }
-QColor Switch::checkedThumbColor() const { return m_checkedThumbColor; }
-void Switch::setCheckedThumbColor(const QColor& color)
-{
+QColor Switch::checkedThumbColor() const {
+    return m_checkedThumbColor;
+}
+void Switch::setCheckedThumbColor(const QColor& color) {
     m_checkedThumbColor = color;
     updateTargets(true);
 }
-QColor Switch::disabledThumbColor() const { return m_disabledThumbColor; }
-void Switch::setDisabledThumbColor(const QColor& color)
-{
+QColor Switch::disabledThumbColor() const {
+    return m_disabledThumbColor;
+}
+void Switch::setDisabledThumbColor(const QColor& color) {
     m_disabledThumbColor = color;
     updateTargets(true);
 }
-QSize Switch::trackSize() const { return m_trackSize; }
-void Switch::setTrackSize(const QSize& size)
-{
+QSize Switch::trackSize() const {
+    return m_trackSize;
+}
+void Switch::setTrackSize(const QSize& size) {
     const int height = qMax(2, size.height());
     m_trackSize = QSize(qMax(height, size.width()), height);
     updateGeometry();
     update();
 }
-int Switch::thumbMargin() const { return m_thumbMargin; }
-void Switch::setThumbMargin(int margin)
-{
+int Switch::thumbMargin() const {
+    return m_thumbMargin;
+}
+void Switch::setThumbMargin(int margin) {
     m_thumbMargin = qMax(0, margin);
     update();
 }
-int Switch::handleRadius() const
-{
+int Switch::handleRadius() const {
     return m_handleRadius > 0 ? m_handleRadius : qMax(1, (m_trackSize.height() - 2 * m_thumbMargin) / 2);
 }
-void Switch::setHandleRadius(int radius)
-{
+void Switch::setHandleRadius(int radius) {
     m_handleRadius = qMax(0, radius);
     update();
 }
-QIcon Switch::handleIcon() const { return m_handleIcon; }
-void Switch::setHandleIcon(const QIcon& icon)
-{
+QIcon Switch::handleIcon() const {
+    return m_handleIcon;
+}
+void Switch::setHandleIcon(const QIcon& icon) {
     m_handleIcon = icon;
     update();
 }
-int Switch::textSpacing() const { return m_textSpacing; }
-void Switch::setTextSpacing(int spacing)
-{
+int Switch::textSpacing() const {
+    return m_textSpacing;
+}
+void Switch::setTextSpacing(int spacing) {
     m_textSpacing = qMax(0, spacing);
     updateGeometry();
     update();
 }
-int Switch::animationDuration() const { return m_position.duration(); }
-void Switch::setAnimationDuration(int duration)
-{
+int Switch::animationDuration() const {
+    return m_position.duration();
+}
+void Switch::setAnimationDuration(int duration) {
     for (auto* transition : {&m_position, &m_trackColor, &m_thumbColor}) {
         transition->setDuration(duration);
     }
-    if (duration <= 0) updateTargets(true);
+    if (duration <= 0)
+        updateTargets(true);
 }
 
-QSize Switch::sizeHint() const
-{
+QSize Switch::sizeHint() const {
     const bool hasText = !text().isEmpty();
     const QFontMetrics metrics(font());
     const int width = m_trackSize.width() + (hasText ? m_textSpacing + metrics.horizontalAdvance(text()) : 0);
     return QSize(width + 4, qMax(m_trackSize.height(), hasText ? metrics.height() : 0) + 4);
 }
 
-void Switch::updateTargets(bool immediate)
-{
+void Switch::updateTargets(bool immediate) {
     m_position.setTarget(isChecked() ? 1.0 : 0.0, immediate);
-    m_trackColor.setTarget(!isEnabled() ? m_disabledTrackColor
-                                        : (isChecked() ? m_checkedTrackColor : m_uncheckedTrackColor), immediate);
-    m_thumbColor.setTarget(!isEnabled() ? m_disabledThumbColor
-                                        : (isChecked() ? m_checkedThumbColor : m_uncheckedThumbColor), immediate);
+    m_trackColor.setTarget(!isEnabled() ? m_disabledTrackColor : (isChecked() ? m_checkedTrackColor : m_uncheckedTrackColor), immediate);
+    m_thumbColor.setTarget(!isEnabled() ? m_disabledThumbColor : (isChecked() ? m_checkedThumbColor : m_uncheckedThumbColor), immediate);
 }
 
-void Switch::paintEvent(QPaintEvent*)
-{
+void Switch::paintEvent(QPaintEvent*) {
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
     const QRect bounds = rect();
-    const int trackX = layoutDirection() == Qt::RightToLeft
-        ? bounds.right() - m_trackSize.width() - 1 : bounds.left() + 2;
-    const QRectF track(trackX, bounds.center().y() - m_trackSize.height() / 2.0,
-                       m_trackSize.width(), m_trackSize.height());
+    const int trackX = layoutDirection() == Qt::RightToLeft ? bounds.right() - m_trackSize.width() - 1 : bounds.left() + 2;
+    const QRectF track(trackX, bounds.center().y() - m_trackSize.height() / 2.0, m_trackSize.width(), m_trackSize.height());
     painter.setPen(Qt::NoPen);
     painter.setBrush(m_trackColor.current().value<QColor>());
     painter.drawRoundedRect(track, track.height() / 2, track.height() / 2);
@@ -136,8 +142,7 @@ void Switch::paintEvent(QPaintEvent*)
     const qreal travel = qMax(qreal(0), track.width() - 2 * (margin + radius));
     const qreal progress = qBound(qreal(0), m_position.current().toReal(), qreal(1));
     const qreal offset = (layoutDirection() == Qt::RightToLeft ? 1.0 - progress : progress) * travel;
-    const QRectF handle(track.left() + margin + offset, track.center().y() - radius,
-                        diameter, diameter);
+    const QRectF handle(track.left() + margin + offset, track.center().y() - radius, diameter, diameter);
     if (m_handleIcon.isNull()) {
         painter.setBrush(m_thumbColor.current().value<QColor>());
         painter.drawEllipse(handle);
@@ -149,13 +154,10 @@ void Switch::paintEvent(QPaintEvent*)
 
     if (!text().isEmpty()) {
         const QRect textRect = layoutDirection() == Qt::RightToLeft
-            ? QRect(bounds.left() + 2, bounds.top(),
-                    qMax(0, trackX - m_textSpacing - bounds.left() - 2), bounds.height())
-            : QRect(int(track.right()) + m_textSpacing, bounds.top(),
-                    qMax(0, bounds.right() - int(track.right()) - m_textSpacing), bounds.height());
+                ? QRect(bounds.left() + 2, bounds.top(), qMax(0, trackX - m_textSpacing - bounds.left() - 2), bounds.height())
+                : QRect(int(track.right()) + m_textSpacing, bounds.top(), qMax(0, bounds.right() - int(track.right()) - m_textSpacing), bounds.height());
         const int alignment = Qt::AlignVCenter | (layoutDirection() == Qt::RightToLeft ? Qt::AlignRight : Qt::AlignLeft);
-        style()->drawItemText(&painter, textRect, alignment | Qt::TextShowMnemonic,
-                              palette(), isEnabled(), text(), QPalette::WindowText);
+        style()->drawItemText(&painter, textRect, alignment | Qt::TextShowMnemonic, palette(), isEnabled(), text(), QPalette::WindowText);
     }
 
     if (hasFocus()) {
@@ -167,30 +169,27 @@ void Switch::paintEvent(QPaintEvent*)
     }
 }
 
-void Switch::changeEvent(QEvent* event)
-{
+void Switch::changeEvent(QEvent* event) {
     QCheckBox::changeEvent(event);
     switch (event->type()) {
-    case QEvent::EnabledChange:
-        updateTargets(true);
-        break;
-    case QEvent::FontChange:
-    case QEvent::StyleChange:
-        updateGeometry();
-        update();
-        break;
-    default:
-        break;
+        case QEvent::EnabledChange:
+            updateTargets(true);
+            break;
+        case QEvent::FontChange:
+        case QEvent::StyleChange:
+            updateGeometry();
+            update();
+            break;
+        default:
+            break;
     }
 }
 
-void Switch::showEvent(QShowEvent* event)
-{
+void Switch::showEvent(QShowEvent* event) {
     QCheckBox::showEvent(event);
     updateTargets(true);
 }
 
-void Switch::nextCheckState()
-{
+void Switch::nextCheckState() {
     setChecked(!isChecked());
 }

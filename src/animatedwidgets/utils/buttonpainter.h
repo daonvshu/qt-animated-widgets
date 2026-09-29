@@ -42,12 +42,9 @@ public:
     static QSize textSizeHint(const QSize& contentSize);
     static QSize iconSizeHint(const QSize& iconSize);
 
-    static QSize checkableSizeHint(const QSize& indicatorSize, int spacing,
-                                   const QFontMetrics& fontMetrics, const QString& text);
-    static QRect checkableIndicatorRect(const QRect& bounds, const QSize& indicatorSize,
-                                        Qt::LayoutDirection direction);
-    static QRect checkableTextRect(const QRect& bounds, const QSize& indicatorSize, int spacing,
-                                   Qt::LayoutDirection direction);
+    static QSize checkableSizeHint(const QSize& indicatorSize, int spacing, const QFontMetrics& fontMetrics, const QString& text);
+    static QRect checkableIndicatorRect(const QRect& bounds, const QSize& indicatorSize, Qt::LayoutDirection direction);
+    static QRect checkableTextRect(const QRect& bounds, const QSize& indicatorSize, int spacing, Qt::LayoutDirection direction);
 };
 
 } // namespace animatedwidgets

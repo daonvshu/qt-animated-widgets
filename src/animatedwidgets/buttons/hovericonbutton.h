@@ -31,21 +31,34 @@ public:
     void setDisabledStyle(const animatedwidgets::ButtonStateStyle& style);
     animatedwidgets::ButtonStateStyle checkedStyle() const;
     void setCheckedStyle(const animatedwidgets::ButtonStateStyle& style);
-    QColor hoverBackgroundColor() const; void setHoverBackgroundColor(const QColor& color);
-    QColor pressedBackgroundColor() const; void setPressedBackgroundColor(const QColor& color);
-    QColor disabledBackgroundColor() const; void setDisabledBackgroundColor(const QColor& color);
-    QColor checkedBackgroundColor() const; void setCheckedBackgroundColor(const QColor& color);
-    QColor normalContentColor() const; void setNormalContentColor(const QColor& color);
-    QColor hoverContentColor() const; void setHoverContentColor(const QColor& color);
-    QColor pressedContentColor() const; void setPressedContentColor(const QColor& color);
-    QColor disabledContentColor() const; void setDisabledContentColor(const QColor& color);
-    QColor checkedContentColor() const; void setCheckedContentColor(const QColor& color);
-    Shape shape() const; void setShape(Shape shape);
-    int cornerRadius() const; void setCornerRadius(int radius);
+    QColor hoverBackgroundColor() const;
+    void setHoverBackgroundColor(const QColor& color);
+    QColor pressedBackgroundColor() const;
+    void setPressedBackgroundColor(const QColor& color);
+    QColor disabledBackgroundColor() const;
+    void setDisabledBackgroundColor(const QColor& color);
+    QColor checkedBackgroundColor() const;
+    void setCheckedBackgroundColor(const QColor& color);
+    QColor normalContentColor() const;
+    void setNormalContentColor(const QColor& color);
+    QColor hoverContentColor() const;
+    void setHoverContentColor(const QColor& color);
+    QColor pressedContentColor() const;
+    void setPressedContentColor(const QColor& color);
+    QColor disabledContentColor() const;
+    void setDisabledContentColor(const QColor& color);
+    QColor checkedContentColor() const;
+    void setCheckedContentColor(const QColor& color);
+    Shape shape() const;
+    void setShape(Shape shape);
+    int cornerRadius() const;
+    void setCornerRadius(int radius);
     QSize sizeHint() const override;
+
 protected:
     void paintEvent(QPaintEvent* event) override;
     void updateAnimationTargets(bool immediate) override;
+
 private:
     QColor backgroundForState(animatedwidgets::ButtonState state) const;
     QColor contentForState(animatedwidgets::ButtonState state) const;

@@ -7,8 +7,7 @@
 class AnimationControllerTest : public QObject {
     Q_OBJECT
 private slots:
-    void animatesProperty()
-    {
+    void animatesProperty() {
         QObject target;
         target.setProperty("value", 0.0);
         animatedwidgets::AnimationController controller;
@@ -21,8 +20,7 @@ private slots:
         QVERIFY(spy.count() >= 1);
     }
 
-    void transitionsPropertyOverTime()
-    {
+    void transitionsPropertyOverTime() {
         QObject target;
         target.setProperty("value", 0.0);
         animatedwidgets::AnimationController controller;
@@ -36,8 +34,7 @@ private slots:
         QVERIFY(!controller.isRunning());
     }
 
-    void redirectsFromCurrentAnimatedValue()
-    {
+    void redirectsFromCurrentAnimatedValue() {
         QObject target;
         target.setProperty("value", 0.0);
         animatedwidgets::AnimationController controller;

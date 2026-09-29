@@ -2,8 +2,7 @@
 
 #include <QWidget>
 
-class SlidersPage : public QWidget
-{
+class SlidersPage : public QWidget {
 public:
     explicit SlidersPage(QWidget* parent = nullptr);
 };

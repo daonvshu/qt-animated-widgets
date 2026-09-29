@@ -5,8 +5,7 @@
 class ValueTransitionTest : public QObject {
     Q_OBJECT
 private slots:
-    void snapsWhenImmediate()
-    {
+    void snapsWhenImmediate() {
         animatedwidgets::ValueTransition transition;
         transition.setDuration(200);
         transition.setTarget(1.0, true);
@@ -14,8 +13,7 @@ private slots:
         QVERIFY(!transition.isRunning());
     }
 
-    void snapsWhenDurationIsZero()
-    {
+    void snapsWhenDurationIsZero() {
         animatedwidgets::ValueTransition transition;
         transition.setDuration(0);
         transition.setTarget(2.5);
@@ -23,8 +21,7 @@ private slots:
         QVERIFY(!transition.isRunning());
     }
 
-    void appliesFirstTargetWithoutPreviousValue()
-    {
+    void appliesFirstTargetWithoutPreviousValue() {
         animatedwidgets::ValueTransition transition;
         transition.setDuration(200);
         transition.setTarget(1.0);
@@ -32,8 +29,7 @@ private slots:
         QVERIFY(!transition.isRunning());
     }
 
-    void animatesFromEstablishedValue()
-    {
+    void animatesFromEstablishedValue() {
         animatedwidgets::ValueTransition transition;
         transition.setDuration(120);
         transition.setTarget(0.0, true);
@@ -43,8 +39,7 @@ private slots:
         QVERIFY(!transition.isRunning());
     }
 
-    void redirectsFromCurrentValue()
-    {
+    void redirectsFromCurrentValue() {
         animatedwidgets::ValueTransition transition;
         transition.setDuration(400);
         transition.setTarget(0.0, true);
@@ -59,8 +54,7 @@ private slots:
         QTRY_COMPARE(transition.current().toDouble(), 0.0);
     }
 
-    void keepsRunningTowardsSameTarget()
-    {
+    void keepsRunningTowardsSameTarget() {
         animatedwidgets::ValueTransition transition;
         transition.setDuration(400);
         transition.setTarget(0.0, true);

@@ -9,8 +9,7 @@
 #include <QApplication>
 #include <QTabBar>
 
-int main(int argc, char* argv[])
-{
+int main(int argc, char* argv[]) {
     QApplication app(argc, argv);
     QWidget gallery;
     Ui::Gallery ui;
@@ -27,8 +26,7 @@ int main(int argc, char* argv[])
     addPage(new SlidersPage(&gallery), QObject::tr("Sliders"));
     addPage(new InputsPage(&gallery), QObject::tr("Inputs"));
 
-    QObject::connect(ui.tabs, &QTabBar::currentChanged,
-                     ui.stack, &QStackedWidget::setCurrentIndex);
+    QObject::connect(ui.tabs, &QTabBar::currentChanged, ui.stack, &QStackedWidget::setCurrentIndex);
     ui.stack->setCurrentIndex(ui.tabs->currentIndex());
     gallery.show();
     return app.exec();

@@ -1,8 +1,8 @@
 #pragma once
 
-#include "animatedwidgets/utils/buttonpainter.h"
 #include "animatedwidgets/buttons/buttonstate.h"
 #include "animatedwidgets/core/valuetransition.h"
+#include "animatedwidgets/utils/buttonpainter.h"
 
 #include <QPushButton>
 

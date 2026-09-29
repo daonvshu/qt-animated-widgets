@@ -1,7 +1,7 @@
 #pragma once
 
-#include "colorpalette.h"
 #include "animatedwidgets/core/animationspec.h"
+#include "colorpalette.h"
 
 namespace animatedwidgets {
 
