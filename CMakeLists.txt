@@ -79,6 +79,8 @@ add_library(AnimatedWidgetsWidgets
     src/animatedwidgets/buttons/hovericonbutton.h
     src/animatedwidgets/buttons/hovericonbutton.cpp
     src/animatedwidgets/buttons/variantbuttons.h
+    src/animatedwidgets/switches/switch.h
+    src/animatedwidgets/switches/switch.cpp
 )
 add_library(AnimatedWidgets::Widgets ALIAS AnimatedWidgetsWidgets)
 target_include_directories(AnimatedWidgetsWidgets PUBLIC

@@ -6,5 +6,6 @@
         <file>checkboxunchecked.svg</file>
         <file>radiochecked.svg</file>
         <file>radiounchecked.svg</file>
+        <file>switchhandle.svg</file>
     </qresource>
 </RCC>

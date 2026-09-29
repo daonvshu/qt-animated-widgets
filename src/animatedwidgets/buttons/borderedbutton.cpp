@@ -5,7 +5,7 @@
 
 #include <QPainter>
 
-namespace animatedwidgets {
+using namespace animatedwidgets;
 
 BorderedButton::BorderedButton(QWidget* parent) : AnimatedButtonBase(parent)
 {
@@ -139,5 +139,3 @@ void BorderedButton::paintEvent(QPaintEvent*)
         icon(), iconSize(), text(), font(), animatedContentColor(), m_iconSpacing, false,
         contentPlacement(m_iconPlacement)});
 }
-
-} // namespace animatedwidgets

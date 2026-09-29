@@ -5,7 +5,7 @@
 #include <QEvent>
 #include <QPainter>
 
-namespace animatedwidgets {
+using namespace animatedwidgets;
 
 RadioButton::RadioButton(QWidget* parent)
     : QRadioButton(parent), m_animator(this)
@@ -129,5 +129,3 @@ void RadioButton::changeEvent(QEvent* event)
         break;
     }
 }
-
-} // namespace animatedwidgets

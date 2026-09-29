@@ -1,6 +1,7 @@
 #include "plugins.h"
 
 #include "buttons/variantbuttonplugin.h"
+#include "switches/switchplugin.h"
 
 AnimatedWidgetsDesignerPlugin::AnimatedWidgetsDesignerPlugin(QObject* parent)
     : QObject(parent)
@@ -8,6 +9,7 @@ AnimatedWidgetsDesignerPlugin::AnimatedWidgetsDesignerPlugin(QObject* parent)
     for (int kind = 0; kind < 10; ++kind) {
         m_widgets.append(new VariantButtonPlugin(kind, this));
     }
+    m_widgets.append(new SwitchPlugin(this));
 }
 
 QList<QDesignerCustomWidgetInterface*> AnimatedWidgetsDesignerPlugin::customWidgets() const

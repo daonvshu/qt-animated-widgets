@@ -3,9 +3,7 @@
 #include "animatedwidgets/buttons/animatedbuttonbase.h"
 #include "animatedwidgets/buttons/buttonstatestyle.h"
 
-namespace animatedwidgets {
-
-class OutlineIconButton final : public AnimatedButtonBase {
+class OutlineIconButton final : public animatedwidgets::AnimatedButtonBase {
     Q_OBJECT
     Q_PROPERTY(QColor normalBorderColor READ normalBorderColor WRITE setNormalBorderColor)
     Q_PROPERTY(QColor hoverBorderColor READ hoverBorderColor WRITE setHoverBorderColor)
@@ -25,16 +23,16 @@ class OutlineIconButton final : public AnimatedButtonBase {
     Q_PROPERTY(qreal borderWidth READ borderWidth WRITE setBorderWidth)
 public:
     explicit OutlineIconButton(QWidget* parent = nullptr);
-    ButtonStateStyle normalStyle() const;
-    void setNormalStyle(const ButtonStateStyle& style);
-    ButtonStateStyle hoverStyle() const;
-    void setHoverStyle(const ButtonStateStyle& style);
-    ButtonStateStyle pressedStyle() const;
-    void setPressedStyle(const ButtonStateStyle& style);
-    ButtonStateStyle disabledStyle() const;
-    void setDisabledStyle(const ButtonStateStyle& style);
-    ButtonStateStyle checkedStyle() const;
-    void setCheckedStyle(const ButtonStateStyle& style);
+    animatedwidgets::ButtonStateStyle normalStyle() const;
+    void setNormalStyle(const animatedwidgets::ButtonStateStyle& style);
+    animatedwidgets::ButtonStateStyle hoverStyle() const;
+    void setHoverStyle(const animatedwidgets::ButtonStateStyle& style);
+    animatedwidgets::ButtonStateStyle pressedStyle() const;
+    void setPressedStyle(const animatedwidgets::ButtonStateStyle& style);
+    animatedwidgets::ButtonStateStyle disabledStyle() const;
+    void setDisabledStyle(const animatedwidgets::ButtonStateStyle& style);
+    animatedwidgets::ButtonStateStyle checkedStyle() const;
+    void setCheckedStyle(const animatedwidgets::ButtonStateStyle& style);
     QColor normalBorderColor() const; void setNormalBorderColor(const QColor& color);
     QColor hoverBorderColor() const; void setHoverBorderColor(const QColor& color);
     QColor pressedBorderColor() const; void setPressedBorderColor(const QColor& color);
@@ -53,8 +51,8 @@ protected:
     void paintEvent(QPaintEvent* event) override;
     void updateAnimationTargets(bool immediate) override;
 private:
-    QColor borderForState(ButtonState state) const;
-    QColor contentForState(ButtonState state) const;
+    QColor borderForState(animatedwidgets::ButtonState state) const;
+    QColor contentForState(animatedwidgets::ButtonState state) const;
     QColor m_normalBorder = QColor("#3478f6");
     QColor m_hoverBorder;
     QColor m_pressedBorder;
@@ -70,6 +68,6 @@ private:
     qreal m_borderWidth = 1.0;
 };
 
+namespace animatedwidgets {
+using OutlineIconButton = ::OutlineIconButton;
 } // namespace animatedwidgets
-
-using OutlineIconButton = animatedwidgets::OutlineIconButton;

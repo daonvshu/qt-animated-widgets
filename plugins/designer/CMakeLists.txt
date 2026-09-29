@@ -5,6 +5,8 @@ add_library(animatedwidgetsdesigner MODULE
     plugins.cpp
     buttons/variantbuttonplugin.h
     buttons/variantbuttonplugin.cpp
+    switches/switchplugin.h
+    switches/switchplugin.cpp
 )
 target_link_libraries(animatedwidgetsdesigner PRIVATE
     AnimatedWidgets::Widgets

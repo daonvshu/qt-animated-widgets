@@ -6,8 +6,6 @@
 #include <QColor>
 #include <QPixmap>
 
-namespace animatedwidgets {
-
 class CheckBox final : public QCheckBox {
     Q_OBJECT
     Q_PROPERTY(QPixmap checkedIcon READ checkedIcon WRITE setCheckedIcon)
@@ -49,10 +47,10 @@ protected:
     void changeEvent(QEvent* event) override;
 
 private:
-    CheckableIconAnimator m_animator;
+    animatedwidgets::CheckableIconAnimator m_animator;
     int m_iconSpacing = 8;
 };
 
+namespace animatedwidgets {
+using CheckBox = ::CheckBox;
 } // namespace animatedwidgets
-
-using CheckBox = animatedwidgets::CheckBox;

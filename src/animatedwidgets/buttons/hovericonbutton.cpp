@@ -5,7 +5,7 @@
 
 #include <QPainter>
 
-namespace animatedwidgets {
+using namespace animatedwidgets;
 
 HoverIconButton::HoverIconButton(QWidget* parent) : AnimatedButtonBase(parent)
 {
@@ -107,5 +107,3 @@ void HoverIconButton::paintEvent(QPaintEvent*)
         icon(), iconSize(), {}, font(), animatedContentColor(), 0, true,
         ButtonContentOptions::Placement::BeforeText});
 }
-
-} // namespace animatedwidgets

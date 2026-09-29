@@ -14,34 +14,11 @@ QIcon sampleCheckIcon()
     return QIcon(QStringLiteral(":/animatedwidgets/gallery/buttoncheck.svg"));
 }
 
-void configureSelection(Ui::Gallery& ui)
+void configureSwitches(Ui::Gallery& ui)
 {
-    const QPixmap radioUnchecked(QStringLiteral(":/animatedwidgets/gallery/radiounchecked.svg"));
-    const QPixmap radioChecked(QStringLiteral(":/animatedwidgets/gallery/radiochecked.svg"));
-    const QPixmap checkboxUnchecked(QStringLiteral(":/animatedwidgets/gallery/checkboxunchecked.svg"));
-    const QPixmap checkboxPartial(QStringLiteral(":/animatedwidgets/gallery/checkboxpartial.svg"));
-    const QPixmap checkboxChecked(QStringLiteral(":/animatedwidgets/gallery/checkboxchecked.svg"));
-
-    const QVector<animatedwidgets::RadioButton*> radios = {
-        ui.radioInteractive, ui.radioChecked, ui.radioDisabled
-    };
-    for (auto* radio : radios) {
-        radio->setUncheckedIcon(radioUnchecked);
-        radio->setCheckedIcon(radioChecked);
-        radio->setIconSize(QSize(18, 18));
-    }
-
-    const QVector<animatedwidgets::CheckBox*> checkBoxes = {
-        ui.checkInteractive, ui.checkPartial, ui.checkChecked, ui.checkDisabled
-    };
-    for (auto* checkBox : checkBoxes) {
-        checkBox->setUncheckedIcon(checkboxUnchecked);
-        checkBox->setPartiallyCheckedIcon(checkboxPartial);
-        checkBox->setCheckedIcon(checkboxChecked);
-        checkBox->setIconSize(QSize(18, 18));
-    }
-    // checkState is not a Qt property, so Designer cannot round-trip it in the .ui file.
-    ui.checkPartial->setCheckState(Qt::PartiallyChecked);
+    ui.switchChecked->setHandleRadius(7);
+    ui.switchChecked->setCheckedThumbColor(QColor(QStringLiteral("#e8f5e9")));
+    ui.switchCustom->setHandleIcon(QIcon(QStringLiteral(":/animatedwidgets/gallery/switchhandle.svg")));
 }
 
 void configureGallery(Ui::Gallery& ui)
@@ -122,7 +99,9 @@ int main(int argc, char* argv[])
     Ui::Gallery ui;
     ui.setupUi(&gallery);
     configureGallery(ui);
-    configureSelection(ui);
+    // checkState is not a Qt property, so Designer cannot round-trip it in the .ui file.
+    ui.checkPartial->setCheckState(Qt::PartiallyChecked);
+    configureSwitches(ui);
     gallery.show();
     return app.exec();
 }

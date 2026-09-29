@@ -5,7 +5,7 @@
 
 #include <QPainter>
 
-namespace animatedwidgets {
+using namespace animatedwidgets;
 
 FilledIconButton::FilledIconButton(QWidget* parent) : AnimatedButtonBase(parent)
 {
@@ -109,5 +109,3 @@ void FilledIconButton::paintEvent(QPaintEvent*)
         icon(), iconSize(), {}, font(), animatedContentColor(), 0, true,
         ButtonContentOptions::Placement::BeforeText});
 }
-
-} // namespace animatedwidgets

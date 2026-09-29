@@ -5,7 +5,7 @@
 
 #include <QPainter>
 
-namespace animatedwidgets {
+using namespace animatedwidgets;
 
 OutlineButton::OutlineButton(QWidget* parent) : AnimatedButtonBase(parent)
 {
@@ -117,5 +117,3 @@ void OutlineButton::paintEvent(QPaintEvent*)
         icon(), iconSize(), text(), font(), animatedContentColor(), m_iconSpacing, false,
         contentPlacement(m_iconPlacement)});
 }
-
-} // namespace animatedwidgets

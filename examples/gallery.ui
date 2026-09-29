@@ -71,21 +71,21 @@
               <item row="0" column="2"><widget class="QLabel" name="textCheckedHeader"><property name="text"><string>Checked</string></property></widget></item>
               <item row="0" column="3"><widget class="QLabel" name="textDisabledHeader"><property name="text"><string>Disabled</string></property></widget></item>
               <item row="1" column="0"><widget class="QLabel" name="filledLabel"><property name="text"><string>Filled</string></property></widget></item>
-              <item row="1" column="1"><widget class="animatedwidgets::FilledButton" name="filledInteractive"><property name="minimumSize"><size><width>150</width><height>72</height></size></property><property name="text"><string>Filled</string></property></widget></item>
-              <item row="1" column="2"><widget class="animatedwidgets::FilledButton" name="filledChecked"><property name="minimumSize"><size><width>150</width><height>72</height></size></property><property name="text"><string>Filled</string></property><property name="checkable"><bool>true</bool></property></widget></item>
-              <item row="1" column="3"><widget class="animatedwidgets::FilledButton" name="filledDisabled"><property name="minimumSize"><size><width>150</width><height>72</height></size></property><property name="text"><string>Filled</string></property><property name="enabled"><bool>false</bool></property></widget></item>
+              <item row="1" column="1"><widget class="FilledButton" name="filledInteractive"><property name="minimumSize"><size><width>150</width><height>72</height></size></property><property name="text"><string>Filled</string></property></widget></item>
+              <item row="1" column="2"><widget class="FilledButton" name="filledChecked"><property name="minimumSize"><size><width>150</width><height>72</height></size></property><property name="text"><string>Filled</string></property><property name="checkable"><bool>true</bool></property></widget></item>
+              <item row="1" column="3"><widget class="FilledButton" name="filledDisabled"><property name="minimumSize"><size><width>150</width><height>72</height></size></property><property name="text"><string>Filled</string></property><property name="enabled"><bool>false</bool></property></widget></item>
               <item row="2" column="0"><widget class="QLabel" name="outlineLabel"><property name="text"><string>Outline</string></property></widget></item>
-              <item row="2" column="1"><widget class="animatedwidgets::OutlineButton" name="outlineInteractive"><property name="minimumSize"><size><width>150</width><height>72</height></size></property><property name="text"><string>Outline</string></property></widget></item>
-              <item row="2" column="2"><widget class="animatedwidgets::OutlineButton" name="outlineChecked"><property name="minimumSize"><size><width>150</width><height>72</height></size></property><property name="text"><string>Outline</string></property><property name="checkable"><bool>true</bool></property></widget></item>
-              <item row="2" column="3"><widget class="animatedwidgets::OutlineButton" name="outlineDisabled"><property name="minimumSize"><size><width>150</width><height>72</height></size></property><property name="text"><string>Outline</string></property><property name="enabled"><bool>false</bool></property></widget></item>
+              <item row="2" column="1"><widget class="OutlineButton" name="outlineInteractive"><property name="minimumSize"><size><width>150</width><height>72</height></size></property><property name="text"><string>Outline</string></property></widget></item>
+              <item row="2" column="2"><widget class="OutlineButton" name="outlineChecked"><property name="minimumSize"><size><width>150</width><height>72</height></size></property><property name="text"><string>Outline</string></property><property name="checkable"><bool>true</bool></property></widget></item>
+              <item row="2" column="3"><widget class="OutlineButton" name="outlineDisabled"><property name="minimumSize"><size><width>150</width><height>72</height></size></property><property name="text"><string>Outline</string></property><property name="enabled"><bool>false</bool></property></widget></item>
               <item row="3" column="0"><widget class="QLabel" name="borderedLabel"><property name="text"><string>Bordered</string></property></widget></item>
-              <item row="3" column="1"><widget class="animatedwidgets::BorderedButton" name="borderedInteractive"><property name="minimumSize"><size><width>150</width><height>72</height></size></property><property name="text"><string>Bordered</string></property></widget></item>
-              <item row="3" column="2"><widget class="animatedwidgets::BorderedButton" name="borderedChecked"><property name="minimumSize"><size><width>150</width><height>72</height></size></property><property name="text"><string>Bordered</string></property><property name="checkable"><bool>true</bool></property><property name="checked"><bool>true</bool></property></widget></item>
-              <item row="3" column="3"><widget class="animatedwidgets::BorderedButton" name="borderedDisabled"><property name="minimumSize"><size><width>150</width><height>72</height></size></property><property name="text"><string>Bordered</string></property><property name="enabled"><bool>false</bool></property></widget></item>
+              <item row="3" column="1"><widget class="BorderedButton" name="borderedInteractive"><property name="minimumSize"><size><width>150</width><height>72</height></size></property><property name="text"><string>Bordered</string></property></widget></item>
+              <item row="3" column="2"><widget class="BorderedButton" name="borderedChecked"><property name="minimumSize"><size><width>150</width><height>72</height></size></property><property name="text"><string>Bordered</string></property><property name="checkable"><bool>true</bool></property><property name="checked"><bool>true</bool></property></widget></item>
+              <item row="3" column="3"><widget class="BorderedButton" name="borderedDisabled"><property name="minimumSize"><size><width>150</width><height>72</height></size></property><property name="text"><string>Bordered</string></property><property name="enabled"><bool>false</bool></property></widget></item>
               <item row="4" column="0"><widget class="QLabel" name="hoverLabel"><property name="text"><string>Hover fill</string></property></widget></item>
-              <item row="4" column="1"><widget class="animatedwidgets::HoverButton" name="hoverInteractive"><property name="minimumSize"><size><width>150</width><height>72</height></size></property><property name="text"><string>Hover fill</string></property></widget></item>
-              <item row="4" column="2"><widget class="animatedwidgets::HoverButton" name="hoverChecked"><property name="minimumSize"><size><width>150</width><height>72</height></size></property><property name="text"><string>Hover fill</string></property><property name="checkable"><bool>true</bool></property><property name="checked"><bool>true</bool></property></widget></item>
-              <item row="4" column="3"><widget class="animatedwidgets::HoverButton" name="hoverDisabled"><property name="minimumSize"><size><width>150</width><height>72</height></size></property><property name="text"><string>Hover fill</string></property><property name="enabled"><bool>false</bool></property></widget></item>
+              <item row="4" column="1"><widget class="HoverButton" name="hoverInteractive"><property name="minimumSize"><size><width>150</width><height>72</height></size></property><property name="text"><string>Hover fill</string></property></widget></item>
+              <item row="4" column="2"><widget class="HoverButton" name="hoverChecked"><property name="minimumSize"><size><width>150</width><height>72</height></size></property><property name="text"><string>Hover fill</string></property><property name="checkable"><bool>true</bool></property><property name="checked"><bool>true</bool></property></widget></item>
+              <item row="4" column="3"><widget class="HoverButton" name="hoverDisabled"><property name="minimumSize"><size><width>150</width><height>72</height></size></property><property name="text"><string>Hover fill</string></property><property name="enabled"><bool>false</bool></property></widget></item>
              </layout>
             </widget>
            </item>
@@ -101,21 +101,21 @@
               <item row="0" column="2"><widget class="QLabel" name="iconCheckedHeader"><property name="text"><string>Checked</string></property></widget></item>
               <item row="0" column="3"><widget class="QLabel" name="iconDisabledHeader"><property name="text"><string>Disabled</string></property></widget></item>
               <item row="1" column="0"><widget class="QLabel" name="filledIconLabel"><property name="text"><string>Filled</string></property></widget></item>
-              <item row="1" column="1"><widget class="animatedwidgets::FilledIconButton" name="filledIconInteractive"><property name="minimumSize"><size><width>44</width><height>44</height></size></property><property name="maximumSize"><size><width>44</width><height>44</height></size></property></widget></item>
-              <item row="1" column="2"><widget class="animatedwidgets::FilledIconButton" name="filledIconChecked"><property name="minimumSize"><size><width>44</width><height>44</height></size></property><property name="maximumSize"><size><width>44</width><height>44</height></size></property><property name="checkable"><bool>true</bool></property></widget></item>
-              <item row="1" column="3"><widget class="animatedwidgets::FilledIconButton" name="filledIconDisabled"><property name="minimumSize"><size><width>44</width><height>44</height></size></property><property name="maximumSize"><size><width>44</width><height>44</height></size></property><property name="enabled"><bool>false</bool></property></widget></item>
+              <item row="1" column="1"><widget class="FilledIconButton" name="filledIconInteractive"><property name="minimumSize"><size><width>44</width><height>44</height></size></property><property name="maximumSize"><size><width>44</width><height>44</height></size></property></widget></item>
+              <item row="1" column="2"><widget class="FilledIconButton" name="filledIconChecked"><property name="minimumSize"><size><width>44</width><height>44</height></size></property><property name="maximumSize"><size><width>44</width><height>44</height></size></property><property name="checkable"><bool>true</bool></property></widget></item>
+              <item row="1" column="3"><widget class="FilledIconButton" name="filledIconDisabled"><property name="minimumSize"><size><width>44</width><height>44</height></size></property><property name="maximumSize"><size><width>44</width><height>44</height></size></property><property name="enabled"><bool>false</bool></property></widget></item>
               <item row="2" column="0"><widget class="QLabel" name="outlineIconLabel"><property name="text"><string>Outline</string></property></widget></item>
-              <item row="2" column="1"><widget class="animatedwidgets::OutlineIconButton" name="outlineIconInteractive"><property name="minimumSize"><size><width>44</width><height>44</height></size></property><property name="maximumSize"><size><width>44</width><height>44</height></size></property></widget></item>
-              <item row="2" column="2"><widget class="animatedwidgets::OutlineIconButton" name="outlineIconChecked"><property name="minimumSize"><size><width>44</width><height>44</height></size></property><property name="maximumSize"><size><width>44</width><height>44</height></size></property><property name="checkable"><bool>true</bool></property></widget></item>
-              <item row="2" column="3"><widget class="animatedwidgets::OutlineIconButton" name="outlineIconDisabled"><property name="minimumSize"><size><width>44</width><height>44</height></size></property><property name="maximumSize"><size><width>44</width><height>44</height></size></property><property name="enabled"><bool>false</bool></property></widget></item>
+              <item row="2" column="1"><widget class="OutlineIconButton" name="outlineIconInteractive"><property name="minimumSize"><size><width>44</width><height>44</height></size></property><property name="maximumSize"><size><width>44</width><height>44</height></size></property></widget></item>
+              <item row="2" column="2"><widget class="OutlineIconButton" name="outlineIconChecked"><property name="minimumSize"><size><width>44</width><height>44</height></size></property><property name="maximumSize"><size><width>44</width><height>44</height></size></property><property name="checkable"><bool>true</bool></property></widget></item>
+              <item row="2" column="3"><widget class="OutlineIconButton" name="outlineIconDisabled"><property name="minimumSize"><size><width>44</width><height>44</height></size></property><property name="maximumSize"><size><width>44</width><height>44</height></size></property><property name="enabled"><bool>false</bool></property></widget></item>
               <item row="3" column="0"><widget class="QLabel" name="borderedIconLabel"><property name="text"><string>Bordered</string></property></widget></item>
-              <item row="3" column="1"><widget class="animatedwidgets::BorderedIconButton" name="borderedIconInteractive"><property name="minimumSize"><size><width>44</width><height>44</height></size></property><property name="maximumSize"><size><width>44</width><height>44</height></size></property></widget></item>
-              <item row="3" column="2"><widget class="animatedwidgets::BorderedIconButton" name="borderedIconChecked"><property name="minimumSize"><size><width>44</width><height>44</height></size></property><property name="maximumSize"><size><width>44</width><height>44</height></size></property><property name="checkable"><bool>true</bool></property><property name="checked"><bool>true</bool></property></widget></item>
-              <item row="3" column="3"><widget class="animatedwidgets::BorderedIconButton" name="borderedIconDisabled"><property name="minimumSize"><size><width>44</width><height>44</height></size></property><property name="maximumSize"><size><width>44</width><height>44</height></size></property><property name="enabled"><bool>false</bool></property></widget></item>
+              <item row="3" column="1"><widget class="BorderedIconButton" name="borderedIconInteractive"><property name="minimumSize"><size><width>44</width><height>44</height></size></property><property name="maximumSize"><size><width>44</width><height>44</height></size></property></widget></item>
+              <item row="3" column="2"><widget class="BorderedIconButton" name="borderedIconChecked"><property name="minimumSize"><size><width>44</width><height>44</height></size></property><property name="maximumSize"><size><width>44</width><height>44</height></size></property><property name="checkable"><bool>true</bool></property><property name="checked"><bool>true</bool></property></widget></item>
+              <item row="3" column="3"><widget class="BorderedIconButton" name="borderedIconDisabled"><property name="minimumSize"><size><width>44</width><height>44</height></size></property><property name="maximumSize"><size><width>44</width><height>44</height></size></property><property name="enabled"><bool>false</bool></property></widget></item>
               <item row="4" column="0"><widget class="QLabel" name="hoverIconLabel"><property name="text"><string>Hover fill</string></property></widget></item>
-              <item row="4" column="1"><widget class="animatedwidgets::HoverIconButton" name="hoverIconInteractive"><property name="minimumSize"><size><width>44</width><height>44</height></size></property><property name="maximumSize"><size><width>44</width><height>44</height></size></property></widget></item>
-              <item row="4" column="2"><widget class="animatedwidgets::HoverIconButton" name="hoverIconChecked"><property name="minimumSize"><size><width>44</width><height>44</height></size></property><property name="maximumSize"><size><width>44</width><height>44</height></size></property><property name="checkable"><bool>true</bool></property><property name="checked"><bool>true</bool></property></widget></item>
-              <item row="4" column="3"><widget class="animatedwidgets::HoverIconButton" name="hoverIconDisabled"><property name="minimumSize"><size><width>44</width><height>44</height></size></property><property name="maximumSize"><size><width>44</width><height>44</height></size></property><property name="enabled"><bool>false</bool></property></widget></item>
+              <item row="4" column="1"><widget class="HoverIconButton" name="hoverIconInteractive"><property name="minimumSize"><size><width>44</width><height>44</height></size></property><property name="maximumSize"><size><width>44</width><height>44</height></size></property></widget></item>
+              <item row="4" column="2"><widget class="HoverIconButton" name="hoverIconChecked"><property name="minimumSize"><size><width>44</width><height>44</height></size></property><property name="maximumSize"><size><width>44</width><height>44</height></size></property><property name="checkable"><bool>true</bool></property><property name="checked"><bool>true</bool></property></widget></item>
+              <item row="4" column="3"><widget class="HoverIconButton" name="hoverIconDisabled"><property name="minimumSize"><size><width>44</width><height>44</height></size></property><property name="maximumSize"><size><width>44</width><height>44</height></size></property><property name="enabled"><bool>false</bool></property></widget></item>
              </layout>
             </widget>
            </item>
@@ -137,9 +137,9 @@
         <widget class="QGroupBox" name="radioButtonsGroup">
          <property name="title"><string>Radio buttons</string></property>
          <layout class="QVBoxLayout" name="radioButtonsLayout">
-          <item><widget class="animatedwidgets::RadioButton" name="radioInteractive"><property name="text"><string>Interactive</string></property></widget></item>
-          <item><widget class="animatedwidgets::RadioButton" name="radioChecked"><property name="text"><string>Checked</string></property><property name="checked"><bool>true</bool></property></widget></item>
-          <item><widget class="animatedwidgets::RadioButton" name="radioDisabled"><property name="text"><string>Disabled</string></property><property name="enabled"><bool>false</bool></property></widget></item>
+          <item><widget class="RadioButton" name="radioInteractive"><property name="text"><string>Interactive</string></property><property name="uncheckedIcon"><pixmap resource="resources/gallery.qrc">:/animatedwidgets/gallery/radiounchecked.svg</pixmap></property><property name="checkedIcon"><pixmap resource="resources/gallery.qrc">:/animatedwidgets/gallery/radiochecked.svg</pixmap></property></widget></item>
+          <item><widget class="RadioButton" name="radioChecked"><property name="text"><string>Checked</string></property><property name="uncheckedIcon"><pixmap resource="resources/gallery.qrc">:/animatedwidgets/gallery/radiounchecked.svg</pixmap></property><property name="checkedIcon"><pixmap resource="resources/gallery.qrc">:/animatedwidgets/gallery/radiochecked.svg</pixmap></property><property name="checked"><bool>true</bool></property></widget></item>
+          <item><widget class="RadioButton" name="radioDisabled"><property name="text"><string>Disabled</string></property><property name="uncheckedIcon"><pixmap resource="resources/gallery.qrc">:/animatedwidgets/gallery/radiounchecked.svg</pixmap></property><property name="checkedIcon"><pixmap resource="resources/gallery.qrc">:/animatedwidgets/gallery/radiochecked.svg</pixmap></property><property name="enabled"><bool>false</bool></property></widget></item>
          </layout>
         </widget>
        </item>
@@ -147,14 +147,29 @@
         <widget class="QGroupBox" name="checkBoxesGroup">
          <property name="title"><string>Check boxes</string></property>
          <layout class="QVBoxLayout" name="checkBoxesLayout">
-          <item><widget class="animatedwidgets::CheckBox" name="checkInteractive"><property name="text"><string>Interactive</string></property></widget></item>
-          <item><widget class="animatedwidgets::CheckBox" name="checkPartial"><property name="text"><string>Partially checked</string></property><property name="tristate"><bool>true</bool></property></widget></item>
-          <item><widget class="animatedwidgets::CheckBox" name="checkChecked"><property name="text"><string>Checked</string></property><property name="checked"><bool>true</bool></property></widget></item>
-          <item><widget class="animatedwidgets::CheckBox" name="checkDisabled"><property name="text"><string>Disabled</string></property><property name="enabled"><bool>false</bool></property></widget></item>
+          <item><widget class="CheckBox" name="checkInteractive"><property name="text"><string>Interactive</string></property><property name="uncheckedIcon"><pixmap resource="resources/gallery.qrc">:/animatedwidgets/gallery/checkboxunchecked.svg</pixmap></property><property name="partiallyCheckedIcon"><pixmap resource="resources/gallery.qrc">:/animatedwidgets/gallery/checkboxpartial.svg</pixmap></property><property name="checkedIcon"><pixmap resource="resources/gallery.qrc">:/animatedwidgets/gallery/checkboxchecked.svg</pixmap></property></widget></item>
+          <item><widget class="CheckBox" name="checkPartial"><property name="text"><string>Partially checked</string></property><property name="uncheckedIcon"><pixmap resource="resources/gallery.qrc">:/animatedwidgets/gallery/checkboxunchecked.svg</pixmap></property><property name="partiallyCheckedIcon"><pixmap resource="resources/gallery.qrc">:/animatedwidgets/gallery/checkboxpartial.svg</pixmap></property><property name="checkedIcon"><pixmap resource="resources/gallery.qrc">:/animatedwidgets/gallery/checkboxchecked.svg</pixmap></property><property name="tristate"><bool>true</bool></property></widget></item>
+          <item><widget class="CheckBox" name="checkChecked"><property name="text"><string>Checked</string></property><property name="uncheckedIcon"><pixmap resource="resources/gallery.qrc">:/animatedwidgets/gallery/checkboxunchecked.svg</pixmap></property><property name="partiallyCheckedIcon"><pixmap resource="resources/gallery.qrc">:/animatedwidgets/gallery/checkboxpartial.svg</pixmap></property><property name="checkedIcon"><pixmap resource="resources/gallery.qrc">:/animatedwidgets/gallery/checkboxchecked.svg</pixmap></property><property name="checked"><bool>true</bool></property></widget></item>
+          <item><widget class="CheckBox" name="checkDisabled"><property name="text"><string>Disabled</string></property><property name="uncheckedIcon"><pixmap resource="resources/gallery.qrc">:/animatedwidgets/gallery/checkboxunchecked.svg</pixmap></property><property name="partiallyCheckedIcon"><pixmap resource="resources/gallery.qrc">:/animatedwidgets/gallery/checkboxpartial.svg</pixmap></property><property name="checkedIcon"><pixmap resource="resources/gallery.qrc">:/animatedwidgets/gallery/checkboxchecked.svg</pixmap></property><property name="enabled"><bool>false</bool></property></widget></item>
          </layout>
         </widget>
        </item>
        <item><spacer name="selectionContentSpacer"><property name="orientation"><enum>Qt::Vertical</enum></property><property name="sizeHint" stdset="0"><size><width>20</width><height>40</height></size></property></spacer></item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="switchesPage">
+      <attribute name="title"><string>Switches</string></attribute>
+      <layout class="QVBoxLayout" name="switchesPageLayout">
+       <property name="leftMargin"><number>20</number></property>
+       <property name="topMargin"><number>16</number></property>
+       <property name="rightMargin"><number>20</number></property>
+       <property name="bottomMargin"><number>16</number></property>
+       <item><widget class="Switch" name="switchInteractive"><property name="text"><string>Interactive</string></property></widget></item>
+       <item><widget class="Switch" name="switchChecked"><property name="text"><string>Checked</string></property><property name="checked"><bool>true</bool></property></widget></item>
+       <item><widget class="Switch" name="switchCustom"><property name="text"><string>Custom handle</string></property><property name="checked"><bool>true</bool></property></widget></item>
+       <item><widget class="Switch" name="switchDisabled"><property name="text"><string>Disabled</string></property><property name="enabled"><bool>false</bool></property></widget></item>
+       <item><widget class="Switch" name="switchDisabledChecked"><property name="text"><string>Disabled checked</string></property><property name="checked"><bool>true</bool></property><property name="enabled"><bool>false</bool></property></widget></item>
+       <item><spacer name="switchesContentSpacer"><property name="orientation"><enum>Qt::Vertical</enum></property><property name="sizeHint" stdset="0"><size><width>20</width><height>40</height></size></property></spacer></item>
       </layout>
      </widget>
     </widget>
@@ -162,17 +177,20 @@
   </layout>
  </widget>
  <customwidgets>
-  <customwidget><class>animatedwidgets::FilledButton</class><extends>QPushButton</extends><header>animatedwidgets/buttons/filledbutton.h</header></customwidget>
-  <customwidget><class>animatedwidgets::OutlineButton</class><extends>QPushButton</extends><header>animatedwidgets/buttons/outlinebutton.h</header></customwidget>
-  <customwidget><class>animatedwidgets::BorderedButton</class><extends>QPushButton</extends><header>animatedwidgets/buttons/borderedbutton.h</header></customwidget>
-  <customwidget><class>animatedwidgets::HoverButton</class><extends>QPushButton</extends><header>animatedwidgets/buttons/hoverbutton.h</header></customwidget>
-  <customwidget><class>animatedwidgets::FilledIconButton</class><extends>QPushButton</extends><header>animatedwidgets/buttons/fillediconbutton.h</header></customwidget>
-  <customwidget><class>animatedwidgets::OutlineIconButton</class><extends>QPushButton</extends><header>animatedwidgets/buttons/outlineiconbutton.h</header></customwidget>
-  <customwidget><class>animatedwidgets::BorderedIconButton</class><extends>QPushButton</extends><header>animatedwidgets/buttons/borderediconbutton.h</header></customwidget>
-  <customwidget><class>animatedwidgets::HoverIconButton</class><extends>QPushButton</extends><header>animatedwidgets/buttons/hovericonbutton.h</header></customwidget>
-  <customwidget><class>animatedwidgets::RadioButton</class><extends>QRadioButton</extends><header>animatedwidgets/buttons/radiobutton.h</header></customwidget>
-  <customwidget><class>animatedwidgets::CheckBox</class><extends>QCheckBox</extends><header>animatedwidgets/buttons/checkbox.h</header></customwidget>
+  <customwidget><class>FilledButton</class><extends>QPushButton</extends><header>animatedwidgets/buttons/filledbutton.h</header></customwidget>
+  <customwidget><class>OutlineButton</class><extends>QPushButton</extends><header>animatedwidgets/buttons/outlinebutton.h</header></customwidget>
+  <customwidget><class>BorderedButton</class><extends>QPushButton</extends><header>animatedwidgets/buttons/borderedbutton.h</header></customwidget>
+  <customwidget><class>HoverButton</class><extends>QPushButton</extends><header>animatedwidgets/buttons/hoverbutton.h</header></customwidget>
+  <customwidget><class>FilledIconButton</class><extends>QPushButton</extends><header>animatedwidgets/buttons/fillediconbutton.h</header></customwidget>
+  <customwidget><class>OutlineIconButton</class><extends>QPushButton</extends><header>animatedwidgets/buttons/outlineiconbutton.h</header></customwidget>
+  <customwidget><class>BorderedIconButton</class><extends>QPushButton</extends><header>animatedwidgets/buttons/borderediconbutton.h</header></customwidget>
+  <customwidget><class>HoverIconButton</class><extends>QPushButton</extends><header>animatedwidgets/buttons/hovericonbutton.h</header></customwidget>
+  <customwidget><class>RadioButton</class><extends>QRadioButton</extends><header>animatedwidgets/buttons/radiobutton.h</header></customwidget>
+  <customwidget><class>CheckBox</class><extends>QCheckBox</extends><header>animatedwidgets/buttons/checkbox.h</header></customwidget>
+  <customwidget><class>Switch</class><extends>QCheckBox</extends><header>animatedwidgets/switches/switch.h</header></customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="resources/gallery.qrc"/>
+ </resources>
  <connections/>
 </ui>

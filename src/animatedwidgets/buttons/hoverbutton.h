@@ -3,9 +3,7 @@
 #include "animatedwidgets/buttons/animatedbuttonbase.h"
 #include "animatedwidgets/buttons/buttonstatestyle.h"
 
-namespace animatedwidgets {
-
-class HoverButton final : public AnimatedButtonBase {
+class HoverButton final : public animatedwidgets::AnimatedButtonBase {
     Q_OBJECT
     Q_PROPERTY(QColor hoverBackgroundColor READ hoverBackgroundColor WRITE setHoverBackgroundColor)
     Q_PROPERTY(QColor pressedBackgroundColor READ pressedBackgroundColor WRITE setPressedBackgroundColor)
@@ -24,16 +22,16 @@ class HoverButton final : public AnimatedButtonBase {
     Q_PROPERTY(IconPlacement iconPlacement READ iconPlacement WRITE setIconPlacement)
 public:
     explicit HoverButton(QWidget* parent = nullptr);
-    ButtonStateStyle normalStyle() const;
-    void setNormalStyle(const ButtonStateStyle& style);
-    ButtonStateStyle hoverStyle() const;
-    void setHoverStyle(const ButtonStateStyle& style);
-    ButtonStateStyle pressedStyle() const;
-    void setPressedStyle(const ButtonStateStyle& style);
-    ButtonStateStyle disabledStyle() const;
-    void setDisabledStyle(const ButtonStateStyle& style);
-    ButtonStateStyle checkedStyle() const;
-    void setCheckedStyle(const ButtonStateStyle& style);
+    animatedwidgets::ButtonStateStyle normalStyle() const;
+    void setNormalStyle(const animatedwidgets::ButtonStateStyle& style);
+    animatedwidgets::ButtonStateStyle hoverStyle() const;
+    void setHoverStyle(const animatedwidgets::ButtonStateStyle& style);
+    animatedwidgets::ButtonStateStyle pressedStyle() const;
+    void setPressedStyle(const animatedwidgets::ButtonStateStyle& style);
+    animatedwidgets::ButtonStateStyle disabledStyle() const;
+    void setDisabledStyle(const animatedwidgets::ButtonStateStyle& style);
+    animatedwidgets::ButtonStateStyle checkedStyle() const;
+    void setCheckedStyle(const animatedwidgets::ButtonStateStyle& style);
     QColor hoverBackgroundColor() const; void setHoverBackgroundColor(const QColor& color);
     QColor pressedBackgroundColor() const; void setPressedBackgroundColor(const QColor& color);
     QColor disabledBackgroundColor() const; void setDisabledBackgroundColor(const QColor& color);
@@ -51,8 +49,8 @@ protected:
     void paintEvent(QPaintEvent* event) override;
     void updateAnimationTargets(bool immediate) override;
 private:
-    QColor backgroundForState(ButtonState state) const;
-    QColor contentForState(ButtonState state) const;
+    QColor backgroundForState(animatedwidgets::ButtonState state) const;
+    QColor contentForState(animatedwidgets::ButtonState state) const;
     QColor m_hoverBackground;
     QColor m_pressedBackground;
     QColor m_disabledBackground = Qt::transparent;
@@ -67,6 +65,6 @@ private:
     IconPlacement m_iconPlacement = IconPlacement::BeforeText;
 };
 
+namespace animatedwidgets {
+using HoverButton = ::HoverButton;
 } // namespace animatedwidgets
-
-using HoverButton = animatedwidgets::HoverButton;

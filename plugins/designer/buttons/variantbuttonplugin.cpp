@@ -2,6 +2,8 @@
 
 #include "animatedwidgets/buttons/variantbuttons.h"
 
+#include <QPainter>
+
 namespace {
 const char* const buttonNames[] = {
     "FilledButton", "OutlineButton", "BorderedButton", "HoverButton",
@@ -22,7 +24,54 @@ VariantButtonPlugin::VariantButtonPlugin(int kind, QObject* parent)
 
 bool VariantButtonPlugin::isContainer() const { return false; }
 bool VariantButtonPlugin::isInitialized() const { return m_initialized; }
-QIcon VariantButtonPlugin::icon() const { return QIcon(); }
+QIcon VariantButtonPlugin::icon() const
+{
+    QPixmap pixmap(48, 32);
+    pixmap.setDevicePixelRatio(2);
+    pixmap.fill(Qt::transparent);
+    QPainter painter(&pixmap);
+    painter.setRenderHint(QPainter::Antialiasing);
+
+    const QColor accent(QStringLiteral("#3478f6"));
+    const QColor border(QStringLiteral("#6b7280"));
+    const QColor pale(QStringLiteral("#e8f0ff"));
+    if (m_kind == 8) {
+        painter.setPen(QPen(accent, 1.5));
+        painter.setBrush(Qt::NoBrush);
+        painter.drawEllipse(QRectF(5, 1, 14, 14));
+        painter.setPen(Qt::NoPen);
+        painter.setBrush(accent);
+        painter.drawEllipse(QRectF(10, 6, 4, 4));
+    } else if (m_kind == 9) {
+        painter.setPen(QPen(accent, 1.5));
+        painter.setBrush(Qt::NoBrush);
+        painter.drawRoundedRect(QRectF(5, 1, 14, 14), 2, 2);
+        painter.drawLine(QPointF(8, 8), QPointF(11, 11));
+        painter.drawLine(QPointF(11, 11), QPointF(16, 5));
+    } else {
+        const bool iconOnly = m_kind >= 4;
+        const int style = m_kind % 4;
+        const QRectF shape = iconOnly ? QRectF(5, 1, 14, 14) : QRectF(1, 2, 22, 12);
+        painter.setPen(style == 0 || style == 3 ? QPen(Qt::NoPen) : QPen(style == 1 ? accent : border, 1.3));
+        if (style == 0) painter.setBrush(accent);
+        else if (style == 1) painter.setBrush(Qt::NoBrush);
+        else if (style == 2) painter.setBrush(Qt::white);
+        else painter.setBrush(pale);
+        if (iconOnly) painter.drawEllipse(shape);
+        else painter.drawRoundedRect(shape, 3, 3);
+
+        const QColor glyphColor = style == 0 ? QColor(Qt::white) : (style == 3 ? accent : border);
+        painter.setPen(QPen(glyphColor, 1.4));
+        if (iconOnly) {
+            painter.drawLine(QPointF(9, 8), QPointF(15, 8));
+            painter.drawLine(QPointF(12, 5), QPointF(12, 11));
+        } else {
+            painter.drawLine(QPointF(6, 8), QPointF(18, 8));
+        }
+    }
+    painter.end();
+    return QIcon(pixmap);
+}
 
 QString VariantButtonPlugin::domXml() const
 {
@@ -56,7 +105,7 @@ QString VariantButtonPlugin::includeFile() const
 }
 QString VariantButtonPlugin::name() const
 {
-    return QStringLiteral("animatedwidgets::") + QString::fromLatin1(buttonNames[m_kind]);
+    return QString::fromLatin1(buttonNames[m_kind]);
 }
 QString VariantButtonPlugin::toolTip() const { return QString(); }
 QString VariantButtonPlugin::whatsThis() const { return QString(); }
@@ -64,16 +113,16 @@ QString VariantButtonPlugin::whatsThis() const { return QString(); }
 QWidget* VariantButtonPlugin::createWidget(QWidget* parent)
 {
     switch (m_kind) {
-    case 0: return new animatedwidgets::FilledButton(parent);
-    case 1: return new animatedwidgets::OutlineButton(parent);
-    case 2: return new animatedwidgets::BorderedButton(parent);
-    case 3: return new animatedwidgets::HoverButton(parent);
-    case 4: return new animatedwidgets::FilledIconButton(parent);
-    case 5: return new animatedwidgets::OutlineIconButton(parent);
-    case 6: return new animatedwidgets::BorderedIconButton(parent);
-    case 7: return new animatedwidgets::HoverIconButton(parent);
-    case 8: return new animatedwidgets::RadioButton(parent);
-    default: return new animatedwidgets::CheckBox(parent);
+    case 0: return new FilledButton(parent);
+    case 1: return new OutlineButton(parent);
+    case 2: return new BorderedButton(parent);
+    case 3: return new HoverButton(parent);
+    case 4: return new FilledIconButton(parent);
+    case 5: return new OutlineIconButton(parent);
+    case 6: return new BorderedIconButton(parent);
+    case 7: return new HoverIconButton(parent);
+    case 8: return new RadioButton(parent);
+    default: return new CheckBox(parent);
 }
 }
 
