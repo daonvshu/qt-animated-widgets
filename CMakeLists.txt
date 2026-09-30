@@ -109,6 +109,11 @@ add_library(AnimatedWidgetsWidgets
     src/animatedwidgets/inputs/compositespinbox.cpp
     src/animatedwidgets/inputs/compositedoublespinbox.h
     src/animatedwidgets/inputs/compositedoublespinbox.cpp
+    src/animatedwidgets/comboboxes/combobox.h
+    src/animatedwidgets/comboboxes/combobox.cpp
+    src/animatedwidgets/comboboxes/compositecombobox.h
+    src/animatedwidgets/comboboxes/compositecombobox.cpp
+    src/animatedwidgets/comboboxes/resources/comboboxes.qrc
     src/animatedwidgets/inputs/resources/inputs.qrc
 )
 add_library(AnimatedWidgets::Widgets ALIAS AnimatedWidgetsWidgets)

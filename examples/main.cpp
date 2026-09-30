@@ -1,4 +1,5 @@
 #include "buttonspage.h"
+#include "comboboxespage.h"
 #include "inputspage.h"
 #include "progresspage.h"
 #include "selectionpage.h"
@@ -25,6 +26,7 @@ int main(int argc, char* argv[]) {
     addPage(new ProgressPage(&gallery), QObject::tr("Progress"));
     addPage(new SlidersPage(&gallery), QObject::tr("Sliders"));
     addPage(new InputsPage(&gallery), QObject::tr("Inputs"));
+    addPage(new ComboBoxesPage(&gallery), QObject::tr("Combo Boxes"));
 
     QObject::connect(ui.tabs, &QTabBar::currentChanged, ui.stack, &QStackedWidget::setCurrentIndex);
     ui.stack->setCurrentIndex(ui.tabs->currentIndex());

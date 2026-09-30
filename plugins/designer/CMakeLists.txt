@@ -13,6 +13,8 @@ add_library(animatedwidgetsdesigner MODULE
     sliders/sliderplugin.cpp
     inputs/inputplugin.h
     inputs/inputplugin.cpp
+    comboboxes/comboboxplugin.h
+    comboboxes/comboboxplugin.cpp
 )
 target_link_libraries(animatedwidgetsdesigner PRIVATE
     AnimatedWidgets::Widgets

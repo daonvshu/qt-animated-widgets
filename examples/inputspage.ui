@@ -198,6 +198,15 @@
            <property name="placeholderText">
             <string>Search</string>
            </property>
+           <property name="normalBackgroundColor">
+            <color><red>232</red><green>245</green><blue>238</blue></color>
+           </property>
+           <property name="leadingIconNormalColor">
+            <color><red>20</red><green>116</green><blue>79</blue></color>
+           </property>
+           <property name="leadingIconHoverColor">
+            <color><red>11</red><green>85</green><blue>58</blue></color>
+           </property>
            <property name="leadingIcon">
             <iconset resource="../src/animatedwidgets/inputs/resources/inputs.qrc">
              <normaloff>:/animatedwidgets/inputs/search.svg</normaloff>:/animatedwidgets/inputs/search.svg</iconset>
@@ -450,6 +459,15 @@
            </property>
            <property name="focusBackgroundColor">
             <color><red>225</red><green>239</green><blue>255</blue></color>
+           </property>
+           <property name="stepButtonNormalColor">
+            <color><red>38</red><green>94</green><blue>134</blue></color>
+           </property>
+           <property name="stepButtonHoverColor">
+            <color><red>26</red><green>71</green><blue>109</blue></color>
+           </property>
+           <property name="stepButtonHoverBackgroundColor">
+            <color><red>214</red><green>232</green><blue>246</blue></color>
            </property>
           </widget>
          </item>

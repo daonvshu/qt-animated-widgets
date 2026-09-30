@@ -1,6 +1,7 @@
 #include "plugins.h"
 
 #include "buttons/variantbuttonplugin.h"
+#include "comboboxes/comboboxplugin.h"
 #include "inputs/inputplugin.h"
 #include "progressbars/progressbarplugin.h"
 #include "sliders/sliderplugin.h"
@@ -17,6 +18,9 @@ AnimatedWidgetsDesignerPlugin::AnimatedWidgetsDesignerPlugin(QObject* parent)
     m_widgets.append(new SliderPlugin(this));
     for (int kind = 0; kind < 10; ++kind) {
         m_widgets.append(new InputPlugin(kind, this));
+    }
+    for (int kind = 0; kind < 2; ++kind) {
+        m_widgets.append(new ComboBoxPlugin(kind, this));
     }
 }
 
