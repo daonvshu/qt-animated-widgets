@@ -2,9 +2,13 @@
 
 #include "animatedwidgets/inputs/compositelineedit.h"
 #include "animatedwidgets/inputs/compositeplaintextedit.h"
+#include "animatedwidgets/inputs/compositedoublespinbox.h"
+#include "animatedwidgets/inputs/compositespinbox.h"
+#include "animatedwidgets/inputs/doublespinbox.h"
 #include "animatedwidgets/inputs/iconlineedit.h"
 #include "animatedwidgets/inputs/passwordlineedit.h"
 #include "animatedwidgets/inputs/plaintextedit.h"
+#include "animatedwidgets/inputs/spinbox.h"
 
 #include <QPainter>
 #include <QStringList>
@@ -30,7 +34,15 @@ QIcon InputPlugin::icon() const {
     painter.setBrush(Qt::white);
     painter.drawRoundedRect(QRectF(1, 2, 22, 12), 2.5, 2.5);
     painter.setPen(QPen(QColor(QStringLiteral("#3478f6")), 1.5));
-    if (m_kind == 4 || m_kind == 5) {
+    if (m_kind >= 6) {
+        painter.drawLine(QPointF(5, 8), QPointF(13, 8));
+        painter.drawLine(QPointF(18, 6), QPointF(20, 4));
+        painter.drawLine(QPointF(18, 10), QPointF(20, 12));
+        if (m_kind == 7 || m_kind == 9)
+            painter.drawPoint(QPointF(15, 10));
+        if (m_kind >= 8)
+            painter.drawLine(QPointF(2, 14), QPointF(22, 14));
+    } else if (m_kind == 4 || m_kind == 5) {
         for (int y : {5, 8, 11})
             painter.drawLine(QPointF(5, y), QPointF(y == 11 ? 13 : 18, y));
         if (m_kind == 5)
@@ -51,8 +63,12 @@ QIcon InputPlugin::icon() const {
 QString InputPlugin::domXml() const {
     const QString className = name();
     const QStringList objectNames = {QStringLiteral("lineEdit"), QStringLiteral("iconLineEdit"), QStringLiteral("passwordLineEdit"),
-                                     QStringLiteral("compositeLineEdit"), QStringLiteral("plainTextEdit"), QStringLiteral("compositePlainTextEdit")};
+                                     QStringLiteral("compositeLineEdit"), QStringLiteral("plainTextEdit"), QStringLiteral("compositePlainTextEdit"),
+                                     QStringLiteral("spinBox"), QStringLiteral("doubleSpinBox"), QStringLiteral("compositeSpinBox"),
+                                     QStringLiteral("compositeDoubleSpinBox")};
     const QString objectName = objectNames.at(m_kind);
+    if (m_kind >= 6)
+        return QStringLiteral("<widget class=\"%1\" name=\"%2\"/>").arg(className, objectName);
     const QString placeholder = m_kind == 2 ? QStringLiteral("Password") : QStringLiteral("Text");
     return QStringLiteral("<widget class=\"%1\" name=\"%2\">"
                           "<property name=\"placeholderText\"><string>%3</string></property>"
@@ -73,6 +89,14 @@ QString InputPlugin::includeFile() const {
         return QStringLiteral("animatedwidgets/inputs/plaintextedit.h");
     if (m_kind == 5)
         return QStringLiteral("animatedwidgets/inputs/compositeplaintextedit.h");
+    if (m_kind == 6)
+        return QStringLiteral("animatedwidgets/inputs/spinbox.h");
+    if (m_kind == 7)
+        return QStringLiteral("animatedwidgets/inputs/doublespinbox.h");
+    if (m_kind == 8)
+        return QStringLiteral("animatedwidgets/inputs/compositespinbox.h");
+    if (m_kind == 9)
+        return QStringLiteral("animatedwidgets/inputs/compositedoublespinbox.h");
     return QStringLiteral("animatedwidgets/inputs/compositelineedit.h");
 }
 QString InputPlugin::name() const {
@@ -86,6 +110,14 @@ QString InputPlugin::name() const {
         return QStringLiteral("PlainTextEdit");
     if (m_kind == 5)
         return QStringLiteral("CompositePlainTextEdit");
+    if (m_kind == 6)
+        return QStringLiteral("SpinBox");
+    if (m_kind == 7)
+        return QStringLiteral("DoubleSpinBox");
+    if (m_kind == 8)
+        return QStringLiteral("CompositeSpinBox");
+    if (m_kind == 9)
+        return QStringLiteral("CompositeDoubleSpinBox");
     return QStringLiteral("CompositeLineEdit");
 }
 QString InputPlugin::toolTip() const {
@@ -108,6 +140,14 @@ QWidget* InputPlugin::createWidget(QWidget* parent) {
         return new PlainTextEdit(parent);
     if (m_kind == 5)
         return new CompositePlainTextEdit(parent);
+    if (m_kind == 6)
+        return new SpinBox(parent);
+    if (m_kind == 7)
+        return new DoubleSpinBox(parent);
+    if (m_kind == 8)
+        return new CompositeSpinBox(parent);
+    if (m_kind == 9)
+        return new CompositeDoubleSpinBox(parent);
     return new CompositeLineEdit(parent);
 }
 void InputPlugin::initialize(QDesignerFormEditorInterface*) {

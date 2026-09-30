@@ -4,5 +4,7 @@
         <file>clear.svg</file>
         <file>eyeopen.svg</file>
         <file>eyeclosed.svg</file>
+        <file>stepup.svg</file>
+        <file>stepdown.svg</file>
     </qresource>
 </RCC>

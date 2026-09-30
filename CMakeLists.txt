@@ -91,6 +91,12 @@ add_library(AnimatedWidgetsWidgets
     src/animatedwidgets/inputs/compositeinputbase.cpp
     src/animatedwidgets/inputs/plaintextedit.h
     src/animatedwidgets/inputs/plaintextedit.cpp
+    src/animatedwidgets/inputs/spinboxappearance.h
+    src/animatedwidgets/inputs/spinboxappearance.cpp
+    src/animatedwidgets/inputs/spinbox.h
+    src/animatedwidgets/inputs/spinbox.cpp
+    src/animatedwidgets/inputs/doublespinbox.h
+    src/animatedwidgets/inputs/doublespinbox.cpp
     src/animatedwidgets/inputs/iconlineedit.h
     src/animatedwidgets/inputs/iconlineedit.cpp
     src/animatedwidgets/inputs/passwordlineedit.h
@@ -99,6 +105,10 @@ add_library(AnimatedWidgetsWidgets
     src/animatedwidgets/inputs/compositelineedit.cpp
     src/animatedwidgets/inputs/compositeplaintextedit.h
     src/animatedwidgets/inputs/compositeplaintextedit.cpp
+    src/animatedwidgets/inputs/compositespinbox.h
+    src/animatedwidgets/inputs/compositespinbox.cpp
+    src/animatedwidgets/inputs/compositedoublespinbox.h
+    src/animatedwidgets/inputs/compositedoublespinbox.cpp
     src/animatedwidgets/inputs/resources/inputs.qrc
 )
 add_library(AnimatedWidgets::Widgets ALIAS AnimatedWidgetsWidgets)

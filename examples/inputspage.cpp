@@ -18,6 +18,7 @@ InputsPage::InputsPage(QWidget* parent)
     initializeBasicInputs(ui);
     initializeCompositeLineEdit(ui);
     initializeCompositePlainTextEdit(ui);
+    initializeNumericInputs(ui);
 }
 
 void InputsPage::initializeBasicInputs(Ui::InputsPage& ui) {
@@ -138,4 +139,37 @@ void InputsPage::initializeCompositePlainTextEdit(Ui::InputsPage& ui) {
     connect(ui.inputCompositeMultilineErrorCheck, &QCheckBox::toggled, ui.inputCompositeMultiline, &CompositePlainTextEdit::setHasError);
     connect(ui.inputDurationSpin, QOverload<int>::of(&QSpinBox::valueChanged), ui.inputCompositeMultiline,
             &CompositePlainTextEdit::setAnimationDuration);
+}
+
+void InputsPage::initializeNumericInputs(Ui::InputsPage& ui) {
+    auto* unitLabel = new QLabel(QStringLiteral("pcs"), ui.inputCompositeSpin);
+    unitLabel->setMinimumWidth(36);
+    unitLabel->setAlignment(Qt::AlignCenter);
+    ui.inputCompositeSpin->setTrailingWidget(unitLabel);
+    ui.inputCompositeSpin->setLeadingWidget(new QLabel(QStringLiteral("Qty"), ui.inputCompositeSpin));
+    ui.inputCompositeSpin->setTopWidget(new QLabel(QStringLiteral("Order quantity"), ui.inputCompositeSpin));
+    ui.inputCompositeSpin->setBottomWidget(new QLabel(QStringLiteral("Whole units"), ui.inputCompositeSpin));
+    ui.inputCompositeSpin->setDrawInputLeftBorder(true);
+    ui.inputCompositeSpin->setDrawInputRightBorder(true);
+    ui.inputCompositeSpin->setDrawInputTopBorder(true);
+    ui.inputCompositeSpin->setDrawInputBottomBorder(true);
+
+    ui.inputCompositeDoubleSpin->setLeadingWidget(new QLabel(QStringLiteral("kg"), ui.inputCompositeDoubleSpin));
+    ui.inputCompositeDoubleSpin->setTopWidget(new QLabel(QStringLiteral("Package weight"), ui.inputCompositeDoubleSpin));
+    ui.inputCompositeDoubleSpin->setDrawInputLeftBorder(true);
+    ui.inputCompositeDoubleSpin->setDrawInputTopBorder(true);
+
+    connect(ui.inputSpinErrorCheck, &QCheckBox::toggled, ui.inputSpin, &SpinBox::setHasError);
+    connect(ui.inputStepButtonsCheck, &QCheckBox::toggled, ui.inputSpin, &SpinBox::setStepButtonsVisible);
+    connect(ui.inputStepButtonsCheck, &QCheckBox::toggled, ui.inputDoubleSpin, &DoubleSpinBox::setStepButtonsVisible);
+    connect(ui.inputStepButtonsCheck, &QCheckBox::toggled, ui.inputCompositeSpin, &CompositeSpinBox::setStepButtonsVisible);
+    connect(ui.inputStepButtonsCheck, &QCheckBox::toggled, ui.inputCompositeDoubleSpin, &CompositeDoubleSpinBox::setStepButtonsVisible);
+    connect(ui.inputDurationSpin, QOverload<int>::of(&QSpinBox::valueChanged), ui.inputSpin,
+            [input = ui.inputSpin](int duration) { input->setAnimationDuration(duration); });
+    connect(ui.inputDurationSpin, QOverload<int>::of(&QSpinBox::valueChanged), ui.inputDoubleSpin,
+            [input = ui.inputDoubleSpin](int duration) { input->setAnimationDuration(duration); });
+    connect(ui.inputDurationSpin, QOverload<int>::of(&QSpinBox::valueChanged), ui.inputCompositeSpin,
+            &CompositeSpinBox::setAnimationDuration);
+    connect(ui.inputDurationSpin, QOverload<int>::of(&QSpinBox::valueChanged), ui.inputCompositeDoubleSpin,
+            &CompositeDoubleSpinBox::setAnimationDuration);
 }
