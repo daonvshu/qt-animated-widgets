@@ -5,7 +5,7 @@
 
 #include <QPainter>
 
-using namespace animatedwidgets;
+namespace animatedwidgets {
 
 HoverIconButton::HoverIconButton(QWidget* parent)
     : AnimatedButtonBase(parent)
@@ -62,83 +62,83 @@ void HoverIconButton::setCheckedStyle(const ButtonStateStyle& style) {
     refreshButtonState();
 }
 
-QColor HoverIconButton::hoverBackgroundColor() const {
+QColor HoverIconButton::backgroundHover() const {
     return m_hoverBackground;
 }
 
-void HoverIconButton::setHoverBackgroundColor(const QColor& color) {
+void HoverIconButton::setBackgroundHover(const QColor& color) {
     m_hoverBackground = color;
     refreshButtonState();
 }
 
-QColor HoverIconButton::pressedBackgroundColor() const {
+QColor HoverIconButton::backgroundPressed() const {
     return m_pressedBackground;
 }
 
-void HoverIconButton::setPressedBackgroundColor(const QColor& color) {
+void HoverIconButton::setBackgroundPressed(const QColor& color) {
     m_pressedBackground = color;
     refreshButtonState();
 }
 
-QColor HoverIconButton::disabledBackgroundColor() const {
+QColor HoverIconButton::backgroundDisabled() const {
     return m_disabledBackground;
 }
 
-void HoverIconButton::setDisabledBackgroundColor(const QColor& color) {
+void HoverIconButton::setBackgroundDisabled(const QColor& color) {
     m_disabledBackground = color;
     refreshButtonState();
 }
 
-QColor HoverIconButton::checkedBackgroundColor() const {
+QColor HoverIconButton::backgroundChecked() const {
     return m_checkedBackground;
 }
 
-void HoverIconButton::setCheckedBackgroundColor(const QColor& color) {
+void HoverIconButton::setBackgroundChecked(const QColor& color) {
     m_checkedBackground = color;
     refreshButtonState();
 }
 
-QColor HoverIconButton::normalContentColor() const {
+QColor HoverIconButton::contentNormal() const {
     return m_normalContent;
 }
 
-void HoverIconButton::setNormalContentColor(const QColor& color) {
+void HoverIconButton::setContentNormal(const QColor& color) {
     m_normalContent = color;
     refreshButtonState();
 }
 
-QColor HoverIconButton::hoverContentColor() const {
+QColor HoverIconButton::contentHover() const {
     return m_hoverContent;
 }
 
-void HoverIconButton::setHoverContentColor(const QColor& color) {
+void HoverIconButton::setContentHover(const QColor& color) {
     m_hoverContent = color;
     refreshButtonState();
 }
 
-QColor HoverIconButton::pressedContentColor() const {
+QColor HoverIconButton::contentPressed() const {
     return m_pressedContent;
 }
 
-void HoverIconButton::setPressedContentColor(const QColor& color) {
+void HoverIconButton::setContentPressed(const QColor& color) {
     m_pressedContent = color;
     refreshButtonState();
 }
 
-QColor HoverIconButton::disabledContentColor() const {
+QColor HoverIconButton::contentDisabled() const {
     return m_disabledContent;
 }
 
-void HoverIconButton::setDisabledContentColor(const QColor& color) {
+void HoverIconButton::setContentDisabled(const QColor& color) {
     m_disabledContent = color;
     refreshButtonState();
 }
 
-QColor HoverIconButton::checkedContentColor() const {
+QColor HoverIconButton::contentChecked() const {
     return m_checkedContent;
 }
 
-void HoverIconButton::setCheckedContentColor(const QColor& color) {
+void HoverIconButton::setContentChecked(const QColor& color) {
     m_checkedContent = color;
     refreshButtonState();
 }
@@ -190,3 +190,5 @@ void HoverIconButton::paintEvent(QPaintEvent*) {
             painter, rect(),
             ButtonContentOptions{icon(), iconSize(), {}, font(), animatedContentColor(), 0, true, ButtonContentOptions::Placement::BeforeText});
 }
+
+} // namespace animatedwidgets

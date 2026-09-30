@@ -2,6 +2,8 @@
 
 #include <QEvent>
 
+namespace animatedwidgets {
+
 PasswordLineEdit::PasswordLineEdit(QWidget* parent)
     : IconLineEdit(parent)
     , m_autoHideTimer(this)
@@ -81,3 +83,5 @@ bool PasswordLineEdit::event(QEvent* event) {
     }
     return handled;
 }
+
+} // namespace animatedwidgets

@@ -1,6 +1,6 @@
 #include "switchplugin.h"
 
-#include "animatedwidgets/switches/switch.h"
+#include "../designerwidgets.h"
 
 #include <QPainter>
 

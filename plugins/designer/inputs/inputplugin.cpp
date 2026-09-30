@@ -1,14 +1,6 @@
 #include "inputplugin.h"
 
-#include "animatedwidgets/inputs/compositedoublespinbox.h"
-#include "animatedwidgets/inputs/compositelineedit.h"
-#include "animatedwidgets/inputs/compositeplaintextedit.h"
-#include "animatedwidgets/inputs/compositespinbox.h"
-#include "animatedwidgets/inputs/doublespinbox.h"
-#include "animatedwidgets/inputs/iconlineedit.h"
-#include "animatedwidgets/inputs/passwordlineedit.h"
-#include "animatedwidgets/inputs/plaintextedit.h"
-#include "animatedwidgets/inputs/spinbox.h"
+#include "../designerwidgets.h"
 
 #include <QPainter>
 #include <QStringList>

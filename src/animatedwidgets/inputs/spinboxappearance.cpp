@@ -5,6 +5,8 @@
 #include <QLineEdit>
 #include <QPainter>
 
+namespace animatedwidgets {
+
 SpinBoxAppearance::SpinBoxAppearance(QAbstractSpinBox* owner)
     : m_owner(owner)
     , m_borderTransition(owner)
@@ -13,7 +15,7 @@ SpinBoxAppearance::SpinBoxAppearance(QAbstractSpinBox* owner)
     for (auto* transition : {&m_borderTransition, &m_backgroundTransition}) {
         transition->setDuration(m_animationDuration);
         transition->setEasingCurve(QEasingCurve::OutCubic);
-        QObject::connect(transition, &animatedwidgets::ValueTransition::valueChanged, owner, [owner] { owner->update(); });
+        QObject::connect(transition, &ValueTransition::valueChanged, owner, [owner] { owner->update(); });
     }
     refresh(true);
 }
@@ -64,92 +66,92 @@ void SpinBoxAppearance::setHasError(bool error) {
     refresh();
 }
 
-QColor SpinBoxAppearance::normalBorderColor() const {
+QColor SpinBoxAppearance::borderNormal() const {
     return m_normalBorderColor;
 }
 
-void SpinBoxAppearance::setNormalBorderColor(const QColor& color) {
+void SpinBoxAppearance::setBorderNormal(const QColor& color) {
     m_normalBorderColor = color;
     refresh();
 }
 
-QColor SpinBoxAppearance::hoverBorderColor() const {
+QColor SpinBoxAppearance::borderHover() const {
     return m_hoverBorderColor;
 }
 
-void SpinBoxAppearance::setHoverBorderColor(const QColor& color) {
+void SpinBoxAppearance::setBorderHover(const QColor& color) {
     m_hoverBorderColor = color;
     refresh();
 }
 
-QColor SpinBoxAppearance::focusBorderColor() const {
+QColor SpinBoxAppearance::borderFocus() const {
     return m_focusBorderColor;
 }
 
-void SpinBoxAppearance::setFocusBorderColor(const QColor& color) {
+void SpinBoxAppearance::setBorderFocus(const QColor& color) {
     m_focusBorderColor = color;
     refresh();
 }
 
-QColor SpinBoxAppearance::errorBorderColor() const {
+QColor SpinBoxAppearance::borderError() const {
     return m_errorBorderColor;
 }
 
-void SpinBoxAppearance::setErrorBorderColor(const QColor& color) {
+void SpinBoxAppearance::setBorderError(const QColor& color) {
     m_errorBorderColor = color;
     refresh();
 }
 
-QColor SpinBoxAppearance::disabledBorderColor() const {
+QColor SpinBoxAppearance::borderDisabled() const {
     return m_disabledBorderColor;
 }
 
-void SpinBoxAppearance::setDisabledBorderColor(const QColor& color) {
+void SpinBoxAppearance::setBorderDisabled(const QColor& color) {
     m_disabledBorderColor = color;
     refresh();
 }
 
-QColor SpinBoxAppearance::normalBackgroundColor() const {
+QColor SpinBoxAppearance::backgroundNormal() const {
     return m_normalBackgroundColor;
 }
 
-void SpinBoxAppearance::setNormalBackgroundColor(const QColor& color) {
+void SpinBoxAppearance::setBackgroundNormal(const QColor& color) {
     m_normalBackgroundColor = color;
     refresh();
 }
 
-QColor SpinBoxAppearance::hoverBackgroundColor() const {
+QColor SpinBoxAppearance::backgroundHover() const {
     return m_hoverBackgroundColor;
 }
 
-void SpinBoxAppearance::setHoverBackgroundColor(const QColor& color) {
+void SpinBoxAppearance::setBackgroundHover(const QColor& color) {
     m_hoverBackgroundColor = color;
     refresh();
 }
 
-QColor SpinBoxAppearance::focusBackgroundColor() const {
+QColor SpinBoxAppearance::backgroundFocus() const {
     return m_focusBackgroundColor;
 }
 
-void SpinBoxAppearance::setFocusBackgroundColor(const QColor& color) {
+void SpinBoxAppearance::setBackgroundFocus(const QColor& color) {
     m_focusBackgroundColor = color;
     refresh();
 }
 
-QColor SpinBoxAppearance::errorBackgroundColor() const {
+QColor SpinBoxAppearance::backgroundError() const {
     return m_errorBackgroundColor;
 }
 
-void SpinBoxAppearance::setErrorBackgroundColor(const QColor& color) {
+void SpinBoxAppearance::setBackgroundError(const QColor& color) {
     m_errorBackgroundColor = color;
     refresh();
 }
 
-QColor SpinBoxAppearance::disabledBackgroundColor() const {
+QColor SpinBoxAppearance::backgroundDisabled() const {
     return m_disabledBackgroundColor;
 }
 
-void SpinBoxAppearance::setDisabledBackgroundColor(const QColor& color) {
+void SpinBoxAppearance::setBackgroundDisabled(const QColor& color) {
     m_disabledBackgroundColor = color;
     refresh();
 }
@@ -273,3 +275,5 @@ void SpinBoxAppearance::updateEditorMargins() {
     if (m_editor)
         m_editor->setTextMargins(m_contentPadding, 0, m_trailingControlWidth + m_contentPadding, 0);
 }
+
+} // namespace animatedwidgets

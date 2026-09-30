@@ -11,19 +11,21 @@ class QBoxLayout;
 class QHBoxLayout;
 class QVBoxLayout;
 
+namespace animatedwidgets {
+
 class CompositeInputBase : public QWidget {
     Q_OBJECT
     Q_PROPERTY(bool hasError READ hasError WRITE setHasError NOTIFY hasErrorChanged)
-    Q_PROPERTY(QColor normalBorderColor READ normalBorderColor WRITE setNormalBorderColor)
-    Q_PROPERTY(QColor hoverBorderColor READ hoverBorderColor WRITE setHoverBorderColor)
-    Q_PROPERTY(QColor focusBorderColor READ focusBorderColor WRITE setFocusBorderColor)
-    Q_PROPERTY(QColor errorBorderColor READ errorBorderColor WRITE setErrorBorderColor)
-    Q_PROPERTY(QColor disabledBorderColor READ disabledBorderColor WRITE setDisabledBorderColor)
-    Q_PROPERTY(QColor normalBackgroundColor READ normalBackgroundColor WRITE setNormalBackgroundColor)
-    Q_PROPERTY(QColor hoverBackgroundColor READ hoverBackgroundColor WRITE setHoverBackgroundColor)
-    Q_PROPERTY(QColor focusBackgroundColor READ focusBackgroundColor WRITE setFocusBackgroundColor)
-    Q_PROPERTY(QColor errorBackgroundColor READ errorBackgroundColor WRITE setErrorBackgroundColor)
-    Q_PROPERTY(QColor disabledBackgroundColor READ disabledBackgroundColor WRITE setDisabledBackgroundColor)
+    Q_PROPERTY(QColor borderNormal READ borderNormal WRITE setBorderNormal)
+    Q_PROPERTY(QColor borderHover READ borderHover WRITE setBorderHover)
+    Q_PROPERTY(QColor borderFocus READ borderFocus WRITE setBorderFocus)
+    Q_PROPERTY(QColor borderError READ borderError WRITE setBorderError)
+    Q_PROPERTY(QColor borderDisabled READ borderDisabled WRITE setBorderDisabled)
+    Q_PROPERTY(QColor backgroundNormal READ backgroundNormal WRITE setBackgroundNormal)
+    Q_PROPERTY(QColor backgroundHover READ backgroundHover WRITE setBackgroundHover)
+    Q_PROPERTY(QColor backgroundFocus READ backgroundFocus WRITE setBackgroundFocus)
+    Q_PROPERTY(QColor backgroundError READ backgroundError WRITE setBackgroundError)
+    Q_PROPERTY(QColor backgroundDisabled READ backgroundDisabled WRITE setBackgroundDisabled)
     Q_PROPERTY(int borderWidth READ borderWidth WRITE setBorderWidth)
     Q_PROPERTY(bool borderVisible READ isBorderVisible WRITE setBorderVisible)
     Q_PROPERTY(int cornerRadius READ cornerRadius WRITE setCornerRadius)
@@ -50,28 +52,28 @@ public:
     bool hasError() const;
     void setHasError(bool error);
 
-    QColor normalBorderColor() const;
-    void setNormalBorderColor(const QColor& color);
-    QColor hoverBorderColor() const;
-    void setHoverBorderColor(const QColor& color);
-    QColor focusBorderColor() const;
-    void setFocusBorderColor(const QColor& color);
-    QColor errorBorderColor() const;
-    void setErrorBorderColor(const QColor& color);
-    QColor disabledBorderColor() const;
-    void setDisabledBorderColor(const QColor& color);
+    QColor borderNormal() const;
+    void setBorderNormal(const QColor& color);
+    QColor borderHover() const;
+    void setBorderHover(const QColor& color);
+    QColor borderFocus() const;
+    void setBorderFocus(const QColor& color);
+    QColor borderError() const;
+    void setBorderError(const QColor& color);
+    QColor borderDisabled() const;
+    void setBorderDisabled(const QColor& color);
     QColor currentBorderColor() const;
 
-    QColor normalBackgroundColor() const;
-    void setNormalBackgroundColor(const QColor& color);
-    QColor hoverBackgroundColor() const;
-    void setHoverBackgroundColor(const QColor& color);
-    QColor focusBackgroundColor() const;
-    void setFocusBackgroundColor(const QColor& color);
-    QColor errorBackgroundColor() const;
-    void setErrorBackgroundColor(const QColor& color);
-    QColor disabledBackgroundColor() const;
-    void setDisabledBackgroundColor(const QColor& color);
+    QColor backgroundNormal() const;
+    void setBackgroundNormal(const QColor& color);
+    QColor backgroundHover() const;
+    void setBackgroundHover(const QColor& color);
+    QColor backgroundFocus() const;
+    void setBackgroundFocus(const QColor& color);
+    QColor backgroundError() const;
+    void setBackgroundError(const QColor& color);
+    QColor backgroundDisabled() const;
+    void setBackgroundDisabled(const QColor& color);
 
     int borderWidth() const;
     void setBorderWidth(int width);
@@ -140,8 +142,8 @@ private:
     QPointer<QWidget> m_leadingWidget;
     QPointer<QWidget> m_trailingWidget;
 
-    animatedwidgets::ValueTransition m_borderTransition;
-    animatedwidgets::ValueTransition m_backgroundTransition;
+    ValueTransition m_borderTransition;
+    ValueTransition m_backgroundTransition;
 
     QColor m_normalBorderColor = QColor(QStringLiteral("#c8cdd5"));
     QColor m_hoverBorderColor = QColor(QStringLiteral("#8da3c0"));
@@ -168,6 +170,8 @@ private:
     bool m_hovered = false;
 };
 
-namespace animatedwidgets {
-using CompositeInputBase = ::CompositeInputBase;
 } // namespace animatedwidgets
+
+#ifndef ANIMATEDWIDGETS_DESIGNER_PLUGIN
+using CompositeInputBase = animatedwidgets::CompositeInputBase;
+#endif

@@ -1,7 +1,6 @@
 #include "comboboxplugin.h"
 
-#include "animatedwidgets/comboboxes/combobox.h"
-#include "animatedwidgets/comboboxes/compositecombobox.h"
+#include "../designerwidgets.h"
 
 #include <QPainter>
 

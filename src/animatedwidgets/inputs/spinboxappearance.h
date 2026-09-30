@@ -9,6 +9,8 @@ class QEvent;
 class QLineEdit;
 class QPainter;
 
+namespace animatedwidgets {
+
 class SpinBoxAppearance {
 public:
     explicit SpinBoxAppearance(QAbstractSpinBox* owner);
@@ -20,27 +22,27 @@ public:
     bool hasError() const;
     void setHasError(bool error);
 
-    QColor normalBorderColor() const;
-    void setNormalBorderColor(const QColor& color);
-    QColor hoverBorderColor() const;
-    void setHoverBorderColor(const QColor& color);
-    QColor focusBorderColor() const;
-    void setFocusBorderColor(const QColor& color);
-    QColor errorBorderColor() const;
-    void setErrorBorderColor(const QColor& color);
-    QColor disabledBorderColor() const;
-    void setDisabledBorderColor(const QColor& color);
+    QColor borderNormal() const;
+    void setBorderNormal(const QColor& color);
+    QColor borderHover() const;
+    void setBorderHover(const QColor& color);
+    QColor borderFocus() const;
+    void setBorderFocus(const QColor& color);
+    QColor borderError() const;
+    void setBorderError(const QColor& color);
+    QColor borderDisabled() const;
+    void setBorderDisabled(const QColor& color);
 
-    QColor normalBackgroundColor() const;
-    void setNormalBackgroundColor(const QColor& color);
-    QColor hoverBackgroundColor() const;
-    void setHoverBackgroundColor(const QColor& color);
-    QColor focusBackgroundColor() const;
-    void setFocusBackgroundColor(const QColor& color);
-    QColor errorBackgroundColor() const;
-    void setErrorBackgroundColor(const QColor& color);
-    QColor disabledBackgroundColor() const;
-    void setDisabledBackgroundColor(const QColor& color);
+    QColor backgroundNormal() const;
+    void setBackgroundNormal(const QColor& color);
+    QColor backgroundHover() const;
+    void setBackgroundHover(const QColor& color);
+    QColor backgroundFocus() const;
+    void setBackgroundFocus(const QColor& color);
+    QColor backgroundError() const;
+    void setBackgroundError(const QColor& color);
+    QColor backgroundDisabled() const;
+    void setBackgroundDisabled(const QColor& color);
 
     QColor textColor() const;
     void setTextColor(const QColor& color);
@@ -68,8 +70,8 @@ private:
 
     QAbstractSpinBox* m_owner = nullptr;
     QLineEdit* m_editor = nullptr;
-    animatedwidgets::ValueTransition m_borderTransition;
-    animatedwidgets::ValueTransition m_backgroundTransition;
+    ValueTransition m_borderTransition;
+    ValueTransition m_backgroundTransition;
 
     QColor m_normalBorderColor = QColor(QStringLiteral("#c8cdd5"));
     QColor m_hoverBorderColor = QColor(QStringLiteral("#8da3c0"));
@@ -95,3 +97,5 @@ private:
     bool m_hasError = false;
     bool m_hovered = false;
 };
+
+} // namespace animatedwidgets

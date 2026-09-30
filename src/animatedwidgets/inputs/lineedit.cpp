@@ -3,6 +3,8 @@
 #include <QEvent>
 #include <QPainter>
 
+namespace animatedwidgets {
+
 LineEdit::LineEdit(QWidget* parent)
     : QLineEdit(parent)
     , m_borderTransition(this)
@@ -15,7 +17,7 @@ LineEdit::LineEdit(QWidget* parent)
     for (auto* transition : {&m_borderTransition, &m_backgroundTransition}) {
         transition->setDuration(m_animationDuration);
         transition->setEasingCurve(QEasingCurve::OutCubic);
-        connect(transition, &animatedwidgets::ValueTransition::valueChanged, this, [this] { update(); });
+        connect(transition, &ValueTransition::valueChanged, this, [this] { update(); });
     }
     updateTextPalette();
     refreshInputState(true);
@@ -33,92 +35,92 @@ void LineEdit::setHasError(bool error) {
     emit hasErrorChanged(error);
 }
 
-QColor LineEdit::normalBorderColor() const {
+QColor LineEdit::borderNormal() const {
     return m_normalBorderColor;
 }
 
-void LineEdit::setNormalBorderColor(const QColor& color) {
+void LineEdit::setBorderNormal(const QColor& color) {
     m_normalBorderColor = color;
     refreshInputState();
 }
 
-QColor LineEdit::hoverBorderColor() const {
+QColor LineEdit::borderHover() const {
     return m_hoverBorderColor;
 }
 
-void LineEdit::setHoverBorderColor(const QColor& color) {
+void LineEdit::setBorderHover(const QColor& color) {
     m_hoverBorderColor = color;
     refreshInputState();
 }
 
-QColor LineEdit::focusBorderColor() const {
+QColor LineEdit::borderFocus() const {
     return m_focusBorderColor;
 }
 
-void LineEdit::setFocusBorderColor(const QColor& color) {
+void LineEdit::setBorderFocus(const QColor& color) {
     m_focusBorderColor = color;
     refreshInputState();
 }
 
-QColor LineEdit::errorBorderColor() const {
+QColor LineEdit::borderError() const {
     return m_errorBorderColor;
 }
 
-void LineEdit::setErrorBorderColor(const QColor& color) {
+void LineEdit::setBorderError(const QColor& color) {
     m_errorBorderColor = color;
     refreshInputState();
 }
 
-QColor LineEdit::disabledBorderColor() const {
+QColor LineEdit::borderDisabled() const {
     return m_disabledBorderColor;
 }
 
-void LineEdit::setDisabledBorderColor(const QColor& color) {
+void LineEdit::setBorderDisabled(const QColor& color) {
     m_disabledBorderColor = color;
     refreshInputState();
 }
 
-QColor LineEdit::normalBackgroundColor() const {
+QColor LineEdit::backgroundNormal() const {
     return m_normalBackgroundColor;
 }
 
-void LineEdit::setNormalBackgroundColor(const QColor& color) {
+void LineEdit::setBackgroundNormal(const QColor& color) {
     m_normalBackgroundColor = color;
     refreshInputState();
 }
 
-QColor LineEdit::hoverBackgroundColor() const {
+QColor LineEdit::backgroundHover() const {
     return m_hoverBackgroundColor;
 }
 
-void LineEdit::setHoverBackgroundColor(const QColor& color) {
+void LineEdit::setBackgroundHover(const QColor& color) {
     m_hoverBackgroundColor = color;
     refreshInputState();
 }
 
-QColor LineEdit::focusBackgroundColor() const {
+QColor LineEdit::backgroundFocus() const {
     return m_focusBackgroundColor;
 }
 
-void LineEdit::setFocusBackgroundColor(const QColor& color) {
+void LineEdit::setBackgroundFocus(const QColor& color) {
     m_focusBackgroundColor = color;
     refreshInputState();
 }
 
-QColor LineEdit::errorBackgroundColor() const {
+QColor LineEdit::backgroundError() const {
     return m_errorBackgroundColor;
 }
 
-void LineEdit::setErrorBackgroundColor(const QColor& color) {
+void LineEdit::setBackgroundError(const QColor& color) {
     m_errorBackgroundColor = color;
     refreshInputState();
 }
 
-QColor LineEdit::disabledBackgroundColor() const {
+QColor LineEdit::backgroundDisabled() const {
     return m_disabledBackgroundColor;
 }
 
-void LineEdit::setDisabledBackgroundColor(const QColor& color) {
+void LineEdit::setBackgroundDisabled(const QColor& color) {
     m_disabledBackgroundColor = color;
     refreshInputState();
 }
@@ -274,3 +276,5 @@ void LineEdit::paintEvent(QPaintEvent* event) {
     painter.end();
     QLineEdit::paintEvent(event);
 }
+
+} // namespace animatedwidgets

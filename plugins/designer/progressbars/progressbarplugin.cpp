@@ -1,6 +1,6 @@
 #include "progressbarplugin.h"
 
-#include "animatedwidgets/progressbars/progressbar.h"
+#include "../designerwidgets.h"
 
 #include <QPainter>
 

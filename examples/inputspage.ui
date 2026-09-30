@@ -198,7 +198,7 @@
            <property name="placeholderText">
             <string>Search</string>
            </property>
-           <property name="normalBackgroundColor">
+           <property name="backgroundNormal">
             <color><red>232</red><green>245</green><blue>238</blue></color>
            </property>
            <property name="leadingIconNormalColor">
@@ -271,35 +271,35 @@
            <property name="placeholderText">
             <string>Focus or change the state</string>
            </property>
-           <property name="normalBackgroundColor">
+           <property name="backgroundNormal">
             <color>
              <red>243</red>
              <green>246</green>
              <blue>250</blue>
             </color>
            </property>
-           <property name="hoverBackgroundColor">
+           <property name="backgroundHover">
             <color>
              <red>235</red>
              <green>244</green>
              <blue>252</blue>
             </color>
            </property>
-           <property name="focusBackgroundColor">
+           <property name="backgroundFocus">
             <color>
              <red>225</red>
              <green>239</green>
              <blue>255</blue>
             </color>
            </property>
-           <property name="errorBackgroundColor">
+           <property name="backgroundError">
             <color>
              <red>255</red>
              <green>231</green>
              <blue>233</blue>
             </color>
            </property>
-           <property name="disabledBackgroundColor">
+           <property name="backgroundDisabled">
             <color>
              <red>230</red>
              <green>233</green>
@@ -338,28 +338,28 @@
            <property name="placeholderText">
             <string>Enter a longer note</string>
            </property>
-           <property name="normalBackgroundColor">
+           <property name="backgroundNormal">
             <color>
              <red>243</red>
              <green>246</green>
              <blue>250</blue>
             </color>
            </property>
-           <property name="hoverBackgroundColor">
+           <property name="backgroundHover">
             <color>
              <red>235</red>
              <green>244</green>
              <blue>252</blue>
             </color>
            </property>
-           <property name="focusBackgroundColor">
+           <property name="backgroundFocus">
             <color>
              <red>225</red>
              <green>239</green>
              <blue>255</blue>
             </color>
            </property>
-           <property name="errorBackgroundColor">
+           <property name="backgroundError">
             <color>
              <red>255</red>
              <green>231</green>
@@ -401,28 +401,28 @@
          </item>
          <item row="11" column="1">
           <widget class="CompositePlainTextEdit" name="inputCompositeMultiline">
-           <property name="normalBackgroundColor">
+           <property name="backgroundNormal">
             <color>
              <red>243</red>
              <green>246</green>
              <blue>250</blue>
             </color>
            </property>
-           <property name="hoverBackgroundColor">
+           <property name="backgroundHover">
             <color>
              <red>235</red>
              <green>244</green>
              <blue>252</blue>
             </color>
            </property>
-           <property name="focusBackgroundColor">
+           <property name="backgroundFocus">
             <color>
              <red>225</red>
              <green>239</green>
              <blue>255</blue>
             </color>
            </property>
-           <property name="errorBackgroundColor">
+           <property name="backgroundError">
             <color>
              <red>255</red>
              <green>231</green>
@@ -451,13 +451,13 @@
            <property name="minimum"><number>-50</number></property>
            <property name="maximum"><number>200</number></property>
            <property name="value"><number>24</number></property>
-           <property name="normalBackgroundColor">
+           <property name="backgroundNormal">
             <color><red>243</red><green>246</green><blue>250</blue></color>
            </property>
-           <property name="hoverBackgroundColor">
+           <property name="backgroundHover">
             <color><red>235</red><green>244</green><blue>252</blue></color>
            </property>
-           <property name="focusBackgroundColor">
+           <property name="backgroundFocus">
             <color><red>225</red><green>239</green><blue>255</blue></color>
            </property>
            <property name="stepButtonNormalColor">
@@ -466,7 +466,7 @@
            <property name="stepButtonHoverColor">
             <color><red>26</red><green>71</green><blue>109</blue></color>
            </property>
-           <property name="stepButtonHoverBackgroundColor">
+           <property name="stepButtonBackgroundHover">
             <color><red>214</red><green>232</green><blue>246</blue></color>
            </property>
           </widget>
@@ -560,12 +560,12 @@
   </customwidget>
   <customwidget>
    <class>IconLineEdit</class>
-   <extends>LineEdit</extends>
+   <extends>QLineEdit</extends>
    <header>animatedwidgets/inputs/iconlineedit.h</header>
   </customwidget>
   <customwidget>
    <class>PasswordLineEdit</class>
-   <extends>IconLineEdit</extends>
+   <extends>QLineEdit</extends>
    <header>animatedwidgets/inputs/passwordlineedit.h</header>
   </customwidget>
   <customwidget>

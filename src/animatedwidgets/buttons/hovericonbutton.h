@@ -3,17 +3,19 @@
 #include "animatedwidgets/buttons/animatedbuttonbase.h"
 #include "animatedwidgets/buttons/buttonstatestyle.h"
 
-class HoverIconButton final : public animatedwidgets::AnimatedButtonBase {
+namespace animatedwidgets {
+
+class HoverIconButton : public AnimatedButtonBase {
     Q_OBJECT
-    Q_PROPERTY(QColor hoverBackgroundColor READ hoverBackgroundColor WRITE setHoverBackgroundColor)
-    Q_PROPERTY(QColor pressedBackgroundColor READ pressedBackgroundColor WRITE setPressedBackgroundColor)
-    Q_PROPERTY(QColor disabledBackgroundColor READ disabledBackgroundColor WRITE setDisabledBackgroundColor)
-    Q_PROPERTY(QColor checkedBackgroundColor READ checkedBackgroundColor WRITE setCheckedBackgroundColor)
-    Q_PROPERTY(QColor normalContentColor READ normalContentColor WRITE setNormalContentColor)
-    Q_PROPERTY(QColor hoverContentColor READ hoverContentColor WRITE setHoverContentColor)
-    Q_PROPERTY(QColor pressedContentColor READ pressedContentColor WRITE setPressedContentColor)
-    Q_PROPERTY(QColor disabledContentColor READ disabledContentColor WRITE setDisabledContentColor)
-    Q_PROPERTY(QColor checkedContentColor READ checkedContentColor WRITE setCheckedContentColor)
+    Q_PROPERTY(QColor backgroundHover READ backgroundHover WRITE setBackgroundHover)
+    Q_PROPERTY(QColor backgroundPressed READ backgroundPressed WRITE setBackgroundPressed)
+    Q_PROPERTY(QColor backgroundDisabled READ backgroundDisabled WRITE setBackgroundDisabled)
+    Q_PROPERTY(QColor backgroundChecked READ backgroundChecked WRITE setBackgroundChecked)
+    Q_PROPERTY(QColor contentNormal READ contentNormal WRITE setContentNormal)
+    Q_PROPERTY(QColor contentHover READ contentHover WRITE setContentHover)
+    Q_PROPERTY(QColor contentPressed READ contentPressed WRITE setContentPressed)
+    Q_PROPERTY(QColor contentDisabled READ contentDisabled WRITE setContentDisabled)
+    Q_PROPERTY(QColor contentChecked READ contentChecked WRITE setContentChecked)
     Q_PROPERTY(bool animateContentColor READ animateContentColor WRITE setAnimateContentColor)
     Q_PROPERTY(int darkerStep READ darkerStep WRITE setDarkerStep)
     Q_PROPERTY(int animationDuration READ animationDuration WRITE setAnimationDuration)
@@ -21,34 +23,34 @@ class HoverIconButton final : public animatedwidgets::AnimatedButtonBase {
     Q_PROPERTY(int cornerRadius READ cornerRadius WRITE setCornerRadius)
 public:
     explicit HoverIconButton(QWidget* parent = nullptr);
-    animatedwidgets::ButtonStateStyle normalStyle() const;
-    void setNormalStyle(const animatedwidgets::ButtonStateStyle& style);
-    animatedwidgets::ButtonStateStyle hoverStyle() const;
-    void setHoverStyle(const animatedwidgets::ButtonStateStyle& style);
-    animatedwidgets::ButtonStateStyle pressedStyle() const;
-    void setPressedStyle(const animatedwidgets::ButtonStateStyle& style);
-    animatedwidgets::ButtonStateStyle disabledStyle() const;
-    void setDisabledStyle(const animatedwidgets::ButtonStateStyle& style);
-    animatedwidgets::ButtonStateStyle checkedStyle() const;
-    void setCheckedStyle(const animatedwidgets::ButtonStateStyle& style);
-    QColor hoverBackgroundColor() const;
-    void setHoverBackgroundColor(const QColor& color);
-    QColor pressedBackgroundColor() const;
-    void setPressedBackgroundColor(const QColor& color);
-    QColor disabledBackgroundColor() const;
-    void setDisabledBackgroundColor(const QColor& color);
-    QColor checkedBackgroundColor() const;
-    void setCheckedBackgroundColor(const QColor& color);
-    QColor normalContentColor() const;
-    void setNormalContentColor(const QColor& color);
-    QColor hoverContentColor() const;
-    void setHoverContentColor(const QColor& color);
-    QColor pressedContentColor() const;
-    void setPressedContentColor(const QColor& color);
-    QColor disabledContentColor() const;
-    void setDisabledContentColor(const QColor& color);
-    QColor checkedContentColor() const;
-    void setCheckedContentColor(const QColor& color);
+    ButtonStateStyle normalStyle() const;
+    void setNormalStyle(const ButtonStateStyle& style);
+    ButtonStateStyle hoverStyle() const;
+    void setHoverStyle(const ButtonStateStyle& style);
+    ButtonStateStyle pressedStyle() const;
+    void setPressedStyle(const ButtonStateStyle& style);
+    ButtonStateStyle disabledStyle() const;
+    void setDisabledStyle(const ButtonStateStyle& style);
+    ButtonStateStyle checkedStyle() const;
+    void setCheckedStyle(const ButtonStateStyle& style);
+    QColor backgroundHover() const;
+    void setBackgroundHover(const QColor& color);
+    QColor backgroundPressed() const;
+    void setBackgroundPressed(const QColor& color);
+    QColor backgroundDisabled() const;
+    void setBackgroundDisabled(const QColor& color);
+    QColor backgroundChecked() const;
+    void setBackgroundChecked(const QColor& color);
+    QColor contentNormal() const;
+    void setContentNormal(const QColor& color);
+    QColor contentHover() const;
+    void setContentHover(const QColor& color);
+    QColor contentPressed() const;
+    void setContentPressed(const QColor& color);
+    QColor contentDisabled() const;
+    void setContentDisabled(const QColor& color);
+    QColor contentChecked() const;
+    void setContentChecked(const QColor& color);
     Shape shape() const;
     void setShape(Shape shape);
     int cornerRadius() const;
@@ -60,8 +62,8 @@ protected:
     void updateAnimationTargets(bool immediate) override;
 
 private:
-    QColor backgroundForState(animatedwidgets::ButtonState state) const;
-    QColor contentForState(animatedwidgets::ButtonState state) const;
+    QColor backgroundForState(ButtonState state) const;
+    QColor contentForState(ButtonState state) const;
     QColor m_hoverBackground;
     QColor m_pressedBackground;
     QColor m_disabledBackground = Qt::transparent;
@@ -75,6 +77,8 @@ private:
     int m_cornerRadius = 6;
 };
 
-namespace animatedwidgets {
-using HoverIconButton = ::HoverIconButton;
 } // namespace animatedwidgets
+
+#ifndef ANIMATEDWIDGETS_DESIGNER_PLUGIN
+using HoverIconButton = animatedwidgets::HoverIconButton;
+#endif

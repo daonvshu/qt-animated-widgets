@@ -2,17 +2,19 @@
 
 #include "animatedwidgets/inputs/plaintextedit.h"
 
+namespace animatedwidgets {
+
 CompositePlainTextEdit::CompositePlainTextEdit(QWidget* parent)
     : CompositeInputBase(parent)
 {
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
     m_editor = new PlainTextEdit(this);
     m_editor->setBorderVisible(false);
-    m_editor->setNormalBackgroundColor(Qt::transparent);
-    m_editor->setHoverBackgroundColor(Qt::transparent);
-    m_editor->setFocusBackgroundColor(Qt::transparent);
-    m_editor->setErrorBackgroundColor(Qt::transparent);
-    m_editor->setDisabledBackgroundColor(Qt::transparent);
+    m_editor->setBackgroundNormal(Qt::transparent);
+    m_editor->setBackgroundHover(Qt::transparent);
+    m_editor->setBackgroundFocus(Qt::transparent);
+    m_editor->setBackgroundError(Qt::transparent);
+    m_editor->setBackgroundDisabled(Qt::transparent);
     m_editor->setAnimationDuration(0);
     setEditorWidget(m_editor);
     setContentPadding(m_editor->contentPadding());
@@ -90,3 +92,5 @@ QSize CompositePlainTextEdit::sizeHint() const {
     hint.setHeight(qMax(hint.height(), 110));
     return hint;
 }
+
+} // namespace animatedwidgets

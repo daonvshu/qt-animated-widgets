@@ -2,6 +2,8 @@
 
 #include "animatedwidgets/inputs/compositeinputbase.h"
 
+namespace animatedwidgets {
+
 class IconLineEdit;
 
 class CompositeLineEdit : public CompositeInputBase {
@@ -9,7 +11,7 @@ class CompositeLineEdit : public CompositeInputBase {
     Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged)
     Q_PROPERTY(QString placeholderText READ placeholderText WRITE setPlaceholderText)
     Q_PROPERTY(bool readOnly READ isReadOnly WRITE setReadOnly)
-    Q_PROPERTY(QColor backgroundColor READ backgroundColor WRITE setBackgroundColor)
+    Q_PROPERTY(QColor background READ background WRITE setBackground)
     Q_PROPERTY(int contentPadding READ contentPadding WRITE setContentPadding)
 
 public:
@@ -24,8 +26,8 @@ public:
     bool isReadOnly() const;
     void setReadOnly(bool readOnly);
 
-    QColor backgroundColor() const;
-    void setBackgroundColor(const QColor& color);
+    QColor background() const;
+    void setBackground(const QColor& color);
 
     int contentPadding() const;
     void setContentPadding(int padding);
@@ -39,6 +41,8 @@ private:
     IconLineEdit* m_editor = nullptr;
 };
 
-namespace animatedwidgets {
-using CompositeLineEdit = ::CompositeLineEdit;
 } // namespace animatedwidgets
+
+#ifndef ANIMATEDWIDGETS_DESIGNER_PLUGIN
+using CompositeLineEdit = animatedwidgets::CompositeLineEdit;
+#endif

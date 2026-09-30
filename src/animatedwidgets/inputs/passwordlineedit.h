@@ -4,7 +4,9 @@
 
 #include <QTimer>
 
-class PasswordLineEdit final : public IconLineEdit {
+namespace animatedwidgets {
+
+class PasswordLineEdit : public IconLineEdit {
     Q_OBJECT
     Q_PROPERTY(bool passwordVisible READ passwordVisible WRITE setPasswordVisible)
     Q_PROPERTY(QIcon showPasswordIcon READ showPasswordIcon WRITE setShowPasswordIcon)
@@ -38,6 +40,8 @@ private:
     int m_autoHideDuration = 3000;
 };
 
-namespace animatedwidgets {
-using PasswordLineEdit = ::PasswordLineEdit;
 } // namespace animatedwidgets
+
+#ifndef ANIMATEDWIDGETS_DESIGNER_PLUGIN
+using PasswordLineEdit = animatedwidgets::PasswordLineEdit;
+#endif

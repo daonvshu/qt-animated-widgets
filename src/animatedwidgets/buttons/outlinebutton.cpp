@@ -5,7 +5,7 @@
 
 #include <QPainter>
 
-using namespace animatedwidgets;
+namespace animatedwidgets {
 
 OutlineButton::OutlineButton(QWidget* parent)
     : AnimatedButtonBase(parent)
@@ -63,92 +63,92 @@ void OutlineButton::setCheckedStyle(const ButtonStateStyle& style) {
     refreshButtonState();
 }
 
-QColor OutlineButton::normalBorderColor() const {
+QColor OutlineButton::borderNormal() const {
     return m_normalBorder;
 }
 
-void OutlineButton::setNormalBorderColor(const QColor& color) {
+void OutlineButton::setBorderNormal(const QColor& color) {
     m_normalBorder = color;
     refreshButtonState();
 }
 
-QColor OutlineButton::hoverBorderColor() const {
+QColor OutlineButton::borderHover() const {
     return m_hoverBorder;
 }
 
-void OutlineButton::setHoverBorderColor(const QColor& color) {
+void OutlineButton::setBorderHover(const QColor& color) {
     m_hoverBorder = color;
     refreshButtonState();
 }
 
-QColor OutlineButton::pressedBorderColor() const {
+QColor OutlineButton::borderPressed() const {
     return m_pressedBorder;
 }
 
-void OutlineButton::setPressedBorderColor(const QColor& color) {
+void OutlineButton::setBorderPressed(const QColor& color) {
     m_pressedBorder = color;
     refreshButtonState();
 }
 
-QColor OutlineButton::disabledBorderColor() const {
+QColor OutlineButton::borderDisabled() const {
     return m_disabledBorder;
 }
 
-void OutlineButton::setDisabledBorderColor(const QColor& color) {
+void OutlineButton::setBorderDisabled(const QColor& color) {
     m_disabledBorder = color;
     refreshButtonState();
 }
 
-QColor OutlineButton::checkedBorderColor() const {
+QColor OutlineButton::borderChecked() const {
     return m_checkedBorder;
 }
 
-void OutlineButton::setCheckedBorderColor(const QColor& color) {
+void OutlineButton::setBorderChecked(const QColor& color) {
     m_checkedBorder = color;
     refreshButtonState();
 }
 
-QColor OutlineButton::normalContentColor() const {
+QColor OutlineButton::contentNormal() const {
     return m_normalContent;
 }
 
-void OutlineButton::setNormalContentColor(const QColor& color) {
+void OutlineButton::setContentNormal(const QColor& color) {
     m_normalContent = color;
     refreshButtonState();
 }
 
-QColor OutlineButton::hoverContentColor() const {
+QColor OutlineButton::contentHover() const {
     return m_hoverContent;
 }
 
-void OutlineButton::setHoverContentColor(const QColor& color) {
+void OutlineButton::setContentHover(const QColor& color) {
     m_hoverContent = color;
     refreshButtonState();
 }
 
-QColor OutlineButton::pressedContentColor() const {
+QColor OutlineButton::contentPressed() const {
     return m_pressedContent;
 }
 
-void OutlineButton::setPressedContentColor(const QColor& color) {
+void OutlineButton::setContentPressed(const QColor& color) {
     m_pressedContent = color;
     refreshButtonState();
 }
 
-QColor OutlineButton::disabledContentColor() const {
+QColor OutlineButton::contentDisabled() const {
     return m_disabledContent;
 }
 
-void OutlineButton::setDisabledContentColor(const QColor& color) {
+void OutlineButton::setContentDisabled(const QColor& color) {
     m_disabledContent = color;
     refreshButtonState();
 }
 
-QColor OutlineButton::checkedContentColor() const {
+QColor OutlineButton::contentChecked() const {
     return m_checkedContent;
 }
 
-void OutlineButton::setCheckedContentColor(const QColor& color) {
+void OutlineButton::setContentChecked(const QColor& color) {
     m_checkedContent = color;
     refreshButtonState();
 }
@@ -221,3 +221,5 @@ void OutlineButton::paintEvent(QPaintEvent*) {
             painter, rect(),
             ButtonContentOptions{icon(), iconSize(), text(), font(), animatedContentColor(), m_iconSpacing, false, contentPlacement(m_iconPlacement)});
 }
+
+} // namespace animatedwidgets

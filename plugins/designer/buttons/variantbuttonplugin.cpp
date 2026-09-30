@@ -1,6 +1,6 @@
 #include "variantbuttonplugin.h"
 
-#include "animatedwidgets/buttons/variantbuttons.h"
+#include "../designerwidgets.h"
 
 #include <QPainter>
 

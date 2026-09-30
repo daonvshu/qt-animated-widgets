@@ -2,6 +2,8 @@
 
 #include "animatedwidgets/inputs/compositeinputbase.h"
 
+namespace animatedwidgets {
+
 class DoubleSpinBox;
 
 class CompositeDoubleSpinBox : public CompositeInputBase {
@@ -52,6 +54,8 @@ private:
     DoubleSpinBox* m_editor = nullptr;
 };
 
-namespace animatedwidgets {
-using CompositeDoubleSpinBox = ::CompositeDoubleSpinBox;
 } // namespace animatedwidgets
+
+#ifndef ANIMATEDWIDGETS_DESIGNER_PLUGIN
+using CompositeDoubleSpinBox = animatedwidgets::CompositeDoubleSpinBox;
+#endif

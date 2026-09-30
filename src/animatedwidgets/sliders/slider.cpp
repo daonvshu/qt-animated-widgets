@@ -5,6 +5,8 @@
 #include <QStyle>
 #include <QStyleOptionSlider>
 
+namespace animatedwidgets {
+
 Slider::Slider(QWidget* parent)
     : QSlider(parent)
     , m_position(this)
@@ -25,7 +27,7 @@ void Slider::initializeAnimation() {
     m_position.setDuration(220);
     m_position.setEasingCurve(QEasingCurve::OutCubic);
     m_position.setTarget(double(value()), true);
-    connect(&m_position, &animatedwidgets::ValueTransition::valueChanged, this, [this] { update(); });
+    connect(&m_position, &ValueTransition::valueChanged, this, [this] { update(); });
     connect(this, &QSlider::valueChanged, this, [this](int currentValue) {
         const bool rangeChanged = m_lastMinimum != minimum() || m_lastMaximum != maximum();
         m_lastMinimum = minimum();
@@ -112,3 +114,5 @@ void Slider::mouseReleaseEvent(QMouseEvent* event) {
     m_pointerInput = false;
     m_position.setTarget(double(sliderPosition()), true);
 }
+
+} // namespace animatedwidgets

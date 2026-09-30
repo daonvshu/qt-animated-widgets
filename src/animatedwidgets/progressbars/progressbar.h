@@ -5,7 +5,9 @@
 #include <QColor>
 #include <QProgressBar>
 
-class ProgressBar final : public QProgressBar {
+namespace animatedwidgets {
+
+class ProgressBar : public QProgressBar {
     Q_OBJECT
     Q_PROPERTY(bool animationEnabled READ animationEnabled WRITE setAnimationEnabled)
     Q_PROPERTY(int animationDuration READ animationDuration WRITE setAnimationDuration)
@@ -14,7 +16,7 @@ class ProgressBar final : public QProgressBar {
     Q_PROPERTY(int valueDecimals READ valueDecimals WRITE setValueDecimals)
     Q_PROPERTY(QColor trackColor READ trackColor WRITE setTrackColor)
     Q_PROPERTY(QColor progressColor READ progressColor WRITE setProgressColor)
-    Q_PROPERTY(QColor borderColor READ borderColor WRITE setBorderColor)
+    Q_PROPERTY(QColor border READ border WRITE setBorder)
     Q_PROPERTY(QColor textColor READ textColor WRITE setTextColor)
     Q_PROPERTY(int borderWidth READ borderWidth WRITE setBorderWidth)
     Q_PROPERTY(int cornerRadius READ cornerRadius WRITE setCornerRadius)
@@ -36,8 +38,8 @@ public:
     void setTrackColor(const QColor& color);
     QColor progressColor() const;
     void setProgressColor(const QColor& color);
-    QColor borderColor() const;
-    void setBorderColor(const QColor& color);
+    QColor border() const;
+    void setBorder(const QColor& color);
     QColor textColor() const;
     void setTextColor(const QColor& color);
     int borderWidth() const;
@@ -56,7 +58,7 @@ private:
     QString displayText(double displayedValue) const;
     void updateStyleSheet();
 
-    animatedwidgets::ValueTransition m_valueTransition;
+    ValueTransition m_valueTransition;
     bool m_animationEnabled = true;
     bool m_settingRealValue = false;
     double m_realValue = -1.0;
@@ -72,6 +74,8 @@ private:
     QString m_generatedStyleSheet;
 };
 
-namespace animatedwidgets {
-using ProgressBar = ::ProgressBar;
 } // namespace animatedwidgets
+
+#ifndef ANIMATEDWIDGETS_DESIGNER_PLUGIN
+using ProgressBar = animatedwidgets::ProgressBar;
+#endif

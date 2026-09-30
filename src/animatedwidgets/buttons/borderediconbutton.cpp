@@ -5,7 +5,7 @@
 
 #include <QPainter>
 
-using namespace animatedwidgets;
+namespace animatedwidgets {
 
 BorderedIconButton::BorderedIconButton(QWidget* parent)
     : AnimatedButtonBase(parent)
@@ -68,137 +68,137 @@ void BorderedIconButton::setCheckedStyle(const ButtonStateStyle& style) {
     refreshButtonState();
 }
 
-QColor BorderedIconButton::normalBackgroundColor() const {
+QColor BorderedIconButton::backgroundNormal() const {
     return m_normalBackground;
 }
 
-void BorderedIconButton::setNormalBackgroundColor(const QColor& color) {
+void BorderedIconButton::setBackgroundNormal(const QColor& color) {
     m_normalBackground = color;
     refreshButtonState();
 }
 
-QColor BorderedIconButton::hoverBackgroundColor() const {
+QColor BorderedIconButton::backgroundHover() const {
     return m_hoverBackground;
 }
 
-void BorderedIconButton::setHoverBackgroundColor(const QColor& color) {
+void BorderedIconButton::setBackgroundHover(const QColor& color) {
     m_hoverBackground = color;
     refreshButtonState();
 }
 
-QColor BorderedIconButton::pressedBackgroundColor() const {
+QColor BorderedIconButton::backgroundPressed() const {
     return m_pressedBackground;
 }
 
-void BorderedIconButton::setPressedBackgroundColor(const QColor& color) {
+void BorderedIconButton::setBackgroundPressed(const QColor& color) {
     m_pressedBackground = color;
     refreshButtonState();
 }
 
-QColor BorderedIconButton::disabledBackgroundColor() const {
+QColor BorderedIconButton::backgroundDisabled() const {
     return m_disabledBackground;
 }
 
-void BorderedIconButton::setDisabledBackgroundColor(const QColor& color) {
+void BorderedIconButton::setBackgroundDisabled(const QColor& color) {
     m_disabledBackground = color;
     refreshButtonState();
 }
 
-QColor BorderedIconButton::checkedBackgroundColor() const {
+QColor BorderedIconButton::backgroundChecked() const {
     return m_checkedBackground;
 }
 
-void BorderedIconButton::setCheckedBackgroundColor(const QColor& color) {
+void BorderedIconButton::setBackgroundChecked(const QColor& color) {
     m_checkedBackground = color;
     refreshButtonState();
 }
 
-QColor BorderedIconButton::normalBorderColor() const {
+QColor BorderedIconButton::borderNormal() const {
     return m_normalBorder;
 }
 
-void BorderedIconButton::setNormalBorderColor(const QColor& color) {
+void BorderedIconButton::setBorderNormal(const QColor& color) {
     m_normalBorder = color;
     refreshButtonState();
 }
 
-QColor BorderedIconButton::hoverBorderColor() const {
+QColor BorderedIconButton::borderHover() const {
     return m_hoverBorder;
 }
 
-void BorderedIconButton::setHoverBorderColor(const QColor& color) {
+void BorderedIconButton::setBorderHover(const QColor& color) {
     m_hoverBorder = color;
     refreshButtonState();
 }
 
-QColor BorderedIconButton::pressedBorderColor() const {
+QColor BorderedIconButton::borderPressed() const {
     return m_pressedBorder;
 }
 
-void BorderedIconButton::setPressedBorderColor(const QColor& color) {
+void BorderedIconButton::setBorderPressed(const QColor& color) {
     m_pressedBorder = color;
     refreshButtonState();
 }
 
-QColor BorderedIconButton::disabledBorderColor() const {
+QColor BorderedIconButton::borderDisabled() const {
     return m_disabledBorder;
 }
 
-void BorderedIconButton::setDisabledBorderColor(const QColor& color) {
+void BorderedIconButton::setBorderDisabled(const QColor& color) {
     m_disabledBorder = color;
     refreshButtonState();
 }
 
-QColor BorderedIconButton::checkedBorderColor() const {
+QColor BorderedIconButton::borderChecked() const {
     return m_checkedBorder;
 }
 
-void BorderedIconButton::setCheckedBorderColor(const QColor& color) {
+void BorderedIconButton::setBorderChecked(const QColor& color) {
     m_checkedBorder = color;
     refreshButtonState();
 }
 
-QColor BorderedIconButton::normalContentColor() const {
+QColor BorderedIconButton::contentNormal() const {
     return m_normalContent;
 }
 
-void BorderedIconButton::setNormalContentColor(const QColor& color) {
+void BorderedIconButton::setContentNormal(const QColor& color) {
     m_normalContent = color;
     refreshButtonState();
 }
 
-QColor BorderedIconButton::hoverContentColor() const {
+QColor BorderedIconButton::contentHover() const {
     return m_hoverContent;
 }
 
-void BorderedIconButton::setHoverContentColor(const QColor& color) {
+void BorderedIconButton::setContentHover(const QColor& color) {
     m_hoverContent = color;
     refreshButtonState();
 }
 
-QColor BorderedIconButton::pressedContentColor() const {
+QColor BorderedIconButton::contentPressed() const {
     return m_pressedContent;
 }
 
-void BorderedIconButton::setPressedContentColor(const QColor& color) {
+void BorderedIconButton::setContentPressed(const QColor& color) {
     m_pressedContent = color;
     refreshButtonState();
 }
 
-QColor BorderedIconButton::disabledContentColor() const {
+QColor BorderedIconButton::contentDisabled() const {
     return m_disabledContent;
 }
 
-void BorderedIconButton::setDisabledContentColor(const QColor& color) {
+void BorderedIconButton::setContentDisabled(const QColor& color) {
     m_disabledContent = color;
     refreshButtonState();
 }
 
-QColor BorderedIconButton::checkedContentColor() const {
+QColor BorderedIconButton::contentChecked() const {
     return m_checkedContent;
 }
 
-void BorderedIconButton::setCheckedContentColor(const QColor& color) {
+void BorderedIconButton::setContentChecked(const QColor& color) {
     m_checkedContent = color;
     refreshButtonState();
 }
@@ -265,3 +265,5 @@ void BorderedIconButton::paintEvent(QPaintEvent*) {
             painter, rect(),
             ButtonContentOptions{icon(), iconSize(), {}, font(), animatedContentColor(), 0, true, ButtonContentOptions::Placement::BeforeText});
 }
+
+} // namespace animatedwidgets

@@ -4,7 +4,9 @@
 
 #include <QSlider>
 
-class Slider final : public QSlider {
+namespace animatedwidgets {
+
+class Slider : public QSlider {
     Q_OBJECT
     Q_PROPERTY(bool animationEnabled READ animationEnabled WRITE setAnimationEnabled)
     Q_PROPERTY(int animationDuration READ animationDuration WRITE setAnimationDuration)
@@ -29,13 +31,15 @@ protected:
 private:
     void initializeAnimation();
 
-    animatedwidgets::ValueTransition m_position;
+    ValueTransition m_position;
     bool m_animationEnabled = true;
     bool m_pointerInput = false;
     int m_lastMinimum = 0;
     int m_lastMaximum = 99;
 };
 
-namespace animatedwidgets {
-using Slider = ::Slider;
 } // namespace animatedwidgets
+
+#ifndef ANIMATEDWIDGETS_DESIGNER_PLUGIN
+using Slider = animatedwidgets::Slider;
+#endif

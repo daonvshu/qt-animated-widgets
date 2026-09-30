@@ -6,6 +6,8 @@
 #include <QPainter>
 #include <QResizeEvent>
 
+namespace animatedwidgets {
+
 SpinBox::SpinBox(QWidget* parent)
     : QSpinBox(parent)
     , SpinBoxAppearance(this)
@@ -23,7 +25,7 @@ SpinBox::SpinBox(QWidget* parent)
     for (auto* button : {m_upButton, m_downButton}) {
         button->setIconSize(QSize(12, 12));
         button->setCornerRadius(3);
-        button->setHoverBackgroundColor(QColor(QStringLiteral("#e9f1ff")));
+        button->setBackgroundHover(QColor(QStringLiteral("#e9f1ff")));
         button->setAnimateContentColor(true);
         button->setFocusPolicy(Qt::NoFocus);
         button->setAutoRepeat(true);
@@ -118,66 +120,66 @@ void SpinBox::setStepButtonsVisible(bool visible) {
 }
 
 QColor SpinBox::stepButtonNormalColor() const {
-    return m_upButton->normalContentColor();
+    return m_upButton->contentNormal();
 }
 
 void SpinBox::setStepButtonNormalColor(const QColor& color) {
-    m_upButton->setNormalContentColor(color);
-    m_downButton->setNormalContentColor(color);
+    m_upButton->setContentNormal(color);
+    m_downButton->setContentNormal(color);
 }
 
 QColor SpinBox::stepButtonHoverColor() const {
-    return m_upButton->hoverContentColor();
+    return m_upButton->contentHover();
 }
 
 void SpinBox::setStepButtonHoverColor(const QColor& color) {
-    m_upButton->setHoverContentColor(color);
-    m_downButton->setHoverContentColor(color);
+    m_upButton->setContentHover(color);
+    m_downButton->setContentHover(color);
 }
 
 QColor SpinBox::stepButtonPressedColor() const {
-    return m_upButton->pressedContentColor();
+    return m_upButton->contentPressed();
 }
 
 void SpinBox::setStepButtonPressedColor(const QColor& color) {
-    m_upButton->setPressedContentColor(color);
-    m_downButton->setPressedContentColor(color);
+    m_upButton->setContentPressed(color);
+    m_downButton->setContentPressed(color);
 }
 
 QColor SpinBox::stepButtonDisabledColor() const {
-    return m_upButton->disabledContentColor();
+    return m_upButton->contentDisabled();
 }
 
 void SpinBox::setStepButtonDisabledColor(const QColor& color) {
-    m_upButton->setDisabledContentColor(color);
-    m_downButton->setDisabledContentColor(color);
+    m_upButton->setContentDisabled(color);
+    m_downButton->setContentDisabled(color);
 }
 
-QColor SpinBox::stepButtonHoverBackgroundColor() const {
-    return m_upButton->hoverBackgroundColor();
+QColor SpinBox::stepButtonBackgroundHover() const {
+    return m_upButton->backgroundHover();
 }
 
-void SpinBox::setStepButtonHoverBackgroundColor(const QColor& color) {
-    m_upButton->setHoverBackgroundColor(color);
-    m_downButton->setHoverBackgroundColor(color);
+void SpinBox::setStepButtonBackgroundHover(const QColor& color) {
+    m_upButton->setBackgroundHover(color);
+    m_downButton->setBackgroundHover(color);
 }
 
-QColor SpinBox::stepButtonPressedBackgroundColor() const {
-    return m_upButton->pressedBackgroundColor();
+QColor SpinBox::stepButtonBackgroundPressed() const {
+    return m_upButton->backgroundPressed();
 }
 
-void SpinBox::setStepButtonPressedBackgroundColor(const QColor& color) {
-    m_upButton->setPressedBackgroundColor(color);
-    m_downButton->setPressedBackgroundColor(color);
+void SpinBox::setStepButtonBackgroundPressed(const QColor& color) {
+    m_upButton->setBackgroundPressed(color);
+    m_downButton->setBackgroundPressed(color);
 }
 
-QColor SpinBox::stepButtonDisabledBackgroundColor() const {
-    return m_upButton->disabledBackgroundColor();
+QColor SpinBox::stepButtonBackgroundDisabled() const {
+    return m_upButton->backgroundDisabled();
 }
 
-void SpinBox::setStepButtonDisabledBackgroundColor(const QColor& color) {
-    m_upButton->setDisabledBackgroundColor(color);
-    m_downButton->setDisabledBackgroundColor(color);
+void SpinBox::setStepButtonBackgroundDisabled(const QColor& color) {
+    m_upButton->setBackgroundDisabled(color);
+    m_downButton->setBackgroundDisabled(color);
 }
 
 HoverIconButton* SpinBox::stepUpButton() const {
@@ -236,3 +238,5 @@ void SpinBox::updateStepButtons() {
     m_upButton->setEnabled(isEnabled() && (steps & StepUpEnabled));
     m_downButton->setEnabled(isEnabled() && (steps & StepDownEnabled));
 }
+
+} // namespace animatedwidgets

@@ -2,6 +2,8 @@
 
 #include "animatedwidgets/inputs/compositeinputbase.h"
 
+namespace animatedwidgets {
+
 class PlainTextEdit;
 
 class CompositePlainTextEdit : public CompositeInputBase {
@@ -44,6 +46,8 @@ private:
     PlainTextEdit* m_editor = nullptr;
 };
 
-namespace animatedwidgets {
-using CompositePlainTextEdit = ::CompositePlainTextEdit;
 } // namespace animatedwidgets
+
+#ifndef ANIMATEDWIDGETS_DESIGNER_PLUGIN
+using CompositePlainTextEdit = animatedwidgets::CompositePlainTextEdit;
+#endif

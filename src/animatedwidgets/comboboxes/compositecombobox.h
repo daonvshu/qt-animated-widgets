@@ -2,6 +2,8 @@
 
 #include "animatedwidgets/inputs/compositeinputbase.h"
 
+namespace animatedwidgets {
+
 class ComboBox;
 
 class CompositeComboBox : public CompositeInputBase {
@@ -38,6 +40,8 @@ private:
     ComboBox* m_editor = nullptr;
 };
 
-namespace animatedwidgets {
-using CompositeComboBox = ::CompositeComboBox;
 } // namespace animatedwidgets
+
+#ifndef ANIMATEDWIDGETS_DESIGNER_PLUGIN
+using CompositeComboBox = animatedwidgets::CompositeComboBox;
+#endif

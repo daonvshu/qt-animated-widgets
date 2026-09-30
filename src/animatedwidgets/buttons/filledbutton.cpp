@@ -5,7 +5,7 @@
 
 #include <QPainter>
 
-using namespace animatedwidgets;
+namespace animatedwidgets {
 
 FilledButton::FilledButton(QWidget* parent)
     : AnimatedButtonBase(parent)
@@ -63,92 +63,92 @@ void FilledButton::setCheckedStyle(const ButtonStateStyle& style) {
     refreshButtonState();
 }
 
-QColor FilledButton::normalBackgroundColor() const {
+QColor FilledButton::backgroundNormal() const {
     return m_normalBackground;
 }
 
-void FilledButton::setNormalBackgroundColor(const QColor& color) {
+void FilledButton::setBackgroundNormal(const QColor& color) {
     m_normalBackground = color;
     refreshButtonState();
 }
 
-QColor FilledButton::hoverBackgroundColor() const {
+QColor FilledButton::backgroundHover() const {
     return m_hoverBackground;
 }
 
-void FilledButton::setHoverBackgroundColor(const QColor& color) {
+void FilledButton::setBackgroundHover(const QColor& color) {
     m_hoverBackground = color;
     refreshButtonState();
 }
 
-QColor FilledButton::pressedBackgroundColor() const {
+QColor FilledButton::backgroundPressed() const {
     return m_pressedBackground;
 }
 
-void FilledButton::setPressedBackgroundColor(const QColor& color) {
+void FilledButton::setBackgroundPressed(const QColor& color) {
     m_pressedBackground = color;
     refreshButtonState();
 }
 
-QColor FilledButton::disabledBackgroundColor() const {
+QColor FilledButton::backgroundDisabled() const {
     return m_disabledBackground;
 }
 
-void FilledButton::setDisabledBackgroundColor(const QColor& color) {
+void FilledButton::setBackgroundDisabled(const QColor& color) {
     m_disabledBackground = color;
     refreshButtonState();
 }
 
-QColor FilledButton::checkedBackgroundColor() const {
+QColor FilledButton::backgroundChecked() const {
     return m_checkedBackground;
 }
 
-void FilledButton::setCheckedBackgroundColor(const QColor& color) {
+void FilledButton::setBackgroundChecked(const QColor& color) {
     m_checkedBackground = color;
     refreshButtonState();
 }
 
-QColor FilledButton::normalContentColor() const {
+QColor FilledButton::contentNormal() const {
     return m_normalContent;
 }
 
-void FilledButton::setNormalContentColor(const QColor& color) {
+void FilledButton::setContentNormal(const QColor& color) {
     m_normalContent = color;
     refreshButtonState();
 }
 
-QColor FilledButton::hoverContentColor() const {
+QColor FilledButton::contentHover() const {
     return m_hoverContent;
 }
 
-void FilledButton::setHoverContentColor(const QColor& color) {
+void FilledButton::setContentHover(const QColor& color) {
     m_hoverContent = color;
     refreshButtonState();
 }
 
-QColor FilledButton::pressedContentColor() const {
+QColor FilledButton::contentPressed() const {
     return m_pressedContent;
 }
 
-void FilledButton::setPressedContentColor(const QColor& color) {
+void FilledButton::setContentPressed(const QColor& color) {
     m_pressedContent = color;
     refreshButtonState();
 }
 
-QColor FilledButton::disabledContentColor() const {
+QColor FilledButton::contentDisabled() const {
     return m_disabledContent;
 }
 
-void FilledButton::setDisabledContentColor(const QColor& color) {
+void FilledButton::setContentDisabled(const QColor& color) {
     m_disabledContent = color;
     refreshButtonState();
 }
 
-QColor FilledButton::checkedContentColor() const {
+QColor FilledButton::contentChecked() const {
     return m_checkedContent;
 }
 
-void FilledButton::setCheckedContentColor(const QColor& color) {
+void FilledButton::setContentChecked(const QColor& color) {
     m_checkedContent = color;
     refreshButtonState();
 }
@@ -211,3 +211,5 @@ void FilledButton::paintEvent(QPaintEvent*) {
             painter, rect(),
             ButtonContentOptions{icon(), iconSize(), text(), font(), animatedContentColor(), m_iconSpacing, false, contentPlacement(m_iconPlacement)});
 }
+
+} // namespace animatedwidgets

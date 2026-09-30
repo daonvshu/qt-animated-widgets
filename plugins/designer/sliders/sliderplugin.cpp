@@ -1,6 +1,6 @@
 #include "sliderplugin.h"
 
-#include "animatedwidgets/sliders/slider.h"
+#include "../designerwidgets.h"
 
 #include <QPainter>
 

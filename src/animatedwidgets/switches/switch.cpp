@@ -7,6 +7,8 @@
 #include <QStyle>
 #include <QStyleOptionFocusRect>
 
+namespace animatedwidgets {
+
 Switch::Switch(QWidget* parent)
     : QCheckBox(parent)
     , m_position(this)
@@ -16,7 +18,7 @@ Switch::Switch(QWidget* parent)
     setTristate(false);
     for (auto* transition : {&m_position, &m_trackColor, &m_thumbColor}) {
         transition->setDuration(180);
-        connect(transition, &animatedwidgets::ValueTransition::valueChanged, this, [this] { update(); });
+        connect(transition, &ValueTransition::valueChanged, this, [this] { update(); });
     }
     connect(this, &QCheckBox::toggled, this, [this] { updateTargets(); });
     updateTargets(true);
@@ -216,3 +218,5 @@ void Switch::showEvent(QShowEvent* event) {
 void Switch::nextCheckState() {
     setChecked(!isChecked());
 }
+
+} // namespace animatedwidgets

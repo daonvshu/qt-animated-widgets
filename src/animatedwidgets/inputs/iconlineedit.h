@@ -4,8 +4,11 @@
 
 #include <QIcon>
 
-class HoverIconButton;
 class QResizeEvent;
+
+namespace animatedwidgets {
+
+class HoverIconButton;
 
 class IconLineEdit : public LineEdit {
     Q_OBJECT
@@ -20,16 +23,16 @@ class IconLineEdit : public LineEdit {
     Q_PROPERTY(QColor leadingIconHoverColor READ leadingIconHoverColor WRITE setLeadingIconHoverColor)
     Q_PROPERTY(QColor leadingIconPressedColor READ leadingIconPressedColor WRITE setLeadingIconPressedColor)
     Q_PROPERTY(QColor leadingIconDisabledColor READ leadingIconDisabledColor WRITE setLeadingIconDisabledColor)
-    Q_PROPERTY(QColor leadingIconHoverBackgroundColor READ leadingIconHoverBackgroundColor WRITE setLeadingIconHoverBackgroundColor)
-    Q_PROPERTY(QColor leadingIconPressedBackgroundColor READ leadingIconPressedBackgroundColor WRITE setLeadingIconPressedBackgroundColor)
-    Q_PROPERTY(QColor leadingIconDisabledBackgroundColor READ leadingIconDisabledBackgroundColor WRITE setLeadingIconDisabledBackgroundColor)
+    Q_PROPERTY(QColor leadingIconBackgroundHover READ leadingIconBackgroundHover WRITE setLeadingIconBackgroundHover)
+    Q_PROPERTY(QColor leadingIconBackgroundPressed READ leadingIconBackgroundPressed WRITE setLeadingIconBackgroundPressed)
+    Q_PROPERTY(QColor leadingIconBackgroundDisabled READ leadingIconBackgroundDisabled WRITE setLeadingIconBackgroundDisabled)
     Q_PROPERTY(QColor trailingIconNormalColor READ trailingIconNormalColor WRITE setTrailingIconNormalColor)
     Q_PROPERTY(QColor trailingIconHoverColor READ trailingIconHoverColor WRITE setTrailingIconHoverColor)
     Q_PROPERTY(QColor trailingIconPressedColor READ trailingIconPressedColor WRITE setTrailingIconPressedColor)
     Q_PROPERTY(QColor trailingIconDisabledColor READ trailingIconDisabledColor WRITE setTrailingIconDisabledColor)
-    Q_PROPERTY(QColor trailingIconHoverBackgroundColor READ trailingIconHoverBackgroundColor WRITE setTrailingIconHoverBackgroundColor)
-    Q_PROPERTY(QColor trailingIconPressedBackgroundColor READ trailingIconPressedBackgroundColor WRITE setTrailingIconPressedBackgroundColor)
-    Q_PROPERTY(QColor trailingIconDisabledBackgroundColor READ trailingIconDisabledBackgroundColor WRITE setTrailingIconDisabledBackgroundColor)
+    Q_PROPERTY(QColor trailingIconBackgroundHover READ trailingIconBackgroundHover WRITE setTrailingIconBackgroundHover)
+    Q_PROPERTY(QColor trailingIconBackgroundPressed READ trailingIconBackgroundPressed WRITE setTrailingIconBackgroundPressed)
+    Q_PROPERTY(QColor trailingIconBackgroundDisabled READ trailingIconBackgroundDisabled WRITE setTrailingIconBackgroundDisabled)
 
 public:
     explicit IconLineEdit(QWidget* parent = nullptr);
@@ -56,12 +59,12 @@ public:
     void setLeadingIconPressedColor(const QColor& color);
     QColor leadingIconDisabledColor() const;
     void setLeadingIconDisabledColor(const QColor& color);
-    QColor leadingIconHoverBackgroundColor() const;
-    void setLeadingIconHoverBackgroundColor(const QColor& color);
-    QColor leadingIconPressedBackgroundColor() const;
-    void setLeadingIconPressedBackgroundColor(const QColor& color);
-    QColor leadingIconDisabledBackgroundColor() const;
-    void setLeadingIconDisabledBackgroundColor(const QColor& color);
+    QColor leadingIconBackgroundHover() const;
+    void setLeadingIconBackgroundHover(const QColor& color);
+    QColor leadingIconBackgroundPressed() const;
+    void setLeadingIconBackgroundPressed(const QColor& color);
+    QColor leadingIconBackgroundDisabled() const;
+    void setLeadingIconBackgroundDisabled(const QColor& color);
 
     QColor trailingIconNormalColor() const;
     void setTrailingIconNormalColor(const QColor& color);
@@ -71,12 +74,12 @@ public:
     void setTrailingIconPressedColor(const QColor& color);
     QColor trailingIconDisabledColor() const;
     void setTrailingIconDisabledColor(const QColor& color);
-    QColor trailingIconHoverBackgroundColor() const;
-    void setTrailingIconHoverBackgroundColor(const QColor& color);
-    QColor trailingIconPressedBackgroundColor() const;
-    void setTrailingIconPressedBackgroundColor(const QColor& color);
-    QColor trailingIconDisabledBackgroundColor() const;
-    void setTrailingIconDisabledBackgroundColor(const QColor& color);
+    QColor trailingIconBackgroundHover() const;
+    void setTrailingIconBackgroundHover(const QColor& color);
+    QColor trailingIconBackgroundPressed() const;
+    void setTrailingIconBackgroundPressed(const QColor& color);
+    QColor trailingIconBackgroundDisabled() const;
+    void setTrailingIconBackgroundDisabled(const QColor& color);
 
     HoverIconButton* leadingButton() const;
     HoverIconButton* trailingButton() const;
@@ -107,6 +110,8 @@ private:
     int m_iconSpacing = 6;
 };
 
-namespace animatedwidgets {
-using IconLineEdit = ::IconLineEdit;
 } // namespace animatedwidgets
+
+#ifndef ANIMATEDWIDGETS_DESIGNER_PLUGIN
+using IconLineEdit = animatedwidgets::IconLineEdit;
+#endif

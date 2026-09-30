@@ -2,6 +2,8 @@
 
 #include "animatedwidgets/inputs/iconlineedit.h"
 
+namespace animatedwidgets {
+
 CompositeLineEdit::CompositeLineEdit(QWidget* parent)
     : CompositeInputBase(parent)
 {
@@ -9,11 +11,11 @@ CompositeLineEdit::CompositeLineEdit(QWidget* parent)
     setHorizontalFrameInset(1);
     m_editor = new IconLineEdit(this);
     m_editor->setBorderVisible(false);
-    m_editor->setNormalBackgroundColor(Qt::transparent);
-    m_editor->setHoverBackgroundColor(Qt::transparent);
-    m_editor->setFocusBackgroundColor(Qt::transparent);
-    m_editor->setErrorBackgroundColor(Qt::transparent);
-    m_editor->setDisabledBackgroundColor(Qt::transparent);
+    m_editor->setBackgroundNormal(Qt::transparent);
+    m_editor->setBackgroundHover(Qt::transparent);
+    m_editor->setBackgroundFocus(Qt::transparent);
+    m_editor->setBackgroundError(Qt::transparent);
+    m_editor->setBackgroundDisabled(Qt::transparent);
     m_editor->setAnimationDuration(0);
     setEditorWidget(m_editor);
     setContentPadding(m_editor->contentPadding());
@@ -51,12 +53,12 @@ void CompositeLineEdit::setReadOnly(bool readOnly) {
     m_editor->setReadOnly(readOnly);
 }
 
-QColor CompositeLineEdit::backgroundColor() const {
-    return normalBackgroundColor();
+QColor CompositeLineEdit::background() const {
+    return backgroundNormal();
 }
 
-void CompositeLineEdit::setBackgroundColor(const QColor& color) {
-    setNormalBackgroundColor(color);
+void CompositeLineEdit::setBackground(const QColor& color) {
+    setBackgroundNormal(color);
 }
 
 int CompositeLineEdit::contentPadding() const {
@@ -75,3 +77,5 @@ QSize CompositeLineEdit::sizeHint() const {
     hint.setHeight(qMax(36, hint.height()));
     return hint;
 }
+
+} // namespace animatedwidgets

@@ -6,7 +6,9 @@
 #include <QPixmap>
 #include <QRadioButton>
 
-class RadioButton final : public QRadioButton {
+namespace animatedwidgets {
+
+class RadioButton : public QRadioButton {
     Q_OBJECT
     Q_PROPERTY(QPixmap checkedIcon READ checkedIcon WRITE setCheckedIcon)
     Q_PROPERTY(QPixmap uncheckedIcon READ uncheckedIcon WRITE setUncheckedIcon)
@@ -41,10 +43,12 @@ protected:
     void changeEvent(QEvent* event) override;
 
 private:
-    animatedwidgets::CheckableIconAnimator m_animator;
+    CheckableIconAnimator m_animator;
     int m_iconSpacing = 8;
 };
 
-namespace animatedwidgets {
-using RadioButton = ::RadioButton;
 } // namespace animatedwidgets
+
+#ifndef ANIMATEDWIDGETS_DESIGNER_PLUGIN
+using RadioButton = animatedwidgets::RadioButton;
+#endif

@@ -6,6 +6,8 @@
 #include <QLineEdit>
 #include <QPainter>
 
+namespace animatedwidgets {
+
 ComboBox::ComboBox(QWidget* parent)
     : QComboBox(parent)
     , m_borderTransition(this)
@@ -20,7 +22,7 @@ ComboBox::ComboBox(QWidget* parent)
     for (auto* transition : {&m_borderTransition, &m_backgroundTransition}) {
         transition->setDuration(m_animationDuration);
         transition->setEasingCurve(QEasingCurve::OutCubic);
-        connect(transition, &animatedwidgets::ValueTransition::valueChanged, this, [this] { update(); });
+        connect(transition, &ValueTransition::valueChanged, this, [this] { update(); });
     }
     connect(qApp, &QApplication::focusChanged, this, [this](QWidget* old, QWidget* current) {
         if (old == this || current == this || (old && isAncestorOf(old)) || (current && isAncestorOf(current)))
@@ -41,92 +43,92 @@ void ComboBox::setHasError(bool error) {
     emit hasErrorChanged(error);
 }
 
-QColor ComboBox::normalBorderColor() const {
+QColor ComboBox::borderNormal() const {
     return m_normalBorderColor;
 }
 
-void ComboBox::setNormalBorderColor(const QColor& color) {
+void ComboBox::setBorderNormal(const QColor& color) {
     m_normalBorderColor = color;
     refreshState();
 }
 
-QColor ComboBox::hoverBorderColor() const {
+QColor ComboBox::borderHover() const {
     return m_hoverBorderColor;
 }
 
-void ComboBox::setHoverBorderColor(const QColor& color) {
+void ComboBox::setBorderHover(const QColor& color) {
     m_hoverBorderColor = color;
     refreshState();
 }
 
-QColor ComboBox::focusBorderColor() const {
+QColor ComboBox::borderFocus() const {
     return m_focusBorderColor;
 }
 
-void ComboBox::setFocusBorderColor(const QColor& color) {
+void ComboBox::setBorderFocus(const QColor& color) {
     m_focusBorderColor = color;
     refreshState();
 }
 
-QColor ComboBox::errorBorderColor() const {
+QColor ComboBox::borderError() const {
     return m_errorBorderColor;
 }
 
-void ComboBox::setErrorBorderColor(const QColor& color) {
+void ComboBox::setBorderError(const QColor& color) {
     m_errorBorderColor = color;
     refreshState();
 }
 
-QColor ComboBox::disabledBorderColor() const {
+QColor ComboBox::borderDisabled() const {
     return m_disabledBorderColor;
 }
 
-void ComboBox::setDisabledBorderColor(const QColor& color) {
+void ComboBox::setBorderDisabled(const QColor& color) {
     m_disabledBorderColor = color;
     refreshState();
 }
 
-QColor ComboBox::normalBackgroundColor() const {
+QColor ComboBox::backgroundNormal() const {
     return m_normalBackgroundColor;
 }
 
-void ComboBox::setNormalBackgroundColor(const QColor& color) {
+void ComboBox::setBackgroundNormal(const QColor& color) {
     m_normalBackgroundColor = color;
     refreshState();
 }
 
-QColor ComboBox::hoverBackgroundColor() const {
+QColor ComboBox::backgroundHover() const {
     return m_hoverBackgroundColor;
 }
 
-void ComboBox::setHoverBackgroundColor(const QColor& color) {
+void ComboBox::setBackgroundHover(const QColor& color) {
     m_hoverBackgroundColor = color;
     refreshState();
 }
 
-QColor ComboBox::focusBackgroundColor() const {
+QColor ComboBox::backgroundFocus() const {
     return m_focusBackgroundColor;
 }
 
-void ComboBox::setFocusBackgroundColor(const QColor& color) {
+void ComboBox::setBackgroundFocus(const QColor& color) {
     m_focusBackgroundColor = color;
     refreshState();
 }
 
-QColor ComboBox::errorBackgroundColor() const {
+QColor ComboBox::backgroundError() const {
     return m_errorBackgroundColor;
 }
 
-void ComboBox::setErrorBackgroundColor(const QColor& color) {
+void ComboBox::setBackgroundError(const QColor& color) {
     m_errorBackgroundColor = color;
     refreshState();
 }
 
-QColor ComboBox::disabledBackgroundColor() const {
+QColor ComboBox::backgroundDisabled() const {
     return m_disabledBackgroundColor;
 }
 
-void ComboBox::setDisabledBackgroundColor(const QColor& color) {
+void ComboBox::setBackgroundDisabled(const QColor& color) {
     m_disabledBackgroundColor = color;
     refreshState();
 }
@@ -399,3 +401,5 @@ void ComboBox::hidePopup() {
     m_popupOpen = false;
     refreshState();
 }
+
+} // namespace animatedwidgets

@@ -3,6 +3,7 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS UiPlugin)
 add_library(animatedwidgetsdesigner MODULE
     plugins.h
     plugins.cpp
+    designerwidgets.h
     buttons/variantbuttonplugin.h
     buttons/variantbuttonplugin.cpp
     switches/switchplugin.h
@@ -16,6 +17,7 @@ add_library(animatedwidgetsdesigner MODULE
     comboboxes/comboboxplugin.h
     comboboxes/comboboxplugin.cpp
 )
+target_compile_definitions(animatedwidgetsdesigner PRIVATE ANIMATEDWIDGETS_DESIGNER_PLUGIN)
 target_link_libraries(animatedwidgetsdesigner PRIVATE
     AnimatedWidgets::Widgets
     Qt${QT_VERSION_MAJOR}::UiPlugin

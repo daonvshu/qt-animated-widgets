@@ -6,6 +6,8 @@
 #include <QPainter>
 #include <QResizeEvent>
 
+namespace animatedwidgets {
+
 DoubleSpinBox::DoubleSpinBox(QWidget* parent)
     : QDoubleSpinBox(parent)
     , SpinBoxAppearance(this)
@@ -23,7 +25,7 @@ DoubleSpinBox::DoubleSpinBox(QWidget* parent)
     for (auto* button : {m_upButton, m_downButton}) {
         button->setIconSize(QSize(12, 12));
         button->setCornerRadius(3);
-        button->setHoverBackgroundColor(QColor(QStringLiteral("#e9f1ff")));
+        button->setBackgroundHover(QColor(QStringLiteral("#e9f1ff")));
         button->setAnimateContentColor(true);
         button->setFocusPolicy(Qt::NoFocus);
         button->setAutoRepeat(true);
@@ -118,66 +120,66 @@ void DoubleSpinBox::setStepButtonsVisible(bool visible) {
 }
 
 QColor DoubleSpinBox::stepButtonNormalColor() const {
-    return m_upButton->normalContentColor();
+    return m_upButton->contentNormal();
 }
 
 void DoubleSpinBox::setStepButtonNormalColor(const QColor& color) {
-    m_upButton->setNormalContentColor(color);
-    m_downButton->setNormalContentColor(color);
+    m_upButton->setContentNormal(color);
+    m_downButton->setContentNormal(color);
 }
 
 QColor DoubleSpinBox::stepButtonHoverColor() const {
-    return m_upButton->hoverContentColor();
+    return m_upButton->contentHover();
 }
 
 void DoubleSpinBox::setStepButtonHoverColor(const QColor& color) {
-    m_upButton->setHoverContentColor(color);
-    m_downButton->setHoverContentColor(color);
+    m_upButton->setContentHover(color);
+    m_downButton->setContentHover(color);
 }
 
 QColor DoubleSpinBox::stepButtonPressedColor() const {
-    return m_upButton->pressedContentColor();
+    return m_upButton->contentPressed();
 }
 
 void DoubleSpinBox::setStepButtonPressedColor(const QColor& color) {
-    m_upButton->setPressedContentColor(color);
-    m_downButton->setPressedContentColor(color);
+    m_upButton->setContentPressed(color);
+    m_downButton->setContentPressed(color);
 }
 
 QColor DoubleSpinBox::stepButtonDisabledColor() const {
-    return m_upButton->disabledContentColor();
+    return m_upButton->contentDisabled();
 }
 
 void DoubleSpinBox::setStepButtonDisabledColor(const QColor& color) {
-    m_upButton->setDisabledContentColor(color);
-    m_downButton->setDisabledContentColor(color);
+    m_upButton->setContentDisabled(color);
+    m_downButton->setContentDisabled(color);
 }
 
-QColor DoubleSpinBox::stepButtonHoverBackgroundColor() const {
-    return m_upButton->hoverBackgroundColor();
+QColor DoubleSpinBox::stepButtonBackgroundHover() const {
+    return m_upButton->backgroundHover();
 }
 
-void DoubleSpinBox::setStepButtonHoverBackgroundColor(const QColor& color) {
-    m_upButton->setHoverBackgroundColor(color);
-    m_downButton->setHoverBackgroundColor(color);
+void DoubleSpinBox::setStepButtonBackgroundHover(const QColor& color) {
+    m_upButton->setBackgroundHover(color);
+    m_downButton->setBackgroundHover(color);
 }
 
-QColor DoubleSpinBox::stepButtonPressedBackgroundColor() const {
-    return m_upButton->pressedBackgroundColor();
+QColor DoubleSpinBox::stepButtonBackgroundPressed() const {
+    return m_upButton->backgroundPressed();
 }
 
-void DoubleSpinBox::setStepButtonPressedBackgroundColor(const QColor& color) {
-    m_upButton->setPressedBackgroundColor(color);
-    m_downButton->setPressedBackgroundColor(color);
+void DoubleSpinBox::setStepButtonBackgroundPressed(const QColor& color) {
+    m_upButton->setBackgroundPressed(color);
+    m_downButton->setBackgroundPressed(color);
 }
 
-QColor DoubleSpinBox::stepButtonDisabledBackgroundColor() const {
-    return m_upButton->disabledBackgroundColor();
+QColor DoubleSpinBox::stepButtonBackgroundDisabled() const {
+    return m_upButton->backgroundDisabled();
 }
 
-void DoubleSpinBox::setStepButtonDisabledBackgroundColor(const QColor& color) {
-    m_upButton->setDisabledBackgroundColor(color);
-    m_downButton->setDisabledBackgroundColor(color);
+void DoubleSpinBox::setStepButtonBackgroundDisabled(const QColor& color) {
+    m_upButton->setBackgroundDisabled(color);
+    m_downButton->setBackgroundDisabled(color);
 }
 
 HoverIconButton* DoubleSpinBox::stepUpButton() const {
@@ -236,3 +238,5 @@ void DoubleSpinBox::updateStepButtons() {
     m_upButton->setEnabled(isEnabled() && (steps & StepUpEnabled));
     m_downButton->setEnabled(isEnabled() && (steps & StepDownEnabled));
 }
+
+} // namespace animatedwidgets

@@ -3,18 +3,20 @@
 #include "animatedwidgets/buttons/animatedbuttonbase.h"
 #include "animatedwidgets/buttons/buttonstatestyle.h"
 
-class OutlineIconButton final : public animatedwidgets::AnimatedButtonBase {
+namespace animatedwidgets {
+
+class OutlineIconButton : public AnimatedButtonBase {
     Q_OBJECT
-    Q_PROPERTY(QColor normalBorderColor READ normalBorderColor WRITE setNormalBorderColor)
-    Q_PROPERTY(QColor hoverBorderColor READ hoverBorderColor WRITE setHoverBorderColor)
-    Q_PROPERTY(QColor pressedBorderColor READ pressedBorderColor WRITE setPressedBorderColor)
-    Q_PROPERTY(QColor disabledBorderColor READ disabledBorderColor WRITE setDisabledBorderColor)
-    Q_PROPERTY(QColor checkedBorderColor READ checkedBorderColor WRITE setCheckedBorderColor)
-    Q_PROPERTY(QColor normalContentColor READ normalContentColor WRITE setNormalContentColor)
-    Q_PROPERTY(QColor hoverContentColor READ hoverContentColor WRITE setHoverContentColor)
-    Q_PROPERTY(QColor pressedContentColor READ pressedContentColor WRITE setPressedContentColor)
-    Q_PROPERTY(QColor disabledContentColor READ disabledContentColor WRITE setDisabledContentColor)
-    Q_PROPERTY(QColor checkedContentColor READ checkedContentColor WRITE setCheckedContentColor)
+    Q_PROPERTY(QColor borderNormal READ borderNormal WRITE setBorderNormal)
+    Q_PROPERTY(QColor borderHover READ borderHover WRITE setBorderHover)
+    Q_PROPERTY(QColor borderPressed READ borderPressed WRITE setBorderPressed)
+    Q_PROPERTY(QColor borderDisabled READ borderDisabled WRITE setBorderDisabled)
+    Q_PROPERTY(QColor borderChecked READ borderChecked WRITE setBorderChecked)
+    Q_PROPERTY(QColor contentNormal READ contentNormal WRITE setContentNormal)
+    Q_PROPERTY(QColor contentHover READ contentHover WRITE setContentHover)
+    Q_PROPERTY(QColor contentPressed READ contentPressed WRITE setContentPressed)
+    Q_PROPERTY(QColor contentDisabled READ contentDisabled WRITE setContentDisabled)
+    Q_PROPERTY(QColor contentChecked READ contentChecked WRITE setContentChecked)
     Q_PROPERTY(bool animateContentColor READ animateContentColor WRITE setAnimateContentColor)
     Q_PROPERTY(int darkerStep READ darkerStep WRITE setDarkerStep)
     Q_PROPERTY(int animationDuration READ animationDuration WRITE setAnimationDuration)
@@ -23,36 +25,36 @@ class OutlineIconButton final : public animatedwidgets::AnimatedButtonBase {
     Q_PROPERTY(qreal borderWidth READ borderWidth WRITE setBorderWidth)
 public:
     explicit OutlineIconButton(QWidget* parent = nullptr);
-    animatedwidgets::ButtonStateStyle normalStyle() const;
-    void setNormalStyle(const animatedwidgets::ButtonStateStyle& style);
-    animatedwidgets::ButtonStateStyle hoverStyle() const;
-    void setHoverStyle(const animatedwidgets::ButtonStateStyle& style);
-    animatedwidgets::ButtonStateStyle pressedStyle() const;
-    void setPressedStyle(const animatedwidgets::ButtonStateStyle& style);
-    animatedwidgets::ButtonStateStyle disabledStyle() const;
-    void setDisabledStyle(const animatedwidgets::ButtonStateStyle& style);
-    animatedwidgets::ButtonStateStyle checkedStyle() const;
-    void setCheckedStyle(const animatedwidgets::ButtonStateStyle& style);
-    QColor normalBorderColor() const;
-    void setNormalBorderColor(const QColor& color);
-    QColor hoverBorderColor() const;
-    void setHoverBorderColor(const QColor& color);
-    QColor pressedBorderColor() const;
-    void setPressedBorderColor(const QColor& color);
-    QColor disabledBorderColor() const;
-    void setDisabledBorderColor(const QColor& color);
-    QColor checkedBorderColor() const;
-    void setCheckedBorderColor(const QColor& color);
-    QColor normalContentColor() const;
-    void setNormalContentColor(const QColor& color);
-    QColor hoverContentColor() const;
-    void setHoverContentColor(const QColor& color);
-    QColor pressedContentColor() const;
-    void setPressedContentColor(const QColor& color);
-    QColor disabledContentColor() const;
-    void setDisabledContentColor(const QColor& color);
-    QColor checkedContentColor() const;
-    void setCheckedContentColor(const QColor& color);
+    ButtonStateStyle normalStyle() const;
+    void setNormalStyle(const ButtonStateStyle& style);
+    ButtonStateStyle hoverStyle() const;
+    void setHoverStyle(const ButtonStateStyle& style);
+    ButtonStateStyle pressedStyle() const;
+    void setPressedStyle(const ButtonStateStyle& style);
+    ButtonStateStyle disabledStyle() const;
+    void setDisabledStyle(const ButtonStateStyle& style);
+    ButtonStateStyle checkedStyle() const;
+    void setCheckedStyle(const ButtonStateStyle& style);
+    QColor borderNormal() const;
+    void setBorderNormal(const QColor& color);
+    QColor borderHover() const;
+    void setBorderHover(const QColor& color);
+    QColor borderPressed() const;
+    void setBorderPressed(const QColor& color);
+    QColor borderDisabled() const;
+    void setBorderDisabled(const QColor& color);
+    QColor borderChecked() const;
+    void setBorderChecked(const QColor& color);
+    QColor contentNormal() const;
+    void setContentNormal(const QColor& color);
+    QColor contentHover() const;
+    void setContentHover(const QColor& color);
+    QColor contentPressed() const;
+    void setContentPressed(const QColor& color);
+    QColor contentDisabled() const;
+    void setContentDisabled(const QColor& color);
+    QColor contentChecked() const;
+    void setContentChecked(const QColor& color);
     Shape shape() const;
     void setShape(Shape shape);
     int cornerRadius() const;
@@ -66,8 +68,8 @@ protected:
     void updateAnimationTargets(bool immediate) override;
 
 private:
-    QColor borderForState(animatedwidgets::ButtonState state) const;
-    QColor contentForState(animatedwidgets::ButtonState state) const;
+    QColor borderForState(ButtonState state) const;
+    QColor contentForState(ButtonState state) const;
     QColor m_normalBorder = QColor("#3478f6");
     QColor m_hoverBorder;
     QColor m_pressedBorder;
@@ -83,6 +85,8 @@ private:
     qreal m_borderWidth = 1.0;
 };
 
-namespace animatedwidgets {
-using OutlineIconButton = ::OutlineIconButton;
 } // namespace animatedwidgets
+
+#ifndef ANIMATEDWIDGETS_DESIGNER_PLUGIN
+using OutlineIconButton = animatedwidgets::OutlineIconButton;
+#endif

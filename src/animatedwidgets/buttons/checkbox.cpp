@@ -5,7 +5,7 @@
 #include <QEvent>
 #include <QPainter>
 
-using namespace animatedwidgets;
+namespace animatedwidgets {
 
 CheckBox::CheckBox(QWidget* parent)
     : QCheckBox(parent)
@@ -125,3 +125,5 @@ void CheckBox::changeEvent(QEvent* event) {
             break;
     }
 }
+
+} // namespace animatedwidgets

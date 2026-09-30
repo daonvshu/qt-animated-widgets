@@ -6,6 +6,8 @@
 
 #include <cmath>
 
+namespace animatedwidgets {
+
 ProgressBar::ProgressBar(QWidget* parent)
     : QProgressBar(parent)
     , m_valueTransition(this)
@@ -16,7 +18,7 @@ ProgressBar::ProgressBar(QWidget* parent)
     m_valueTransition.setDuration(450);
     m_valueTransition.setEasingCurve(QEasingCurve::OutCubic);
     m_valueTransition.setTarget(m_realValue, true);
-    connect(&m_valueTransition, &animatedwidgets::ValueTransition::valueChanged, this, [this] { update(); });
+    connect(&m_valueTransition, &ValueTransition::valueChanged, this, [this] { update(); });
     connect(this, &QProgressBar::valueChanged, this, [this](int newValue) {
         if (m_settingRealValue)
             return;
@@ -107,11 +109,11 @@ void ProgressBar::setProgressColor(const QColor& color) {
     updateStyleSheet();
 }
 
-QColor ProgressBar::borderColor() const {
+QColor ProgressBar::border() const {
     return m_borderColor;
 }
 
-void ProgressBar::setBorderColor(const QColor& color) {
+void ProgressBar::setBorder(const QColor& color) {
     m_borderColor = color;
     updateStyleSheet();
 }
@@ -212,3 +214,5 @@ void ProgressBar::paintEvent(QPaintEvent*) {
     QPainter painter(this);
     style()->drawControl(QStyle::CE_ProgressBar, &option, &painter, this);
 }
+
+} // namespace animatedwidgets

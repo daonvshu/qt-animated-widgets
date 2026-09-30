@@ -4,6 +4,8 @@
 #include <QPainter>
 #include <QTextDocument>
 
+namespace animatedwidgets {
+
 PlainTextEdit::PlainTextEdit(QWidget* parent)
     : QPlainTextEdit(parent)
     , m_borderTransition(this)
@@ -19,7 +21,7 @@ PlainTextEdit::PlainTextEdit(QWidget* parent)
     for (auto* transition : {&m_borderTransition, &m_backgroundTransition}) {
         transition->setDuration(m_animationDuration);
         transition->setEasingCurve(QEasingCurve::OutCubic);
-        connect(transition, &animatedwidgets::ValueTransition::valueChanged, this, [this] {
+        connect(transition, &ValueTransition::valueChanged, this, [this] {
             update();
             viewport()->update();
         });
@@ -40,92 +42,92 @@ void PlainTextEdit::setHasError(bool error) {
     emit hasErrorChanged(error);
 }
 
-QColor PlainTextEdit::normalBorderColor() const {
+QColor PlainTextEdit::borderNormal() const {
     return m_normalBorderColor;
 }
 
-void PlainTextEdit::setNormalBorderColor(const QColor& color) {
+void PlainTextEdit::setBorderNormal(const QColor& color) {
     m_normalBorderColor = color;
     refreshInputState();
 }
 
-QColor PlainTextEdit::hoverBorderColor() const {
+QColor PlainTextEdit::borderHover() const {
     return m_hoverBorderColor;
 }
 
-void PlainTextEdit::setHoverBorderColor(const QColor& color) {
+void PlainTextEdit::setBorderHover(const QColor& color) {
     m_hoverBorderColor = color;
     refreshInputState();
 }
 
-QColor PlainTextEdit::focusBorderColor() const {
+QColor PlainTextEdit::borderFocus() const {
     return m_focusBorderColor;
 }
 
-void PlainTextEdit::setFocusBorderColor(const QColor& color) {
+void PlainTextEdit::setBorderFocus(const QColor& color) {
     m_focusBorderColor = color;
     refreshInputState();
 }
 
-QColor PlainTextEdit::errorBorderColor() const {
+QColor PlainTextEdit::borderError() const {
     return m_errorBorderColor;
 }
 
-void PlainTextEdit::setErrorBorderColor(const QColor& color) {
+void PlainTextEdit::setBorderError(const QColor& color) {
     m_errorBorderColor = color;
     refreshInputState();
 }
 
-QColor PlainTextEdit::disabledBorderColor() const {
+QColor PlainTextEdit::borderDisabled() const {
     return m_disabledBorderColor;
 }
 
-void PlainTextEdit::setDisabledBorderColor(const QColor& color) {
+void PlainTextEdit::setBorderDisabled(const QColor& color) {
     m_disabledBorderColor = color;
     refreshInputState();
 }
 
-QColor PlainTextEdit::normalBackgroundColor() const {
+QColor PlainTextEdit::backgroundNormal() const {
     return m_normalBackgroundColor;
 }
 
-void PlainTextEdit::setNormalBackgroundColor(const QColor& color) {
+void PlainTextEdit::setBackgroundNormal(const QColor& color) {
     m_normalBackgroundColor = color;
     refreshInputState();
 }
 
-QColor PlainTextEdit::hoverBackgroundColor() const {
+QColor PlainTextEdit::backgroundHover() const {
     return m_hoverBackgroundColor;
 }
 
-void PlainTextEdit::setHoverBackgroundColor(const QColor& color) {
+void PlainTextEdit::setBackgroundHover(const QColor& color) {
     m_hoverBackgroundColor = color;
     refreshInputState();
 }
 
-QColor PlainTextEdit::focusBackgroundColor() const {
+QColor PlainTextEdit::backgroundFocus() const {
     return m_focusBackgroundColor;
 }
 
-void PlainTextEdit::setFocusBackgroundColor(const QColor& color) {
+void PlainTextEdit::setBackgroundFocus(const QColor& color) {
     m_focusBackgroundColor = color;
     refreshInputState();
 }
 
-QColor PlainTextEdit::errorBackgroundColor() const {
+QColor PlainTextEdit::backgroundError() const {
     return m_errorBackgroundColor;
 }
 
-void PlainTextEdit::setErrorBackgroundColor(const QColor& color) {
+void PlainTextEdit::setBackgroundError(const QColor& color) {
     m_errorBackgroundColor = color;
     refreshInputState();
 }
 
-QColor PlainTextEdit::disabledBackgroundColor() const {
+QColor PlainTextEdit::backgroundDisabled() const {
     return m_disabledBackgroundColor;
 }
 
-void PlainTextEdit::setDisabledBackgroundColor(const QColor& color) {
+void PlainTextEdit::setBackgroundDisabled(const QColor& color) {
     m_disabledBackgroundColor = color;
     refreshInputState();
 }
@@ -290,3 +292,5 @@ void PlainTextEdit::paintEvent(QPaintEvent* event) {
     painter.end();
     QPlainTextEdit::paintEvent(event);
 }
+
+} // namespace animatedwidgets

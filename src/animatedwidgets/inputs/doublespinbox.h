@@ -5,21 +5,23 @@
 #include <QDoubleSpinBox>
 #include <QIcon>
 
+namespace animatedwidgets {
+
 class HoverIconButton;
 
 class DoubleSpinBox : public QDoubleSpinBox, public SpinBoxAppearance {
     Q_OBJECT
     Q_PROPERTY(bool hasError READ hasError WRITE setHasError NOTIFY hasErrorChanged)
-    Q_PROPERTY(QColor normalBorderColor READ normalBorderColor WRITE setNormalBorderColor)
-    Q_PROPERTY(QColor hoverBorderColor READ hoverBorderColor WRITE setHoverBorderColor)
-    Q_PROPERTY(QColor focusBorderColor READ focusBorderColor WRITE setFocusBorderColor)
-    Q_PROPERTY(QColor errorBorderColor READ errorBorderColor WRITE setErrorBorderColor)
-    Q_PROPERTY(QColor disabledBorderColor READ disabledBorderColor WRITE setDisabledBorderColor)
-    Q_PROPERTY(QColor normalBackgroundColor READ normalBackgroundColor WRITE setNormalBackgroundColor)
-    Q_PROPERTY(QColor hoverBackgroundColor READ hoverBackgroundColor WRITE setHoverBackgroundColor)
-    Q_PROPERTY(QColor focusBackgroundColor READ focusBackgroundColor WRITE setFocusBackgroundColor)
-    Q_PROPERTY(QColor errorBackgroundColor READ errorBackgroundColor WRITE setErrorBackgroundColor)
-    Q_PROPERTY(QColor disabledBackgroundColor READ disabledBackgroundColor WRITE setDisabledBackgroundColor)
+    Q_PROPERTY(QColor borderNormal READ borderNormal WRITE setBorderNormal)
+    Q_PROPERTY(QColor borderHover READ borderHover WRITE setBorderHover)
+    Q_PROPERTY(QColor borderFocus READ borderFocus WRITE setBorderFocus)
+    Q_PROPERTY(QColor borderError READ borderError WRITE setBorderError)
+    Q_PROPERTY(QColor borderDisabled READ borderDisabled WRITE setBorderDisabled)
+    Q_PROPERTY(QColor backgroundNormal READ backgroundNormal WRITE setBackgroundNormal)
+    Q_PROPERTY(QColor backgroundHover READ backgroundHover WRITE setBackgroundHover)
+    Q_PROPERTY(QColor backgroundFocus READ backgroundFocus WRITE setBackgroundFocus)
+    Q_PROPERTY(QColor backgroundError READ backgroundError WRITE setBackgroundError)
+    Q_PROPERTY(QColor backgroundDisabled READ backgroundDisabled WRITE setBackgroundDisabled)
     Q_PROPERTY(QColor textColor READ textColor WRITE setTextColor)
     Q_PROPERTY(QColor disabledTextColor READ disabledTextColor WRITE setDisabledTextColor)
     Q_PROPERTY(int borderWidth READ borderWidth WRITE setBorderWidth)
@@ -38,9 +40,9 @@ class DoubleSpinBox : public QDoubleSpinBox, public SpinBoxAppearance {
     Q_PROPERTY(QColor stepButtonHoverColor READ stepButtonHoverColor WRITE setStepButtonHoverColor)
     Q_PROPERTY(QColor stepButtonPressedColor READ stepButtonPressedColor WRITE setStepButtonPressedColor)
     Q_PROPERTY(QColor stepButtonDisabledColor READ stepButtonDisabledColor WRITE setStepButtonDisabledColor)
-    Q_PROPERTY(QColor stepButtonHoverBackgroundColor READ stepButtonHoverBackgroundColor WRITE setStepButtonHoverBackgroundColor)
-    Q_PROPERTY(QColor stepButtonPressedBackgroundColor READ stepButtonPressedBackgroundColor WRITE setStepButtonPressedBackgroundColor)
-    Q_PROPERTY(QColor stepButtonDisabledBackgroundColor READ stepButtonDisabledBackgroundColor WRITE setStepButtonDisabledBackgroundColor)
+    Q_PROPERTY(QColor stepButtonBackgroundHover READ stepButtonBackgroundHover WRITE setStepButtonBackgroundHover)
+    Q_PROPERTY(QColor stepButtonBackgroundPressed READ stepButtonBackgroundPressed WRITE setStepButtonBackgroundPressed)
+    Q_PROPERTY(QColor stepButtonBackgroundDisabled READ stepButtonBackgroundDisabled WRITE setStepButtonBackgroundDisabled)
 
 public:
     explicit DoubleSpinBox(QWidget* parent = nullptr);
@@ -68,12 +70,12 @@ public:
     void setStepButtonPressedColor(const QColor& color);
     QColor stepButtonDisabledColor() const;
     void setStepButtonDisabledColor(const QColor& color);
-    QColor stepButtonHoverBackgroundColor() const;
-    void setStepButtonHoverBackgroundColor(const QColor& color);
-    QColor stepButtonPressedBackgroundColor() const;
-    void setStepButtonPressedBackgroundColor(const QColor& color);
-    QColor stepButtonDisabledBackgroundColor() const;
-    void setStepButtonDisabledBackgroundColor(const QColor& color);
+    QColor stepButtonBackgroundHover() const;
+    void setStepButtonBackgroundHover(const QColor& color);
+    QColor stepButtonBackgroundPressed() const;
+    void setStepButtonBackgroundPressed(const QColor& color);
+    QColor stepButtonBackgroundDisabled() const;
+    void setStepButtonBackgroundDisabled(const QColor& color);
     HoverIconButton* stepUpButton() const;
     HoverIconButton* stepDownButton() const;
     void setAnimationDuration(int duration);
@@ -99,6 +101,8 @@ private:
     bool m_stepButtonsVisible = true;
 };
 
-namespace animatedwidgets {
-using DoubleSpinBox = ::DoubleSpinBox;
 } // namespace animatedwidgets
+
+#ifndef ANIMATEDWIDGETS_DESIGNER_PLUGIN
+using DoubleSpinBox = animatedwidgets::DoubleSpinBox;
+#endif

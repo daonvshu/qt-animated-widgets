@@ -188,7 +188,7 @@
        <blue>121</blue>
       </color>
      </property>
-     <property name="borderColor">
+     <property name="border">
       <color>
        <red>175</red>
        <green>187</green>

@@ -6,7 +6,9 @@
 #include <QColor>
 #include <QIcon>
 
-class Switch final : public QCheckBox {
+namespace animatedwidgets {
+
+class Switch : public QCheckBox {
     Q_OBJECT
     Q_PROPERTY(QColor uncheckedTrackColor READ uncheckedTrackColor WRITE setUncheckedTrackColor)
     Q_PROPERTY(QColor checkedTrackColor READ checkedTrackColor WRITE setCheckedTrackColor)
@@ -71,11 +73,13 @@ private:
     int m_handleRadius = 0;
     QIcon m_handleIcon;
     int m_textSpacing = 8;
-    animatedwidgets::ValueTransition m_position;
-    animatedwidgets::ValueTransition m_trackColor;
-    animatedwidgets::ValueTransition m_thumbColor;
+    ValueTransition m_position;
+    ValueTransition m_trackColor;
+    ValueTransition m_thumbColor;
 };
 
-namespace animatedwidgets {
-using Switch = ::Switch;
 } // namespace animatedwidgets
+
+#ifndef ANIMATEDWIDGETS_DESIGNER_PLUGIN
+using Switch = animatedwidgets::Switch;
+#endif
