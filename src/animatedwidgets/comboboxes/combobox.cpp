@@ -1,6 +1,6 @@
 #include "animatedwidgets/comboboxes/combobox.h"
+#include "animatedwidgets/comboboxes/combolistpopup.h"
 
-#include <QAbstractItemView>
 #include <QApplication>
 #include <QEvent>
 #include <QLineEdit>
@@ -238,6 +238,22 @@ bool ComboBox::arrowVisible() const {
     return m_arrowVisible;
 }
 
+int ComboBox::popupWidth() const {
+    return m_popupWidth;
+}
+
+void ComboBox::setPopupWidth(int width) {
+    m_popupWidth = qMax(0, width);
+}
+
+Qt::Alignment ComboBox::popupAlign() const {
+    return m_popupAlign;
+}
+
+void ComboBox::setPopupAlign(Qt::Alignment align) {
+    m_popupAlign = align;
+}
+
 void ComboBox::setArrowVisible(bool visible) {
     m_arrowVisible = visible;
     updateEditorMargins();
@@ -389,15 +405,36 @@ void ComboBox::paintEvent(QPaintEvent*) {
 }
 
 void ComboBox::showPopup() {
+    if (m_popup || count() == 0 || !isEnabled())
+        return;
+
+    auto* popup = new ComboListPopup(this);
+    m_popup = popup;
+    popup->setItems(model(), rootModelIndex(), modelColumn(), currentIndex(), maxVisibleItems(), m_popupWidth > 0 ? m_popupWidth : width());
+    connect(popup, &ComboListPopup::itemChosen, this, [this](int index) {
+        setCurrentIndex(index);
+        emit activated(index);
+        hidePopup();
+    });
+    connect(popup, &BasePopupDlg::closeRequested, this, [this, popup] {
+        if (m_popup == popup) {
+            m_popup = nullptr;
+            m_popupOpen = false;
+            refreshState();
+        }
+    });
+    popup->moveToTargetBottom(this, m_popupAlign);
     m_popupOpen = true;
     refreshState();
-    QComboBox::showPopup();
-    m_popupOpen = view() && view()->isVisible();
-    refreshState();
+    popup->show();
 }
 
 void ComboBox::hidePopup() {
-    QComboBox::hidePopup();
+    if (m_popup) {
+        ComboListPopup* popup = m_popup;
+        m_popup = nullptr;
+        popup->close();
+    }
     m_popupOpen = false;
     refreshState();
 }

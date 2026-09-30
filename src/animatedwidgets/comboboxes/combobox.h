@@ -10,6 +10,8 @@
 
 namespace animatedwidgets {
 
+class ComboListPopup;
+
 class ComboBox : public QComboBox {
     Q_OBJECT
     Q_PROPERTY(bool hasError READ hasError WRITE setHasError NOTIFY hasErrorChanged)
@@ -34,6 +36,8 @@ class ComboBox : public QComboBox {
     Q_PROPERTY(QSize arrowIconSize READ arrowIconSize WRITE setArrowIconSize)
     Q_PROPERTY(int arrowRightMargin READ arrowRightMargin WRITE setArrowRightMargin)
     Q_PROPERTY(bool arrowVisible READ arrowVisible WRITE setArrowVisible)
+    Q_PROPERTY(int popupWidth READ popupWidth WRITE setPopupWidth)
+    Q_PROPERTY(Qt::Alignment popupAlign READ popupAlign WRITE setPopupAlign)
 
 public:
     explicit ComboBox(QWidget* parent = nullptr);
@@ -87,6 +91,10 @@ public:
     void setArrowRightMargin(int margin);
     bool arrowVisible() const;
     void setArrowVisible(bool visible);
+    int popupWidth() const;
+    void setPopupWidth(int width);
+    Qt::Alignment popupAlign() const;
+    void setPopupAlign(Qt::Alignment align);
 
     QSize sizeHint() const override;
 
@@ -110,6 +118,7 @@ private:
     ValueTransition m_borderTransition;
     ValueTransition m_backgroundTransition;
     QPointer<QLineEdit> m_editor;
+    QPointer<ComboListPopup> m_popup;
 
     QColor m_normalBorderColor = QColor(QStringLiteral("#c8cdd5"));
     QColor m_hoverBorderColor = QColor(QStringLiteral("#8da3c0"));
@@ -133,6 +142,8 @@ private:
     int m_contentPadding = 10;
     int m_animationDuration = 300;
     int m_arrowRightMargin = 10;
+    int m_popupWidth = 0;
+    Qt::Alignment m_popupAlign = Qt::AlignLeft;
     bool m_borderVisible = true;
     bool m_arrowVisible = true;
     bool m_hasError = false;

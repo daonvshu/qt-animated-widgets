@@ -46,6 +46,14 @@ target_include_directories(AnimatedWidgetsStyle PUBLIC
 target_link_libraries(AnimatedWidgetsStyle PUBLIC AnimatedWidgetsCore Qt${QT_VERSION_MAJOR}::Gui)
 
 add_library(AnimatedWidgetsWidgets
+    src/animatedwidgets/popups/shadowwidget.h
+    src/animatedwidgets/popups/shadowwidget.cpp
+    src/animatedwidgets/popups/basepopupdlg.h
+    src/animatedwidgets/popups/basepopupdlg.cpp
+    src/animatedwidgets/popups/popupanimation.h
+    src/animatedwidgets/popups/popupanimation.cpp
+    src/animatedwidgets/popups/fadeslidepopupanimation.h
+    src/animatedwidgets/popups/fadeslidepopupanimation.cpp
     src/animatedwidgets/buttons/animatedbuttonbase.h
     src/animatedwidgets/buttons/animatedbuttonbase.cpp
     src/animatedwidgets/buttons/buttonstate.h
@@ -111,6 +119,8 @@ add_library(AnimatedWidgetsWidgets
     src/animatedwidgets/inputs/compositedoublespinbox.cpp
     src/animatedwidgets/comboboxes/combobox.h
     src/animatedwidgets/comboboxes/combobox.cpp
+    src/animatedwidgets/comboboxes/combolistpopup.h
+    src/animatedwidgets/comboboxes/combolistpopup.cpp
     src/animatedwidgets/comboboxes/compositecombobox.h
     src/animatedwidgets/comboboxes/compositecombobox.cpp
     src/animatedwidgets/comboboxes/resources/comboboxes.qrc
