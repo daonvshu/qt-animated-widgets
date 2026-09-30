@@ -34,6 +34,13 @@ class SpinBox : public QSpinBox, public SpinBoxAppearance {
     Q_PROPERTY(QIcon stepUpIcon READ stepUpIcon WRITE setStepUpIcon)
     Q_PROPERTY(QIcon stepDownIcon READ stepDownIcon WRITE setStepDownIcon)
     Q_PROPERTY(bool stepButtonsVisible READ stepButtonsVisible WRITE setStepButtonsVisible)
+    Q_PROPERTY(QColor stepButtonNormalColor READ stepButtonNormalColor WRITE setStepButtonNormalColor)
+    Q_PROPERTY(QColor stepButtonHoverColor READ stepButtonHoverColor WRITE setStepButtonHoverColor)
+    Q_PROPERTY(QColor stepButtonPressedColor READ stepButtonPressedColor WRITE setStepButtonPressedColor)
+    Q_PROPERTY(QColor stepButtonDisabledColor READ stepButtonDisabledColor WRITE setStepButtonDisabledColor)
+    Q_PROPERTY(QColor stepButtonHoverBackgroundColor READ stepButtonHoverBackgroundColor WRITE setStepButtonHoverBackgroundColor)
+    Q_PROPERTY(QColor stepButtonPressedBackgroundColor READ stepButtonPressedBackgroundColor WRITE setStepButtonPressedBackgroundColor)
+    Q_PROPERTY(QColor stepButtonDisabledBackgroundColor READ stepButtonDisabledBackgroundColor WRITE setStepButtonDisabledBackgroundColor)
 
 public:
     explicit SpinBox(QWidget* parent = nullptr);
@@ -53,6 +60,23 @@ public:
     void setStepDownIcon(const QIcon& icon);
     bool stepButtonsVisible() const;
     void setStepButtonsVisible(bool visible);
+    QColor stepButtonNormalColor() const;
+    void setStepButtonNormalColor(const QColor& color);
+    QColor stepButtonHoverColor() const;
+    void setStepButtonHoverColor(const QColor& color);
+    QColor stepButtonPressedColor() const;
+    void setStepButtonPressedColor(const QColor& color);
+    QColor stepButtonDisabledColor() const;
+    void setStepButtonDisabledColor(const QColor& color);
+    QColor stepButtonHoverBackgroundColor() const;
+    void setStepButtonHoverBackgroundColor(const QColor& color);
+    QColor stepButtonPressedBackgroundColor() const;
+    void setStepButtonPressedBackgroundColor(const QColor& color);
+    QColor stepButtonDisabledBackgroundColor() const;
+    void setStepButtonDisabledBackgroundColor(const QColor& color);
+    HoverIconButton* stepUpButton() const;
+    HoverIconButton* stepDownButton() const;
+    void setAnimationDuration(int duration);
     QSize sizeHint() const override;
 
 signals:

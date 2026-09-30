@@ -18,6 +18,7 @@ IconLineEdit::IconLineEdit(QWidget* parent)
         button->setIconSize(QSize(16, 16));
         button->setAnimationDuration(animationDuration());
         button->setNormalContentColor(QColor(QStringLiteral("#64748b")));
+        button->setAnimateContentColor(true);
     }
     m_leadingButton->setHoverBackgroundColor(QColor(0, 0, 0, 0));
     m_trailingButton->setCursor(Qt::PointingHandCursor);
@@ -108,6 +109,126 @@ int IconLineEdit::iconSpacing() const {
 void IconLineEdit::setIconSpacing(int spacing) {
     m_iconSpacing = qMax(0, spacing);
     updateContentMargins();
+}
+
+QColor IconLineEdit::leadingIconNormalColor() const {
+    return m_leadingButton->normalContentColor();
+}
+
+void IconLineEdit::setLeadingIconNormalColor(const QColor& color) {
+    m_leadingButton->setNormalContentColor(color);
+}
+
+QColor IconLineEdit::leadingIconHoverColor() const {
+    return m_leadingButton->hoverContentColor();
+}
+
+void IconLineEdit::setLeadingIconHoverColor(const QColor& color) {
+    m_leadingButton->setHoverContentColor(color);
+}
+
+QColor IconLineEdit::leadingIconPressedColor() const {
+    return m_leadingButton->pressedContentColor();
+}
+
+void IconLineEdit::setLeadingIconPressedColor(const QColor& color) {
+    m_leadingButton->setPressedContentColor(color);
+}
+
+QColor IconLineEdit::leadingIconDisabledColor() const {
+    return m_leadingButton->disabledContentColor();
+}
+
+void IconLineEdit::setLeadingIconDisabledColor(const QColor& color) {
+    m_leadingButton->setDisabledContentColor(color);
+}
+
+QColor IconLineEdit::leadingIconHoverBackgroundColor() const {
+    return m_leadingButton->hoverBackgroundColor();
+}
+
+void IconLineEdit::setLeadingIconHoverBackgroundColor(const QColor& color) {
+    m_leadingButton->setHoverBackgroundColor(color);
+}
+
+QColor IconLineEdit::leadingIconPressedBackgroundColor() const {
+    return m_leadingButton->pressedBackgroundColor();
+}
+
+void IconLineEdit::setLeadingIconPressedBackgroundColor(const QColor& color) {
+    m_leadingButton->setPressedBackgroundColor(color);
+}
+
+QColor IconLineEdit::leadingIconDisabledBackgroundColor() const {
+    return m_leadingButton->disabledBackgroundColor();
+}
+
+void IconLineEdit::setLeadingIconDisabledBackgroundColor(const QColor& color) {
+    m_leadingButton->setDisabledBackgroundColor(color);
+}
+
+QColor IconLineEdit::trailingIconNormalColor() const {
+    return m_trailingButton->normalContentColor();
+}
+
+void IconLineEdit::setTrailingIconNormalColor(const QColor& color) {
+    m_trailingButton->setNormalContentColor(color);
+}
+
+QColor IconLineEdit::trailingIconHoverColor() const {
+    return m_trailingButton->hoverContentColor();
+}
+
+void IconLineEdit::setTrailingIconHoverColor(const QColor& color) {
+    m_trailingButton->setHoverContentColor(color);
+}
+
+QColor IconLineEdit::trailingIconPressedColor() const {
+    return m_trailingButton->pressedContentColor();
+}
+
+void IconLineEdit::setTrailingIconPressedColor(const QColor& color) {
+    m_trailingButton->setPressedContentColor(color);
+}
+
+QColor IconLineEdit::trailingIconDisabledColor() const {
+    return m_trailingButton->disabledContentColor();
+}
+
+void IconLineEdit::setTrailingIconDisabledColor(const QColor& color) {
+    m_trailingButton->setDisabledContentColor(color);
+}
+
+QColor IconLineEdit::trailingIconHoverBackgroundColor() const {
+    return m_trailingButton->hoverBackgroundColor();
+}
+
+void IconLineEdit::setTrailingIconHoverBackgroundColor(const QColor& color) {
+    m_trailingButton->setHoverBackgroundColor(color);
+}
+
+QColor IconLineEdit::trailingIconPressedBackgroundColor() const {
+    return m_trailingButton->pressedBackgroundColor();
+}
+
+void IconLineEdit::setTrailingIconPressedBackgroundColor(const QColor& color) {
+    m_trailingButton->setPressedBackgroundColor(color);
+}
+
+QColor IconLineEdit::trailingIconDisabledBackgroundColor() const {
+    return m_trailingButton->disabledBackgroundColor();
+}
+
+void IconLineEdit::setTrailingIconDisabledBackgroundColor(const QColor& color) {
+    m_trailingButton->setDisabledBackgroundColor(color);
+}
+
+HoverIconButton* IconLineEdit::leadingButton() const {
+    return m_leadingButton;
+}
+
+HoverIconButton* IconLineEdit::trailingButton() const {
+    return m_trailingButton;
 }
 
 void IconLineEdit::setAnimationDuration(int duration) {

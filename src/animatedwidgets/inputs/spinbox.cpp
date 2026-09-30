@@ -24,6 +24,7 @@ SpinBox::SpinBox(QWidget* parent)
         button->setIconSize(QSize(12, 12));
         button->setCornerRadius(3);
         button->setHoverBackgroundColor(QColor(QStringLiteral("#e9f1ff")));
+        button->setAnimateContentColor(true);
         button->setFocusPolicy(Qt::NoFocus);
         button->setAutoRepeat(true);
         button->setAutoRepeatDelay(350);
@@ -114,6 +115,83 @@ void SpinBox::setStepButtonsVisible(bool visible) {
     m_downButton->setVisible(visible);
     setTrailingControlWidth(visible ? m_stepButtonSize.width() + m_stepButtonRightMargin + 8 : 0);
     updateGeometry();
+}
+
+QColor SpinBox::stepButtonNormalColor() const {
+    return m_upButton->normalContentColor();
+}
+
+void SpinBox::setStepButtonNormalColor(const QColor& color) {
+    m_upButton->setNormalContentColor(color);
+    m_downButton->setNormalContentColor(color);
+}
+
+QColor SpinBox::stepButtonHoverColor() const {
+    return m_upButton->hoverContentColor();
+}
+
+void SpinBox::setStepButtonHoverColor(const QColor& color) {
+    m_upButton->setHoverContentColor(color);
+    m_downButton->setHoverContentColor(color);
+}
+
+QColor SpinBox::stepButtonPressedColor() const {
+    return m_upButton->pressedContentColor();
+}
+
+void SpinBox::setStepButtonPressedColor(const QColor& color) {
+    m_upButton->setPressedContentColor(color);
+    m_downButton->setPressedContentColor(color);
+}
+
+QColor SpinBox::stepButtonDisabledColor() const {
+    return m_upButton->disabledContentColor();
+}
+
+void SpinBox::setStepButtonDisabledColor(const QColor& color) {
+    m_upButton->setDisabledContentColor(color);
+    m_downButton->setDisabledContentColor(color);
+}
+
+QColor SpinBox::stepButtonHoverBackgroundColor() const {
+    return m_upButton->hoverBackgroundColor();
+}
+
+void SpinBox::setStepButtonHoverBackgroundColor(const QColor& color) {
+    m_upButton->setHoverBackgroundColor(color);
+    m_downButton->setHoverBackgroundColor(color);
+}
+
+QColor SpinBox::stepButtonPressedBackgroundColor() const {
+    return m_upButton->pressedBackgroundColor();
+}
+
+void SpinBox::setStepButtonPressedBackgroundColor(const QColor& color) {
+    m_upButton->setPressedBackgroundColor(color);
+    m_downButton->setPressedBackgroundColor(color);
+}
+
+QColor SpinBox::stepButtonDisabledBackgroundColor() const {
+    return m_upButton->disabledBackgroundColor();
+}
+
+void SpinBox::setStepButtonDisabledBackgroundColor(const QColor& color) {
+    m_upButton->setDisabledBackgroundColor(color);
+    m_downButton->setDisabledBackgroundColor(color);
+}
+
+HoverIconButton* SpinBox::stepUpButton() const {
+    return m_upButton;
+}
+
+HoverIconButton* SpinBox::stepDownButton() const {
+    return m_downButton;
+}
+
+void SpinBox::setAnimationDuration(int duration) {
+    SpinBoxAppearance::setAnimationDuration(duration);
+    m_upButton->setAnimationDuration(animationDuration());
+    m_downButton->setAnimationDuration(animationDuration());
 }
 
 QSize SpinBox::sizeHint() const {

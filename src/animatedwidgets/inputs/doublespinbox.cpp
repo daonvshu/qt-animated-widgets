@@ -24,6 +24,7 @@ DoubleSpinBox::DoubleSpinBox(QWidget* parent)
         button->setIconSize(QSize(12, 12));
         button->setCornerRadius(3);
         button->setHoverBackgroundColor(QColor(QStringLiteral("#e9f1ff")));
+        button->setAnimateContentColor(true);
         button->setFocusPolicy(Qt::NoFocus);
         button->setAutoRepeat(true);
         button->setAutoRepeatDelay(350);
@@ -114,6 +115,83 @@ void DoubleSpinBox::setStepButtonsVisible(bool visible) {
     m_downButton->setVisible(visible);
     setTrailingControlWidth(visible ? m_stepButtonSize.width() + m_stepButtonRightMargin + 8 : 0);
     updateGeometry();
+}
+
+QColor DoubleSpinBox::stepButtonNormalColor() const {
+    return m_upButton->normalContentColor();
+}
+
+void DoubleSpinBox::setStepButtonNormalColor(const QColor& color) {
+    m_upButton->setNormalContentColor(color);
+    m_downButton->setNormalContentColor(color);
+}
+
+QColor DoubleSpinBox::stepButtonHoverColor() const {
+    return m_upButton->hoverContentColor();
+}
+
+void DoubleSpinBox::setStepButtonHoverColor(const QColor& color) {
+    m_upButton->setHoverContentColor(color);
+    m_downButton->setHoverContentColor(color);
+}
+
+QColor DoubleSpinBox::stepButtonPressedColor() const {
+    return m_upButton->pressedContentColor();
+}
+
+void DoubleSpinBox::setStepButtonPressedColor(const QColor& color) {
+    m_upButton->setPressedContentColor(color);
+    m_downButton->setPressedContentColor(color);
+}
+
+QColor DoubleSpinBox::stepButtonDisabledColor() const {
+    return m_upButton->disabledContentColor();
+}
+
+void DoubleSpinBox::setStepButtonDisabledColor(const QColor& color) {
+    m_upButton->setDisabledContentColor(color);
+    m_downButton->setDisabledContentColor(color);
+}
+
+QColor DoubleSpinBox::stepButtonHoverBackgroundColor() const {
+    return m_upButton->hoverBackgroundColor();
+}
+
+void DoubleSpinBox::setStepButtonHoverBackgroundColor(const QColor& color) {
+    m_upButton->setHoverBackgroundColor(color);
+    m_downButton->setHoverBackgroundColor(color);
+}
+
+QColor DoubleSpinBox::stepButtonPressedBackgroundColor() const {
+    return m_upButton->pressedBackgroundColor();
+}
+
+void DoubleSpinBox::setStepButtonPressedBackgroundColor(const QColor& color) {
+    m_upButton->setPressedBackgroundColor(color);
+    m_downButton->setPressedBackgroundColor(color);
+}
+
+QColor DoubleSpinBox::stepButtonDisabledBackgroundColor() const {
+    return m_upButton->disabledBackgroundColor();
+}
+
+void DoubleSpinBox::setStepButtonDisabledBackgroundColor(const QColor& color) {
+    m_upButton->setDisabledBackgroundColor(color);
+    m_downButton->setDisabledBackgroundColor(color);
+}
+
+HoverIconButton* DoubleSpinBox::stepUpButton() const {
+    return m_upButton;
+}
+
+HoverIconButton* DoubleSpinBox::stepDownButton() const {
+    return m_downButton;
+}
+
+void DoubleSpinBox::setAnimationDuration(int duration) {
+    SpinBoxAppearance::setAnimationDuration(duration);
+    m_upButton->setAnimationDuration(animationDuration());
+    m_downButton->setAnimationDuration(animationDuration());
 }
 
 QSize DoubleSpinBox::sizeHint() const {
