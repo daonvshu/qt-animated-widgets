@@ -92,6 +92,7 @@ void ProgressBar::setValueDecimals(int decimals) {
 QColor ProgressBar::trackColor() const {
     return m_trackColor;
 }
+
 void ProgressBar::setTrackColor(const QColor& color) {
     m_trackColor = color;
     updateStyleSheet();
@@ -100,6 +101,7 @@ void ProgressBar::setTrackColor(const QColor& color) {
 QColor ProgressBar::progressColor() const {
     return m_progressColor;
 }
+
 void ProgressBar::setProgressColor(const QColor& color) {
     m_progressColor = color;
     updateStyleSheet();
@@ -108,6 +110,7 @@ void ProgressBar::setProgressColor(const QColor& color) {
 QColor ProgressBar::borderColor() const {
     return m_borderColor;
 }
+
 void ProgressBar::setBorderColor(const QColor& color) {
     m_borderColor = color;
     updateStyleSheet();
@@ -116,6 +119,7 @@ void ProgressBar::setBorderColor(const QColor& color) {
 QColor ProgressBar::textColor() const {
     return m_textColor;
 }
+
 void ProgressBar::setTextColor(const QColor& color) {
     m_textColor = color;
     updateStyleSheet();
@@ -124,6 +128,7 @@ void ProgressBar::setTextColor(const QColor& color) {
 int ProgressBar::borderWidth() const {
     return m_borderWidth;
 }
+
 void ProgressBar::setBorderWidth(int width) {
     m_borderWidth = qMax(0, width);
     updateStyleSheet();
@@ -132,6 +137,7 @@ void ProgressBar::setBorderWidth(int width) {
 int ProgressBar::cornerRadius() const {
     return m_cornerRadius;
 }
+
 void ProgressBar::setCornerRadius(int radius) {
     m_cornerRadius = qMax(-1, radius);
     updateStyleSheet();

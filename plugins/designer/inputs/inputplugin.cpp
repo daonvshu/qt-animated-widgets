@@ -1,10 +1,13 @@
 #include "inputplugin.h"
 
 #include "animatedwidgets/inputs/compositelineedit.h"
+#include "animatedwidgets/inputs/compositeplaintextedit.h"
 #include "animatedwidgets/inputs/iconlineedit.h"
 #include "animatedwidgets/inputs/passwordlineedit.h"
+#include "animatedwidgets/inputs/plaintextedit.h"
 
 #include <QPainter>
+#include <QStringList>
 
 InputPlugin::InputPlugin(int kind, QObject* parent)
     : QObject(parent)
@@ -27,7 +30,12 @@ QIcon InputPlugin::icon() const {
     painter.setBrush(Qt::white);
     painter.drawRoundedRect(QRectF(1, 2, 22, 12), 2.5, 2.5);
     painter.setPen(QPen(QColor(QStringLiteral("#3478f6")), 1.5));
-    if (m_kind == 2) {
+    if (m_kind == 4 || m_kind == 5) {
+        for (int y : {5, 8, 11})
+            painter.drawLine(QPointF(5, y), QPointF(y == 11 ? 13 : 18, y));
+        if (m_kind == 5)
+            painter.drawLine(QPointF(14, 13), QPointF(19, 13));
+    } else if (m_kind == 2) {
         for (int x : {7, 12, 17})
             painter.drawPoint(QPointF(x, 8));
     } else if (m_kind == 3) {
@@ -42,9 +50,9 @@ QIcon InputPlugin::icon() const {
 }
 QString InputPlugin::domXml() const {
     const QString className = name();
-    const QString objectName = m_kind == 0
-            ? QStringLiteral("lineEdit")
-            : (m_kind == 1 ? QStringLiteral("iconLineEdit") : (m_kind == 2 ? QStringLiteral("passwordLineEdit") : QStringLiteral("compositeLineEdit")));
+    const QStringList objectNames = {QStringLiteral("lineEdit"), QStringLiteral("iconLineEdit"), QStringLiteral("passwordLineEdit"),
+                                     QStringLiteral("compositeLineEdit"), QStringLiteral("plainTextEdit"), QStringLiteral("compositePlainTextEdit")};
+    const QString objectName = objectNames.at(m_kind);
     const QString placeholder = m_kind == 2 ? QStringLiteral("Password") : QStringLiteral("Text");
     return QStringLiteral("<widget class=\"%1\" name=\"%2\">"
                           "<property name=\"placeholderText\"><string>%3</string></property>"
@@ -61,6 +69,10 @@ QString InputPlugin::includeFile() const {
         return QStringLiteral("animatedwidgets/inputs/iconlineedit.h");
     if (m_kind == 2)
         return QStringLiteral("animatedwidgets/inputs/passwordlineedit.h");
+    if (m_kind == 4)
+        return QStringLiteral("animatedwidgets/inputs/plaintextedit.h");
+    if (m_kind == 5)
+        return QStringLiteral("animatedwidgets/inputs/compositeplaintextedit.h");
     return QStringLiteral("animatedwidgets/inputs/compositelineedit.h");
 }
 QString InputPlugin::name() const {
@@ -70,6 +82,10 @@ QString InputPlugin::name() const {
         return QStringLiteral("IconLineEdit");
     if (m_kind == 2)
         return QStringLiteral("PasswordLineEdit");
+    if (m_kind == 4)
+        return QStringLiteral("PlainTextEdit");
+    if (m_kind == 5)
+        return QStringLiteral("CompositePlainTextEdit");
     return QStringLiteral("CompositeLineEdit");
 }
 QString InputPlugin::toolTip() const {
@@ -88,6 +104,10 @@ QWidget* InputPlugin::createWidget(QWidget* parent) {
     }
     if (m_kind == 2)
         return new PasswordLineEdit(parent);
+    if (m_kind == 4)
+        return new PlainTextEdit(parent);
+    if (m_kind == 5)
+        return new CompositePlainTextEdit(parent);
     return new CompositeLineEdit(parent);
 }
 void InputPlugin::initialize(QDesignerFormEditorInterface*) {

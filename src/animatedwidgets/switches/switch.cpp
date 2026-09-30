@@ -25,86 +25,109 @@ Switch::Switch(QWidget* parent)
 QColor Switch::uncheckedTrackColor() const {
     return m_uncheckedTrackColor;
 }
+
 void Switch::setUncheckedTrackColor(const QColor& color) {
     m_uncheckedTrackColor = color;
     updateTargets(true);
 }
+
 QColor Switch::checkedTrackColor() const {
     return m_checkedTrackColor;
 }
+
 void Switch::setCheckedTrackColor(const QColor& color) {
     m_checkedTrackColor = color;
     updateTargets(true);
 }
+
 QColor Switch::disabledTrackColor() const {
     return m_disabledTrackColor;
 }
+
 void Switch::setDisabledTrackColor(const QColor& color) {
     m_disabledTrackColor = color;
     updateTargets(true);
 }
+
 QColor Switch::uncheckedThumbColor() const {
     return m_uncheckedThumbColor;
 }
+
 void Switch::setUncheckedThumbColor(const QColor& color) {
     m_uncheckedThumbColor = color;
     updateTargets(true);
 }
+
 QColor Switch::checkedThumbColor() const {
     return m_checkedThumbColor;
 }
+
 void Switch::setCheckedThumbColor(const QColor& color) {
     m_checkedThumbColor = color;
     updateTargets(true);
 }
+
 QColor Switch::disabledThumbColor() const {
     return m_disabledThumbColor;
 }
+
 void Switch::setDisabledThumbColor(const QColor& color) {
     m_disabledThumbColor = color;
     updateTargets(true);
 }
+
 QSize Switch::trackSize() const {
     return m_trackSize;
 }
+
 void Switch::setTrackSize(const QSize& size) {
     const int height = qMax(2, size.height());
     m_trackSize = QSize(qMax(height, size.width()), height);
     updateGeometry();
     update();
 }
+
 int Switch::thumbMargin() const {
     return m_thumbMargin;
 }
+
 void Switch::setThumbMargin(int margin) {
     m_thumbMargin = qMax(0, margin);
     update();
 }
+
 int Switch::handleRadius() const {
     return m_handleRadius > 0 ? m_handleRadius : qMax(1, (m_trackSize.height() - 2 * m_thumbMargin) / 2);
 }
+
 void Switch::setHandleRadius(int radius) {
     m_handleRadius = qMax(0, radius);
     update();
 }
+
 QIcon Switch::handleIcon() const {
     return m_handleIcon;
 }
+
 void Switch::setHandleIcon(const QIcon& icon) {
     m_handleIcon = icon;
     update();
 }
+
 int Switch::textSpacing() const {
     return m_textSpacing;
 }
+
 void Switch::setTextSpacing(int spacing) {
     m_textSpacing = qMax(0, spacing);
     updateGeometry();
     update();
 }
+
 int Switch::animationDuration() const {
     return m_position.duration();
 }
+
 void Switch::setAnimationDuration(int duration) {
     for (auto* transition : {&m_position, &m_trackColor, &m_thumbColor}) {
         transition->setDuration(duration);

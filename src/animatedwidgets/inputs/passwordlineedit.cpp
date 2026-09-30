@@ -18,6 +18,7 @@ PasswordLineEdit::PasswordLineEdit(QWidget* parent)
 bool PasswordLineEdit::passwordVisible() const {
     return m_passwordVisible;
 }
+
 void PasswordLineEdit::setPasswordVisible(bool visible) {
     if (m_passwordVisible == visible)
         return;
@@ -33,6 +34,7 @@ void PasswordLineEdit::setPasswordVisible(bool visible) {
 QIcon PasswordLineEdit::showPasswordIcon() const {
     return m_showPasswordIcon;
 }
+
 void PasswordLineEdit::setShowPasswordIcon(const QIcon& icon) {
     m_showPasswordIcon = icon;
     if (!m_passwordVisible)
@@ -42,6 +44,7 @@ void PasswordLineEdit::setShowPasswordIcon(const QIcon& icon) {
 QIcon PasswordLineEdit::hidePasswordIcon() const {
     return m_hidePasswordIcon;
 }
+
 void PasswordLineEdit::setHidePasswordIcon(const QIcon& icon) {
     m_hidePasswordIcon = icon;
     if (m_passwordVisible)
@@ -51,6 +54,7 @@ void PasswordLineEdit::setHidePasswordIcon(const QIcon& icon) {
 bool PasswordLineEdit::autoHideEnabled() const {
     return m_autoHideEnabled;
 }
+
 void PasswordLineEdit::setAutoHideEnabled(bool enabled) {
     m_autoHideEnabled = enabled;
     if (enabled && m_passwordVisible)
@@ -62,6 +66,7 @@ void PasswordLineEdit::setAutoHideEnabled(bool enabled) {
 int PasswordLineEdit::autoHideDuration() const {
     return m_autoHideDuration;
 }
+
 void PasswordLineEdit::setAutoHideDuration(int duration) {
     m_autoHideDuration = qMax(0, duration);
     if (m_autoHideEnabled && m_passwordVisible)

@@ -24,6 +24,7 @@ LineEdit::LineEdit(QWidget* parent)
 bool LineEdit::hasError() const {
     return m_hasError;
 }
+
 void LineEdit::setHasError(bool error) {
     if (m_hasError == error)
         return;
@@ -35,113 +36,144 @@ void LineEdit::setHasError(bool error) {
 QColor LineEdit::normalBorderColor() const {
     return m_normalBorderColor;
 }
+
 void LineEdit::setNormalBorderColor(const QColor& color) {
     m_normalBorderColor = color;
     refreshInputState();
 }
+
 QColor LineEdit::hoverBorderColor() const {
     return m_hoverBorderColor;
 }
+
 void LineEdit::setHoverBorderColor(const QColor& color) {
     m_hoverBorderColor = color;
     refreshInputState();
 }
+
 QColor LineEdit::focusBorderColor() const {
     return m_focusBorderColor;
 }
+
 void LineEdit::setFocusBorderColor(const QColor& color) {
     m_focusBorderColor = color;
     refreshInputState();
 }
+
 QColor LineEdit::errorBorderColor() const {
     return m_errorBorderColor;
 }
+
 void LineEdit::setErrorBorderColor(const QColor& color) {
     m_errorBorderColor = color;
     refreshInputState();
 }
+
 QColor LineEdit::disabledBorderColor() const {
     return m_disabledBorderColor;
 }
+
 void LineEdit::setDisabledBorderColor(const QColor& color) {
     m_disabledBorderColor = color;
     refreshInputState();
 }
+
 QColor LineEdit::normalBackgroundColor() const {
     return m_normalBackgroundColor;
 }
+
 void LineEdit::setNormalBackgroundColor(const QColor& color) {
     m_normalBackgroundColor = color;
     refreshInputState();
 }
+
 QColor LineEdit::hoverBackgroundColor() const {
     return m_hoverBackgroundColor;
 }
+
 void LineEdit::setHoverBackgroundColor(const QColor& color) {
     m_hoverBackgroundColor = color;
     refreshInputState();
 }
+
 QColor LineEdit::focusBackgroundColor() const {
     return m_focusBackgroundColor;
 }
+
 void LineEdit::setFocusBackgroundColor(const QColor& color) {
     m_focusBackgroundColor = color;
     refreshInputState();
 }
+
 QColor LineEdit::errorBackgroundColor() const {
     return m_errorBackgroundColor;
 }
+
 void LineEdit::setErrorBackgroundColor(const QColor& color) {
     m_errorBackgroundColor = color;
     refreshInputState();
 }
+
 QColor LineEdit::disabledBackgroundColor() const {
     return m_disabledBackgroundColor;
 }
+
 void LineEdit::setDisabledBackgroundColor(const QColor& color) {
     m_disabledBackgroundColor = color;
     refreshInputState();
 }
+
 QColor LineEdit::textColor() const {
     return m_textColor;
 }
+
 void LineEdit::setTextColor(const QColor& color) {
     m_textColor = color;
     updateTextPalette();
 }
+
 QColor LineEdit::disabledTextColor() const {
     return m_disabledTextColor;
 }
+
 void LineEdit::setDisabledTextColor(const QColor& color) {
     m_disabledTextColor = color;
     updateTextPalette();
 }
+
 int LineEdit::borderWidth() const {
     return m_borderWidth;
 }
+
 void LineEdit::setBorderWidth(int width) {
     m_borderWidth = qMax(0, width);
     update();
 }
+
 bool LineEdit::isBorderVisible() const {
     return m_borderVisible;
 }
+
 void LineEdit::setBorderVisible(bool visible) {
     if (m_borderVisible == visible)
         return;
     m_borderVisible = visible;
     update();
 }
+
 int LineEdit::cornerRadius() const {
     return m_cornerRadius;
 }
+
 void LineEdit::setCornerRadius(int radius) {
     m_cornerRadius = qMax(0, radius);
     update();
 }
+
 int LineEdit::contentPadding() const {
     return m_contentPadding;
 }
+
 void LineEdit::setContentPadding(int padding) {
     m_contentPadding = qMax(0, padding);
     updateContentMargins();
@@ -151,9 +183,11 @@ void LineEdit::setContentPadding(int padding) {
 void LineEdit::updateContentMargins() {
     setTextMargins(m_contentPadding, 0, m_contentPadding, 0);
 }
+
 int LineEdit::animationDuration() const {
     return m_animationDuration;
 }
+
 void LineEdit::setAnimationDuration(int duration) {
     m_animationDuration = qMax(0, duration);
     m_borderTransition.setDuration(m_animationDuration);

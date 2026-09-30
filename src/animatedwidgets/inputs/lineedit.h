@@ -31,6 +31,7 @@ public:
 
     bool hasError() const;
     void setHasError(bool error);
+
     QColor normalBorderColor() const;
     void setNormalBorderColor(const QColor& color);
     QColor hoverBorderColor() const;
@@ -41,6 +42,7 @@ public:
     void setErrorBorderColor(const QColor& color);
     QColor disabledBorderColor() const;
     void setDisabledBorderColor(const QColor& color);
+
     QColor normalBackgroundColor() const;
     void setNormalBackgroundColor(const QColor& color);
     QColor hoverBackgroundColor() const;
@@ -51,10 +53,12 @@ public:
     void setErrorBackgroundColor(const QColor& color);
     QColor disabledBackgroundColor() const;
     void setDisabledBackgroundColor(const QColor& color);
+
     QColor textColor() const;
     void setTextColor(const QColor& color);
     QColor disabledTextColor() const;
     void setDisabledTextColor(const QColor& color);
+
     int borderWidth() const;
     void setBorderWidth(int width);
     bool isBorderVisible() const;
@@ -84,18 +88,22 @@ private:
 
     animatedwidgets::ValueTransition m_borderTransition;
     animatedwidgets::ValueTransition m_backgroundTransition;
+
     QColor m_normalBorderColor = QColor(QStringLiteral("#c8cdd5"));
     QColor m_hoverBorderColor = QColor(QStringLiteral("#8da3c0"));
     QColor m_focusBorderColor = QColor(QStringLiteral("#3478f6"));
     QColor m_errorBorderColor = QColor(QStringLiteral("#e5484d"));
     QColor m_disabledBorderColor = QColor(QStringLiteral("#d5dae0"));
+
     QColor m_normalBackgroundColor = QColor(Qt::white);
     QColor m_hoverBackgroundColor;
     QColor m_focusBackgroundColor = QColor(Qt::white);
     QColor m_errorBackgroundColor = QColor(QStringLiteral("#fff8f8"));
     QColor m_disabledBackgroundColor = QColor(QStringLiteral("#f3f5f7"));
+
     QColor m_textColor = QColor(QStringLiteral("#20242a"));
     QColor m_disabledTextColor = QColor(QStringLiteral("#9298a2"));
+
     int m_borderWidth = 1;
     bool m_borderVisible = true;
     int m_cornerRadius = 6;

@@ -24,6 +24,7 @@ AnimatedButtonBase::AnimatedButtonBase(QWidget* parent)
 int AnimatedButtonBase::animationDuration() const {
     return m_animationDuration;
 }
+
 void AnimatedButtonBase::setAnimationDuration(int duration) {
     m_animationDuration = qMax(0, duration);
     for (auto* transition : {&m_backgroundTransition, &m_borderTransition, &m_contentTransition}) {
@@ -35,6 +36,7 @@ void AnimatedButtonBase::setAnimationDuration(int duration) {
 int AnimatedButtonBase::darkerStep() const {
     return m_darkerStep;
 }
+
 void AnimatedButtonBase::setDarkerStep(int step) {
     m_darkerStep = qMax(0, step);
     refreshButtonState();
@@ -43,6 +45,7 @@ void AnimatedButtonBase::setDarkerStep(int step) {
 bool AnimatedButtonBase::animateContentColor() const {
     return m_animateContentColor;
 }
+
 void AnimatedButtonBase::setAnimateContentColor(bool enabled) {
     m_animateContentColor = enabled;
     refreshButtonState();

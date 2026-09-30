@@ -32,6 +32,7 @@ IconLineEdit::IconLineEdit(QWidget* parent)
 QIcon IconLineEdit::leadingIcon() const {
     return m_leadingIcon;
 }
+
 void IconLineEdit::setLeadingIcon(const QIcon& icon) {
     m_leadingIcon = icon;
     m_leadingButton->setIcon(icon);
@@ -43,6 +44,7 @@ void IconLineEdit::setLeadingIcon(const QIcon& icon) {
 QIcon IconLineEdit::trailingIcon() const {
     return m_trailingIcon;
 }
+
 void IconLineEdit::setTrailingIcon(const QIcon& icon) {
     m_trailingIcon = icon;
     m_trailingButton->setIcon(icon);
@@ -54,6 +56,7 @@ void IconLineEdit::setTrailingIcon(const QIcon& icon) {
 QSize IconLineEdit::leadingIconSize() const {
     return m_leadingIconSize;
 }
+
 void IconLineEdit::setLeadingIconSize(const QSize& size) {
     const QSize bounded(qMax(1, size.width()), qMax(1, size.height()));
     if (m_leadingIconSize == bounded)
@@ -66,6 +69,7 @@ void IconLineEdit::setLeadingIconSize(const QSize& size) {
 QSize IconLineEdit::trailingIconSize() const {
     return m_trailingIconSize;
 }
+
 void IconLineEdit::setTrailingIconSize(const QSize& size) {
     const QSize bounded(qMax(1, size.width()), qMax(1, size.height()));
     if (m_trailingIconSize == bounded)
@@ -78,6 +82,7 @@ void IconLineEdit::setTrailingIconSize(const QSize& size) {
 bool IconLineEdit::leadingIconVisible() const {
     return m_leadingVisible;
 }
+
 void IconLineEdit::setLeadingIconVisible(bool visible) {
     m_leadingVisible = visible;
     m_leadingButton->setVisible(visible && !m_leadingIcon.isNull());
@@ -88,6 +93,7 @@ void IconLineEdit::setLeadingIconVisible(bool visible) {
 bool IconLineEdit::trailingIconVisible() const {
     return m_trailingVisible;
 }
+
 void IconLineEdit::setTrailingIconVisible(bool visible) {
     m_trailingVisible = visible;
     m_trailingButton->setVisible(visible && !m_trailingIcon.isNull());
@@ -98,6 +104,7 @@ void IconLineEdit::setTrailingIconVisible(bool visible) {
 int IconLineEdit::iconSpacing() const {
     return m_iconSpacing;
 }
+
 void IconLineEdit::setIconSpacing(int spacing) {
     m_iconSpacing = qMax(0, spacing);
     updateContentMargins();

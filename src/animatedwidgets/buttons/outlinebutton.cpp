@@ -16,38 +16,47 @@ OutlineButton::OutlineButton(QWidget* parent)
 ButtonStateStyle OutlineButton::normalStyle() const {
     return {{}, m_normalBorder, m_normalContent};
 }
+
 void OutlineButton::setNormalStyle(const ButtonStateStyle& style) {
     m_normalBorder = style.border();
     m_normalContent = style.content();
     refreshButtonState();
 }
+
 ButtonStateStyle OutlineButton::hoverStyle() const {
     return {{}, m_hoverBorder, m_hoverContent};
 }
+
 void OutlineButton::setHoverStyle(const ButtonStateStyle& style) {
     m_hoverBorder = style.border();
     m_hoverContent = style.content();
     refreshButtonState();
 }
+
 ButtonStateStyle OutlineButton::pressedStyle() const {
     return {{}, m_pressedBorder, m_pressedContent};
 }
+
 void OutlineButton::setPressedStyle(const ButtonStateStyle& style) {
     m_pressedBorder = style.border();
     m_pressedContent = style.content();
     refreshButtonState();
 }
+
 ButtonStateStyle OutlineButton::disabledStyle() const {
     return {{}, m_disabledBorder, m_disabledContent};
 }
+
 void OutlineButton::setDisabledStyle(const ButtonStateStyle& style) {
     m_disabledBorder = style.border();
     m_disabledContent = style.content();
     refreshButtonState();
 }
+
 ButtonStateStyle OutlineButton::checkedStyle() const {
     return {{}, m_checkedBorder, m_checkedContent};
 }
+
 void OutlineButton::setCheckedStyle(const ButtonStateStyle& style) {
     m_checkedBorder = style.border();
     m_checkedContent = style.content();
@@ -57,69 +66,88 @@ void OutlineButton::setCheckedStyle(const ButtonStateStyle& style) {
 QColor OutlineButton::normalBorderColor() const {
     return m_normalBorder;
 }
+
 void OutlineButton::setNormalBorderColor(const QColor& color) {
     m_normalBorder = color;
     refreshButtonState();
 }
+
 QColor OutlineButton::hoverBorderColor() const {
     return m_hoverBorder;
 }
+
 void OutlineButton::setHoverBorderColor(const QColor& color) {
     m_hoverBorder = color;
     refreshButtonState();
 }
+
 QColor OutlineButton::pressedBorderColor() const {
     return m_pressedBorder;
 }
+
 void OutlineButton::setPressedBorderColor(const QColor& color) {
     m_pressedBorder = color;
     refreshButtonState();
 }
+
 QColor OutlineButton::disabledBorderColor() const {
     return m_disabledBorder;
 }
+
 void OutlineButton::setDisabledBorderColor(const QColor& color) {
     m_disabledBorder = color;
     refreshButtonState();
 }
+
 QColor OutlineButton::checkedBorderColor() const {
     return m_checkedBorder;
 }
+
 void OutlineButton::setCheckedBorderColor(const QColor& color) {
     m_checkedBorder = color;
     refreshButtonState();
 }
+
 QColor OutlineButton::normalContentColor() const {
     return m_normalContent;
 }
+
 void OutlineButton::setNormalContentColor(const QColor& color) {
     m_normalContent = color;
     refreshButtonState();
 }
+
 QColor OutlineButton::hoverContentColor() const {
     return m_hoverContent;
 }
+
 void OutlineButton::setHoverContentColor(const QColor& color) {
     m_hoverContent = color;
     refreshButtonState();
 }
+
 QColor OutlineButton::pressedContentColor() const {
     return m_pressedContent;
 }
+
 void OutlineButton::setPressedContentColor(const QColor& color) {
     m_pressedContent = color;
     refreshButtonState();
 }
+
 QColor OutlineButton::disabledContentColor() const {
     return m_disabledContent;
 }
+
 void OutlineButton::setDisabledContentColor(const QColor& color) {
     m_disabledContent = color;
     refreshButtonState();
 }
+
 QColor OutlineButton::checkedContentColor() const {
     return m_checkedContent;
 }
+
 void OutlineButton::setCheckedContentColor(const QColor& color) {
     m_checkedContent = color;
     refreshButtonState();
@@ -128,28 +156,35 @@ void OutlineButton::setCheckedContentColor(const QColor& color) {
 int OutlineButton::cornerRadius() const {
     return m_cornerRadius;
 }
+
 void OutlineButton::setCornerRadius(int radius) {
     m_cornerRadius = qMax(0, radius);
     update();
 }
+
 qreal OutlineButton::borderWidth() const {
     return m_borderWidth;
 }
+
 void OutlineButton::setBorderWidth(qreal width) {
     m_borderWidth = qMax(qreal(0), width);
     update();
 }
+
 int OutlineButton::iconSpacing() const {
     return m_iconSpacing;
 }
+
 void OutlineButton::setIconSpacing(int spacing) {
     m_iconSpacing = qMax(0, spacing);
     updateGeometry();
     update();
 }
+
 OutlineButton::IconPlacement OutlineButton::iconPlacement() const {
     return m_iconPlacement;
 }
+
 void OutlineButton::setIconPlacement(IconPlacement placement) {
     m_iconPlacement = placement;
     updateGeometry();

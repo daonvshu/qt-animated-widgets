@@ -87,12 +87,18 @@ add_library(AnimatedWidgetsWidgets
     src/animatedwidgets/sliders/slider.cpp
     src/animatedwidgets/inputs/lineedit.h
     src/animatedwidgets/inputs/lineedit.cpp
+    src/animatedwidgets/inputs/compositeinputbase.h
+    src/animatedwidgets/inputs/compositeinputbase.cpp
+    src/animatedwidgets/inputs/plaintextedit.h
+    src/animatedwidgets/inputs/plaintextedit.cpp
     src/animatedwidgets/inputs/iconlineedit.h
     src/animatedwidgets/inputs/iconlineedit.cpp
     src/animatedwidgets/inputs/passwordlineedit.h
     src/animatedwidgets/inputs/passwordlineedit.cpp
     src/animatedwidgets/inputs/compositelineedit.h
     src/animatedwidgets/inputs/compositelineedit.cpp
+    src/animatedwidgets/inputs/compositeplaintextedit.h
+    src/animatedwidgets/inputs/compositeplaintextedit.cpp
     src/animatedwidgets/inputs/resources/inputs.qrc
 )
 add_library(AnimatedWidgets::Widgets ALIAS AnimatedWidgetsWidgets)

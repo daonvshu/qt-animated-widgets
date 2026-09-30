@@ -16,38 +16,47 @@ FilledIconButton::FilledIconButton(QWidget* parent)
 ButtonStateStyle FilledIconButton::normalStyle() const {
     return {m_normalBackground, {}, m_normalContent};
 }
+
 void FilledIconButton::setNormalStyle(const ButtonStateStyle& style) {
     m_normalBackground = style.background();
     m_normalContent = style.content();
     refreshButtonState();
 }
+
 ButtonStateStyle FilledIconButton::hoverStyle() const {
     return {m_hoverBackground, {}, m_hoverContent};
 }
+
 void FilledIconButton::setHoverStyle(const ButtonStateStyle& style) {
     m_hoverBackground = style.background();
     m_hoverContent = style.content();
     refreshButtonState();
 }
+
 ButtonStateStyle FilledIconButton::pressedStyle() const {
     return {m_pressedBackground, {}, m_pressedContent};
 }
+
 void FilledIconButton::setPressedStyle(const ButtonStateStyle& style) {
     m_pressedBackground = style.background();
     m_pressedContent = style.content();
     refreshButtonState();
 }
+
 ButtonStateStyle FilledIconButton::disabledStyle() const {
     return {m_disabledBackground, {}, m_disabledContent};
 }
+
 void FilledIconButton::setDisabledStyle(const ButtonStateStyle& style) {
     m_disabledBackground = style.background();
     m_disabledContent = style.content();
     refreshButtonState();
 }
+
 ButtonStateStyle FilledIconButton::checkedStyle() const {
     return {m_checkedBackground, {}, m_checkedContent};
 }
+
 void FilledIconButton::setCheckedStyle(const ButtonStateStyle& style) {
     m_checkedBackground = style.background();
     m_checkedContent = style.content();
@@ -57,69 +66,88 @@ void FilledIconButton::setCheckedStyle(const ButtonStateStyle& style) {
 QColor FilledIconButton::normalBackgroundColor() const {
     return m_normalBackground;
 }
+
 void FilledIconButton::setNormalBackgroundColor(const QColor& color) {
     m_normalBackground = color;
     refreshButtonState();
 }
+
 QColor FilledIconButton::hoverBackgroundColor() const {
     return m_hoverBackground;
 }
+
 void FilledIconButton::setHoverBackgroundColor(const QColor& color) {
     m_hoverBackground = color;
     refreshButtonState();
 }
+
 QColor FilledIconButton::pressedBackgroundColor() const {
     return m_pressedBackground;
 }
+
 void FilledIconButton::setPressedBackgroundColor(const QColor& color) {
     m_pressedBackground = color;
     refreshButtonState();
 }
+
 QColor FilledIconButton::disabledBackgroundColor() const {
     return m_disabledBackground;
 }
+
 void FilledIconButton::setDisabledBackgroundColor(const QColor& color) {
     m_disabledBackground = color;
     refreshButtonState();
 }
+
 QColor FilledIconButton::checkedBackgroundColor() const {
     return m_checkedBackground;
 }
+
 void FilledIconButton::setCheckedBackgroundColor(const QColor& color) {
     m_checkedBackground = color;
     refreshButtonState();
 }
+
 QColor FilledIconButton::normalContentColor() const {
     return m_normalContent;
 }
+
 void FilledIconButton::setNormalContentColor(const QColor& color) {
     m_normalContent = color;
     refreshButtonState();
 }
+
 QColor FilledIconButton::hoverContentColor() const {
     return m_hoverContent;
 }
+
 void FilledIconButton::setHoverContentColor(const QColor& color) {
     m_hoverContent = color;
     refreshButtonState();
 }
+
 QColor FilledIconButton::pressedContentColor() const {
     return m_pressedContent;
 }
+
 void FilledIconButton::setPressedContentColor(const QColor& color) {
     m_pressedContent = color;
     refreshButtonState();
 }
+
 QColor FilledIconButton::disabledContentColor() const {
     return m_disabledContent;
 }
+
 void FilledIconButton::setDisabledContentColor(const QColor& color) {
     m_disabledContent = color;
     refreshButtonState();
 }
+
 QColor FilledIconButton::checkedContentColor() const {
     return m_checkedContent;
 }
+
 void FilledIconButton::setCheckedContentColor(const QColor& color) {
     m_checkedContent = color;
     refreshButtonState();
@@ -128,13 +156,16 @@ void FilledIconButton::setCheckedContentColor(const QColor& color) {
 FilledIconButton::Shape FilledIconButton::shape() const {
     return m_shape;
 }
+
 void FilledIconButton::setShape(Shape shape) {
     m_shape = shape;
     update();
 }
+
 int FilledIconButton::cornerRadius() const {
     return m_cornerRadius;
 }
+
 void FilledIconButton::setCornerRadius(int radius) {
     m_cornerRadius = qMax(0, radius);
     update();
