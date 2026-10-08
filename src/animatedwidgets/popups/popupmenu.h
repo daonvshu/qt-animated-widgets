@@ -42,6 +42,9 @@ public:
     PopupMenuListStyle* listStyle() const;
     void setListStyle(PopupMenuListStyle* style);
 
+    QString scrollBarStyleSheet() const;
+    void setScrollBarStyleSheet(const QString& styleSheet);
+
     QAbstractItemModel* model() const;
     void setModel(QAbstractItemModel* model);
     DefaultPopupMenuModel* defaultModel() const;
@@ -51,7 +54,7 @@ public:
     void setAutoClose(bool enabled);
 
     void setPopupSize(const QSize& size);
-    void setAdaptiveHeight(int width);
+    void setAdaptiveHeight(int width, int maximumVisibleItems = 0);
     void showAt(const QPoint& globalPos);
 
 signals:
@@ -72,6 +75,7 @@ private:
     PopupMenuStyle* m_style = nullptr;
     PopupMenuListStyle* m_listStyle = nullptr;
     ViewFactory m_viewFactory;
+    QString m_scrollBarStyleSheet;
     bool m_autoClose = true;
 };
 

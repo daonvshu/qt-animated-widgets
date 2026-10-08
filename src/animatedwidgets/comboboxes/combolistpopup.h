@@ -1,29 +1,34 @@
 #pragma once
 
-#include "animatedwidgets/popups/basepopupdlg.h"
+#include "animatedwidgets/popups/popupmenu.h"
 
 #include <QModelIndex>
+#include <QPersistentModelIndex>
 
 class QAbstractItemModel;
-class QListView;
 
 namespace animatedwidgets {
 
-class ComboListPopup final : public BasePopupDlg {
+class ComboPopupModel;
+
+class ComboListPopup final : public PopupMenu {
     Q_OBJECT
 
 public:
     explicit ComboListPopup(QWidget* parent = nullptr);
     void setItems(QAbstractItemModel* model, const QModelIndex& root, int column, int currentRow, int visibleRows, int width);
+    void setCurrentRow(int row);
 
 signals:
     void itemChosen(int row);
 
 protected:
-    bool eventFilter(QObject* watched, QEvent* event) override;
+    void showEvent(QShowEvent* event) override;
 
 private:
-    QListView* m_list = nullptr;
+    ComboPopupModel* m_popupModel = nullptr;
+    QPersistentModelIndex m_root;
+    int m_column = 0;
 };
 
 } // namespace animatedwidgets

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "animatedwidgets/inputs/compositeinputbase.h"
+#include "animatedwidgets/popups/popupmenu.h"
 
 namespace animatedwidgets {
 
@@ -13,6 +14,7 @@ class CompositeComboBox : public CompositeInputBase {
     Q_PROPERTY(bool editable READ isEditable WRITE setEditable)
     Q_PROPERTY(bool arrowVisible READ arrowVisible WRITE setArrowVisible)
     Q_PROPERTY(int contentPadding READ contentPadding WRITE setContentPadding)
+    Q_PROPERTY(QString popupScrollBarStyleSheet READ popupScrollBarStyleSheet WRITE setPopupScrollBarStyleSheet)
 
 public:
     explicit CompositeComboBox(QWidget* parent = nullptr);
@@ -30,11 +32,15 @@ public:
     int contentPadding() const;
     void setContentPadding(int padding);
 
+    QString popupScrollBarStyleSheet() const;
+    void setPopupScrollBarStyleSheet(const QString& styleSheet);
+
     QSize sizeHint() const override;
 
 signals:
     void currentIndexChanged(int index);
     void currentTextChanged(const QString& text);
+    void popupAboutToShow(PopupMenu* popup);
 
 private:
     ComboBox* m_editor = nullptr;

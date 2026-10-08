@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/animatedwidgets/comboboxes">
         <file>dropdown.svg</file>
+        <file>checked.svg</file>
     </qresource>
 </RCC>

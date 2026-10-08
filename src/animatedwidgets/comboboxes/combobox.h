@@ -1,6 +1,7 @@
 #pragma once
 
 #include "animatedwidgets/core/valuetransition.h"
+#include "animatedwidgets/popups/popupmenu.h"
 
 #include <QColor>
 #include <QComboBox>
@@ -38,6 +39,7 @@ class ComboBox : public QComboBox {
     Q_PROPERTY(bool arrowVisible READ arrowVisible WRITE setArrowVisible)
     Q_PROPERTY(int popupWidth READ popupWidth WRITE setPopupWidth)
     Q_PROPERTY(Qt::Alignment popupAlign READ popupAlign WRITE setPopupAlign)
+    Q_PROPERTY(QString popupScrollBarStyleSheet READ popupScrollBarStyleSheet WRITE setPopupScrollBarStyleSheet)
 
 public:
     explicit ComboBox(QWidget* parent = nullptr);
@@ -96,14 +98,19 @@ public:
     Qt::Alignment popupAlign() const;
     void setPopupAlign(Qt::Alignment align);
 
+    QString popupScrollBarStyleSheet() const;
+    void setPopupScrollBarStyleSheet(const QString& styleSheet);
+
     QSize sizeHint() const override;
 
 signals:
     void hasErrorChanged(bool error);
+    void popupAboutToShow(PopupMenu* popup);
 
 protected:
     bool event(QEvent* event) override;
     void paintEvent(QPaintEvent* event) override;
+    void mousePressEvent(QMouseEvent* event) override;
     void showPopup() override;
     void hidePopup() override;
 
@@ -114,6 +121,7 @@ private:
     void syncEditor();
     void updateEditorPalette();
     void updateEditorMargins();
+    QRect arrowButtonRect() const;
 
     ValueTransition m_borderTransition;
     ValueTransition m_backgroundTransition;
@@ -136,6 +144,8 @@ private:
     QColor m_disabledTextColor = QColor(QStringLiteral("#9298a2"));
     QIcon m_arrowIcon;
     QSize m_arrowIconSize = QSize(14, 14);
+
+    QString m_popupScrollBarStyleSheet;
 
     int m_borderWidth = 1;
     int m_cornerRadius = 6;

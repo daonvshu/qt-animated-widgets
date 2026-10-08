@@ -23,6 +23,7 @@ CompositeComboBox::CompositeComboBox(QWidget* parent)
 
     connect(m_editor, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &CompositeComboBox::currentIndexChanged);
     connect(m_editor, &QComboBox::currentTextChanged, this, &CompositeComboBox::currentTextChanged);
+    connect(m_editor, &ComboBox::popupAboutToShow, this, &CompositeComboBox::popupAboutToShow);
     connect(m_editor, &ComboBox::hasErrorChanged, this, &CompositeInputBase::setHasError);
     connect(this, &CompositeInputBase::hasErrorChanged, m_editor, &ComboBox::setHasError);
 }
@@ -72,6 +73,14 @@ void CompositeComboBox::setContentPadding(int padding) {
     const int inset = m_editor->contentPadding();
     setSlotMargins(QMargins(inset, 0, inset, 0), QMargins(inset, 0, inset, 0));
     updateGeometry();
+}
+
+QString CompositeComboBox::popupScrollBarStyleSheet() const {
+    return m_editor->popupScrollBarStyleSheet();
+}
+
+void CompositeComboBox::setPopupScrollBarStyleSheet(const QString& styleSheet) {
+    m_editor->setPopupScrollBarStyleSheet(styleSheet);
 }
 
 QSize CompositeComboBox::sizeHint() const {

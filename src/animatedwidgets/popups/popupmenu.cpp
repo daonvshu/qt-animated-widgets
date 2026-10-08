@@ -11,6 +11,7 @@
 #include <QEvent>
 #include <QKeyEvent>
 #include <QListView>
+#include <QScrollBar>
 #include <QVBoxLayout>
 
 namespace animatedwidgets {
@@ -18,6 +19,18 @@ namespace animatedwidgets {
 PopupMenu::PopupMenu(QWidget* parent)
     : BasePopupDlg(parent)
 {
+    m_scrollBarStyleSheet = QStringLiteral(
+        "QScrollBar { background: transparent; border: none; }"
+        "QScrollBar:vertical { width: 6px; margin: 0; }"
+        "QScrollBar:horizontal { height: 6px; margin: 0; }"
+        "QScrollBar::handle { background: rgba(128, 128, 128, 64); border-radius: 3px; }"
+        "QScrollBar::handle:hover { background: rgba(128, 128, 128, 112); }"
+        "QScrollBar::handle:pressed { background: rgba(128, 128, 128, 160); }"
+        "QScrollBar::handle:vertical { min-height: 24px; }"
+        "QScrollBar::handle:horizontal { min-width: 24px; }"
+        "QScrollBar::add-line, QScrollBar::sub-line { width: 0; height: 0; border: none; background: transparent; }"
+        "QScrollBar::add-page, QScrollBar::sub-page { background: transparent; }");
+
     setObjectName(QStringLiteral("animatedPopupMenu"));
     auto* outerLayout = new QVBoxLayout(this);
     outerLayout->setContentsMargins(0, 0, 0, 0);
@@ -60,6 +73,8 @@ void PopupMenu::setView(QAbstractItemView* view) {
     }
     m_view = view;
     m_view->setParent(this);
+    m_view->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+    m_view->setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
     m_view->installEventFilter(this);
     setFocusProxy(m_view);
     if (auto* boxLayout = qobject_cast<QVBoxLayout*>(layout()))
@@ -126,6 +141,18 @@ void PopupMenu::setListStyle(PopupMenuListStyle* style) {
     applyStyle();
 }
 
+QString PopupMenu::scrollBarStyleSheet() const {
+    return m_scrollBarStyleSheet;
+}
+
+void PopupMenu::setScrollBarStyleSheet(const QString& styleSheet) {
+    if (m_scrollBarStyleSheet == styleSheet)
+        return;
+
+    m_scrollBarStyleSheet = styleSheet;
+    applyStyle();
+}
+
 QAbstractItemModel* PopupMenu::model() const {
     return m_view ? m_view->model() : nullptr;
 }
@@ -161,7 +188,7 @@ void PopupMenu::setPopupSize(const QSize& size) {
     setContentFixedSize(size.width(), size.height());
 }
 
-void PopupMenu::setAdaptiveHeight(int width) {
+void PopupMenu::setAdaptiveHeight(int width, int maximumVisibleItems) {
     if (!m_view)
         return;
 
@@ -176,12 +203,16 @@ void PopupMenu::setAdaptiveHeight(int width) {
     if (auto* itemModel = model()) {
         const QModelIndex root = m_view->rootIndex();
         const auto* listView = qobject_cast<QListView*>(m_view.data());
+        int visibleItems = 0;
         for (int row = 0; row < itemModel->rowCount(root); ++row) {
             if (listView && listView->isRowHidden(row))
                 continue;
+            if (maximumVisibleItems > 0 && visibleItems >= maximumVisibleItems)
+                break;
             height += qMax(0, m_view->sizeHintForRow(row));
             if (listView)
                 height += 2 * qMax(0, listView->spacing());
+            ++visibleItems;
         }
     }
 
@@ -243,6 +274,11 @@ void PopupMenu::applyStyle() {
         m_listStyle->apply(m_view);
         if (auto* boxLayout = qobject_cast<QVBoxLayout*>(layout()))
             boxLayout->setContentsMargins(m_listStyle->margins());
+    }
+
+    if (m_view) {
+        m_view->verticalScrollBar()->setStyleSheet(m_scrollBarStyleSheet);
+        m_view->horizontalScrollBar()->setStyleSheet(m_scrollBarStyleSheet);
     }
 }
 

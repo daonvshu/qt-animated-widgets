@@ -137,6 +137,8 @@ add_library(AnimatedWidgetsWidgets
     src/animatedwidgets/comboboxes/combobox.cpp
     src/animatedwidgets/comboboxes/combolistpopup.h
     src/animatedwidgets/comboboxes/combolistpopup.cpp
+    src/animatedwidgets/comboboxes/combopopupmodel.h
+    src/animatedwidgets/comboboxes/combopopupmodel.cpp
     src/animatedwidgets/comboboxes/compositecombobox.h
     src/animatedwidgets/comboboxes/compositecombobox.cpp
     src/animatedwidgets/comboboxes/resources/comboboxes.qrc

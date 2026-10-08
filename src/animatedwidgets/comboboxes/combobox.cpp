@@ -3,8 +3,10 @@
 #include "animatedwidgets/utils/inputcontextmenu.h"
 
 #include <QApplication>
+#include <QAbstractItemView>
 #include <QEvent>
 #include <QLineEdit>
+#include <QMouseEvent>
 #include <QPainter>
 
 namespace animatedwidgets {
@@ -255,6 +257,16 @@ void ComboBox::setPopupAlign(Qt::Alignment align) {
     m_popupAlign = align;
 }
 
+QString ComboBox::popupScrollBarStyleSheet() const {
+    return m_popupScrollBarStyleSheet;
+}
+
+void ComboBox::setPopupScrollBarStyleSheet(const QString& styleSheet) {
+    m_popupScrollBarStyleSheet = styleSheet;
+    if (m_popup)
+        m_popup->setScrollBarStyleSheet(styleSheet);
+}
+
 void ComboBox::setArrowVisible(bool visible) {
     m_arrowVisible = visible;
     updateEditorMargins();
@@ -330,11 +342,42 @@ void ComboBox::updateEditorPalette() {
 void ComboBox::updateEditorMargins() {
     if (!m_editor)
         return;
-    const int arrowExtra = m_arrowVisible ? qMax(0, m_arrowIconSize.width() + m_arrowRightMargin + 8 - 24) : 0;
+
+    const int inset = m_borderVisible ? m_borderWidth : 0;
+    QRect editorRect = rect().adjusted(inset, inset, -inset, -inset);
+    const QRect buttonRect = arrowButtonRect();
+    if (!buttonRect.isEmpty()) {
+        if (layoutDirection() == Qt::RightToLeft)
+            editorRect.setLeft(qMax(editorRect.left(), buttonRect.right() + 1));
+        else
+            editorRect.setRight(qMin(editorRect.right(), buttonRect.left() - 1));
+    }
+
+    m_editor->setGeometry(editorRect);
+    m_editor->setTextMargins(m_contentPadding, 0, m_contentPadding, 0);
+}
+
+QRect ComboBox::arrowButtonRect() const {
+    if (!m_arrowVisible)
+        return QRect();
+
+    const int buttonWidth = qMin(width(), m_arrowIconSize.width() + m_arrowRightMargin + 8);
     if (layoutDirection() == Qt::RightToLeft)
-        m_editor->setTextMargins(m_contentPadding + arrowExtra, 0, m_contentPadding, 0);
-    else
-        m_editor->setTextMargins(m_contentPadding, 0, m_contentPadding + arrowExtra, 0);
+        return QRect(0, 0, buttonWidth, height());
+    return QRect(width() - buttonWidth, 0, buttonWidth, height());
+}
+
+void ComboBox::mousePressEvent(QMouseEvent* event) {
+    if (isEditable() && event->button() == Qt::LeftButton && arrowButtonRect().contains(event->pos())) {
+        event->accept();
+        if (m_popup)
+            hidePopup();
+        else
+            showPopup();
+        return;
+    }
+
+    QComboBox::mousePressEvent(event);
 }
 
 bool ComboBox::event(QEvent* event) {
@@ -353,6 +396,13 @@ bool ComboBox::event(QEvent* event) {
             refreshState();
             break;
         case QEvent::LayoutDirectionChange:
+        case QEvent::Resize:
+        case QEvent::StyleChange:
+        case QEvent::FontChange:
+        case QEvent::ContentsRectChange:
+        case QEvent::LayoutRequest:
+        case QEvent::Show:
+            syncEditor();
             updateEditorMargins();
             break;
         default:
@@ -363,6 +413,7 @@ bool ComboBox::event(QEvent* event) {
 
 void ComboBox::paintEvent(QPaintEvent*) {
     syncEditor();
+    updateEditorMargins();
 
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
@@ -412,12 +463,25 @@ void ComboBox::showPopup() {
 
     auto* popup = new ComboListPopup(this);
     m_popup = popup;
-    popup->setItems(model(), rootModelIndex(), modelColumn(), currentIndex(), maxVisibleItems(), m_popupWidth > 0 ? m_popupWidth : width());
+    if (!m_popupScrollBarStyleSheet.isNull())
+        popup->setScrollBarStyleSheet(m_popupScrollBarStyleSheet);
+
     connect(popup, &ComboListPopup::itemChosen, this, [this](int index) {
+        QPointer<ComboBox> guard(this);
         setCurrentIndex(index);
+        if (!guard)
+            return;
         emit activated(index);
+        if (!guard)
+            return;
+#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
+        emit textActivated(currentText());
+        if (!guard)
+            return;
+#endif
         hidePopup();
     });
+    connect(this, QOverload<int>::of(&QComboBox::currentIndexChanged), popup, &ComboListPopup::setCurrentRow);
     connect(popup, &BasePopupDlg::closeRequested, this, [this, popup] {
         if (m_popup == popup) {
             m_popup = nullptr;
@@ -425,6 +489,19 @@ void ComboBox::showPopup() {
             refreshState();
         }
     });
+    connect(popup, &QObject::destroyed, this, [this] {
+        if (!m_popup) {
+            m_popupOpen = false;
+            refreshState();
+        }
+    });
+
+    QPointer<ComboBox> guard(this);
+    emit popupAboutToShow(popup);
+    if (!guard || m_popup != popup)
+        return;
+    popup->view()->setIconSize(iconSize());
+    popup->setItems(model(), rootModelIndex(), modelColumn(), currentIndex(), maxVisibleItems(), m_popupWidth > 0 ? m_popupWidth : width());
     popup->moveToTargetBottom(this, m_popupAlign);
     m_popupOpen = true;
     refreshState();

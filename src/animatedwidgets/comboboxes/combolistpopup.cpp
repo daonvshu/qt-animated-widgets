@@ -1,79 +1,66 @@
 #include "animatedwidgets/comboboxes/combolistpopup.h"
-#include "animatedwidgets/popups/fadeslidepopupanimation.h"
+#include "animatedwidgets/comboboxes/combopopupmodel.h"
+#include "animatedwidgets/popups/defaultpopupmenuliststyle.h"
 
 #include <QAbstractItemModel>
-#include <QEvent>
-#include <QKeyEvent>
 #include <QListView>
-#include <QVBoxLayout>
+#include <QLayout>
 
 namespace animatedwidgets {
 
 ComboListPopup::ComboListPopup(QWidget* parent)
-    : BasePopupDlg(parent)
+    : PopupMenu(parent)
 {
-    setObjectName(QStringLiteral("comboListPopup"));
-    setStyleSheet(QStringLiteral("#comboListPopup { background: white; border-radius: 8px; }"));
-    if (auto* animation = qobject_cast<FadeSlidePopupAnimation*>(popupAnimation()))
-        animation->setSlideDistance(20);
+    Q_INIT_RESOURCE(comboboxes);
+    m_popupModel = new ComboPopupModel(this);
+    auto* style = new DefaultPopupMenuListStyle;
+    style->checkedIcon = QIcon(QStringLiteral(":/animatedwidgets/comboboxes/checked.svg"));
+    style->checkedIconAlignment = Qt::AlignRight;
+    setListStyle(style);
 
-    auto* layout = new QVBoxLayout(this);
-    layout->setContentsMargins(shadowCornerRadius, shadowCornerRadius, shadowCornerRadius, shadowCornerRadius);
-    layout->setSpacing(0);
-
-    m_list = new QListView(this);
-    m_list->setStyleSheet(QStringLiteral("QListView { background: transparent; border: none; outline: none; }"
-                                         "QListView::item { min-height: 30px; padding: 2px 8px; }"
-                                         "QListView::item:hover { background: #e8f0ff; }"
-                                         "QListView::item:selected { background: #dbe9ff; color: #20242a; }"));
-    m_list->setFrameShape(QFrame::NoFrame);
-    m_list->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    m_list->setSelectionMode(QAbstractItemView::SingleSelection);
-    m_list->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
-    m_list->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    m_list->setMouseTracking(true);
-    m_list->installEventFilter(this);
-    setFocusProxy(m_list);
-    layout->addWidget(m_list);
-
-    connect(m_list, &QListView::clicked, this, [this](const QModelIndex& index) {
-        if (index.isValid() && index.flags().testFlag(Qt::ItemIsEnabled))
-            emit itemChosen(index.row());
+    connect(this, &PopupMenu::itemTriggered, this, [this](const QModelIndex& index) {
+        const QModelIndex source = m_popupModel->mapToSource(index);
+        if (source.isValid())
+            emit itemChosen(source.row());
     });
 }
 
 void ComboListPopup::setItems(QAbstractItemModel* model, const QModelIndex& root, int column, int currentRow, int visibleRows, int width) {
-    m_list->setModel(model);
-    m_list->setRootIndex(root);
-    m_list->setModelColumn(column);
+    m_root = root;
+    m_column = column;
+    m_popupModel->setSourceModel(model);
+    setModel(m_popupModel);
+    view()->setRootIndex(m_popupModel->mapFromSource(root));
+    view()->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    if (auto* list = qobject_cast<QListView*>(view()))
+        list->setModelColumn(column);
 
-    const int rowCount = model ? model->rowCount(root) : 0;
-    const int rowHeight = qMax(32, m_list->sizeHintForRow(0));
-    const int rows = qMax(1, qMin(rowCount, qMax(1, visibleRows)));
-    setContentFixedSize(qMax(80, width), rows * rowHeight + 2 * shadowCornerRadius);
-
-    if (currentRow >= 0 && currentRow < rowCount) {
-        const QModelIndex current = model->index(currentRow, column, root);
-        m_list->setCurrentIndex(current);
-        m_list->scrollTo(current);
-    }
+    setAdaptiveHeight(qMax(80, width), qMax(1, visibleRows));
+    setCurrentRow(currentRow);
 }
 
-bool ComboListPopup::eventFilter(QObject* watched, QEvent* event) {
-    if (watched == m_list && event->type() == QEvent::KeyPress) {
-        auto* key = static_cast<QKeyEvent*>(event);
-        if (key->key() == Qt::Key_Escape) {
-            close();
-            return true;
-        }
-        if (key->key() == Qt::Key_Return || key->key() == Qt::Key_Enter || key->key() == Qt::Key_Space) {
-            const QModelIndex current = m_list->currentIndex();
-            if (current.isValid() && current.flags().testFlag(Qt::ItemIsEnabled))
-                emit itemChosen(current.row());
-            return true;
-        }
-    }
-    return BasePopupDlg::eventFilter(watched, event);
+void ComboListPopup::setCurrentRow(int row) {
+    auto* sourceModel = m_popupModel->sourceModel();
+    const QModelIndex source = sourceModel ? sourceModel->index(row, m_column, m_root) : QModelIndex();
+    m_popupModel->setCurrentIndex(source);
+    const QModelIndex current = m_popupModel->mapFromSource(source);
+    view()->setCurrentIndex(current);
+    if (isVisible() && current.isValid())
+        view()->scrollTo(current, QAbstractItemView::EnsureVisible);
+}
+
+void ComboListPopup::showEvent(QShowEvent* event) {
+    PopupMenu::showEvent(event);
+
+    // Shadow margins are expanded on show; use the final viewport size for initial scrolling.
+    if (layout())
+        layout()->activate();
+    view()->doItemsLayout();
+    view()->scrollToTop();
+
+    const QModelIndex current = view()->currentIndex();
+    if (current.isValid())
+        view()->scrollTo(current, QAbstractItemView::EnsureVisible);
 }
 
 } // namespace animatedwidgets

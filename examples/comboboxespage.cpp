@@ -1,6 +1,9 @@
 #include "comboboxespage.h"
 #include "ui_comboboxespage.h"
 
+#include "animatedwidgets/popups/defaultpopupmenuliststyle.h"
+#include "animatedwidgets/popups/defaultpopupmenustyle.h"
+
 #include <QLabel>
 #include <QStringList>
 
@@ -15,6 +18,7 @@ ComboBoxesPage::ComboBoxesPage(QWidget* parent)
     ui.comboNormal->addItems(choices);
     ui.comboEditable->addItems(choices);
     ui.comboEditable->setCurrentText(QStringLiteral("Development"));
+    ui.comboEditable->setMaxVisibleItems(3);
     ui.comboDisabled->addItems(choices);
     ui.comboComposite->editor()->addItems(choices);
 
@@ -26,6 +30,25 @@ ComboBoxesPage::ComboBoxesPage(QWidget* parent)
     ui.comboComposite->setDrawInputRightBorder(true);
     ui.comboComposite->setDrawInputTopBorder(true);
     ui.comboComposite->setDrawInputBottomBorder(true);
+
+    connect(ui.comboComposite, &CompositeComboBox::popupAboutToShow, this, [](animatedwidgets::PopupMenu* popup) {
+        auto* style = new animatedwidgets::DefaultPopupMenuStyle;
+        style->popupBackground = QColor(QStringLiteral("#253247"));
+        style->popupBorder = QColor(QStringLiteral("#657b9a"));
+        style->popupCornerRadius = 12;
+        popup->setPopupStyle(style);
+
+        auto* listStyle = new animatedwidgets::DefaultPopupMenuListStyle;
+        listStyle->itemHoverBackground = QColor(QStringLiteral("#364b69"));
+        listStyle->itemSelectedBackground = QColor(QStringLiteral("#42679b"));
+        listStyle->itemText = QColor(QStringLiteral("#edf2fa"));
+        listStyle->itemDisabledText = QColor(QStringLiteral("#8190a7"));
+        listStyle->checkedIcon = QIcon(QStringLiteral(":/animatedwidgets/comboboxes/checked.svg"));
+        listStyle->checkedIconAlignment = Qt::AlignRight;
+        listStyle->itemHeight = 36;
+        listStyle->itemSpacing = 4;
+        popup->setListStyle(listStyle);
+    });
 
     connect(ui.errorCheck, &QCheckBox::toggled, ui.comboNormal, &ComboBox::setHasError);
     connect(ui.arrowCheck, &QCheckBox::toggled, ui.comboNormal, &ComboBox::setArrowVisible);
