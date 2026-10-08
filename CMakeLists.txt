@@ -54,6 +54,20 @@ add_library(AnimatedWidgetsWidgets
     src/animatedwidgets/popups/popupanimation.cpp
     src/animatedwidgets/popups/fadeslidepopupanimation.h
     src/animatedwidgets/popups/fadeslidepopupanimation.cpp
+    src/animatedwidgets/popups/popupmenustyle.h
+    src/animatedwidgets/popups/defaultpopupmenumodel.h
+    src/animatedwidgets/popups/defaultpopupmenumodel.cpp
+    src/animatedwidgets/popups/popupmenuliststyle.h
+    src/animatedwidgets/popups/popupmenuviewportclip.h
+    src/animatedwidgets/popups/popupmenuviewportclip.cpp
+    src/animatedwidgets/popups/defaultpopupmenuliststyle.h
+    src/animatedwidgets/popups/defaultpopupmenuliststyle.cpp
+    src/animatedwidgets/popups/defaultpopupmenustyle.h
+    src/animatedwidgets/popups/defaultpopupmenustyle.cpp
+    src/animatedwidgets/popups/popupmenuitemdelegate.h
+    src/animatedwidgets/popups/popupmenuitemdelegate.cpp
+    src/animatedwidgets/popups/popupmenu.h
+    src/animatedwidgets/popups/popupmenu.cpp
     src/animatedwidgets/buttons/animatedbuttonbase.h
     src/animatedwidgets/buttons/animatedbuttonbase.cpp
     src/animatedwidgets/buttons/buttonstate.h

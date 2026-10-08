@@ -1,0 +1,788 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>PopupMenusPage</class>
+ <widget class="QWidget" name="PopupMenusPage">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>472</width>
+    <height>419</height>
+   </rect>
+  </property>
+  <layout class="QVBoxLayout" name="pageLayout">
+   <property name="spacing">
+    <number>12</number>
+   </property>
+   <property name="leftMargin">
+    <number>20</number>
+   </property>
+   <property name="topMargin">
+    <number>16</number>
+   </property>
+   <property name="rightMargin">
+    <number>20</number>
+   </property>
+   <property name="bottomMargin">
+    <number>16</number>
+   </property>
+   <item>
+    <widget class="QLabel" name="descriptionLabel">
+     <property name="text">
+      <string>Adjust settings, then open the menu. Escape or clicking outside closes it. Disable Close after action to toggle several items.</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="buttonsLayout">
+     <item>
+      <widget class="QPushButton" name="defaultButton">
+       <property name="text">
+        <string>Open menu</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="customButton">
+       <property name="text">
+        <string>Dark colors and open</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="resetButton">
+       <property name="text">
+        <string>Reset settings</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QLabel" name="resultLabel">
+     <property name="text">
+      <string>Last action: none</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QScrollArea" name="settingsScroll">
+     <property name="widgetResizable">
+      <bool>true</bool>
+     </property>
+     <widget class="QWidget" name="settingsContents">
+      <property name="geometry">
+       <rect>
+        <x>-299</x>
+        <y>0</y>
+        <width>731</width>
+        <height>434</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="settingsLayout">
+       <item>
+        <widget class="QGroupBox" name="colorsGroup">
+         <property name="title">
+          <string>Popup and list colors</string>
+         </property>
+         <layout class="QGridLayout" name="colorsLayout">
+          <item row="0" column="0">
+           <widget class="QLabel" name="popupBackgroundLabel">
+            <property name="text">
+             <string>Popup background</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <layout class="QHBoxLayout" name="popupBackgroundLayout">
+            <item>
+             <widget class="QLineEdit" name="popupBackgroundEdit">
+              <property name="toolTip">
+               <string>Color name, #RRGGBB or #AARRGGBB (alpha first).</string>
+              </property>
+              <property name="text">
+               <string>#ffffff</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="popupBackgroundEditButton">
+              <property name="text">
+               <string>Choose...</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="popupBorderLabel">
+            <property name="text">
+             <string>Popup border</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <layout class="QHBoxLayout" name="popupBorderLayout">
+            <item>
+             <widget class="QLineEdit" name="popupBorderEdit">
+              <property name="toolTip">
+               <string>Color name, #RRGGBB or #AARRGGBB (alpha first).</string>
+              </property>
+              <property name="text">
+               <string>#d5dae0</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="popupBorderEditButton">
+              <property name="text">
+               <string>Choose...</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="backgroundLabel">
+            <property name="text">
+             <string>List background</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <layout class="QHBoxLayout" name="backgroundLayout">
+            <item>
+             <widget class="QLineEdit" name="backgroundEdit">
+              <property name="toolTip">
+               <string>Color name, #RRGGBB or #AARRGGBB (alpha first).</string>
+              </property>
+              <property name="text">
+               <string>#00000000</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="backgroundEditButton">
+              <property name="text">
+               <string>Choose...</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="itemBackgroundLabel">
+            <property name="text">
+             <string>Item background</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <layout class="QHBoxLayout" name="itemBackgroundLayout">
+            <item>
+             <widget class="QLineEdit" name="itemBackgroundEdit">
+              <property name="toolTip">
+               <string>Color name, #RRGGBB or #AARRGGBB (alpha first).</string>
+              </property>
+              <property name="text">
+               <string>#00000000</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="itemBackgroundEditButton">
+              <property name="text">
+               <string>Choose...</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="4" column="0">
+           <widget class="QLabel" name="itemHoverBackgroundLabel">
+            <property name="text">
+             <string>Hover background</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="1">
+           <layout class="QHBoxLayout" name="itemHoverBackgroundLayout">
+            <item>
+             <widget class="QLineEdit" name="itemHoverBackgroundEdit">
+              <property name="toolTip">
+               <string>Color name, #RRGGBB or #AARRGGBB (alpha first).</string>
+              </property>
+              <property name="text">
+               <string>#F2F3F5</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="itemHoverBackgroundEditButton">
+              <property name="text">
+               <string>Choose...</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="5" column="0">
+           <widget class="QLabel" name="itemSelectedBackgroundLabel">
+            <property name="text">
+             <string>Selected background</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="1">
+           <layout class="QHBoxLayout" name="itemSelectedBackgroundLayout">
+            <item>
+             <widget class="QLineEdit" name="itemSelectedBackgroundEdit">
+              <property name="toolTip">
+               <string>Color name, #RRGGBB or #AARRGGBB (alpha first).</string>
+              </property>
+              <property name="text">
+               <string>#E3F3FF</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="itemSelectedBackgroundEditButton">
+              <property name="text">
+               <string>Choose...</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="6" column="0">
+           <widget class="QLabel" name="itemTextLabel">
+            <property name="text">
+             <string>Text color</string>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="1">
+           <layout class="QHBoxLayout" name="itemTextLayout">
+            <item>
+             <widget class="QLineEdit" name="itemTextEdit">
+              <property name="toolTip">
+               <string>Color name, #RRGGBB or #AARRGGBB (alpha first).</string>
+              </property>
+              <property name="text">
+               <string>#20242a</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="itemTextEditButton">
+              <property name="text">
+               <string>Choose...</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="7" column="0">
+           <widget class="QLabel" name="itemDisabledTextLabel">
+            <property name="text">
+             <string>Disabled text color</string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="1">
+           <layout class="QHBoxLayout" name="itemDisabledTextLayout">
+            <item>
+             <widget class="QLineEdit" name="itemDisabledTextEdit">
+              <property name="toolTip">
+               <string>Color name, #RRGGBB or #AARRGGBB (alpha first).</string>
+              </property>
+              <property name="text">
+               <string>#9298a2</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="itemDisabledTextEditButton">
+              <property name="text">
+               <string>Choose...</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="8" column="0">
+           <widget class="QLabel" name="separatorLabel">
+            <property name="text">
+             <string>Separator color</string>
+            </property>
+           </widget>
+          </item>
+          <item row="8" column="1">
+           <layout class="QHBoxLayout" name="separatorLayout">
+            <item>
+             <widget class="QLineEdit" name="separatorEdit">
+              <property name="toolTip">
+               <string>Color name, #RRGGBB or #AARRGGBB (alpha first).</string>
+              </property>
+              <property name="text">
+               <string>#e5e8ec</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="separatorEditButton">
+              <property name="text">
+               <string>Choose...</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="metricsGroup">
+         <property name="title">
+          <string>Sizes and margins (px)</string>
+         </property>
+         <layout class="QGridLayout" name="metricsLayout">
+          <item row="0" column="0">
+           <widget class="QLabel" name="radiusSpinLabel">
+            <property name="text">
+             <string>Popup corner radius</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QSpinBox" name="radiusSpin">
+            <property name="minimum">
+             <number>0</number>
+            </property>
+            <property name="maximum">
+             <number>128</number>
+            </property>
+            <property name="value">
+             <number>8</number>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="borderWidthSpinLabel">
+            <property name="text">
+             <string>Border width</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QSpinBox" name="borderWidthSpin">
+            <property name="minimum">
+             <number>0</number>
+            </property>
+            <property name="maximum">
+             <number>20</number>
+            </property>
+            <property name="value">
+             <number>1</number>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="shadowRadiusSpinLabel">
+            <property name="text">
+             <string>Shadow radius</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QSpinBox" name="shadowRadiusSpin">
+            <property name="minimum">
+             <number>0</number>
+            </property>
+            <property name="maximum">
+             <number>64</number>
+            </property>
+            <property name="value">
+             <number>12</number>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="heightSpinLabel">
+            <property name="text">
+             <string>Item height</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="QSpinBox" name="heightSpin">
+            <property name="minimum">
+             <number>16</number>
+            </property>
+            <property name="maximum">
+             <number>128</number>
+            </property>
+            <property name="value">
+             <number>32</number>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="0">
+           <widget class="QLabel" name="itemRadiusSpinLabel">
+            <property name="text">
+             <string>Item corner radius</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="1">
+           <widget class="QSpinBox" name="itemRadiusSpin">
+            <property name="minimum">
+             <number>0</number>
+            </property>
+            <property name="maximum">
+             <number>64</number>
+            </property>
+            <property name="value">
+             <number>4</number>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="0">
+           <widget class="QLabel" name="paddingSpinLabel">
+            <property name="text">
+             <string>Item content padding</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="1">
+           <widget class="QSpinBox" name="paddingSpin">
+            <property name="minimum">
+             <number>0</number>
+            </property>
+            <property name="maximum">
+             <number>64</number>
+            </property>
+            <property name="value">
+             <number>8</number>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="0">
+           <widget class="QLabel" name="spacingSpinLabel">
+            <property name="text">
+             <string>Icon spacing</string>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="1">
+           <widget class="QSpinBox" name="spacingSpin">
+            <property name="minimum">
+             <number>0</number>
+            </property>
+            <property name="maximum">
+             <number>64</number>
+            </property>
+            <property name="value">
+             <number>4</number>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="0">
+           <widget class="QLabel" name="iconWidthSpinLabel">
+            <property name="text">
+             <string>Checked icon width</string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="1">
+           <widget class="QSpinBox" name="iconWidthSpin">
+            <property name="minimum">
+             <number>1</number>
+            </property>
+            <property name="maximum">
+             <number>64</number>
+            </property>
+            <property name="value">
+             <number>14</number>
+            </property>
+           </widget>
+          </item>
+          <item row="8" column="0">
+           <widget class="QLabel" name="iconHeightSpinLabel">
+            <property name="text">
+             <string>Checked icon height</string>
+            </property>
+           </widget>
+          </item>
+          <item row="8" column="1">
+           <widget class="QSpinBox" name="iconHeightSpin">
+            <property name="minimum">
+             <number>1</number>
+            </property>
+            <property name="maximum">
+             <number>64</number>
+            </property>
+            <property name="value">
+             <number>14</number>
+            </property>
+           </widget>
+          </item>
+          <item row="9" column="0">
+           <widget class="QLabel" name="leftMarginSpinLabel">
+            <property name="text">
+             <string>List left margin</string>
+            </property>
+           </widget>
+          </item>
+          <item row="9" column="1">
+           <widget class="QSpinBox" name="leftMarginSpin">
+            <property name="minimum">
+             <number>0</number>
+            </property>
+            <property name="maximum">
+             <number>64</number>
+            </property>
+            <property name="value">
+             <number>8</number>
+            </property>
+           </widget>
+          </item>
+          <item row="10" column="0">
+           <widget class="QLabel" name="topMarginSpinLabel">
+            <property name="text">
+             <string>List top margin</string>
+            </property>
+           </widget>
+          </item>
+          <item row="10" column="1">
+           <widget class="QSpinBox" name="topMarginSpin">
+            <property name="minimum">
+             <number>0</number>
+            </property>
+            <property name="maximum">
+             <number>64</number>
+            </property>
+            <property name="value">
+             <number>8</number>
+            </property>
+           </widget>
+          </item>
+          <item row="11" column="0">
+           <widget class="QLabel" name="rightMarginSpinLabel">
+            <property name="text">
+             <string>List right margin</string>
+            </property>
+           </widget>
+          </item>
+          <item row="11" column="1">
+           <widget class="QSpinBox" name="rightMarginSpin">
+            <property name="minimum">
+             <number>0</number>
+            </property>
+            <property name="maximum">
+             <number>64</number>
+            </property>
+            <property name="value">
+             <number>8</number>
+            </property>
+           </widget>
+          </item>
+          <item row="12" column="0">
+           <widget class="QLabel" name="bottomMarginSpinLabel">
+            <property name="text">
+             <string>List bottom margin</string>
+            </property>
+           </widget>
+          </item>
+          <item row="12" column="1">
+           <widget class="QSpinBox" name="bottomMarginSpin">
+            <property name="minimum">
+             <number>0</number>
+            </property>
+            <property name="maximum">
+             <number>64</number>
+            </property>
+            <property name="value">
+             <number>8</number>
+            </property>
+           </widget>
+          </item>
+          <item row="13" column="0">
+           <widget class="QLabel" name="widthSpinLabel">
+            <property name="text">
+             <string>Popup width</string>
+            </property>
+           </widget>
+          </item>
+          <item row="13" column="1">
+           <widget class="QSpinBox" name="widthSpin">
+            <property name="minimum">
+             <number>100</number>
+            </property>
+            <property name="maximum">
+             <number>800</number>
+            </property>
+            <property name="value">
+             <number>260</number>
+            </property>
+           </widget>
+          </item>
+          <item row="14" column="0">
+           <widget class="QLabel" name="listRadiusLabel">
+            <property name="text">
+             <string>List corner radius</string>
+            </property>
+           </widget>
+          </item>
+          <item row="14" column="1">
+           <widget class="QSpinBox" name="listRadiusSpin">
+            <property name="maximum">
+             <number>128</number>
+            </property>
+            <property name="value">
+             <number>4</number>
+            </property>
+           </widget>
+          </item>
+          <item row="15" column="0">
+           <widget class="QLabel" name="itemSpacingLabel">
+            <property name="text">
+             <string>Item spacing</string>
+            </property>
+           </widget>
+          </item>
+          <item row="15" column="1">
+           <widget class="QSpinBox" name="itemSpacingSpin">
+            <property name="maximum">
+             <number>64</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="optionsGroup">
+         <property name="title">
+          <string>Behavior and visibility</string>
+         </property>
+         <layout class="QGridLayout" name="optionsLayout">
+          <item row="0" column="0">
+           <widget class="QCheckBox" name="shadowCheck">
+            <property name="text">
+             <string>Shadow</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QCheckBox" name="separatorCheck">
+            <property name="text">
+             <string>Separators</string>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QCheckBox" name="checkedIconCheck">
+            <property name="text">
+             <string>Checked icon</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="0">
+           <widget class="QCheckBox" name="autoCloseCheck">
+            <property name="text">
+             <string>Close after action</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QCheckBox" name="borderCheck">
+            <property name="text">
+             <string>Border</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="0">
+           <widget class="QCheckBox" name="checkboxIconsCheck">
+            <property name="text">
+             <string>Checked / unchecked checkbox icons</string>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="0">
+           <widget class="QLabel" name="iconPositionLabel">
+            <property name="text">
+             <string>Check icon position</string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="0">
+           <widget class="QComboBox" name="iconPositionCombo">
+            <item>
+             <property name="text">
+              <string>Left</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Right</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="8" column="0">
+           <widget class="QCheckBox" name="multiSelectionCheck">
+            <property name="text">
+             <string>Multiple selection</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="9" column="0">
+           <spacer name="verticalSpacer">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

@@ -11,6 +11,9 @@ add_executable(animatedwidgets-gallery
     comboboxespage.cpp
     comboboxespage.h
     comboboxespage.ui
+    popupmenuspage.cpp
+    popupmenuspage.h
+    popupmenuspage.ui
     progresspage.cpp
     progresspage.h
     progresspage.ui

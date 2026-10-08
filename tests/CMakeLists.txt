@@ -11,3 +11,7 @@ add_test(NAME tstvaluetransition COMMAND tstvaluetransition)
 add_executable(tstbuttonstatecolors tstbuttonstatecolors.cpp)
 target_link_libraries(tstbuttonstatecolors PRIVATE AnimatedWidgets::Widgets Qt${QT_VERSION_MAJOR}::Test)
 add_test(NAME tstbuttonstatecolors COMMAND tstbuttonstatecolors)
+
+add_executable(tstdefaultpopupmenumodel tstdefaultpopupmenumodel.cpp)
+target_link_libraries(tstdefaultpopupmenumodel PRIVATE AnimatedWidgets::Widgets Qt${QT_VERSION_MAJOR}::Test)
+add_test(NAME tstdefaultpopupmenumodel COMMAND tstdefaultpopupmenumodel)
