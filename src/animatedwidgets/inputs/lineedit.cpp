@@ -1,4 +1,5 @@
 #include "animatedwidgets/inputs/lineedit.h"
+#include "animatedwidgets/utils/inputcontextmenu.h"
 
 #include <QEvent>
 #include <QPainter>
@@ -14,6 +15,7 @@ LineEdit::LineEdit(QWidget* parent)
     setFocusPolicy(Qt::ClickFocus);
     setAttribute(Qt::WA_Hover, true);
     LineEdit::updateContentMargins();
+    InputContextMenu::install(this);
     for (auto* transition : {&m_borderTransition, &m_backgroundTransition}) {
         transition->setDuration(m_animationDuration);
         transition->setEasingCurve(QEasingCurve::OutCubic);

@@ -11,6 +11,8 @@ class PopupMenuItemDelegate : public QStyledItemDelegate {
     Q_OBJECT
 
 public:
+    enum ItemRole { SeparatorRole = Qt::UserRole + 1, ShortcutRole };
+
     explicit PopupMenuItemDelegate(QObject* parent = nullptr);
 
     void paint(QPainter* painter, const QStyleOptionViewItem& option,

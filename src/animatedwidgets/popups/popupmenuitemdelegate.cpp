@@ -16,6 +16,14 @@ void PopupMenuItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem&
                                   const QModelIndex& index) const {
     painter->save();
     painter->setClipRect(option.rect);
+    if (index.data(SeparatorRole).toBool()) {
+        painter->setPen(separatorColor);
+        painter->drawLine(option.rect.left() + qMax(0, contentPadding), option.rect.center().y(),
+                          option.rect.right() - qMax(0, contentPadding), option.rect.center().y());
+        painter->restore();
+        return;
+    }
+
     QStyleOptionViewItem itemOption(option);
     initStyleOption(&itemOption, index);
     painter->setFont(itemOption.font);
@@ -70,6 +78,15 @@ void PopupMenuItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem&
         contentRect.setLeft(iconRect.right() + 1 + checkedIconSpacing);
     }
 
+    const QString shortcut = index.data(ShortcutRole).toString();
+    if (!shortcut.isEmpty()) {
+        const int shortcutWidth = itemOption.fontMetrics.horizontalAdvance(shortcut);
+        const QRect shortcutRect(contentRect.right() - shortcutWidth + 1, contentRect.top(),
+                                 shortcutWidth, contentRect.height());
+        painter->drawText(shortcutRect, Qt::AlignVCenter | Qt::AlignRight, shortcut);
+        contentRect.setRight(shortcutRect.left() - 1 - qMax(8, checkedIconSpacing));
+    }
+
     const QString text = index.data(Qt::DisplayRole).toString();
     painter->drawText(contentRect, Qt::AlignVCenter | Qt::AlignLeft,
                       itemOption.fontMetrics.elidedText(text, Qt::ElideRight, qMax(0, contentRect.width())));
@@ -83,7 +100,16 @@ void PopupMenuItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem&
 }
 
 QSize PopupMenuItemDelegate::sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const {
+    if (index.data(SeparatorRole).toBool())
+        return QSize(2 * qMax(0, contentPadding) + 1, 8);
+
     QSize size = QStyledItemDelegate::sizeHint(option, index);
+    const QString shortcut = index.data(ShortcutRole).toString();
+    if (!shortcut.isEmpty()) {
+        QStyleOptionViewItem itemOption(option);
+        initStyleOption(&itemOption, index);
+        size.rwidth() += itemOption.fontMetrics.horizontalAdvance(shortcut) + qMax(8, checkedIconSpacing);
+    }
     if (drawCheckedIcon && index.data(Qt::CheckStateRole).isValid()
         && (!checkedIcon.isNull() || !uncheckedIcon.isNull())) {
         size.rwidth() += checkedIconSize.width() + checkedIconSpacing;

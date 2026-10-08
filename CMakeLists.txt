@@ -74,6 +74,8 @@ add_library(AnimatedWidgetsWidgets
     src/animatedwidgets/buttons/buttonstatestyle.h
     src/animatedwidgets/utils/buttonstatecolors.h
     src/animatedwidgets/utils/buttonstatecolors.cpp
+    src/animatedwidgets/utils/inputcontextmenu.h
+    src/animatedwidgets/utils/inputcontextmenu.cpp
     src/animatedwidgets/utils/buttonpainter.h
     src/animatedwidgets/utils/buttonpainter.cpp
     src/animatedwidgets/utils/checkableiconpainter.h

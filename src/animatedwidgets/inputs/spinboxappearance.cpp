@@ -1,4 +1,5 @@
 #include "animatedwidgets/inputs/spinboxappearance.h"
+#include "animatedwidgets/utils/inputcontextmenu.h"
 
 #include <QAbstractSpinBox>
 #include <QEvent>
@@ -22,6 +23,7 @@ SpinBoxAppearance::SpinBoxAppearance(QAbstractSpinBox* owner)
 
 void SpinBoxAppearance::setEditor(QLineEdit* editor) {
     m_editor = editor;
+    InputContextMenu::install(editor, m_owner);
     m_editor->setFrame(false);
     m_editor->setAutoFillBackground(false);
     updateEditorPalette();

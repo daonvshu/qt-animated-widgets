@@ -1,5 +1,6 @@
 #include "animatedwidgets/comboboxes/combobox.h"
 #include "animatedwidgets/comboboxes/combolistpopup.h"
+#include "animatedwidgets/utils/inputcontextmenu.h"
 
 #include <QApplication>
 #include <QEvent>
@@ -306,6 +307,7 @@ void ComboBox::syncEditor() {
     m_editor = editor;
     if (!m_editor)
         return;
+    InputContextMenu::install(m_editor);
     m_editor->setFrame(false);
     m_editor->setAutoFillBackground(false);
     updateEditorPalette();
