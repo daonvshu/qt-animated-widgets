@@ -40,7 +40,7 @@ PopupMenu::PopupMenu(QWidget* parent)
     m_listStyle = new DefaultPopupMenuListStyle;
     createDefaultView();
     m_defaultModel = new DefaultPopupMenuModel(this);
-    setModel(m_defaultModel);
+    PopupMenu::setModel(m_defaultModel);
 }
 
 PopupMenu::~PopupMenu()
@@ -78,13 +78,49 @@ void PopupMenu::setView(QAbstractItemView* view) {
     m_view->installEventFilter(this);
     setFocusProxy(m_view);
     if (auto* boxLayout = qobject_cast<QVBoxLayout*>(layout()))
-        boxLayout->addWidget(m_view);
+        boxLayout->insertWidget(m_topWidget ? 1 : 0, m_view, 1);
     if (previousModel)
         m_view->setModel(previousModel);
     if (m_delegate)
         m_view->setItemDelegate(m_delegate);
     connectViewSignals();
     applyStyle();
+}
+
+QWidget* PopupMenu::topWidget() const {
+    return m_topWidget;
+}
+
+void PopupMenu::setTopWidget(QWidget* widget) {
+    setSlotWidget(m_topWidget, widget, true);
+}
+
+QWidget* PopupMenu::bottomWidget() const {
+    return m_bottomWidget;
+}
+
+void PopupMenu::setBottomWidget(QWidget* widget) {
+    setSlotWidget(m_bottomWidget, widget, false);
+}
+
+void PopupMenu::setSlotWidget(QPointer<QWidget>& slot, QWidget* widget, bool top) {
+    if (widget == slot || widget == this || widget == m_view || (widget && widget->isAncestorOf(this)))
+        return;
+    if (widget && (widget == m_topWidget || widget == m_bottomWidget))
+        return;
+
+    if (slot) {
+        layout()->removeWidget(slot);
+        slot->hide();
+        slot->deleteLater();
+    }
+    slot = widget;
+    if (slot) {
+        slot->setParent(this);
+        auto* boxLayout = qobject_cast<QVBoxLayout*>(layout());
+        boxLayout->insertWidget(top ? 0 : boxLayout->count(), slot);
+        slot->show();
+    }
 }
 
 QAbstractItemDelegate* PopupMenu::itemDelegate() const {
@@ -180,6 +216,12 @@ bool PopupMenu::autoClose() const {
     return m_autoClose;
 }
 
+void PopupMenu::setItems(const QList<PopupMenuItem>& items) {
+    m_defaultModel->setItems(items);
+    if (model() != m_defaultModel)
+        setModel(m_defaultModel);
+}
+
 void PopupMenu::setAutoClose(bool enabled) {
     m_autoClose = enabled;
 }
@@ -200,7 +242,7 @@ void PopupMenu::setAdaptiveHeight(int width, int maximumVisibleItems) {
     m_view->doItemsLayout();
 
     int height = 0;
-    if (auto* itemModel = model()) {
+    if (auto* itemModel = includeListInAdaptiveHeight() ? model() : nullptr) {
         const QModelIndex root = m_view->rootIndex();
         const auto* listView = qobject_cast<QListView*>(m_view.data());
         int visibleItems = 0;
@@ -221,12 +263,26 @@ void PopupMenu::setAdaptiveHeight(int width, int maximumVisibleItems) {
     const QMargins viewMargins = m_view->contentsMargins();
     height += listMargins.top() + listMargins.bottom() + bodyMargins.top() + bodyMargins.bottom()
         + viewMargins.top() + viewMargins.bottom();
+    for (int item = 0; layout() && item < layout()->count(); ++item) {
+        auto* widget = layout()->itemAt(item)->widget();
+        if (!widget || widget == m_view || widget->isHidden())
+            continue;
+        const int availableWidth = qMax(1, width - listMargins.left() - listMargins.right()
+                                          - bodyMargins.left() - bodyMargins.right());
+        const int hint = widget->hasHeightForWidth() ? widget->heightForWidth(availableWidth) : widget->sizeHint().height();
+        height += qBound(widget->minimumHeight(), qMax(widget->minimumSizeHint().height(), hint), widget->maximumHeight());
+        height += qMax(0, layout()->spacing());
+    }
     setContentFixedHeight(qMax(1, height));
 }
 
 void PopupMenu::showAt(const QPoint& globalPos) {
     moveTo(globalPos, Qt::TopEdge, Qt::AlignLeft);
     show();
+}
+
+bool PopupMenu::includeListInAdaptiveHeight() const {
+    return true;
 }
 
 bool PopupMenu::eventFilter(QObject* watched, QEvent* event) {

@@ -5,12 +5,15 @@
 #include "animatedwidgets/popups/defaultpopupmenumodel.h"
 #include "animatedwidgets/popups/defaultpopupmenustyle.h"
 #include "animatedwidgets/popups/popupmenu.h"
+#include "animatedwidgets/popups/searchpopupmenu.h"
+#include "animatedwidgets/inputs/iconlineedit.h"
 
 #include <QAbstractItemView>
 #include <QColorDialog>
 #include <QLineEdit>
 #include <QStringList>
 #include <QVector>
+#include <QLabel>
 
 PopupMenusPage::PopupMenusPage(QWidget* parent)
     : QWidget(parent)
@@ -28,6 +31,9 @@ PopupMenusPage::PopupMenusPage(QWidget* parent)
         showMenu(m_ui->customButton);
     });
     connect(m_ui->resetButton, &QPushButton::clicked, this, &PopupMenusPage::resetSettings);
+    connect(m_ui->groupedButton, &QPushButton::clicked, this, [this] { showGroupedMenu(m_ui->groupedButton); });
+    connect(m_ui->modulesButton, &QPushButton::clicked, this, [this] { showModulesMenu(m_ui->modulesButton); });
+    connect(m_ui->searchButton, &QPushButton::clicked, this, [this] { showSearchMenu(m_ui->searchButton); });
 }
 
 PopupMenusPage::~PopupMenusPage() = default;
@@ -87,6 +93,9 @@ void PopupMenusPage::resetSettings() {
     m_ui->multiSelectionCheck->setChecked(true);
     m_ui->iconPositionCombo->setCurrentIndex(0);
     m_ui->resultLabel->setText(tr("Last action: none"));
+    m_ui->highlightCheck->setChecked(true);
+    m_ui->highlightBoldCheck->setChecked(true);
+    m_ui->highlightColorEdit->setText(QStringLiteral("#1778ff"));
 }
 
 void PopupMenusPage::applyDarkColors() {
@@ -185,6 +194,124 @@ void PopupMenusPage::showMenu(QWidget* anchor) {
         m_ui->resultLabel->setText(tr("Selected: %1").arg(selected.isEmpty() ? tr("none") : selected.join(QStringLiteral(", "))));
     });
 
+    popup->moveToTargetBottom(anchor, Qt::AlignLeft);
+    popup->show();
+}
+
+void PopupMenusPage::showGroupedMenu(QWidget* anchor) {
+    if (m_popup)
+        return;
+
+    using animatedwidgets::PopupMenuItem;
+    auto* popup = new animatedwidgets::PopupMenu(this);
+    QList<PopupMenuItem> items;
+    for (const auto& group : {tr("Saved views"), tr("Shared views"), tr("Quick views")}) {
+        if (!items.isEmpty()) {
+            PopupMenuItem separator;
+            separator.type = PopupMenuItem::Separator;
+            items.append(separator);
+        }
+        PopupMenuItem title;
+        title.text = group;
+        title.type = PopupMenuItem::GroupTitle;
+        items.append(title);
+
+        PopupMenuItem option;
+        option.text = tr("%1 preset").arg(group);
+        option.values.insert(Qt::UserRole + 100, static_cast<int>(items.size()));
+        items.append(option);
+    }
+    popup->setItems(items);
+    popup->defaultModel()->setCurrentIndex(4);
+    auto* style = new animatedwidgets::DefaultPopupMenuListStyle;
+    style->checkedIcon = QIcon(QStringLiteral(":/animatedwidgets/gallery/buttoncheck.svg"));
+    style->checkedIconAlignment = Qt::AlignRight;
+    popup->setListStyle(style);
+    showVariant(popup, anchor);
+}
+
+void PopupMenusPage::showModulesMenu(QWidget* anchor) {
+    if (m_popup)
+        return;
+
+    using animatedwidgets::PopupMenuItem;
+    auto* popup = new animatedwidgets::PopupMenu(this);
+    auto* header = new QPushButton(tr("Run task"), popup);
+    header->setMinimumHeight(36);
+    popup->setTopWidget(header);
+    connect(header, &QPushButton::clicked, this, [this, popup] {
+        m_ui->resultLabel->setText(tr("Task requested"));
+        popup->close();
+    });
+
+    QList<PopupMenuItem> items;
+    PopupMenuItem title;
+    title.text = tr("Available operations");
+    title.type = PopupMenuItem::GroupTitle;
+    items.append(title);
+    for (const auto& text : {tr("Inspect records"), tr("Refresh cache"), tr("Export report"),
+                             tr("Validate entries"), tr("Sync changes"), tr("Archive results"), tr("Schedule backup")}) {
+        PopupMenuItem item;
+        item.text = text;
+        items.append(item);
+    }
+    popup->setItems(items);
+    popup->setBottomWidget(new QLabel(tr("Choose an operation to continue"), popup));
+    showVariant(popup, anchor);
+}
+
+void PopupMenusPage::showSearchMenu(QWidget* anchor) {
+    if (m_popup)
+        return;
+
+    const QColor highlightColor(m_ui->highlightColorEdit->text().trimmed());
+    if (!highlightColor.isValid()) {
+        m_ui->resultLabel->setText(tr("Invalid highlight color"));
+        m_ui->highlightColorEdit->setFocus();
+        m_ui->highlightColorEdit->selectAll();
+        return;
+    }
+
+    using animatedwidgets::PopupMenuItem;
+    auto* popup = new animatedwidgets::SearchPopupMenu(this);
+    popup->setHighlightEnabled(m_ui->highlightCheck->isChecked());
+    popup->setHighlightColor(highlightColor);
+    popup->setHighlightBold(m_ui->highlightBoldCheck->isChecked());
+    popup->searchEditor()->setPlaceholderText(tr("Search assets"));
+    auto* emptyLabel = new QLabel(tr("No matching assets\nTry another keyword"), popup);
+    emptyLabel->setAlignment(Qt::AlignCenter);
+    emptyLabel->setMinimumHeight(80);
+    popup->setEmptyWidget(emptyLabel);
+    QList<PopupMenuItem> items;
+    for (const auto& group : {tr("Images"), tr("Documents")}) {
+        PopupMenuItem title;
+        title.text = group;
+        title.type = PopupMenuItem::GroupTitle;
+        items.append(title);
+        for (const auto& name : {tr("Orchard"), tr("Harbor"), tr("Summit")}) {
+            PopupMenuItem item;
+            item.text = tr("%1 - %2").arg(name, group);
+            item.values.insert(Qt::UserRole + 100, static_cast<int>(items.size()));
+            items.append(item);
+        }
+    }
+    popup->setItems(items);
+    popup->setBottomWidget(new QLabel(tr("Type to filter; Down to select"), popup));
+    connect(popup, &animatedwidgets::SearchPopupMenu::sourceItemTriggered, this, [this](const QModelIndex& index) {
+        m_ui->resultLabel->setText(tr("Asset ID %1: %2").arg(index.data(Qt::UserRole + 100).toInt())
+                                     .arg(index.data().toString()));
+    });
+    showVariant(popup, anchor);
+}
+
+void PopupMenusPage::showVariant(animatedwidgets::PopupMenu* popup, QWidget* anchor) {
+    m_popup = popup;
+    if (!qobject_cast<animatedwidgets::SearchPopupMenu*>(popup)) {
+        connect(popup, &animatedwidgets::PopupMenu::itemTriggered, this, [this](const QModelIndex& index) {
+            m_ui->resultLabel->setText(tr("Selected: %1").arg(index.data().toString()));
+        });
+    }
+    popup->setAdaptiveHeight(300, 8);
     popup->moveToTargetBottom(anchor, Qt::AlignLeft);
     popup->show();
 }

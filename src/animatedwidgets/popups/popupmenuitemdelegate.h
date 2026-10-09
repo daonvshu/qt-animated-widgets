@@ -4,6 +4,7 @@
 #include <QColor>
 #include <QIcon>
 #include <QSize>
+#include "animatedwidgets/popups/popupmenuitem.h"
 
 namespace animatedwidgets {
 
@@ -11,7 +12,8 @@ class PopupMenuItemDelegate : public QStyledItemDelegate {
     Q_OBJECT
 
 public:
-    enum ItemRole { SeparatorRole = Qt::UserRole + 1, ShortcutRole };
+    enum ItemRole { SeparatorRole = PopupMenuItem::SeparatorRole, ShortcutRole = PopupMenuItem::ShortcutRole,
+                    TypeRole = PopupMenuItem::TypeRole };
 
     explicit PopupMenuItemDelegate(QObject* parent = nullptr);
 
@@ -24,6 +26,8 @@ public:
     QColor itemSelectedBackground = QColor(QStringLiteral("#E3F3FF"));
     QColor itemText = QColor(QStringLiteral("#20242a"));
     QColor itemDisabledText = QColor(QStringLiteral("#9298a2"));
+    QColor groupTitleText = QColor(QStringLiteral("#9298a2"));
+    int groupTitleHeight = 28;
     QIcon checkedIcon;
     QIcon uncheckedIcon;
     QSize checkedIconSize = QSize(14, 14);

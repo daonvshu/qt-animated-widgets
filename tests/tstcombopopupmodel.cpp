@@ -22,6 +22,8 @@ void ComboPopupModelTest::selectionDoesNotChangeSource() {
     first->setCheckState(Qt::Unchecked);
     first->setData(42, PopupMenuItemDelegate::SeparatorRole);
     first->setData(QStringLiteral("Business data"), PopupMenuItemDelegate::ShortcutRole);
+    first->setData(PopupMenuItem::GroupTitle, PopupMenuItemDelegate::TypeRole);
+    first->setData(QStringLiteral("Business payload"), PopupMenuItem::HighlightRole);
     source.appendRow(first);
     source.appendRow(new QStandardItem(QStringLiteral("Second")));
     ComboPopupModel model;
@@ -35,6 +37,10 @@ void ComboPopupModelTest::selectionDoesNotChangeSource() {
     QVERIFY(!model.flags(model.index(0, 0)).testFlag(Qt::ItemIsUserCheckable));
     QVERIFY(!model.data(model.index(0, 0), PopupMenuItemDelegate::SeparatorRole).toBool());
     QVERIFY(!model.data(model.index(0, 0), PopupMenuItemDelegate::ShortcutRole).isValid());
+    QVERIFY(!model.data(model.index(0, 0), PopupMenuItem::HighlightRole).isValid());
+    QVERIFY(!model.setData(model.index(0, 0), QStringLiteral("html"), PopupMenuItem::HighlightRole));
+    QCOMPARE(model.data(model.index(0, 0), PopupMenuItemDelegate::TypeRole).toInt(), int(PopupMenuItem::Option));
+    QVERIFY(!model.setData(model.index(0, 0), PopupMenuItem::Separator, PopupMenuItemDelegate::TypeRole));
     QVERIFY(!model.setData(model.index(0, 0), Qt::Checked, Qt::CheckStateRole));
     QCOMPARE(first->data(PopupMenuItemDelegate::SeparatorRole).toInt(), 42);
     QCOMPARE(sourceChanges.count(), 0);

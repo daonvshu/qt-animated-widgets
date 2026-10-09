@@ -2,7 +2,7 @@
 
 #include <QAbstractListModel>
 #include <QStringList>
-#include <QSet>
+#include "animatedwidgets/popups/popupmenuitem.h"
 
 namespace animatedwidgets {
 
@@ -22,6 +22,9 @@ public:
 
     QStringList strings() const;
     void setStrings(const QStringList& strings);
+
+    QList<PopupMenuItem> items() const;
+    void setItems(const QList<PopupMenuItem>& items);
 
     SelectionMode selectionMode() const;
     void setSelectionMode(SelectionMode mode);
@@ -45,9 +48,8 @@ private:
     void applySelection(const QList<int>& rows);
     void notifySelection();
 
-    QStringList m_strings;
+    QList<PopupMenuItem> m_items;
     QList<int> m_selectedIndexes;
-    QSet<int> m_disabledRows;
     SelectionMode m_selectionMode = SingleSelection;
 };
 

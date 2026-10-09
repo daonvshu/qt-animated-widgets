@@ -25,6 +25,8 @@ void DefaultPopupMenuListStyle::apply(QAbstractItemView* view) const {
         delegate->itemText = itemText;
         delegate->itemDisabledText = itemDisabledText;
         delegate->separatorColor = separator;
+        delegate->groupTitleText = groupTitleText;
+        delegate->groupTitleHeight = qMax(0, groupTitleHeight);
         delegate->checkedIcon = checkedIcon;
         delegate->uncheckedIcon = uncheckedIcon;
         delegate->checkedIconSize = checkedIconSize;

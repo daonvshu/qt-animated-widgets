@@ -1,6 +1,7 @@
 #pragma once
 
 #include "animatedwidgets/popups/basepopupdlg.h"
+#include "animatedwidgets/popups/popupmenuitem.h"
 
 #include <QPointer>
 #include <QStringList>
@@ -32,6 +33,13 @@ public:
     void setViewFactory(ViewFactory factory);
     void setView(QAbstractItemView* view);
 
+    QWidget* topWidget() const;
+    // Takes ownership; replacing or clearing the slot deletes its previous widget.
+    void setTopWidget(QWidget* widget);
+    QWidget* bottomWidget() const;
+    // Takes ownership; replacing or clearing the slot deletes its previous widget.
+    void setBottomWidget(QWidget* widget);
+
     QAbstractItemDelegate* itemDelegate() const;
     void setItemDelegate(QAbstractItemDelegate* delegate);
 
@@ -46,15 +54,16 @@ public:
     void setScrollBarStyleSheet(const QString& styleSheet);
 
     QAbstractItemModel* model() const;
-    void setModel(QAbstractItemModel* model);
+    virtual void setModel(QAbstractItemModel* model);
     DefaultPopupMenuModel* defaultModel() const;
     void setStrings(const QStringList& strings);
+    void setItems(const QList<PopupMenuItem>& items);
 
     bool autoClose() const;
     void setAutoClose(bool enabled);
 
-    void setPopupSize(const QSize& size);
-    void setAdaptiveHeight(int width, int maximumVisibleItems = 0);
+    virtual void setPopupSize(const QSize& size);
+    virtual void setAdaptiveHeight(int width, int maximumVisibleItems = 0);
     void showAt(const QPoint& globalPos);
 
 signals:
@@ -62,13 +71,17 @@ signals:
 
 protected:
     bool eventFilter(QObject* watched, QEvent* event) override;
+    virtual bool includeListInAdaptiveHeight() const;
 
 private:
     void createDefaultView();
     void applyStyle();
     void connectViewSignals();
+    void setSlotWidget(QPointer<QWidget>& slot, QWidget* widget, bool top);
 
     QPointer<QAbstractItemView> m_view;
+    QPointer<QWidget> m_topWidget;
+    QPointer<QWidget> m_bottomWidget;
     DefaultPopupMenuModel* m_defaultModel = nullptr;
     QMetaObject::Connection m_modelTriggerConnection;
     QPointer<QAbstractItemDelegate> m_delegate;

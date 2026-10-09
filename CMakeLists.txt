@@ -55,6 +55,11 @@ add_library(AnimatedWidgetsWidgets
     src/animatedwidgets/popups/fadeslidepopupanimation.h
     src/animatedwidgets/popups/fadeslidepopupanimation.cpp
     src/animatedwidgets/popups/popupmenustyle.h
+    src/animatedwidgets/popups/popupmenuitem.h
+    src/animatedwidgets/popups/popupmenufiltermodel.h
+    src/animatedwidgets/popups/popupmenufiltermodel.cpp
+    src/animatedwidgets/popups/searchpopupmenu.h
+    src/animatedwidgets/popups/searchpopupmenu.cpp
     src/animatedwidgets/popups/defaultpopupmenumodel.h
     src/animatedwidgets/popups/defaultpopupmenumodel.cpp
     src/animatedwidgets/popups/popupmenuliststyle.h
@@ -76,6 +81,8 @@ add_library(AnimatedWidgetsWidgets
     src/animatedwidgets/utils/buttonstatecolors.cpp
     src/animatedwidgets/utils/inputcontextmenu.h
     src/animatedwidgets/utils/inputcontextmenu.cpp
+    src/animatedwidgets/utils/textsearchutils.h
+    src/animatedwidgets/utils/textsearchutils.cpp
     src/animatedwidgets/utils/buttonpainter.h
     src/animatedwidgets/utils/buttonpainter.cpp
     src/animatedwidgets/utils/checkableiconpainter.h

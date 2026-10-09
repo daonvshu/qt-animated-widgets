@@ -17,6 +17,8 @@ public:
     QColor itemText = QColor(QStringLiteral("#20242a")); // Enabled item text color.
     QColor itemDisabledText = QColor(QStringLiteral("#9298a2")); // Disabled item text color.
     QColor separator = QColor(QStringLiteral("#e5e8ec")); // Separator line color.
+    QColor groupTitleText = QColor(QStringLiteral("#9298a2")); // Non-selectable group heading text.
+    int groupTitleHeight = 28; // Minimum group heading height in logical pixels.
 
     QIcon checkedIcon; // Icon drawn for Qt::Checked items.
     QIcon uncheckedIcon; // Optional icon drawn for Qt::Unchecked items.

@@ -62,6 +62,47 @@
     </layout>
    </item>
    <item>
+    <layout class="QHBoxLayout" name="variantsLayout">
+     <item>
+      <widget class="QPushButton" name="groupedButton">
+       <property name="text"><string>View presets</string></property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="modulesButton">
+       <property name="text"><string>Task actions</string></property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="searchButton">
+       <property name="text"><string>Search assets</string></property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="highlightLayout">
+     <item>
+      <widget class="QCheckBox" name="highlightCheck">
+       <property name="text"><string>Search highlight</string></property>
+       <property name="checked"><bool>true</bool></property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="highlightBoldCheck">
+       <property name="text"><string>Bold</string></property>
+       <property name="checked"><bool>true</bool></property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="highlightColorEdit">
+       <property name="text"><string>#1778ff</string></property>
+       <property name="placeholderText"><string>Highlight color</string></property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
     <widget class="QLabel" name="resultLabel">
      <property name="text">
       <string>Last action: none</string>

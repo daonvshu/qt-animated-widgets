@@ -4,6 +4,9 @@
 #include <QAbstractItemModel>
 #include <QStyle>
 #include <QStyleOptionViewItem>
+#include <QTextDocument>
+#include <QAbstractTextDocumentLayout>
+#include <QTextOption>
 
 namespace animatedwidgets {
 
@@ -31,6 +34,15 @@ void PopupMenuItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem&
     const bool hasNextItem = index.row() < index.model()->rowCount(index.parent()) - 1;
     const int spacing = hasNextItem ? qBound(0, itemSpacing, qMax(0, option.rect.height() - 1)) : 0;
     const QRect itemRect = option.rect.adjusted(0, 0, 0, -spacing);
+
+    if (index.data(TypeRole).toInt() == PopupMenuItem::GroupTitle) {
+        painter->setPen(groupTitleText);
+        const QRect content = itemRect.adjusted(qMax(0, contentPadding), 0, -qMax(0, contentPadding), 0);
+        painter->drawText(content, Qt::AlignVCenter | Qt::AlignLeft,
+                          itemOption.fontMetrics.elidedText(itemOption.text, Qt::ElideRight, qMax(0, content.width())));
+        painter->restore();
+        return;
+    }
 
     const QVariant checkState = index.data(Qt::CheckStateRole);
     const bool selected = checkState.isValid() ? checkState.toInt() == Qt::Checked
@@ -88,8 +100,28 @@ void PopupMenuItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem&
     }
 
     const QString text = index.data(Qt::DisplayRole).toString();
-    painter->drawText(contentRect, Qt::AlignVCenter | Qt::AlignLeft,
-                      itemOption.fontMetrics.elidedText(text, Qt::ElideRight, qMax(0, contentRect.width())));
+    const QString highlighted = index.data(PopupMenuItem::HighlightRole).toString();
+    if (!highlighted.isEmpty() && !contentRect.isEmpty()) {
+        QTextDocument document;
+        document.setDocumentMargin(0);
+        document.setDefaultFont(itemOption.font);
+        QTextOption textOption;
+        textOption.setWrapMode(QTextOption::NoWrap);
+        document.setDefaultTextOption(textOption);
+        document.setHtml(highlighted);
+        document.setTextWidth(contentRect.width());
+
+        QAbstractTextDocumentLayout::PaintContext context;
+        context.palette.setColor(QPalette::Text, enabled ? itemText : itemDisabledText);
+        painter->save();
+        painter->setClipRect(contentRect, Qt::IntersectClip);
+        painter->translate(contentRect.left(), contentRect.top() + (contentRect.height() - document.size().height()) / 2.0);
+        document.documentLayout()->draw(painter, context);
+        painter->restore();
+    } else {
+        painter->drawText(contentRect, Qt::AlignVCenter | Qt::AlignLeft,
+                          itemOption.fontMetrics.elidedText(text, Qt::ElideRight, qMax(0, contentRect.width())));
+    }
 
     if (drawSeparator && hasNextItem) {
         painter->setPen(separatorColor);
@@ -116,7 +148,8 @@ QSize PopupMenuItemDelegate::sizeHint(const QStyleOptionViewItem& option, const 
         size.setHeight(qMax(size.height(), checkedIconSize.height()));
     }
     size.rwidth() += 2 * qMax(0, contentPadding);
-    size.setHeight(qMax(itemHeight, size.height()));
+    size.setHeight(qMax(index.data(TypeRole).toInt() == PopupMenuItem::GroupTitle ? groupTitleHeight : itemHeight,
+                        size.height()));
     if (index.row() < index.model()->rowCount(index.parent()) - 1)
         size.rheight() += qMax(0, itemSpacing);
     return size;
