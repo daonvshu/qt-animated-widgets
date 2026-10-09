@@ -56,6 +56,14 @@ void CompositeComboBox::setEditable(bool editable) {
     m_editor->setEditable(editable);
 }
 
+bool CompositeComboBox::popupOnEdit() const {
+    return m_editor->popupOnEdit();
+}
+
+void CompositeComboBox::setPopupOnEdit(bool enabled) {
+    m_editor->setPopupOnEdit(enabled);
+}
+
 bool CompositeComboBox::arrowVisible() const {
     return m_editor->arrowVisible();
 }

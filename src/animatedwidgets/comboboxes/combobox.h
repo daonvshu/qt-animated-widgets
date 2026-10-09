@@ -5,6 +5,7 @@
 
 #include <QColor>
 #include <QComboBox>
+#include <QCompleter>
 #include <QIcon>
 #include <QLineEdit>
 #include <QPointer>
@@ -40,9 +41,17 @@ class ComboBox : public QComboBox {
     Q_PROPERTY(int popupWidth READ popupWidth WRITE setPopupWidth)
     Q_PROPERTY(Qt::Alignment popupAlign READ popupAlign WRITE setPopupAlign)
     Q_PROPERTY(QString popupScrollBarStyleSheet READ popupScrollBarStyleSheet WRITE setPopupScrollBarStyleSheet)
+    Q_PROPERTY(bool popupOnEdit READ popupOnEdit WRITE setPopupOnEdit)
 
 public:
     explicit ComboBox(QWidget* parent = nullptr);
+
+    bool addGroupTitle(const QString& text);
+    bool insertGroupTitle(int index, const QString& text);
+    bool isGroupTitle(int index) const;
+
+    bool popupOnEdit() const;
+    void setPopupOnEdit(bool enabled);
 
     bool hasError() const;
     void setHasError(bool error);
@@ -109,16 +118,22 @@ signals:
 
 protected:
     bool event(QEvent* event) override;
+    bool eventFilter(QObject* watched, QEvent* event) override;
     void paintEvent(QPaintEvent* event) override;
     void mousePressEvent(QMouseEvent* event) override;
     void showPopup() override;
     void hidePopup() override;
+
+    ComboListPopup* currentPopup() const;
+    virtual void configurePopup(ComboListPopup* popup);
+    virtual void popupClosed();
 
 private:
     QColor targetBorderColor() const;
     QColor targetBackgroundColor() const;
     void refreshState(bool immediate = false);
     void syncEditor();
+    void updateCompleter();
     void updateEditorPalette();
     void updateEditorMargins();
     QRect arrowButtonRect() const;
@@ -127,6 +142,8 @@ private:
     ValueTransition m_backgroundTransition;
     QPointer<QLineEdit> m_editor;
     QPointer<ComboListPopup> m_popup;
+    QPointer<QCompleter> m_inlineCompleter;
+    QCompleter::CompletionMode m_savedCompletionMode = QCompleter::PopupCompletion;
 
     QColor m_normalBorderColor = QColor(QStringLiteral("#c8cdd5"));
     QColor m_hoverBorderColor = QColor(QStringLiteral("#8da3c0"));
@@ -159,6 +176,8 @@ private:
     bool m_hasError = false;
     bool m_hovered = false;
     bool m_popupOpen = false;
+    bool m_popupOnEdit = true;
+    bool m_popupNavigation = false;
 };
 
 } // namespace animatedwidgets

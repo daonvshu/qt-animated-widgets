@@ -17,15 +17,23 @@ QVariant ComboPopupModel::data(const QModelIndex& index, int role) const {
         return QIdentityProxyModel::data(index, Qt::AccessibleDescriptionRole).toString() == QStringLiteral("separator");
     if (role == PopupMenuItemDelegate::ShortcutRole || role == PopupMenuItem::HighlightRole)
         return QVariant();
-    if (role == PopupMenuItemDelegate::TypeRole)
-        return PopupMenuItem::Option;
-    if (role == Qt::CheckStateRole)
+    if (role == PopupMenuItemDelegate::TypeRole) {
+        const QString description = QIdentityProxyModel::data(index, Qt::AccessibleDescriptionRole).toString();
+        if (description == QStringLiteral("groupTitle"))
+            return PopupMenuItem::GroupTitle;
+        return description == QStringLiteral("separator") ? PopupMenuItem::Separator : PopupMenuItem::Option;
+    }
+    if (role == Qt::CheckStateRole) {
+        if (data(index, PopupMenuItem::TypeRole).toInt() != PopupMenuItem::Option)
+            return QVariant();
         return mapToSource(index) == m_currentIndex ? Qt::Checked : Qt::Unchecked;
+    }
     return QIdentityProxyModel::data(index, role);
 }
 
 Qt::ItemFlags ComboPopupModel::flags(const QModelIndex& index) const {
-    if (!index.isValid() || index.model() != this || data(index, PopupMenuItemDelegate::SeparatorRole).toBool())
+    if (!index.isValid() || index.model() != this
+        || data(index, PopupMenuItem::TypeRole).toInt() != PopupMenuItem::Option)
         return Qt::NoItemFlags;
     Qt::ItemFlags itemFlags = QIdentityProxyModel::flags(index);
     itemFlags.setFlag(Qt::ItemIsUserCheckable, false);

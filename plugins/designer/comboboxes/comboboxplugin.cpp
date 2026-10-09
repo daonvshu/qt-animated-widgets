@@ -33,12 +33,17 @@ QIcon ComboBoxPlugin::icon() const {
     painter.drawLine(QPointF(19, 9), QPointF(22, 6));
     if (m_kind == 1)
         painter.drawLine(QPointF(2, 14), QPointF(22, 14));
+    if (m_kind == 2) {
+        painter.drawEllipse(QPointF(8, 8), 2, 2);
+        painter.drawLine(QPointF(9.5, 9.5), QPointF(12, 12));
+    }
     return QIcon(pixmap);
 }
 
 QString ComboBoxPlugin::domXml() const {
     return QStringLiteral("<widget class=\"%1\" name=\"%2\"/>")
-            .arg(name(), m_kind == 0 ? QStringLiteral("comboBox") : QStringLiteral("compositeComboBox"));
+            .arg(name(), m_kind == 0 ? QStringLiteral("comboBox")
+                : m_kind == 1 ? QStringLiteral("compositeComboBox") : QStringLiteral("searchComboBox"));
 }
 
 QString ComboBoxPlugin::group() const {
@@ -46,11 +51,15 @@ QString ComboBoxPlugin::group() const {
 }
 
 QString ComboBoxPlugin::includeFile() const {
+    if (m_kind == 2)
+        return QStringLiteral("animatedwidgets/comboboxes/searchcombobox.h");
     return m_kind == 0 ? QStringLiteral("animatedwidgets/comboboxes/combobox.h")
                        : QStringLiteral("animatedwidgets/comboboxes/compositecombobox.h");
 }
 
 QString ComboBoxPlugin::name() const {
+    if (m_kind == 2)
+        return QStringLiteral("SearchComboBox");
     return m_kind == 0 ? QStringLiteral("ComboBox") : QStringLiteral("CompositeComboBox");
 }
 
@@ -65,6 +74,8 @@ QString ComboBoxPlugin::whatsThis() const {
 QWidget* ComboBoxPlugin::createWidget(QWidget* parent) {
     if (m_kind == 0)
         return new ComboBox(parent);
+    if (m_kind == 2)
+        return new SearchComboBox(parent);
     return new CompositeComboBox(parent);
 }
 

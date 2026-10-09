@@ -55,6 +55,8 @@ add_library(AnimatedWidgetsWidgets
     src/animatedwidgets/popups/fadeslidepopupanimation.h
     src/animatedwidgets/popups/fadeslidepopupanimation.cpp
     src/animatedwidgets/popups/popupmenustyle.h
+    src/animatedwidgets/popups/popupdismissfilter.h
+    src/animatedwidgets/popups/popupdismissfilter.cpp
     src/animatedwidgets/popups/popupmenuitem.h
     src/animatedwidgets/popups/popupmenufiltermodel.h
     src/animatedwidgets/popups/popupmenufiltermodel.cpp
@@ -142,6 +144,8 @@ add_library(AnimatedWidgetsWidgets
     src/animatedwidgets/inputs/compositedoublespinbox.cpp
     src/animatedwidgets/comboboxes/combobox.h
     src/animatedwidgets/comboboxes/combobox.cpp
+    src/animatedwidgets/comboboxes/searchcombobox.h
+    src/animatedwidgets/comboboxes/searchcombobox.cpp
     src/animatedwidgets/comboboxes/combolistpopup.h
     src/animatedwidgets/comboboxes/combolistpopup.cpp
     src/animatedwidgets/comboboxes/combopopupmodel.h

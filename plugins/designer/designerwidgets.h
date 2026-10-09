@@ -3,6 +3,7 @@
 #include "animatedwidgets/buttons/variantbuttons.h"
 #include "animatedwidgets/comboboxes/combobox.h"
 #include "animatedwidgets/comboboxes/compositecombobox.h"
+#include "animatedwidgets/comboboxes/searchcombobox.h"
 #include "animatedwidgets/inputs/compositedoublespinbox.h"
 #include "animatedwidgets/inputs/compositelineedit.h"
 #include "animatedwidgets/inputs/compositeplaintextedit.h"
@@ -142,4 +143,10 @@ class CompositeComboBox : public animatedwidgets::CompositeComboBox {
     Q_OBJECT
 public:
     using animatedwidgets::CompositeComboBox::CompositeComboBox;
+};
+
+class SearchComboBox : public animatedwidgets::SearchComboBox {
+    Q_OBJECT
+public:
+    using animatedwidgets::SearchComboBox::SearchComboBox;
 };

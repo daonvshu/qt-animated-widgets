@@ -15,12 +15,34 @@ ComboBoxesPage::ComboBoxesPage(QWidget* parent)
 
     const QStringList choices = {QStringLiteral("Design"), QStringLiteral("Development"), QStringLiteral("Testing"),
                                  QStringLiteral("Delivery")};
-    ui.comboNormal->addItems(choices);
+    ui.comboNormal->addGroupTitle(QStringLiteral("Planning"));
+    ui.comboNormal->addItem(QStringLiteral("Design"));
+    ui.comboNormal->addItem(QStringLiteral("Development"));
+    ui.comboNormal->insertSeparator(ui.comboNormal->count());
+    ui.comboNormal->addGroupTitle(QStringLiteral("Release"));
+    ui.comboNormal->addItem(QStringLiteral("Testing"));
+    ui.comboNormal->addItem(QStringLiteral("Delivery"));
+    ui.comboNormal->setCurrentIndex(1);
     ui.comboEditable->addItems(choices);
     ui.comboEditable->setCurrentText(QStringLiteral("Development"));
     ui.comboEditable->setMaxVisibleItems(3);
     ui.comboDisabled->addItems(choices);
     ui.comboComposite->editor()->addItems(choices);
+
+    ui.comboSearch->addGroupTitle(QStringLiteral("Local assets"));
+    ui.comboSearch->addItem(QStringLiteral("Orchard"), QStringLiteral("orchard"));
+    ui.comboSearch->addItem(QStringLiteral("Harbor"), QStringLiteral("harbor"));
+    ui.comboSearch->insertSeparator(ui.comboSearch->count());
+    ui.comboSearch->addGroupTitle(QStringLiteral("Shared assets"));
+    ui.comboSearch->addItem(QStringLiteral("Summit"), QStringLiteral("summit"));
+    ui.comboSearch->addItem(QStringLiteral("Meadow"), QStringLiteral("meadow"));
+    ui.comboSearch->setCurrentIndex(1);
+    ui.comboSearch->setMaxVisibleItems(6);
+    ui.comboSearch->lineEdit()->setPlaceholderText(QStringLiteral("Type to search assets"));
+    auto* emptyLabel = new QLabel(QStringLiteral("No matching assets"));
+    emptyLabel->setAlignment(Qt::AlignCenter);
+    emptyLabel->setMinimumHeight(72);
+    ui.comboSearch->setEmptyWidget(emptyLabel);
 
     ui.comboComposite->setLeadingWidget(new QLabel(QStringLiteral("Team"), ui.comboComposite));
     ui.comboComposite->setTrailingWidget(new QLabel(QStringLiteral("Role"), ui.comboComposite));
@@ -51,10 +73,15 @@ ComboBoxesPage::ComboBoxesPage(QWidget* parent)
     });
 
     connect(ui.errorCheck, &QCheckBox::toggled, ui.comboNormal, &ComboBox::setHasError);
+    connect(ui.popupOnEditCheck, &QCheckBox::toggled, ui.comboEditable, &ComboBox::setPopupOnEdit);
+    connect(ui.popupOnEditCheck, &QCheckBox::toggled, ui.comboSearch, &ComboBox::setPopupOnEdit);
+    connect(ui.popupOnEditCheck, &QCheckBox::toggled, ui.comboComposite, &CompositeComboBox::setPopupOnEdit);
     connect(ui.arrowCheck, &QCheckBox::toggled, ui.comboNormal, &ComboBox::setArrowVisible);
     connect(ui.arrowCheck, &QCheckBox::toggled, ui.comboEditable, &ComboBox::setArrowVisible);
+    connect(ui.arrowCheck, &QCheckBox::toggled, ui.comboSearch, &ComboBox::setArrowVisible);
     connect(ui.arrowCheck, &QCheckBox::toggled, ui.comboComposite, &CompositeComboBox::setArrowVisible);
     connect(ui.durationSpin, QOverload<int>::of(&QSpinBox::valueChanged), ui.comboNormal, &ComboBox::setAnimationDuration);
     connect(ui.durationSpin, QOverload<int>::of(&QSpinBox::valueChanged), ui.comboEditable, &ComboBox::setAnimationDuration);
+    connect(ui.durationSpin, QOverload<int>::of(&QSpinBox::valueChanged), ui.comboSearch, &ComboBox::setAnimationDuration);
     connect(ui.durationSpin, QOverload<int>::of(&QSpinBox::valueChanged), ui.comboComposite, &CompositeComboBox::setAnimationDuration);
 }

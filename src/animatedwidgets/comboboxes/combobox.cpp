@@ -1,13 +1,18 @@
 #include "animatedwidgets/comboboxes/combobox.h"
 #include "animatedwidgets/comboboxes/combolistpopup.h"
 #include "animatedwidgets/utils/inputcontextmenu.h"
+#include "animatedwidgets/popups/popupdismissfilter.h"
 
 #include <QApplication>
 #include <QAbstractItemView>
 #include <QEvent>
+#include <QKeyEvent>
 #include <QLineEdit>
 #include <QMouseEvent>
 #include <QPainter>
+#include <QSignalBlocker>
+#include <QStandardItemModel>
+#include <QTimer>
 
 namespace animatedwidgets {
 
@@ -32,6 +37,53 @@ ComboBox::ComboBox(QWidget* parent)
             refreshState();
     });
     refreshState(true);
+}
+
+bool ComboBox::addGroupTitle(const QString& text) {
+    return insertGroupTitle(count(), text);
+}
+
+bool ComboBox::insertGroupTitle(int index, const QString& text) {
+    auto* items = qobject_cast<QStandardItemModel*>(model());
+    if (!items)
+        return false;
+
+    QStandardItem* root = rootModelIndex().isValid()
+        ? items->itemFromIndex(rootModelIndex()) : items->invisibleRootItem();
+    if (!root)
+        return false;
+
+    QList<QStandardItem*> row;
+    for (int column = 0; column <= modelColumn(); ++column) {
+        auto* item = new QStandardItem(column == modelColumn() ? text : QString());
+        item->setData(QStringLiteral("groupTitle"), Qt::AccessibleDescriptionRole);
+        item->setFlags(Qt::NoItemFlags);
+        row.append(item);
+    }
+
+    // Do not let QComboBox select a heading when inserting into an empty model.
+    const bool hadSelection = currentIndex() >= 0;
+    QSignalBlocker blocker(this);
+    if (hadSelection)
+        blocker.unblock();
+    root->insertRow(qBound(0, index, count()), row);
+    if (!hadSelection)
+        setCurrentIndex(-1);
+    return true;
+}
+
+bool ComboBox::isGroupTitle(int index) const {
+    return index >= 0 && index < count()
+        && itemData(index, Qt::AccessibleDescriptionRole).toString() == QStringLiteral("groupTitle");
+}
+
+bool ComboBox::popupOnEdit() const {
+    return m_popupOnEdit;
+}
+
+void ComboBox::setPopupOnEdit(bool enabled) {
+    m_popupOnEdit = enabled;
+    updateCompleter();
 }
 
 bool ComboBox::hasError() const {
@@ -313,17 +365,45 @@ void ComboBox::refreshState(bool immediate) {
 }
 
 void ComboBox::syncEditor() {
+    updateCompleter();
     QLineEdit* editor = lineEdit();
     if (editor == m_editor)
         return;
+    if (m_editor)
+        m_editor->removeEventFilter(this);
+    if (m_editor)
+        disconnect(m_editor, &QLineEdit::textEdited, this, nullptr);
     m_editor = editor;
     if (!m_editor)
         return;
     InputContextMenu::install(m_editor);
     m_editor->setFrame(false);
     m_editor->setAutoFillBackground(false);
+    m_editor->installEventFilter(this);
+    connect(m_editor.data(), &QLineEdit::textEdited, this, [this] {
+        m_popupNavigation = false;
+        // Run after textEdited handlers so derived controls can update their query first.
+        QTimer::singleShot(0, this, [this] {
+            if (m_popupOnEdit && isEditable() && isEnabled() && lineEdit()
+                && lineEdit()->hasFocus() && !lineEdit()->isReadOnly() && !currentPopup())
+                showPopup();
+        });
+    });
     updateEditorPalette();
     updateEditorMargins();
+}
+
+void ComboBox::updateCompleter() {
+    QCompleter* current = completer();
+    if (m_inlineCompleter && (!m_popupOnEdit || current != m_inlineCompleter)) {
+        m_inlineCompleter->setCompletionMode(m_savedCompletionMode);
+        m_inlineCompleter = nullptr;
+    }
+    if (m_popupOnEdit && current && !m_inlineCompleter) {
+        m_inlineCompleter = current;
+        m_savedCompletionMode = current->completionMode();
+        current->setCompletionMode(QCompleter::InlineCompletion);
+    }
 }
 
 void ComboBox::updateEditorPalette() {
@@ -378,6 +458,48 @@ void ComboBox::mousePressEvent(QMouseEvent* event) {
     }
 
     QComboBox::mousePressEvent(event);
+}
+
+bool ComboBox::eventFilter(QObject* watched, QEvent* event) {
+    if (watched == lineEdit() && isEditable()) {
+        if (event->type() == QEvent::MouseButtonRelease
+            && static_cast<QMouseEvent*>(event)->button() == Qt::LeftButton) {
+            // Preserve the editor's cursor and selection handling before opening the popup.
+            QTimer::singleShot(0, this, [this] {
+                if (m_popupOnEdit && isEditable() && isEnabled() && lineEdit()
+                    && lineEdit()->hasFocus() && !lineEdit()->isReadOnly() && !currentPopup())
+                    showPopup();
+            });
+        }
+        if (event->type() == QEvent::FocusOut) {
+            QTimer::singleShot(0, this, [this] {
+                if (lineEdit() && !lineEdit()->hasFocus() && currentPopup())
+                    hidePopup();
+            });
+        }
+        if (event->type() == QEvent::KeyPress && m_popup) {
+            const auto* key = static_cast<QKeyEvent*>(event);
+            if (key->key() == Qt::Key_Escape) {
+                hidePopup();
+                return true;
+            }
+            if (key->key() == Qt::Key_Up || key->key() == Qt::Key_Down) {
+                m_popupNavigation = true;
+                m_popup->moveSelection(key->key() == Qt::Key_Down ? 1 : -1);
+                return true;
+            }
+            if (key->key() == Qt::Key_Return || key->key() == Qt::Key_Enter) {
+                if (m_popupNavigation) {
+                    m_popup->triggerCurrentItem();
+                    return true;
+                }
+                hidePopup();
+            } else if (key->key() == Qt::Key_Tab || key->key() == Qt::Key_Backtab) {
+                hidePopup();
+            }
+        }
+    }
+    return QComboBox::eventFilter(watched, event);
 }
 
 bool ComboBox::event(QEvent* event) {
@@ -461,6 +583,7 @@ void ComboBox::showPopup() {
     if (m_popup || count() == 0 || !isEnabled())
         return;
 
+    m_popupNavigation = false;
     auto* popup = new ComboListPopup(this);
     m_popup = popup;
     if (!m_popupScrollBarStyleSheet.isNull())
@@ -486,6 +609,7 @@ void ComboBox::showPopup() {
         if (m_popup == popup) {
             m_popup = nullptr;
             m_popupOpen = false;
+            popupClosed();
             refreshState();
         }
     });
@@ -502,6 +626,7 @@ void ComboBox::showPopup() {
         return;
     popup->view()->setIconSize(iconSize());
     popup->setItems(model(), rootModelIndex(), modelColumn(), currentIndex(), maxVisibleItems(), m_popupWidth > 0 ? m_popupWidth : width());
+    configurePopup(popup);
     popup->moveToTargetBottom(this, m_popupAlign);
     m_popupOpen = true;
     refreshState();
@@ -509,13 +634,38 @@ void ComboBox::showPopup() {
 }
 
 void ComboBox::hidePopup() {
+    m_popupNavigation = false;
     if (m_popup) {
         ComboListPopup* popup = m_popup;
         m_popup = nullptr;
+        popupClosed();
         popup->close();
     }
     m_popupOpen = false;
     refreshState();
+}
+
+ComboListPopup* ComboBox::currentPopup() const {
+    return m_popup;
+}
+
+void ComboBox::configurePopup(ComboListPopup* popup) {
+    if (!isEditable())
+        return;
+
+    // Editable combos keep keyboard and IME input in their editor.
+    popup->setWindowFlags((popup->windowFlags() & ~Qt::WindowFlags(Qt::WindowType_Mask)) | Qt::Tool | Qt::WindowDoesNotAcceptFocus);
+    popup->setAttribute(Qt::WA_ShowWithoutActivating);
+    popup->setFocusProxy(nullptr);
+    popup->setFocusPolicy(Qt::NoFocus);
+    popup->view()->setFocusPolicy(Qt::NoFocus);
+
+    auto* dismissFilter = new PopupDismissFilter(popup, this);
+    connect(dismissFilter, &PopupDismissFilter::dismissRequested, popup, &QWidget::close);
+    connect(popup, &BasePopupDlg::closeRequested, dismissFilter, &PopupDismissFilter::stop);
+}
+
+void ComboBox::popupClosed() {
 }
 
 } // namespace animatedwidgets
