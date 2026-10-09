@@ -88,6 +88,11 @@
        <property name="text"><string>Mixed selection</string></property>
       </widget>
      </item>
+       <item>
+        <widget class="QPushButton" name="nestedButton">
+         <property name="text"><string>Nested menus</string></property>
+        </widget>
+       </item>
     </layout>
    </item>
    <item>

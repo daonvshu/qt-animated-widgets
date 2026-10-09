@@ -23,6 +23,7 @@ protected:
     void setShadowEdges(Qt::Edges edges);
     void setAutoExpandShadowSize(bool enabled);
     void setAutoAdjustShadowPosition(bool enabled);
+    void ensureShadowSizeExpanded();
 
     bool event(QEvent* event) override;
     void paintEvent(QPaintEvent* event) override;
@@ -48,7 +49,6 @@ private:
 
     QSize outerSizeForContent(const QSize& contentSize) const;
     void adjustSizeForShadowMargins(const QMargins& oldMargins, const QMargins& newMargins);
-    void ensureShadowSizeExpanded();
 
     bool m_showArrow = false;
     bool m_autoExpandShadowSize = true;

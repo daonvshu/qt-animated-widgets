@@ -14,12 +14,17 @@ QVariant PopupMenuItemData::data(const PopupMenuItem& item, int role) {
         return item.separator;
     if (role == PopupMenuItem::ShortcutRole)
         return item.shortcut;
+    if (role == PopupMenuItem::ChildrenRole)
+        return item.separator ? QVariant() : QVariant::fromValue(item.children);
+    if (role == PopupMenuItem::SubmenuMultiSelectionRole)
+        return item.submenuMultiSelection;
     return item.values.value(role);
 }
 
 bool PopupMenuItemData::setData(PopupMenuItem& item, const QVariant& value, int role) {
     if (role == PopupMenuItem::TypeRole || role == PopupMenuItem::SeparatorRole
-        || role == PopupMenuItem::GroupIndexRole || role == Qt::CheckStateRole)
+        || role == PopupMenuItem::GroupIndexRole || role == Qt::CheckStateRole
+        || role == PopupMenuItem::ChildrenRole || role == PopupMenuItem::SubmenuMultiSelectionRole)
         return false;
 
     if (role == Qt::DisplayRole || role == Qt::EditRole)

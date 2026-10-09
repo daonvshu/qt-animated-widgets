@@ -33,6 +33,10 @@ void DefaultPopupMenuListStyle::apply(QAbstractItemView* view) const {
         delegate->uncheckedIcon = uncheckedIcon;
         delegate->checkedIconSize = checkedIconSize;
         delegate->checkedIconAlignment = checkedIconAlignment;
+        delegate->submenuIcon = submenuIcon.isNull()
+            ? QIcon(QStringLiteral(":/animatedwidgets/popups/submenu.svg")) : submenuIcon;
+        delegate->submenuIconSize = submenuIconSize.expandedTo(QSize(1, 1));
+        delegate->submenuIconSpacing = qMax(0, submenuIconSpacing);
         delegate->itemHeight = itemHeight;
         delegate->itemSpacing = qMax(0, itemSpacing);
         delegate->itemCornerRadius = qMax(0, itemCornerRadius);

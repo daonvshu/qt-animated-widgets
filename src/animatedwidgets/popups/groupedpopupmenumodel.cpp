@@ -27,7 +27,7 @@ QVariant GroupedPopupMenuModel::data(const QModelIndex& index, int role) const {
         return groupData(entry.groupIndex, role);
 
     if (role == Qt::CheckStateRole) {
-        return entry.itemIndex < 0 ? QVariant()
+        return entry.itemIndex < 0 || !m_groups.at(entry.groupIndex).items.at(entry.sourceItemIndex).children.isEmpty() ? QVariant()
             : QVariant(m_selectedIndexes.contains({entry.groupIndex, entry.itemIndex}) ? Qt::Checked : Qt::Unchecked);
     }
     return PopupMenuItemData::data(m_groups.at(entry.groupIndex).items.at(entry.sourceItemIndex), role);
@@ -60,7 +60,8 @@ bool GroupedPopupMenuModel::setData(const QModelIndex& index, const QVariant& va
 
     bool valid = false;
     const int state = value.toInt(&valid);
-    if (entry.itemIndex < 0 || !valid || (state != Qt::Checked && state != Qt::Unchecked))
+    if (entry.itemIndex < 0 || !m_groups.at(entry.groupIndex).items.at(entry.sourceItemIndex).children.isEmpty()
+        || !valid || (state != Qt::Checked && state != Qt::Unchecked))
         return false;
 
     const QPair<int, int> itemIndex(entry.groupIndex, entry.itemIndex);
@@ -90,7 +91,8 @@ QVariant GroupedPopupMenuModel::groupData(int groupIndex, int role) const {
         return groupIndex;
     if (role == PopupMenuItem::SeparatorRole)
         return false;
-    if (role == Qt::CheckStateRole)
+    if (role == Qt::CheckStateRole || role == PopupMenuItem::ChildrenRole
+        || role == PopupMenuItem::SubmenuMultiSelectionRole)
         return QVariant();
     return group.values.value(role);
 }
@@ -99,7 +101,8 @@ bool GroupedPopupMenuModel::setGroupData(int groupIndex, const QVariant& value, 
     if (groupIndex < 0 || groupIndex >= m_groups.size()
         || role == Qt::DisplayRole || role == Qt::EditRole || role == Qt::CheckStateRole
         || role == PopupMenuItem::TypeRole || role == PopupMenuItem::GroupIndexRole
-        || role == PopupMenuItem::SeparatorRole)
+        || role == PopupMenuItem::SeparatorRole || role == PopupMenuItem::ChildrenRole
+        || role == PopupMenuItem::SubmenuMultiSelectionRole)
         return false;
 
     auto& values = m_groups[groupIndex].values;
@@ -130,6 +133,12 @@ void GroupedPopupMenuModel::setGroups(const QList<PopupMenuGroup>& groups) {
     const bool hadSelection = !m_selectedIndexes.isEmpty();
     beginResetModel();
     m_groups = groups;
+    for (auto& group : m_groups) {
+        for (const auto& child : group.children)
+            if (child.item() || child.group())
+                group.items.append(child.toItem());
+        group.children.clear();
+    }
     m_entries.clear();
     for (int groupIndex = 0; groupIndex < m_groups.size(); ++groupIndex) {
         const PopupMenuGroup& group = m_groups.at(groupIndex);
@@ -160,7 +169,8 @@ int GroupedPopupMenuModel::currentIndex(int groupIndex) const {
 
 void GroupedPopupMenuModel::setCurrentIndex(int groupIndex, int itemIndex) {
     if (groupIndex < 0 || groupIndex >= m_groups.size()
-        || (itemIndex != -1 && !indexForItem(groupIndex, itemIndex).isValid()))
+        || (itemIndex != -1 && (!indexForItem(groupIndex, itemIndex).isValid()
+            || !indexForItem(groupIndex, itemIndex).data(PopupMenuItem::ChildrenRole).value<QList<PopupMenuNode>>().isEmpty())))
         return;
 
     QList<QPair<int, int>> selected = m_selectedIndexes;
@@ -228,7 +238,8 @@ bool GroupedPopupMenuModel::ownsIndex(const QModelIndex& index) const {
 void GroupedPopupMenuModel::applySelection(const QList<QPair<int, int>>& indexes) {
     QList<QPair<int, int>> selected;
     for (const auto& itemIndex : indexes) {
-        if (!indexForItem(itemIndex.first, itemIndex.second).isValid())
+        const QModelIndex item = indexForItem(itemIndex.first, itemIndex.second);
+        if (!item.isValid() || !item.data(PopupMenuItem::ChildrenRole).value<QList<PopupMenuNode>>().isEmpty())
             continue;
         if (!m_groups.at(itemIndex.first).multiSelection) {
             for (int i = static_cast<int>(selected.size()) - 1; i >= 0; --i)

@@ -1,5 +1,6 @@
 #include "animatedwidgets/popups/defaultpopupmenumodel.h"
 #include "animatedwidgets/popups/popupmenurowtype.h"
+#include "animatedwidgets/popups/popupmenugroup.h"
 
 #include <QtTest>
 
@@ -15,6 +16,7 @@ private slots:
     void invalidAndDisabledItems();
     void structuredItemsAndRoles();
     void logicalSelectionExcludesSeparators();
+    void nestedChildrenAndSelection();
 };
 
 void DefaultPopupMenuModelTest::singleSelection() {
@@ -188,6 +190,54 @@ void DefaultPopupMenuModelTest::logicalSelectionExcludesSeparators() {
     QCOMPARE(qvariant_cast<QList<int>>(multipleChanges.last().at(0)), QList<int>({0, 1}));
     model.triggerItem(model.index(1));
     QCOMPARE(model.selectedIndexes(), QList<int>({1}));
+}
+
+void DefaultPopupMenuModelTest::nestedChildrenAndSelection() {
+    PopupMenuItem leaf{QStringLiteral("PNG")};
+    leaf.values.insert(Qt::UserRole + 100, QStringLiteral("png-id"));
+    PopupMenuGroup formats;
+    formats.title = QStringLiteral("Formats");
+    formats.multiSelection = true;
+    formats.values.insert(Qt::UserRole + 101, QStringLiteral("formats-id"));
+    formats.children = {leaf};
+    PopupMenuItem branch{QStringLiteral("Export")};
+    branch.children = {formats};
+
+    DefaultPopupMenuModel model;
+    model.setItems({PopupMenuItem{QStringLiteral("Open")}, branch});
+    model.setCurrentIndex(0);
+    QSignalSpy changes(&model, &DefaultPopupMenuModel::currentIndexChanged);
+    const QModelIndex parent = model.index(1);
+    QVERIFY(!parent.data(Qt::CheckStateRole).isValid());
+    QVERIFY(parent.flags().testFlag(Qt::ItemIsEnabled));
+    QVERIFY(!model.setData(parent, Qt::Checked, Qt::CheckStateRole));
+    model.triggerItem(parent);
+    model.setCurrentIndex(1);
+    QCOMPARE(model.currentIndex(), 0);
+    QCOMPARE(changes.count(), 0);
+
+    const auto children = parent.data(PopupMenuItem::ChildrenRole).value<QList<PopupMenuNode>>();
+    QCOMPARE(children.size(), 1);
+    QVERIFY(children.first().group());
+    const PopupMenuItem groupEntry = children.first().toItem();
+    QCOMPARE(groupEntry.text, formats.title);
+    QVERIFY(groupEntry.submenuMultiSelection);
+    QCOMPARE(groupEntry.values.value(Qt::UserRole + 101).toString(), QStringLiteral("formats-id"));
+    QCOMPARE(groupEntry.children.first().item()->values.value(Qt::UserRole + 100).toString(), QStringLiteral("png-id"));
+
+    // Nodes capture a value snapshot, so later edits cannot create recursive ownership cycles.
+    leaf.text = QStringLiteral("Changed");
+    QCOMPARE(groupEntry.children.first().item()->text, QStringLiteral("PNG"));
+    formats.children.clear();
+    QCOMPARE(children.first().group()->children.size(), 1);
+    QVERIFY(!model.setData(parent, QVariant(), PopupMenuItem::ChildrenRole));
+
+    model.setSelectionMode(DefaultPopupMenuModel::MultiSelection);
+    model.setSelectedIndexes({0, 1});
+    QCOMPARE(model.selectedIndexes(), QList<int>{0});
+    model.setStrings({QStringLiteral("Open"), QStringLiteral("Export")});
+    QVERIFY(model.index(1).data(PopupMenuItem::ChildrenRole).value<QList<PopupMenuNode>>().isEmpty());
+    QVERIFY(model.index(1).data(Qt::CheckStateRole).isValid());
 }
 
 QTEST_APPLESS_MAIN(DefaultPopupMenuModelTest)

@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/animatedwidgets/popups">
+        <file>submenu.svg</file>
+    </qresource>
+</RCC>

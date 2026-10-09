@@ -16,6 +16,8 @@ public:
     bool multiSelection = false;
 
     QMap<int, QVariant> values; // Additional roles for group data and custom delegates.
+
+    QList<PopupMenuNode> children; // Appended after items; nested groups become submenu entries.
 };
 
 } // namespace animatedwidgets

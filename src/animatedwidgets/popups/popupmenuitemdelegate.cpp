@@ -1,5 +1,6 @@
 #include "animatedwidgets/popups/popupmenuitemdelegate.h"
 #include "animatedwidgets/popups/popupmenurowtype.h"
+#include "animatedwidgets/utils/popupmenuresources.h"
 
 #include <QPainter>
 #include <QAbstractItemModel>
@@ -14,6 +15,17 @@ namespace animatedwidgets {
 PopupMenuItemDelegate::PopupMenuItemDelegate(QObject* parent)
     : QStyledItemDelegate(parent)
 {
+    PopupMenuResources::initialize();
+    submenuIcon = QIcon(QStringLiteral(":/animatedwidgets/popups/submenu.svg"));
+}
+
+QModelIndex PopupMenuItemDelegate::hoveredIndex() const {
+    return m_hoveredIndex;
+}
+
+void PopupMenuItemDelegate::setHoveredIndex(const QModelIndex& index) {
+    m_hoverManaged = true;
+    m_hoveredIndex = index;
 }
 
 void PopupMenuItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option,
@@ -50,12 +62,13 @@ void PopupMenuItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem&
     }
 
     const QVariant checkState = index.data(Qt::CheckStateRole);
-    const bool selected = checkState.isValid() ? checkState.toInt() == Qt::Checked
-                                               : option.state.testFlag(QStyle::State_Selected);
+    const bool hasChildren = !index.data(PopupMenuItem::ChildrenRole).value<QList<PopupMenuNode>>().isEmpty();
+    const bool selected = !hasChildren && (checkState.isValid() ? checkState.toInt() == Qt::Checked
+                                               : option.state.testFlag(QStyle::State_Selected));
     QColor background = itemBackground;
     if (selected)
         background = itemSelectedBackground;
-    else if (option.state & QStyle::State_MouseOver)
+    else if (m_hoverManaged ? m_hoveredIndex == index : option.state.testFlag(QStyle::State_MouseOver))
         background = itemHoverBackground;
     if (itemCornerRadius > 0) {
         painter->save();
@@ -73,7 +86,13 @@ void PopupMenuItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem&
 
     const int padding = qMax(0, contentPadding);
     QRect contentRect = itemRect.adjusted(padding, 0, -padding, 0);
-    if (drawCheckedIcon && checkState.isValid() && (!checkedIcon.isNull() || !uncheckedIcon.isNull())) {
+    if (hasChildren) {
+        const QRect iconRect(contentRect.right() - submenuIconSize.width() + 1,
+                             contentRect.center().y() - submenuIconSize.height() / 2,
+                             submenuIconSize.width(), submenuIconSize.height());
+        submenuIcon.paint(painter, iconRect, Qt::AlignCenter, enabled ? QIcon::Normal : QIcon::Disabled);
+        contentRect.setRight(iconRect.left() - 1 - submenuIconSpacing);
+    } else if (drawCheckedIcon && checkState.isValid() && (!checkedIcon.isNull() || !uncheckedIcon.isNull())) {
         const bool rightAligned = checkedIconAlignment.testFlag(Qt::AlignRight);
         const int iconX = rightAligned ? contentRect.right() - checkedIconSize.width() + 1 : contentRect.left();
         const QRect iconRect(iconX, contentRect.center().y() - checkedIconSize.height() / 2,
@@ -154,7 +173,11 @@ QSize PopupMenuItemDelegate::sizeHint(const QStyleOptionViewItem& option, const 
     if (!shortcut.isEmpty()) {
         size.rwidth() += itemOption.fontMetrics.horizontalAdvance(shortcut) + qMax(8, checkedIconSpacing);
     }
-    if (drawCheckedIcon && index.data(Qt::CheckStateRole).isValid()
+    const bool hasChildren = !index.data(PopupMenuItem::ChildrenRole).value<QList<PopupMenuNode>>().isEmpty();
+    if (hasChildren) {
+        size.rwidth() += submenuIconSize.width() + submenuIconSpacing;
+        size.setHeight(qMax(size.height(), submenuIconSize.height()));
+    } else if (drawCheckedIcon && index.data(Qt::CheckStateRole).isValid()
         && (!checkedIcon.isNull() || !uncheckedIcon.isNull())) {
         size.rwidth() += checkedIconSize.width() + checkedIconSpacing;
         size.setHeight(qMax(size.height(), checkedIconSize.height()));

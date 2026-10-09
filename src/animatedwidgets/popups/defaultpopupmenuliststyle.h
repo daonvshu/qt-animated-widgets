@@ -30,6 +30,10 @@ public:
     QSize checkedIconSize = QSize(14, 14); // Size shared by checked and unchecked icons.
     Qt::Alignment checkedIconAlignment = Qt::AlignLeft; // Check indicator at the left or right content edge.
 
+    QIcon submenuIcon; // Right arrow; a null icon uses the built-in SVG.
+    QSize submenuIconSize = QSize(14, 14); // Size of the submenu indicator.
+    int submenuIconSpacing = 4; // Gap between item content and the right arrow.
+
     QMargins viewMargins = QMargins(8, 8, 8, 8); // Spacing between the list and popup body.
     int itemHeight = 32; // Minimum item height in logical pixels.
     int itemSpacing = 0; // Vertical gap between item backgrounds, added to each row except the last.

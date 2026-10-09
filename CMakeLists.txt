@@ -58,6 +58,9 @@ add_library(AnimatedWidgetsWidgets
     src/animatedwidgets/popups/popupdismissfilter.h
     src/animatedwidgets/popups/popupdismissfilter.cpp
     src/animatedwidgets/popups/popupmenuitem.h
+    src/animatedwidgets/popups/popupmenunode.h
+    src/animatedwidgets/popups/popupmenunode.cpp
+    src/animatedwidgets/popups/resources/popups.qrc
     src/animatedwidgets/popups/popupmenurowtype.h
     src/animatedwidgets/popups/popupmenugroup.h
     src/animatedwidgets/popups/popupmenufiltermodel.h
@@ -90,6 +93,7 @@ add_library(AnimatedWidgetsWidgets
     src/animatedwidgets/utils/textsearchutils.h
     src/animatedwidgets/utils/textsearchutils.cpp
     src/animatedwidgets/utils/popupmenuitemdata.h
+    src/animatedwidgets/utils/popupmenuresources.h
     src/animatedwidgets/utils/popupmenuitemdata.cpp
     src/animatedwidgets/utils/buttonpainter.h
     src/animatedwidgets/utils/buttonpainter.cpp

@@ -20,7 +20,7 @@ QVariant DefaultPopupMenuModel::data(const QModelIndex& index, int role) const {
 
     if (role == Qt::CheckStateRole) {
         const int itemIndex = logicalIndex(index);
-        return itemIndex < 0 ? QVariant()
+        return itemIndex < 0 || !m_items.at(index.row()).children.isEmpty() ? QVariant()
             : QVariant(m_selectedIndexes.contains(itemIndex) ? Qt::Checked : Qt::Unchecked);
     }
     return PopupMenuItemData::data(m_items.at(index.row()), role);
@@ -48,7 +48,8 @@ bool DefaultPopupMenuModel::setData(const QModelIndex& index, const QVariant& va
     const int itemIndex = logicalIndex(index);
     bool valid = false;
     const int state = value.toInt(&valid);
-    if (itemIndex < 0 || !valid || (state != Qt::Checked && state != Qt::Unchecked))
+    if (itemIndex < 0 || !m_items.at(index.row()).children.isEmpty()
+        || !valid || (state != Qt::Checked && state != Qt::Unchecked))
         return false;
 
     QList<int> selected = m_selectedIndexes;
@@ -75,7 +76,7 @@ void DefaultPopupMenuModel::setStrings(const QStringList& strings) {
         for (int row = 0; row < rowCount(); ++row) {
             const auto& item = m_items.at(row);
             if (item.separator || !item.icon.isNull() || !item.shortcut.isEmpty()
-                || !item.values.isEmpty() || item.text != strings.at(row)) {
+                || !item.values.isEmpty() || !item.children.isEmpty() || item.text != strings.at(row)) {
                 unchanged = false;
                 break;
             }
@@ -136,7 +137,8 @@ int DefaultPopupMenuModel::currentIndex() const {
 void DefaultPopupMenuModel::setCurrentIndex(int itemIndex) {
     if (itemIndex == -1)
         applySelection({});
-    else if (rowForLogicalIndex(itemIndex) >= 0)
+    else if (rowForLogicalIndex(itemIndex) >= 0
+             && m_items.at(rowForLogicalIndex(itemIndex)).children.isEmpty())
         applySelection({itemIndex});
 }
 
@@ -191,7 +193,8 @@ bool DefaultPopupMenuModel::ownsIndex(const QModelIndex& index) const {
 void DefaultPopupMenuModel::applySelection(const QList<int>& indexes) {
     QList<int> selected;
     for (int itemIndex : indexes) {
-        if (rowForLogicalIndex(itemIndex) >= 0 && !selected.contains(itemIndex)) {
+        const int row = rowForLogicalIndex(itemIndex);
+        if (row >= 0 && m_items.at(row).children.isEmpty() && !selected.contains(itemIndex)) {
             selected.append(itemIndex);
             if (m_selectionMode == SingleSelection)
                 break;

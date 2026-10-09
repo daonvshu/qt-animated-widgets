@@ -14,6 +14,7 @@ private slots:
     void logicalIndexesAndUntitledGroups();
     void updatesAndReset();
     void groupRoleData();
+    void nestedGroupChildren();
 };
 
 void GroupedPopupMenuModelTest::mixedSelectionAndSignals() {
@@ -185,6 +186,37 @@ void GroupedPopupMenuModelTest::groupRoleData() {
     QCOMPARE(selectionChanges.count(), 0);
     QCOMPARE(model.currentIndex(1), 0);
     QCOMPARE(model.rowCount(), 3);
+}
+
+void GroupedPopupMenuModelTest::nestedGroupChildren() {
+    PopupMenuItem separator;
+    separator.separator = true;
+    PopupMenuGroup nested;
+    nested.title = QStringLiteral("More options");
+    nested.children = {PopupMenuItem{QStringLiteral("Child")}};
+    PopupMenuGroup root;
+    root.items = {PopupMenuItem{QStringLiteral("First")}};
+    root.children = {separator, nested, PopupMenuItem{QStringLiteral("Last")}};
+
+    GroupedPopupMenuModel model;
+    model.setGroups({root});
+    QCOMPARE(model.rowCount(), 4);
+    QCOMPARE(model.indexForItem(0, 1).data().toString(), nested.title);
+    QVERIFY(!model.indexForItem(0, 1).data(Qt::CheckStateRole).isValid());
+    const auto children = model.indexForItem(0, 1).data(PopupMenuItem::ChildrenRole).value<QList<PopupMenuNode>>();
+    QCOMPARE(children.size(), 1);
+    QCOMPARE(children.first().item()->text, QStringLiteral("Child"));
+    model.setCurrentIndex(0, 0);
+    model.triggerItem(model.indexForItem(0, 1));
+    model.setCurrentIndex(0, 1);
+    QCOMPARE(model.currentIndex(0), 0);
+    model.setSelectedIndexes({{0, 0}, {0, 1}, {0, 2}});
+    QCOMPARE(model.currentIndex(0), 2);
+
+    // groups() returns canonical item entries; feeding them back must not duplicate children.
+    model.setGroups(model.groups());
+    QCOMPARE(model.rowCount(), 4);
+    QVERIFY(!model.setGroupData(0, QVariant(), PopupMenuItem::ChildrenRole));
 }
 
 QTEST_APPLESS_MAIN(GroupedPopupMenuModelTest)

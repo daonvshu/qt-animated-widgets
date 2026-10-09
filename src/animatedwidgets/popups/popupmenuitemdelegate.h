@@ -24,6 +24,9 @@ public:
                const QModelIndex& index) const override;
     QSize sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const override;
 
+    QModelIndex hoveredIndex() const;
+    void setHoveredIndex(const QModelIndex& index);
+
     QColor itemBackground = QColor(Qt::transparent);
     QColor itemHoverBackground = QColor(QStringLiteral("#F2F3F5"));
     QColor itemSelectedBackground = QColor(QStringLiteral("#E3F3FF"));
@@ -39,6 +42,11 @@ public:
     QIcon uncheckedIcon;
     QSize checkedIconSize = QSize(14, 14);
     Qt::Alignment checkedIconAlignment = Qt::AlignLeft;
+
+    QIcon submenuIcon;
+    QSize submenuIconSize = QSize(14, 14);
+    int submenuIconSpacing = 4;
+
     int itemHeight = 32;
     int itemSpacing = 0;
     int itemCornerRadius = 4;
@@ -52,6 +60,9 @@ public:
 
 private:
     bool hasItemIcons(const QModelIndex& index) const;
+
+    QPersistentModelIndex m_hoveredIndex;
+    bool m_hoverManaged = false;
 
     mutable QPointer<const QAbstractItemModel> m_iconModel;
     mutable QList<QMetaObject::Connection> m_iconConnections;

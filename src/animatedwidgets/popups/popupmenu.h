@@ -5,6 +5,8 @@
 #include "animatedwidgets/popups/popupmenugroup.h"
 
 #include <QPointer>
+#include <QHash>
+#include <QPersistentModelIndex>
 #include <QStringList>
 
 #include <functional>
@@ -62,6 +64,9 @@ public:
     void setStrings(const QStringList& strings);
     void setItems(const QList<PopupMenuItem>& items);
     void setGroups(const QList<PopupMenuGroup>& groups);
+    void setChildren(const QList<PopupMenuNode>& children);
+
+    PopupMenu* activeSubmenu() const;
 
     bool autoClose() const;
     void setAutoClose(bool enabled);
@@ -72,16 +77,31 @@ public:
 
 signals:
     void itemTriggered(const QModelIndex& index);
+    // Path components exclude separators and headings; index belongs to the leaf's menu model.
+    void itemPathTriggered(const QList<int>& path, const QModelIndex& index);
 
 protected:
     bool eventFilter(QObject* watched, QEvent* event) override;
+    void hideEvent(QHideEvent* event) override;
     virtual bool includeListInAdaptiveHeight() const;
 
 private:
     void createDefaultView();
     void applyStyle();
     void connectViewSignals();
+    void connectCurrentIndexSignal();
     void setSlotWidget(QPointer<QWidget>& slot, QWidget* widget, bool top);
+    void activateItem(const QModelIndex& index);
+    void openSubmenu(const QModelIndex& index, bool keyboard = false);
+    void hideSubmenus();
+    void clearSubmenus();
+    void updateHoveredItem(const QPoint& globalPos);
+    void setHoveredIndex(const QModelIndex& index);
+    bool filterMenuChainEvent(QObject* watched, QEvent* event);
+    PopupMenu* rootMenu();
+    PopupMenu* menuAt(const QPoint& globalPos);
+    QRect submenuTransitionRect() const;
+    QList<int> itemPath(const QModelIndex& index) const;
 
     QPointer<QAbstractItemView> m_view;
     QPointer<QWidget> m_topWidget;
@@ -89,12 +109,25 @@ private:
     DefaultPopupMenuModel* m_defaultModel = nullptr;
     GroupedPopupMenuModel* m_groupedModel = nullptr;
     QMetaObject::Connection m_modelTriggerConnection;
+    QList<QMetaObject::Connection> m_submenuModelConnections;
+    QList<QMetaObject::Connection> m_viewConnections;
+    QMetaObject::Connection m_currentIndexConnection;
     QPointer<QAbstractItemDelegate> m_delegate;
     PopupMenuStyle* m_style = nullptr;
     PopupMenuListStyle* m_listStyle = nullptr;
     ViewFactory m_viewFactory;
     QString m_scrollBarStyleSheet;
     bool m_autoClose = true;
+
+    QPointer<PopupMenu> m_parentMenu;
+    QPointer<PopupMenu> m_activeSubmenu;
+    QPersistentModelIndex m_submenuIndex;
+    QPersistentModelIndex m_hoveredIndex;
+    QHash<QPersistentModelIndex, QPointer<PopupMenu>> m_submenus;
+
+    QPointer<PopupMenu> m_pressedMenu;
+    QPersistentModelIndex m_pressedIndex;
+    bool m_submenuMousePress = false;
 };
 
 } // namespace animatedwidgets

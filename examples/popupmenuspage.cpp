@@ -40,6 +40,9 @@ PopupMenusPage::PopupMenusPage(QWidget* parent)
     connect(m_ui->mixedSelectionButton, &QPushButton::clicked, this, [this] {
         showMixedSelectionMenu(m_ui->mixedSelectionButton);
     });
+    connect(m_ui->nestedButton, &QPushButton::clicked, this, [this] {
+        showNestedMenu(m_ui->nestedButton);
+    });
 }
 
 PopupMenusPage::~PopupMenusPage() = default;
@@ -376,6 +379,54 @@ void PopupMenusPage::showMixedSelectionMenu(QWidget* anchor) {
     popup->setAdaptiveHeight(300, 8);
     popup->moveToTargetBottom(anchor, Qt::AlignLeft);
     popup->show();
+}
+
+void PopupMenusPage::showNestedMenu(QWidget* anchor) {
+    if (m_popup)
+        return;
+
+    animatedwidgets::PopupMenuItem separator;
+    separator.separator = true;
+
+    animatedwidgets::PopupMenuGroup formats;
+    formats.title = tr("Image formats");
+    animatedwidgets::PopupMenuItem png{tr("PNG")};
+    png.values.insert(Qt::UserRole + 100, QStringLiteral("export-png"));
+    formats.children = {png, animatedwidgets::PopupMenuItem{tr("JPEG")},
+                        animatedwidgets::PopupMenuItem{tr("WebP")}};
+
+    animatedwidgets::PopupMenuItem exportItem{tr("Export")};
+    exportItem.children = {formats, separator, animatedwidgets::PopupMenuItem{tr("PDF")}};
+
+    animatedwidgets::PopupMenuGroup visibility;
+    visibility.title = tr("Visible layers");
+    visibility.multiSelection = true;
+    visibility.children = {animatedwidgets::PopupMenuItem{tr("Guides")},
+                           animatedwidgets::PopupMenuItem{tr("Annotations")}};
+
+    animatedwidgets::PopupMenuItem disabled{tr("Unavailable action")};
+    disabled.enabled = false;
+    disabled.children = {animatedwidgets::PopupMenuItem{tr("Hidden action")}};
+
+    auto* popup = new animatedwidgets::PopupMenu(this);
+    popup->setChildren({animatedwidgets::PopupMenuItem{tr("Open")}, exportItem, visibility,
+                        separator, disabled});
+    popup->setAutoClose(m_ui->autoCloseCheck->isChecked());
+
+    auto* style = new animatedwidgets::DefaultPopupMenuListStyle;
+    style->checkedIcon = QIcon(QStringLiteral(":/animatedwidgets/gallery/buttoncheck.svg"));
+    style->checkedIconAlignment = Qt::AlignRight;
+    popup->setListStyle(style);
+    connect(popup, &animatedwidgets::PopupMenu::itemPathTriggered, this,
+            [this](const QList<int>& path, const QModelIndex& index) {
+                QStringList components;
+                for (int component : path)
+                    components.append(QString::number(component));
+                m_ui->resultLabel->setText(tr("Path %1: %2 (data: %3)")
+                    .arg(components.join(QStringLiteral("/")), index.data().toString(),
+                         index.data(Qt::UserRole + 100).toString()));
+            });
+    showVariant(popup, anchor);
 }
 
 void PopupMenusPage::showVariant(animatedwidgets::PopupMenu* popup, QWidget* anchor) {
