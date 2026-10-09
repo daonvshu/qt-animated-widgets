@@ -1,5 +1,7 @@
 #include "animatedwidgets/popups/searchpopupmenu.h"
+#include "animatedwidgets/popups/popupmenurowtype.h"
 #include "animatedwidgets/popups/defaultpopupmenumodel.h"
+#include "animatedwidgets/popups/groupedpopupmenumodel.h"
 #include "animatedwidgets/popups/popupmenufiltermodel.h"
 #include "animatedwidgets/inputs/iconlineedit.h"
 
@@ -51,6 +53,8 @@ SearchPopupMenu::SearchPopupMenu(QWidget* parent)
         const QPersistentModelIndex source = m_filterModel->mapToSource(index);
         QPointer<SearchPopupMenu> guard(this);
         if (auto* model = qobject_cast<DefaultPopupMenuModel*>(sourceModel()))
+            model->triggerItem(source);
+        else if (auto* model = qobject_cast<GroupedPopupMenuModel*>(sourceModel()))
             model->triggerItem(source);
         if (guard && source.isValid())
             emit sourceItemTriggered(source);
@@ -140,7 +144,7 @@ void SearchPopupMenu::updateEmptyState() {
             if (list && list->isRowHidden(row))
                 continue;
             const QModelIndex index = model()->index(row, list ? list->modelColumn() : 0, root);
-            if (index.data(PopupMenuItem::TypeRole).toInt() == PopupMenuItem::Option
+            if (index.data(PopupMenuItem::TypeRole).toInt() == static_cast<int>(PopupMenuRowType::Option)
                 && !index.data(PopupMenuItem::SeparatorRole).toBool()) {
                 hasItems = true;
                 break;

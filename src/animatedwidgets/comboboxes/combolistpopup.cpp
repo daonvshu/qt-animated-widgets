@@ -1,4 +1,5 @@
 #include "animatedwidgets/comboboxes/combolistpopup.h"
+#include "animatedwidgets/popups/popupmenurowtype.h"
 #include "animatedwidgets/comboboxes/combopopupmodel.h"
 #include "animatedwidgets/popups/defaultpopupmenuliststyle.h"
 #include "animatedwidgets/popups/popupmenufiltermodel.h"
@@ -174,7 +175,7 @@ void ComboListPopup::updateFilteredLayout() {
     bool hasOptions = false;
     const int rows = m_root.isValid() && !root.isValid() ? 0 : model()->rowCount(root);
     for (int row = 0; row < rows; ++row) {
-        if (model()->index(row, m_column, view()->rootIndex()).data(PopupMenuItem::TypeRole).toInt() == PopupMenuItem::Option) {
+        if (model()->index(row, m_column, view()->rootIndex()).data(PopupMenuItem::TypeRole).toInt() == static_cast<int>(PopupMenuRowType::Option)) {
             hasOptions = true;
             break;
         }

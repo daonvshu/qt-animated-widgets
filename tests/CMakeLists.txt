@@ -16,6 +16,10 @@ add_executable(tstdefaultpopupmenumodel tstdefaultpopupmenumodel.cpp)
 target_link_libraries(tstdefaultpopupmenumodel PRIVATE AnimatedWidgets::Widgets Qt${QT_VERSION_MAJOR}::Test)
 add_test(NAME tstdefaultpopupmenumodel COMMAND tstdefaultpopupmenumodel)
 
+add_executable(tstgroupedpopupmenumodel tstgroupedpopupmenumodel.cpp)
+target_link_libraries(tstgroupedpopupmenumodel PRIVATE AnimatedWidgets::Widgets Qt${QT_VERSION_MAJOR}::Test)
+add_test(NAME tstgroupedpopupmenumodel COMMAND tstgroupedpopupmenumodel)
+
 add_executable(tstcombopopupmodel tstcombopopupmodel.cpp)
 target_link_libraries(tstcombopopupmodel PRIVATE AnimatedWidgets::Widgets Qt${QT_VERSION_MAJOR}::Test)
 add_test(NAME tstcombopopupmodel COMMAND tstcombopopupmodel)

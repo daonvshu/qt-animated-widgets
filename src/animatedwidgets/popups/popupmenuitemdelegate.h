@@ -2,6 +2,7 @@
 
 #include <QStyledItemDelegate>
 #include <QColor>
+#include <QFont>
 #include <QIcon>
 #include <QSize>
 #include <QPointer>
@@ -30,6 +31,10 @@ public:
     QColor itemDisabledText = QColor(QStringLiteral("#9298a2"));
     QColor groupTitleText = QColor(QStringLiteral("#9298a2"));
     int groupTitleHeight = 28;
+
+    QFont itemFont;
+    QFont groupTitleFont;
+
     QIcon checkedIcon;
     QIcon uncheckedIcon;
     QSize checkedIconSize = QSize(14, 14);

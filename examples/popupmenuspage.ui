@@ -83,6 +83,11 @@
        <property name="text"><string>Item icons</string></property>
       </widget>
      </item>
+     <item>
+      <widget class="QPushButton" name="mixedSelectionButton">
+       <property name="text"><string>Mixed selection</string></property>
+      </widget>
+     </item>
     </layout>
    </item>
    <item>

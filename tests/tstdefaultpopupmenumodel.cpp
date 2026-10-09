@@ -1,4 +1,5 @@
 #include "animatedwidgets/popups/defaultpopupmenumodel.h"
+#include "animatedwidgets/popups/popupmenurowtype.h"
 
 #include <QtTest>
 
@@ -13,6 +14,7 @@ private slots:
     void modeChangesAndReset();
     void invalidAndDisabledItems();
     void structuredItemsAndRoles();
+    void logicalSelectionExcludesSeparators();
 };
 
 void DefaultPopupMenuModelTest::singleSelection() {
@@ -117,16 +119,13 @@ void DefaultPopupMenuModelTest::invalidAndDisabledItems() {
 
 void DefaultPopupMenuModelTest::structuredItemsAndRoles() {
     DefaultPopupMenuModel model;
-    PopupMenuItem title;
-    title.text = QStringLiteral("Group");
-    title.type = PopupMenuItem::GroupTitle;
     PopupMenuItem option;
     option.text = QStringLiteral("Option");
     option.shortcut = QStringLiteral("Ctrl+O");
     option.values.insert(Qt::UserRole + 100, QVariantList{42, QStringLiteral("payload")});
     PopupMenuItem separator;
-    separator.type = PopupMenuItem::Separator;
-    model.setItems({title, option, separator});
+    separator.separator = true;
+    model.setItems({separator, option, separator});
 
     QCOMPARE(model.flags(model.index(0)), Qt::NoItemFlags);
     QCOMPARE(model.flags(model.index(2)), Qt::NoItemFlags);
@@ -134,10 +133,10 @@ void DefaultPopupMenuModelTest::structuredItemsAndRoles() {
     QVERIFY(model.index(2).data(PopupMenuItem::SeparatorRole).toBool());
     QCOMPARE(model.index(1).data(PopupMenuItem::ShortcutRole).toString(), option.shortcut);
     QCOMPARE(model.index(1).data(Qt::UserRole + 100).toList(), option.values.value(Qt::UserRole + 100).toList());
-    model.setSelectedIndexes({0, 2});
+    model.setSelectedIndexes({1, 2});
     QCOMPARE(model.currentIndex(), -1);
     model.triggerItem(model.index(1));
-    QCOMPARE(model.currentIndex(), 1);
+    QCOMPARE(model.currentIndex(), 0);
     QVERIFY(!model.setData(model.index(0), Qt::Checked, Qt::CheckStateRole));
 
     QSignalSpy changes(&model, &QAbstractItemModel::dataChanged);
@@ -146,12 +145,49 @@ void DefaultPopupMenuModelTest::structuredItemsAndRoles() {
     QCOMPARE(changes.count(), 1);
     QVERIFY(model.setData(model.index(1), QVariant(), Qt::UserRole + 100));
     QVERIFY(!model.index(1).data(Qt::UserRole + 100).isValid());
-    QVERIFY(!model.setData(model.index(1), PopupMenuItem::GroupTitle, PopupMenuItem::TypeRole));
+    QVERIFY(!model.setData(model.index(1), static_cast<int>(PopupMenuRowType::GroupTitle), PopupMenuItem::TypeRole));
 
     model.setStrings({"Plain"});
     QCOMPARE(model.rowCount(), 1);
-    QCOMPARE(model.index(0).data(PopupMenuItem::TypeRole).toInt(), int(PopupMenuItem::Option));
+    QCOMPARE(model.index(0).data(PopupMenuItem::TypeRole).toInt(), static_cast<int>(PopupMenuRowType::Option));
     QCOMPARE(model.currentIndex(), -1);
+}
+
+void DefaultPopupMenuModelTest::logicalSelectionExcludesSeparators() {
+    DefaultPopupMenuModel model;
+    PopupMenuItem first;
+    first.text = QStringLiteral("First");
+    PopupMenuItem second;
+    second.text = QStringLiteral("Second");
+    PopupMenuItem separator;
+    separator.separator = true;
+    model.setItems({separator, first, separator, separator, second, separator});
+    QSignalSpy singleChanges(&model, &DefaultPopupMenuModel::currentIndexChanged);
+
+    model.triggerItem(model.index(4));
+    QCOMPARE(model.currentIndex(), 1);
+    QCOMPARE(singleChanges.last().at(0).toInt(), 1);
+    QCOMPARE(model.strings().size(), 2);
+    QCOMPARE(model.strings().at(0), QStringLiteral("First"));
+    QCOMPARE(model.strings().at(1), QStringLiteral("Second"));
+    QCOMPARE(model.logicalIndex(model.index(4)), 1);
+    QCOMPARE(model.logicalIndex(model.index(2)), -1);
+    QCOMPARE(model.indexForItem(1).row(), 4);
+    QVERIFY(!model.indexForItem(2).isValid());
+
+    model.setCurrentIndex(0);
+    QCOMPARE(model.index(1).data(Qt::CheckStateRole).toInt(), int(Qt::Checked));
+    model.setItemEnabled(1, false);
+    model.triggerItem(model.index(4));
+    QCOMPARE(model.currentIndex(), 0);
+    model.setItemEnabled(1, true);
+    model.setSelectionMode(DefaultPopupMenuModel::MultiSelection);
+    QSignalSpy multipleChanges(&model, &DefaultPopupMenuModel::selectedIndexesChanged);
+    model.setSelectedIndexes({1, 0, 1, -1, 2});
+    QCOMPARE(model.selectedIndexes(), QList<int>({0, 1}));
+    QCOMPARE(qvariant_cast<QList<int>>(multipleChanges.last().at(0)), QList<int>({0, 1}));
+    model.triggerItem(model.index(1));
+    QCOMPARE(model.selectedIndexes(), QList<int>({1}));
 }
 
 QTEST_APPLESS_MAIN(DefaultPopupMenuModelTest)

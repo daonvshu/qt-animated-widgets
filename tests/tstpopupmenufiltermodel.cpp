@@ -1,4 +1,5 @@
 #include "animatedwidgets/popups/defaultpopupmenumodel.h"
+#include "animatedwidgets/popups/groupedpopupmenumodel.h"
 #include "animatedwidgets/popups/popupmenufiltermodel.h"
 #include "animatedwidgets/utils/textsearchutils.h"
 
@@ -13,23 +14,26 @@ private slots:
     void groupsAndSourceMapping();
     void fuzzyHighlightAndEscaping();
     void highlightConfiguration();
+    void untitledGroupBoundary();
+    void ordinaryLogicalIndexAfterFiltering();
 };
 
 void PopupMenuFilterModelTest::groupsAndSourceMapping() {
-    DefaultPopupMenuModel source;
-    PopupMenuItem heading;
-    heading.text = QStringLiteral("First");
-    heading.type = PopupMenuItem::GroupTitle;
+    GroupedPopupMenuModel source;
     PopupMenuItem apple;
     apple.text = QStringLiteral("Apple");
     apple.values.insert(Qt::UserRole + 100, 123);
     PopupMenuItem separator;
-    separator.type = PopupMenuItem::Separator;
-    PopupMenuItem second = heading;
-    second.text = QStringLiteral("Second");
+    separator.separator = true;
     PopupMenuItem pear;
     pear.text = QStringLiteral("Pear");
-    source.setItems({heading, apple, separator, second, pear});
+    PopupMenuGroup first;
+    first.title = QStringLiteral("First");
+    first.items = {apple, separator};
+    PopupMenuGroup second;
+    second.title = QStringLiteral("Second");
+    second.items = {pear};
+    source.setGroups({first, second});
 
     PopupMenuFilterModel proxy;
     proxy.setFilterKeyColumn(0);
@@ -41,7 +45,7 @@ void PopupMenuFilterModelTest::groupsAndSourceMapping() {
     QCOMPARE(proxy.mapToSource(proxy.index(1, 0)).row(), 1);
     QCOMPARE(proxy.index(1, 0).data(Qt::UserRole + 100).toInt(), 123);
     source.triggerItem(proxy.mapToSource(proxy.index(1, 0)));
-    QCOMPARE(source.currentIndex(), 1);
+    QCOMPARE(source.currentIndex(0), 0);
     QCOMPARE(proxy.index(1, 0).data(Qt::CheckStateRole).toInt(), int(Qt::Checked));
 
     proxy.setSearchText(QStringLiteral("pear"));
@@ -59,7 +63,7 @@ void PopupMenuFilterModelTest::groupsAndSourceMapping() {
     source.setData(source.index(1), QStringLiteral("Pear apple"), Qt::DisplayRole);
     proxy.setSearchText(QStringLiteral("pear"));
     QCOMPARE(proxy.rowCount(), 4);
-    source.setItems({});
+    source.setGroups({});
     QCOMPARE(proxy.rowCount(), 0);
 }
 
@@ -85,15 +89,15 @@ void PopupMenuFilterModelTest::fuzzyHighlightAndEscaping() {
 }
 
 void PopupMenuFilterModelTest::highlightConfiguration() {
-    DefaultPopupMenuModel source;
-    PopupMenuItem title;
-    title.text = QStringLiteral("Assets");
-    title.type = PopupMenuItem::GroupTitle;
+    GroupedPopupMenuModel source;
     PopupMenuItem item;
     item.text = QStringLiteral("Harbor");
     item.values.insert(Qt::UserRole + 100, 42);
-    source.setItems({title, item});
-    source.setCurrentIndex(1);
+    PopupMenuGroup group;
+    group.title = QStringLiteral("Assets");
+    group.items = {item};
+    source.setGroups({group});
+    source.setCurrentIndex(0, 0);
 
     PopupMenuFilterModel proxy;
     QVERIFY(proxy.highlightEnabled());
@@ -121,6 +125,48 @@ void PopupMenuFilterModelTest::highlightConfiguration() {
     proxy.setHighlightEnabled(true);
     proxy.setSearchText(QString());
     QVERIFY(!proxy.index(1, 0).data(PopupMenuItem::HighlightRole).isValid());
+}
+
+void PopupMenuFilterModelTest::untitledGroupBoundary() {
+    GroupedPopupMenuModel source;
+    PopupMenuItem separator;
+    separator.separator = true;
+    PopupMenuGroup first;
+    first.title = QStringLiteral("First");
+    first.items = {PopupMenuItem{QStringLiteral("Apple")}, separator, PopupMenuItem{QStringLiteral("Pear")}};
+    PopupMenuGroup second;
+    second.items = {PopupMenuItem{QStringLiteral("Harbor")}};
+    source.setGroups({first, second});
+
+    PopupMenuFilterModel proxy;
+    proxy.setSourceModel(&source);
+    proxy.setSearchText(QStringLiteral("pear"));
+    QCOMPARE(proxy.rowCount(), 2);
+    QCOMPARE(proxy.index(0, 0).data().toString(), first.title);
+    QCOMPARE(source.logicalIndex(proxy.mapToSource(proxy.index(1, 0))), qMakePair(0, 1));
+
+    proxy.setSearchText(QStringLiteral("harbor"));
+    QCOMPARE(proxy.rowCount(), 1);
+    QCOMPARE(proxy.index(0, 0).data().toString(), QStringLiteral("Harbor"));
+    source.triggerItem(proxy.mapToSource(proxy.index(0, 0)));
+    QCOMPARE(source.currentIndex(1), 0);
+}
+
+void PopupMenuFilterModelTest::ordinaryLogicalIndexAfterFiltering() {
+    DefaultPopupMenuModel source;
+    PopupMenuItem separator;
+    separator.separator = true;
+    source.setItems({separator, PopupMenuItem{QStringLiteral("Apple")}, separator,
+                     PopupMenuItem{QStringLiteral("Pear")}});
+    PopupMenuFilterModel proxy;
+    proxy.setSourceModel(&source);
+    proxy.setSearchText(QStringLiteral("pear"));
+    QCOMPARE(proxy.rowCount(), 1);
+    const QModelIndex item = proxy.mapToSource(proxy.index(0, 0));
+    QCOMPARE(item.row(), 3);
+    QCOMPARE(source.logicalIndex(item), 1);
+    source.triggerItem(item);
+    QCOMPARE(source.currentIndex(), 1);
 }
 
 QTEST_APPLESS_MAIN(PopupMenuFilterModelTest)

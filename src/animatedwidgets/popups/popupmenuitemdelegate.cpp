@@ -1,4 +1,5 @@
 #include "animatedwidgets/popups/popupmenuitemdelegate.h"
+#include "animatedwidgets/popups/popupmenurowtype.h"
 
 #include <QPainter>
 #include <QAbstractItemModel>
@@ -29,13 +30,17 @@ void PopupMenuItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem&
 
     QStyleOptionViewItem itemOption(option);
     initStyleOption(&itemOption, index);
+    const QFont& font = index.data(TypeRole).toInt() == static_cast<int>(PopupMenuRowType::GroupTitle)
+        ? groupTitleFont : itemFont;
+    itemOption.font = font.resolve(itemOption.font);
+    itemOption.fontMetrics = QFontMetrics(itemOption.font);
     painter->setFont(itemOption.font);
 
     const bool hasNextItem = index.row() < index.model()->rowCount(index.parent()) - 1;
     const int spacing = hasNextItem ? qBound(0, itemSpacing, qMax(0, option.rect.height() - 1)) : 0;
     const QRect itemRect = option.rect.adjusted(0, 0, 0, -spacing);
 
-    if (index.data(TypeRole).toInt() == PopupMenuItem::GroupTitle) {
+    if (index.data(TypeRole).toInt() == static_cast<int>(PopupMenuRowType::GroupTitle)) {
         painter->setPen(groupTitleText);
         const QRect content = itemRect.adjusted(qMax(0, contentPadding), 0, -qMax(0, contentPadding), 0);
         painter->drawText(content, Qt::AlignVCenter | Qt::AlignLeft,
@@ -138,6 +143,10 @@ QSize PopupMenuItemDelegate::sizeHint(const QStyleOptionViewItem& option, const 
 
     QStyleOptionViewItem itemOption(option);
     initStyleOption(&itemOption, index);
+    const QFont& font = index.data(TypeRole).toInt() == static_cast<int>(PopupMenuRowType::GroupTitle)
+        ? groupTitleFont : itemFont;
+    itemOption.font = font.resolve(itemOption.font);
+    itemOption.fontMetrics = QFontMetrics(itemOption.font);
     const QVariant explicitSize = index.data(Qt::SizeHintRole);
     QSize size = explicitSize.isValid() ? explicitSize.toSize()
         : QSize(itemOption.fontMetrics.horizontalAdvance(itemOption.text), itemOption.fontMetrics.height());
@@ -150,13 +159,13 @@ QSize PopupMenuItemDelegate::sizeHint(const QStyleOptionViewItem& option, const 
         size.rwidth() += checkedIconSize.width() + checkedIconSpacing;
         size.setHeight(qMax(size.height(), checkedIconSize.height()));
     }
-    if (index.data(TypeRole).toInt() == PopupMenuItem::Option && hasItemIcons(index)) {
+    if (index.data(TypeRole).toInt() == static_cast<int>(PopupMenuRowType::Option) && hasItemIcons(index)) {
         const QSize iconSize = itemIconSize.expandedTo(QSize(1, 1));
         size.rwidth() += iconSize.width() + itemIconSpacing;
         size.setHeight(qMax(size.height(), iconSize.height()));
     }
     size.rwidth() += 2 * qMax(0, contentPadding);
-    size.setHeight(qMax(index.data(TypeRole).toInt() == PopupMenuItem::GroupTitle ? groupTitleHeight : itemHeight,
+    size.setHeight(qMax(index.data(TypeRole).toInt() == static_cast<int>(PopupMenuRowType::GroupTitle) ? groupTitleHeight : itemHeight,
                         size.height()));
     if (index.row() < index.model()->rowCount(index.parent()) - 1)
         size.rheight() += qMax(0, itemSpacing);
@@ -205,7 +214,7 @@ bool PopupMenuItemDelegate::hasItemIcons(const QModelIndex& index) const {
     m_hasItemIcons = false;
     for (int row = 0; row < index.model()->rowCount(m_iconRoot); ++row) {
         const QModelIndex sibling = index.model()->index(row, m_iconColumn, m_iconRoot);
-        if (sibling.data(TypeRole).toInt() == PopupMenuItem::Option && !sibling.data(SeparatorRole).toBool()
+        if (sibling.data(TypeRole).toInt() == static_cast<int>(PopupMenuRowType::Option) && !sibling.data(SeparatorRole).toBool()
             && !qvariant_cast<QIcon>(sibling.data(Qt::DecorationRole)).isNull()) {
             m_hasItemIcons = true;
             break;

@@ -1,4 +1,5 @@
 #include "animatedwidgets/popups/popupmenufiltermodel.h"
+#include "animatedwidgets/popups/popupmenurowtype.h"
 #include "animatedwidgets/popups/popupmenuitem.h"
 #include "animatedwidgets/utils/textsearchutils.h"
 
@@ -60,7 +61,7 @@ QVariant PopupMenuFilterModel::data(const QModelIndex& index, int role) const {
     if (role != PopupMenuItem::HighlightRole)
         return QSortFilterProxyModel::data(index, role);
     if (!index.isValid() || index.model() != this || !m_highlightEnabled || m_searchText.isEmpty()
-        || QSortFilterProxyModel::data(index, PopupMenuItem::TypeRole).toInt() != PopupMenuItem::Option
+        || QSortFilterProxyModel::data(index, PopupMenuItem::TypeRole).toInt() != static_cast<int>(PopupMenuRowType::Option)
         || QSortFilterProxyModel::data(index, PopupMenuItem::SeparatorRole).toBool())
         return QVariant();
 
@@ -79,7 +80,7 @@ void PopupMenuFilterModel::notifyHighlightChanged() {
 bool PopupMenuFilterModel::matchesOption(int row, const QModelIndex& parent) const {
     const QModelIndex index = sourceModel()->index(row, qMax(0, filterKeyColumn()), parent);
     if (index.data(PopupMenuItem::SeparatorRole).toBool()
-        || index.data(PopupMenuItem::TypeRole).toInt() != PopupMenuItem::Option)
+        || index.data(PopupMenuItem::TypeRole).toInt() != static_cast<int>(PopupMenuRowType::Option))
         return false;
 
     const int firstColumn = qMax(0, filterKeyColumn());
@@ -106,7 +107,7 @@ void PopupMenuFilterModel::setSourceModel(QAbstractItemModel* model) {
     m_sourceConnections.append(connect(model, &QAbstractItemModel::dataChanged, this,
         [this](const QModelIndex&, const QModelIndex&, const QVector<int>& roles) {
             if (roles.isEmpty() || roles.contains(filterRole()) || roles.contains(PopupMenuItem::TypeRole)
-                || roles.contains(PopupMenuItem::SeparatorRole))
+                || roles.contains(PopupMenuItem::SeparatorRole) || roles.contains(PopupMenuItem::GroupIndexRole))
                 invalidateFilter();
         }));
     m_sourceConnections.append(connect(model, &QAbstractItemModel::rowsInserted, this, [this] { invalidateFilter(); }));
@@ -124,14 +125,16 @@ bool PopupMenuFilterModel::filterAcceptsRow(int row, const QModelIndex& parent) 
     const QModelIndex index = sourceModel()->index(row, qMax(0, filterKeyColumn()), parent);
     if (index.data(PopupMenuItem::SeparatorRole).toBool())
         return false;
-    if (index.data(PopupMenuItem::TypeRole).toInt() != PopupMenuItem::GroupTitle)
+    if (index.data(PopupMenuItem::TypeRole).toInt() != static_cast<int>(PopupMenuRowType::GroupTitle))
         return matchesOption(row, parent);
 
     // A heading stays visible only when its following group contains a matching option.
+    const QVariant groupIndex = index.data(PopupMenuItem::GroupIndexRole);
     for (int next = row + 1; next < sourceModel()->rowCount(parent); ++next) {
         const QModelIndex candidate = sourceModel()->index(next, qMax(0, filterKeyColumn()), parent);
-        if (candidate.data(PopupMenuItem::SeparatorRole).toBool()
-            || candidate.data(PopupMenuItem::TypeRole).toInt() == PopupMenuItem::GroupTitle)
+        if (candidate.data(PopupMenuItem::TypeRole).toInt() == static_cast<int>(PopupMenuRowType::GroupTitle)
+            || (groupIndex.isValid() && candidate.data(PopupMenuItem::GroupIndexRole) != groupIndex)
+            || (!groupIndex.isValid() && candidate.data(PopupMenuItem::SeparatorRole).toBool()))
             break;
         if (matchesOption(next, parent))
             return true;

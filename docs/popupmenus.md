@@ -4,34 +4,112 @@
 `PopupMenuStyle` controls the body; `PopupMenuListStyle` controls the default delegate and list appearance.
 `setModel()` uses an externally owned model. `setItemDelegate()` takes ownership of the delegate.
 
-## Structured items
+## Ordinary items
 
-`setStrings()` remains available for simple lists. `setItems()` uses the built-in
-`DefaultPopupMenuModel`, retaining single/multiple selection support:
+`setStrings()` and `setItems()` install the built-in `DefaultPopupMenuModel`.
+This model only handles ordinary lists, with `SingleSelection` and `MultiSelection`.
 
 ```cpp
-PopupMenuItem heading;
-heading.type = PopupMenuItem::GroupTitle;
-heading.text = QStringLiteral("Recommended");
-
 PopupMenuItem option;
 option.text = QStringLiteral("Development");
 option.values.insert(Qt::UserRole + 100, 42);
 
-popup->setItems({heading, option});
+PopupMenuItem separator;
+separator.separator = true;
+
+PopupMenuItem second;
+second.text = QStringLiteral("Testing");
+popup->setItems({option, separator, second});
+popup->defaultModel()->setSelectionMode(DefaultPopupMenuModel::MultiSelection);
+popup->defaultModel()->setSelectedIndexes({0, 1});
 ```
 
-Items have text, icon, shortcut, type, enabled state and a role-to-QVariant map.
-`Option` rows support selection; `GroupTitle` and `Separator` rows do not.
-Selection indexes are model row indexes, including the positions occupied by headings/separators.
-`setItems()` resets selection. Use `setData(index, value, role)` to update data without resetting selection.
+Items have text, icon, shortcut, separator and enabled flags, and a role-to-QVariant map.
+Separators cannot be selected. There is no `PopupMenuItem::type` property or string group ID.
+Group titles are created only from `PopupMenuGroup::title`.
 
-The library reserves `Qt::UserRole + 1` (separator), `+2` (shortcut), `+3` (item type) and `+4` (highlight HTML).
-Standard display, decoration and check-state roles are supplied by the default model.
+The ordinary model's `currentIndexChanged(int)`, `selectedIndexesChanged(QList<int>)`,
+selection getters/setters, and `setItemEnabled()` use logical item indexes that skip separators.
+In the example above the logical indexes are 0 and 1, while display rows are 0 and 2.
+`strings()` also excludes separators. Use `indexForItem(itemIndex)` to obtain a display
+`QModelIndex`, and `logicalIndex(index)` to map it back (-1 for invalid indexes/separators).
+`setItems()` resets selection. `setData(index, value, role)` uses a display index and updates
+data without resetting selection.
+
+## Groups
+
+`setGroups()` installs the separate `GroupedPopupMenuModel`, accessible through `groupedModel()`.
+Each `PopupMenuGroup` contains a title, an item list, `multiSelection`, and a role-to-QVariant `values` map.
+There is no global selection mode on this model: each group controls its own selection rule.
+Single-selection groups keep at most one selected item; multi-selection groups toggle items
+independently. Selections from different groups are retained.
+
+```cpp
+PopupMenuGroup filters;
+filters.title = QStringLiteral("Filters");
+filters.multiSelection = true;
+filters.items = {option, separator, second};
+
+PopupMenuGroup order;
+order.title = QStringLiteral("Sort by");
+order.items = {PopupMenuItem{QStringLiteral("Newest")},
+               PopupMenuItem{QStringLiteral("Oldest")}};
+
+popup->setGroups({filters, order});
+popup->setAutoClose(false);
+popup->groupedModel()->setSelectedIndexes({{0, 0}, {0, 1}, {1, 0}});
+```
+
+An empty title hides the heading without changing group membership or selection behavior.
+Empty groups still occupy their original group index. Separators do not occupy item indexes.
+
+Group roles are independent of item roles. Configure `PopupMenuGroup::values` before `setGroups()`,
+then use `groupData(groupIndex, role)` and `setGroupData(groupIndex, value, role)` to read or update them,
+including on untitled or empty groups. An invalid QVariant removes a stored role.
+
+```cpp
+filters.values.insert(Qt::UserRole + 100, QStringLiteral("asset-filter"));
+popup->setGroups({filters, order});
+auto* model = popup->groupedModel();
+const QVariant groupId = model->groupData(0, Qt::UserRole + 100);
+model->setGroupData(0, QStringLiteral("updated-filter"), Qt::UserRole + 100);
+```
+
+A heading row exposes the same roles through `data()` for custom delegates; its `setData()`
+forwards writable roles to `setGroupData()`. `groupDataChanged(groupIndex, role)` reports changes
+even without a visible heading, and visible headings emit `dataChanged` to update rendering.
+These updates preserve selection. Display/EditRole come from `title`; change the title using
+`setGroups()`. Display/EditRole, TypeRole, SeparatorRole, GroupIndexRole and CheckStateRole are
+read-only in `setGroupData()`, and values stored under them cannot override model structure.
+
+`selectedIndexesChanged(const QList<QPair<int, int>>&)` reports all selected
+`(groupIndex, itemIndex)` coordinates. `currentIndexChanged(groupIndex, itemIndex)` reports
+changes to each single-selection group, including itemIndex -1 when the group is cleared.
+`setCurrentIndex(groupIndex, itemIndex)` replaces only that group's selection; -1 clears it.
+`currentIndex(groupIndex)` returns its first selected item, or -1.
+`setItemEnabled(groupIndex, itemIndex, enabled)` also uses logical coordinates.
+`indexForItem(groupIndex, itemIndex)` maps coordinates to display rows;
+`logicalIndex(index)` returns (-1, -1) for headings, separators and invalid indexes.
+
+Model selection signals use these logical coordinates. The low-level view signals
+`PopupMenu::itemTriggered` and `SearchPopupMenu::sourceItemTriggered` continue to carry
+display/source `QModelIndex` objects for delegates and custom models.
+
+## Item drawing and roles
+
+The library reserves `Qt::UserRole + 1` (separator), `+2` (shortcut), `+3` (display row kind),
+`+4` (highlight HTML), and `+5` (numeric group index generated by the grouped model).
+`PopupMenuRowType` in `popupmenurowtype.h` defines Option, GroupTitle and Separator display rows.
+It is independent of `PopupMenuItem` and is used through `PopupMenuItem::TypeRole` by models and delegates.
+Standard display, decoration and check-state roles are supplied by both built-in models.
 Use other roles, such as `Qt::UserRole + 100`, for application data or custom delegates.
 Custom models may supply these roles to use the default delegate, or provide their own delegate.
 
 `DefaultPopupMenuListStyle::groupTitleText` and `groupTitleHeight` control headings.
+`itemFont` controls option text, shortcuts and highlighted text; `groupTitleFont`
+controls group headings. Both are `QFont` values. Unset font attributes inherit the
+view/model font, preserving the default appearance. Font metrics are used for row
+size hints and text elision; `itemHeight` and `groupTitleHeight` remain minimum heights.
 The default delegate draws each option's `PopupMenuItem::icon` (or `Qt::DecorationRole`)
 when it is set. Configure `DefaultPopupMenuListStyle::itemIconSize` and
 `itemIconSpacing` for ordinary item icons; `iconSpacing` remains the gap after checked
@@ -49,6 +127,9 @@ popup->setItems({item});
 auto* style = new DefaultPopupMenuListStyle;
 style->itemIconSize = QSize(18, 18);
 style->itemIconSpacing = 8;
+style->itemFont.setPointSize(11);
+style->groupTitleFont.setPointSize(10);
+style->groupTitleFont.setBold(true);
 popup->setListStyle(style);
 ```
 
@@ -79,7 +160,7 @@ Indexes and `count()` include heading and separator rows; `currentData()` can id
 
 For a custom model, return `"groupTitle"` in `Qt::AccessibleDescriptionRole` for heading rows
 and `Qt::NoItemFlags` from `flags()` for those rows. The popup translates that marker to
-`PopupMenuItem::GroupTitle`. Native `"separator"` markers also remain supported.
+`PopupMenuRowType::GroupTitle`. Native `"separator"` markers also remain supported.
 Source `Qt::UserRole` values, including the popup's reserved roles, are not used to identify
 ComboBox headings, preserving existing application data.
 
@@ -161,7 +242,8 @@ Changing the spacing also recalculates height when adaptive height is enabled.
 
 `setModel()` supplies the source model. `sourceModel()` returns it, while `model()`
 returns the filtering proxy used by the list and delegate. `setItems()`/`setStrings()`
-use the default source model and preserve its selection behavior.
+use the ordinary source model; `setGroups()` uses the grouped source model. Both preserve
+selection while filtering, and their selection signals report original logical indexes.
 
 Filtering performs a case-insensitive ordered-character match on display text by default,
 using `TextSearchUtils` (for example, `hr` matches `Harbor`).

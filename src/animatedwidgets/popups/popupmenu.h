@@ -2,6 +2,7 @@
 
 #include "animatedwidgets/popups/basepopupdlg.h"
 #include "animatedwidgets/popups/popupmenuitem.h"
+#include "animatedwidgets/popups/popupmenugroup.h"
 
 #include <QPointer>
 #include <QStringList>
@@ -16,6 +17,7 @@ namespace animatedwidgets {
 
 class DefaultPopupMenuStyle;
 class DefaultPopupMenuModel;
+class GroupedPopupMenuModel;
 class PopupMenuItemDelegate;
 class PopupMenuStyle;
 class PopupMenuListStyle;
@@ -56,8 +58,10 @@ public:
     QAbstractItemModel* model() const;
     virtual void setModel(QAbstractItemModel* model);
     DefaultPopupMenuModel* defaultModel() const;
+    GroupedPopupMenuModel* groupedModel() const;
     void setStrings(const QStringList& strings);
     void setItems(const QList<PopupMenuItem>& items);
+    void setGroups(const QList<PopupMenuGroup>& groups);
 
     bool autoClose() const;
     void setAutoClose(bool enabled);
@@ -83,6 +87,7 @@ private:
     QPointer<QWidget> m_topWidget;
     QPointer<QWidget> m_bottomWidget;
     DefaultPopupMenuModel* m_defaultModel = nullptr;
+    GroupedPopupMenuModel* m_groupedModel = nullptr;
     QMetaObject::Connection m_modelTriggerConnection;
     QPointer<QAbstractItemDelegate> m_delegate;
     PopupMenuStyle* m_style = nullptr;

@@ -1,4 +1,5 @@
 #include "animatedwidgets/comboboxes/combopopupmodel.h"
+#include "animatedwidgets/popups/popupmenurowtype.h"
 
 #include "animatedwidgets/popups/popupmenuitemdelegate.h"
 
@@ -20,11 +21,11 @@ QVariant ComboPopupModel::data(const QModelIndex& index, int role) const {
     if (role == PopupMenuItemDelegate::TypeRole) {
         const QString description = QIdentityProxyModel::data(index, Qt::AccessibleDescriptionRole).toString();
         if (description == QStringLiteral("groupTitle"))
-            return PopupMenuItem::GroupTitle;
-        return description == QStringLiteral("separator") ? PopupMenuItem::Separator : PopupMenuItem::Option;
+            return static_cast<int>(PopupMenuRowType::GroupTitle);
+        return description == QStringLiteral("separator") ? static_cast<int>(PopupMenuRowType::Separator) : static_cast<int>(PopupMenuRowType::Option);
     }
     if (role == Qt::CheckStateRole) {
-        if (data(index, PopupMenuItem::TypeRole).toInt() != PopupMenuItem::Option)
+        if (data(index, PopupMenuItem::TypeRole).toInt() != static_cast<int>(PopupMenuRowType::Option))
             return QVariant();
         return mapToSource(index) == m_currentIndex ? Qt::Checked : Qt::Unchecked;
     }
@@ -33,7 +34,7 @@ QVariant ComboPopupModel::data(const QModelIndex& index, int role) const {
 
 Qt::ItemFlags ComboPopupModel::flags(const QModelIndex& index) const {
     if (!index.isValid() || index.model() != this
-        || data(index, PopupMenuItem::TypeRole).toInt() != PopupMenuItem::Option)
+        || data(index, PopupMenuItem::TypeRole).toInt() != static_cast<int>(PopupMenuRowType::Option))
         return Qt::NoItemFlags;
     Qt::ItemFlags itemFlags = QIdentityProxyModel::flags(index);
     itemFlags.setFlag(Qt::ItemIsUserCheckable, false);

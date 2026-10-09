@@ -1,4 +1,5 @@
 #include "animatedwidgets/popups/defaultpopupmenumodel.h"
+#include "animatedwidgets/utils/popupmenuitemdata.h"
 
 #include <algorithm>
 
@@ -17,79 +18,54 @@ QVariant DefaultPopupMenuModel::data(const QModelIndex& index, int role) const {
     if (!ownsIndex(index))
         return QVariant();
 
-    const auto& item = m_items.at(index.row());
-    if (role == Qt::DisplayRole || role == Qt::EditRole)
-        return item.text;
-    if (role == Qt::DecorationRole)
-        return item.icon;
-    if (role == PopupMenuItem::TypeRole)
-        return item.type;
-    if (role == PopupMenuItem::SeparatorRole)
-        return item.type == PopupMenuItem::Separator;
-    if (role == PopupMenuItem::ShortcutRole)
-        return item.shortcut;
-    if (role == Qt::CheckStateRole && item.type == PopupMenuItem::Option)
-        return m_selectedIndexes.contains(index.row()) ? Qt::Checked : Qt::Unchecked;
-    return role == Qt::CheckStateRole ? QVariant() : item.values.value(role);
+    if (role == Qt::CheckStateRole) {
+        const int itemIndex = logicalIndex(index);
+        return itemIndex < 0 ? QVariant()
+            : QVariant(m_selectedIndexes.contains(itemIndex) ? Qt::Checked : Qt::Unchecked);
+    }
+    return PopupMenuItemData::data(m_items.at(index.row()), role);
 }
 
 Qt::ItemFlags DefaultPopupMenuModel::flags(const QModelIndex& index) const {
-    if (!ownsIndex(index))
+    if (!ownsIndex(index) || m_items.at(index.row()).separator)
         return Qt::NoItemFlags;
-
-    if (m_items.at(index.row()).type != PopupMenuItem::Option)
-        return Qt::NoItemFlags;
-    if (!m_items.at(index.row()).enabled)
-        return Qt::ItemIsSelectable;
-    return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+    return m_items.at(index.row()).enabled ? Qt::ItemIsEnabled | Qt::ItemIsSelectable : Qt::ItemIsSelectable;
 }
 
 bool DefaultPopupMenuModel::setData(const QModelIndex& index, const QVariant& value, int role) {
     if (!ownsIndex(index))
         return false;
 
-    auto& item = m_items[index.row()];
     if (role != Qt::CheckStateRole) {
-        if (role == PopupMenuItem::TypeRole || role == PopupMenuItem::SeparatorRole)
+        if (!PopupMenuItemData::setData(m_items[index.row()], value, role))
             return false;
-        if (role == Qt::DisplayRole || role == Qt::EditRole)
-            item.text = value.toString();
-        else if (role == Qt::DecorationRole)
-            item.icon = qvariant_cast<QIcon>(value);
-        else if (role == PopupMenuItem::ShortcutRole)
-            item.shortcut = value.toString();
-        else if (value.isValid())
-            item.values.insert(role, value);
-        else
-            item.values.remove(role);
         const QVector<int> roles = role == Qt::DisplayRole || role == Qt::EditRole
             ? QVector<int>{Qt::DisplayRole, Qt::EditRole} : QVector<int>{role};
         emit dataChanged(index, index, roles);
         return true;
     }
-    if (item.type != PopupMenuItem::Option)
-        return false;
 
+    const int itemIndex = logicalIndex(index);
     bool valid = false;
     const int state = value.toInt(&valid);
-    if (!valid || (state != Qt::Checked && state != Qt::Unchecked))
+    if (itemIndex < 0 || !valid || (state != Qt::Checked && state != Qt::Unchecked))
         return false;
 
-    QList<int> rows = m_selectedIndexes;
+    QList<int> selected = m_selectedIndexes;
     if (state == Qt::Unchecked)
-        rows.removeAll(index.row());
+        selected.removeAll(itemIndex);
     else if (m_selectionMode == SingleSelection)
-        rows = {index.row()};
-    else if (!rows.contains(index.row()))
-        rows.append(index.row());
-    applySelection(rows);
+        selected = {itemIndex};
+    else if (!selected.contains(itemIndex))
+        selected.append(itemIndex);
+    applySelection(selected);
     return true;
 }
 
 QStringList DefaultPopupMenuModel::strings() const {
     QStringList result;
-    for (const auto& item : m_items)
-        result.append(item.text);
+    for (int row : m_itemRows)
+        result.append(m_items.at(row).text);
     return result;
 }
 
@@ -98,7 +74,7 @@ void DefaultPopupMenuModel::setStrings(const QStringList& strings) {
     if (unchanged) {
         for (int row = 0; row < rowCount(); ++row) {
             const auto& item = m_items.at(row);
-            if (item.type != PopupMenuItem::Option || !item.icon.isNull() || !item.shortcut.isEmpty()
+            if (item.separator || !item.icon.isNull() || !item.shortcut.isEmpty()
                 || !item.values.isEmpty() || item.text != strings.at(row)) {
                 unchanged = false;
                 break;
@@ -125,6 +101,13 @@ void DefaultPopupMenuModel::setItems(const QList<PopupMenuItem>& items) {
     const bool hadSelection = !m_selectedIndexes.isEmpty();
     beginResetModel();
     m_items = items;
+    m_rowItems.clear();
+    m_itemRows.clear();
+    for (int row = 0; row < rowCount(); ++row) {
+        m_rowItems.append(m_items.at(row).separator ? -1 : static_cast<int>(m_itemRows.size()));
+        if (!m_items.at(row).separator)
+            m_itemRows.append(row);
+    }
     m_selectedIndexes.clear();
     endResetModel();
     if (hadSelection)
@@ -150,23 +133,24 @@ int DefaultPopupMenuModel::currentIndex() const {
     return m_selectedIndexes.isEmpty() ? -1 : m_selectedIndexes.first();
 }
 
-void DefaultPopupMenuModel::setCurrentIndex(int row) {
-    if (row == -1)
+void DefaultPopupMenuModel::setCurrentIndex(int itemIndex) {
+    if (itemIndex == -1)
         applySelection({});
-    else if (row >= 0 && row < rowCount())
-        applySelection({row});
+    else if (rowForLogicalIndex(itemIndex) >= 0)
+        applySelection({itemIndex});
 }
 
 QList<int> DefaultPopupMenuModel::selectedIndexes() const {
     return m_selectedIndexes;
 }
 
-void DefaultPopupMenuModel::setSelectedIndexes(const QList<int>& rows) {
-    applySelection(rows);
+void DefaultPopupMenuModel::setSelectedIndexes(const QList<int>& indexes) {
+    applySelection(indexes);
 }
 
-void DefaultPopupMenuModel::setItemEnabled(int row, bool enabled) {
-    if (row < 0 || row >= rowCount() || enabled == m_items.at(row).enabled)
+void DefaultPopupMenuModel::setItemEnabled(int itemIndex, bool enabled) {
+    const int row = rowForLogicalIndex(itemIndex);
+    if (row < 0 || enabled == m_items.at(row).enabled)
         return;
 
     m_items[row].enabled = enabled;
@@ -177,9 +161,26 @@ void DefaultPopupMenuModel::triggerItem(const QModelIndex& index) {
     if (!ownsIndex(index) || !flags(index).testFlag(Qt::ItemIsEnabled))
         return;
 
-    const bool checked = m_selectedIndexes.contains(index.row());
+    const bool checked = m_selectedIndexes.contains(logicalIndex(index));
     setData(index, m_selectionMode == MultiSelection && checked ? Qt::Unchecked : Qt::Checked,
             Qt::CheckStateRole);
+}
+
+int DefaultPopupMenuModel::logicalIndex(const QModelIndex& index) const {
+    return ownsIndex(index) ? logicalIndexForRow(index.row()) : -1;
+}
+
+QModelIndex DefaultPopupMenuModel::indexForItem(int itemIndex) const {
+    const int row = rowForLogicalIndex(itemIndex);
+    return row < 0 ? QModelIndex() : index(row);
+}
+
+int DefaultPopupMenuModel::logicalIndexForRow(int row) const {
+    return row >= 0 && row < m_rowItems.size() ? m_rowItems.at(row) : -1;
+}
+
+int DefaultPopupMenuModel::rowForLogicalIndex(int itemIndex) const {
+    return itemIndex >= 0 && itemIndex < m_itemRows.size() ? m_itemRows.at(itemIndex) : -1;
 }
 
 bool DefaultPopupMenuModel::ownsIndex(const QModelIndex& index) const {
@@ -187,12 +188,11 @@ bool DefaultPopupMenuModel::ownsIndex(const QModelIndex& index) const {
         && !index.parent().isValid() && index.row() >= 0 && index.row() < rowCount();
 }
 
-void DefaultPopupMenuModel::applySelection(const QList<int>& rows) {
+void DefaultPopupMenuModel::applySelection(const QList<int>& indexes) {
     QList<int> selected;
-    for (int row : rows) {
-        if (row >= 0 && row < rowCount() && m_items.at(row).type == PopupMenuItem::Option
-            && !selected.contains(row)) {
-            selected.append(row);
+    for (int itemIndex : indexes) {
+        if (rowForLogicalIndex(itemIndex) >= 0 && !selected.contains(itemIndex)) {
+            selected.append(itemIndex);
             if (m_selectionMode == SingleSelection)
                 break;
         }

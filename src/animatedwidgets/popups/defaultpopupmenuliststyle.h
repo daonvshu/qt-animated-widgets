@@ -3,6 +3,8 @@
 #include "animatedwidgets/popups/popupmenuliststyle.h"
 #include "animatedwidgets/popups/popupmenuitemdelegate.h"
 
+#include <QFont>
+
 namespace animatedwidgets {
 
 class DefaultPopupMenuListStyle : public PopupMenuListStyle {
@@ -19,6 +21,9 @@ public:
     QColor separator = QColor(QStringLiteral("#e5e8ec")); // Separator line color.
     QColor groupTitleText = QColor(QStringLiteral("#9298a2")); // Non-selectable group heading text.
     int groupTitleHeight = 28; // Minimum group heading height in logical pixels.
+
+    QFont itemFont; // Item text and shortcut font; unset attributes inherit the item's font.
+    QFont groupTitleFont; // Group heading font; unset attributes inherit the heading's font.
 
     QIcon checkedIcon; // Icon drawn for Qt::Checked items.
     QIcon uncheckedIcon; // Optional icon drawn for Qt::Unchecked items.

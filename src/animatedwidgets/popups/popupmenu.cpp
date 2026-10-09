@@ -4,6 +4,7 @@
 #include "animatedwidgets/popups/defaultpopupmenuliststyle.h"
 #include "animatedwidgets/popups/popupmenuitemdelegate.h"
 #include "animatedwidgets/popups/defaultpopupmenumodel.h"
+#include "animatedwidgets/popups/groupedpopupmenumodel.h"
 
 #include <QAbstractItemDelegate>
 #include <QAbstractItemModel>
@@ -40,6 +41,7 @@ PopupMenu::PopupMenu(QWidget* parent)
     m_listStyle = new DefaultPopupMenuListStyle;
     createDefaultView();
     m_defaultModel = new DefaultPopupMenuModel(this);
+    m_groupedModel = new GroupedPopupMenuModel(this);
     PopupMenu::setModel(m_defaultModel);
 }
 
@@ -200,10 +202,17 @@ void PopupMenu::setModel(QAbstractItemModel* model) {
     if (auto* menuModel = qobject_cast<DefaultPopupMenuModel*>(model))
         m_modelTriggerConnection = connect(this, &PopupMenu::itemTriggered,
                                            menuModel, &DefaultPopupMenuModel::triggerItem);
+    else if (auto* groupedModel = qobject_cast<GroupedPopupMenuModel*>(model))
+        m_modelTriggerConnection = connect(this, &PopupMenu::itemTriggered,
+                                           groupedModel, &GroupedPopupMenuModel::triggerItem);
 }
 
 DefaultPopupMenuModel* PopupMenu::defaultModel() const {
     return m_defaultModel;
+}
+
+GroupedPopupMenuModel* PopupMenu::groupedModel() const {
+    return m_groupedModel;
 }
 
 void PopupMenu::setStrings(const QStringList& strings) {
@@ -220,6 +229,12 @@ void PopupMenu::setItems(const QList<PopupMenuItem>& items) {
     m_defaultModel->setItems(items);
     if (model() != m_defaultModel)
         setModel(m_defaultModel);
+}
+
+void PopupMenu::setGroups(const QList<PopupMenuGroup>& groups) {
+    m_groupedModel->setGroups(groups);
+    if (model() != m_groupedModel)
+        setModel(m_groupedModel);
 }
 
 void PopupMenu::setAutoClose(bool enabled) {

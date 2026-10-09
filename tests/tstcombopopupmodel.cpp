@@ -1,4 +1,5 @@
 #include "animatedwidgets/comboboxes/combopopupmodel.h"
+#include "animatedwidgets/popups/popupmenurowtype.h"
 #include "animatedwidgets/popups/popupmenuitemdelegate.h"
 #include "animatedwidgets/popups/popupmenufiltermodel.h"
 
@@ -25,7 +26,7 @@ void ComboPopupModelTest::selectionDoesNotChangeSource() {
     first->setCheckState(Qt::Unchecked);
     first->setData(42, PopupMenuItemDelegate::SeparatorRole);
     first->setData(QStringLiteral("Business data"), PopupMenuItemDelegate::ShortcutRole);
-    first->setData(PopupMenuItem::GroupTitle, PopupMenuItemDelegate::TypeRole);
+    first->setData(static_cast<int>(PopupMenuRowType::GroupTitle), PopupMenuItemDelegate::TypeRole);
     first->setData(QStringLiteral("Business payload"), PopupMenuItem::HighlightRole);
     source.appendRow(first);
     source.appendRow(new QStandardItem(QStringLiteral("Second")));
@@ -42,8 +43,8 @@ void ComboPopupModelTest::selectionDoesNotChangeSource() {
     QVERIFY(!model.data(model.index(0, 0), PopupMenuItemDelegate::ShortcutRole).isValid());
     QVERIFY(!model.data(model.index(0, 0), PopupMenuItem::HighlightRole).isValid());
     QVERIFY(!model.setData(model.index(0, 0), QStringLiteral("html"), PopupMenuItem::HighlightRole));
-    QCOMPARE(model.data(model.index(0, 0), PopupMenuItemDelegate::TypeRole).toInt(), int(PopupMenuItem::Option));
-    QVERIFY(!model.setData(model.index(0, 0), PopupMenuItem::Separator, PopupMenuItemDelegate::TypeRole));
+    QCOMPARE(model.data(model.index(0, 0), PopupMenuItemDelegate::TypeRole).toInt(), static_cast<int>(PopupMenuRowType::Option));
+    QVERIFY(!model.setData(model.index(0, 0), static_cast<int>(PopupMenuRowType::Separator), PopupMenuItemDelegate::TypeRole));
     QVERIFY(!model.setData(model.index(0, 0), Qt::Checked, Qt::CheckStateRole));
     QCOMPARE(first->data(PopupMenuItemDelegate::SeparatorRole).toInt(), 42);
     QCOMPARE(sourceChanges.count(), 0);
@@ -125,19 +126,19 @@ void ComboPopupModelTest::groupTitles() {
     model.setSourceModel(&source);
     const QModelIndex title = model.index(0, 0);
     const QModelIndex option = model.index(1, 0);
-    QCOMPARE(title.data(PopupMenuItem::TypeRole).toInt(), int(PopupMenuItem::GroupTitle));
+    QCOMPARE(title.data(PopupMenuItem::TypeRole).toInt(), static_cast<int>(PopupMenuRowType::GroupTitle));
     QCOMPARE(model.flags(title), Qt::ItemFlags(Qt::NoItemFlags));
     QVERIFY(!title.data(Qt::CheckStateRole).isValid());
     QVERIFY(!title.data(PopupMenuItem::SeparatorRole).toBool());
-    QCOMPARE(option.data(PopupMenuItem::TypeRole).toInt(), int(PopupMenuItem::Option));
+    QCOMPARE(option.data(PopupMenuItem::TypeRole).toInt(), static_cast<int>(PopupMenuRowType::Option));
     QVERIFY(model.flags(option).testFlag(Qt::ItemIsSelectable));
     model.setCurrentIndex(source.index(1, 0));
     QCOMPARE(option.data(Qt::CheckStateRole).toInt(), int(Qt::Checked));
-    QCOMPARE(model.index(2, 0).data(PopupMenuItem::TypeRole).toInt(), int(PopupMenuItem::Separator));
+    QCOMPARE(model.index(2, 0).data(PopupMenuItem::TypeRole).toInt(), static_cast<int>(PopupMenuRowType::Separator));
     QVERIFY(!model.index(2, 0).data(Qt::CheckStateRole).isValid());
 
     heading->setData(QVariant(), Qt::AccessibleDescriptionRole);
-    QCOMPARE(title.data(PopupMenuItem::TypeRole).toInt(), int(PopupMenuItem::Option));
+    QCOMPARE(title.data(PopupMenuItem::TypeRole).toInt(), static_cast<int>(PopupMenuRowType::Option));
     QVERIFY(model.flags(title).testFlag(Qt::ItemIsSelectable));
 }
 
@@ -167,7 +168,7 @@ void ComboPopupModelTest::filteredGroupsAndSelectionMapping() {
     QVERIFY(filteredRoot.isValid());
     QCOMPARE(filter.rowCount(filteredRoot), 2);
     const QModelIndex title = filter.index(0, 1, filteredRoot);
-    QCOMPARE(title.data(PopupMenuItem::TypeRole).toInt(), int(PopupMenuItem::GroupTitle));
+    QCOMPARE(title.data(PopupMenuItem::TypeRole).toInt(), static_cast<int>(PopupMenuRowType::GroupTitle));
     QVERIFY(!title.flags().testFlag(Qt::ItemIsSelectable));
     const QModelIndex result = filter.index(1, 1, filteredRoot);
     QCOMPARE(selection.mapToSource(filter.mapToSource(result)), harbor->index());

@@ -30,11 +30,15 @@ public:
     void setSelectionMode(SelectionMode mode);
 
     int currentIndex() const;
-    void setCurrentIndex(int row);
+    void setCurrentIndex(int itemIndex);
     QList<int> selectedIndexes() const;
-    void setSelectedIndexes(const QList<int>& rows);
+    void setSelectedIndexes(const QList<int>& indexes);
 
-    void setItemEnabled(int row, bool enabled);
+    void setItemEnabled(int itemIndex, bool enabled);
+
+    // Converts between a display row and an item index that excludes separators.
+    int logicalIndex(const QModelIndex& index) const;
+    QModelIndex indexForItem(int itemIndex) const;
 
 public slots:
     void triggerItem(const QModelIndex& index);
@@ -45,10 +49,14 @@ signals:
 
 private:
     bool ownsIndex(const QModelIndex& index) const;
-    void applySelection(const QList<int>& rows);
+    int logicalIndexForRow(int row) const;
+    int rowForLogicalIndex(int logicalIndex) const;
+    void applySelection(const QList<int>& indexes);
     void notifySelection();
 
     QList<PopupMenuItem> m_items;
+    QList<int> m_rowItems;
+    QList<int> m_itemRows;
     QList<int> m_selectedIndexes;
     SelectionMode m_selectionMode = SingleSelection;
 };

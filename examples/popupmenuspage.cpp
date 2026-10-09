@@ -3,8 +3,10 @@
 
 #include "animatedwidgets/popups/defaultpopupmenuliststyle.h"
 #include "animatedwidgets/popups/defaultpopupmenumodel.h"
+#include "animatedwidgets/popups/groupedpopupmenumodel.h"
 #include "animatedwidgets/popups/defaultpopupmenustyle.h"
 #include "animatedwidgets/popups/popupmenu.h"
+#include "animatedwidgets/popups/popupmenugroup.h"
 #include "animatedwidgets/popups/searchpopupmenu.h"
 #include "animatedwidgets/inputs/iconlineedit.h"
 
@@ -35,6 +37,9 @@ PopupMenusPage::PopupMenusPage(QWidget* parent)
     connect(m_ui->modulesButton, &QPushButton::clicked, this, [this] { showModulesMenu(m_ui->modulesButton); });
     connect(m_ui->searchButton, &QPushButton::clicked, this, [this] { showSearchMenu(m_ui->searchButton); });
     connect(m_ui->iconsButton, &QPushButton::clicked, this, [this] { showIconMenu(m_ui->iconsButton); });
+    connect(m_ui->mixedSelectionButton, &QPushButton::clicked, this, [this] {
+        showMixedSelectionMenu(m_ui->mixedSelectionButton);
+    });
 }
 
 PopupMenusPage::~PopupMenusPage() = default;
@@ -203,27 +208,19 @@ void PopupMenusPage::showGroupedMenu(QWidget* anchor) {
     if (m_popup)
         return;
 
-    using animatedwidgets::PopupMenuItem;
     auto* popup = new animatedwidgets::PopupMenu(this);
-    QList<PopupMenuItem> items;
-    for (const auto& group : {tr("Saved views"), tr("Shared views"), tr("Quick views")}) {
-        if (!items.isEmpty()) {
-            PopupMenuItem separator;
-            separator.type = PopupMenuItem::Separator;
-            items.append(separator);
-        }
-        PopupMenuItem title;
-        title.text = group;
-        title.type = PopupMenuItem::GroupTitle;
-        items.append(title);
-
-        PopupMenuItem option;
-        option.text = tr("%1 preset").arg(group);
-        option.values.insert(Qt::UserRole + 100, static_cast<int>(items.size()));
-        items.append(option);
+    QList<animatedwidgets::PopupMenuGroup> groups;
+    for (const auto& name : {tr("Saved views"), tr("Shared views"), tr("Quick views")}) {
+        animatedwidgets::PopupMenuGroup group;
+        group.title = name;
+        animatedwidgets::PopupMenuItem option;
+        option.text = tr("%1 preset").arg(name);
+        option.values.insert(Qt::UserRole + 100, static_cast<int>(groups.size()));
+        group.items.append(option);
+        groups.append(group);
     }
-    popup->setItems(items);
-    popup->defaultModel()->setCurrentIndex(4);
+    popup->setGroups(groups);
+    popup->groupedModel()->setCurrentIndex(1, 0);
     auto* style = new animatedwidgets::DefaultPopupMenuListStyle;
     style->checkedIcon = QIcon(QStringLiteral(":/animatedwidgets/gallery/buttoncheck.svg"));
     style->checkedIconAlignment = Qt::AlignRight;
@@ -245,18 +242,15 @@ void PopupMenusPage::showModulesMenu(QWidget* anchor) {
         popup->close();
     });
 
-    QList<PopupMenuItem> items;
-    PopupMenuItem title;
-    title.text = tr("Available operations");
-    title.type = PopupMenuItem::GroupTitle;
-    items.append(title);
+    animatedwidgets::PopupMenuGroup group;
+    group.title = tr("Available operations");
     for (const auto& text : {tr("Inspect records"), tr("Refresh cache"), tr("Export report"),
                              tr("Validate entries"), tr("Sync changes"), tr("Archive results"), tr("Schedule backup")}) {
         PopupMenuItem item;
         item.text = text;
-        items.append(item);
+        group.items.append(item);
     }
-    popup->setItems(items);
+    popup->setGroups({group});
     popup->setBottomWidget(new QLabel(tr("Choose an operation to continue"), popup));
     showVariant(popup, anchor);
 }
@@ -283,20 +277,20 @@ void PopupMenusPage::showSearchMenu(QWidget* anchor) {
     emptyLabel->setAlignment(Qt::AlignCenter);
     emptyLabel->setMinimumHeight(80);
     popup->setEmptyWidget(emptyLabel);
-    QList<PopupMenuItem> items;
-    for (const auto& group : {tr("Images"), tr("Documents")}) {
-        PopupMenuItem title;
-        title.text = group;
-        title.type = PopupMenuItem::GroupTitle;
-        items.append(title);
-        for (const auto& name : {tr("Orchard"), tr("Harbor"), tr("Summit")}) {
+    QList<animatedwidgets::PopupMenuGroup> groups;
+    int assetId = 0;
+    for (const auto& name : {tr("Images"), tr("Documents")}) {
+        animatedwidgets::PopupMenuGroup group;
+        group.title = name;
+        for (const auto& assetName : {tr("Orchard"), tr("Harbor"), tr("Summit")}) {
             PopupMenuItem item;
-            item.text = tr("%1 - %2").arg(name, group);
-            item.values.insert(Qt::UserRole + 100, static_cast<int>(items.size()));
-            items.append(item);
+            item.text = tr("%1 - %2").arg(assetName, group.title);
+            item.values.insert(Qt::UserRole + 100, assetId++);
+            group.items.append(item);
         }
+        groups.append(group);
     }
-    popup->setItems(items);
+    popup->setGroups(groups);
     popup->setBottomWidget(new QLabel(tr("Type to filter; Down to select"), popup));
     connect(popup, &animatedwidgets::SearchPopupMenu::sourceItemTriggered, this, [this](const QModelIndex& index) {
         m_ui->resultLabel->setText(tr("Asset ID %1: %2").arg(index.data(Qt::UserRole + 100).toInt())
@@ -336,6 +330,52 @@ void PopupMenusPage::showIconMenu(QWidget* anchor) {
     popup->setListStyle(style);
     popup->setBottomWidget(new QLabel(tr("Item icons: 20 px; text gap: 8 px"), popup));
     showVariant(popup, anchor);
+}
+
+void PopupMenusPage::showMixedSelectionMenu(QWidget* anchor) {
+    if (m_popup)
+        return;
+
+    animatedwidgets::PopupMenuGroup filters;
+    filters.title = tr("Filters (multiple)");
+    filters.multiSelection = true;
+    animatedwidgets::PopupMenuItem separator;
+    separator.separator = true;
+    filters.items = {animatedwidgets::PopupMenuItem{tr("Images")}, separator,
+                     animatedwidgets::PopupMenuItem{tr("Documents")},
+                     animatedwidgets::PopupMenuItem{tr("Archived")}};
+
+    animatedwidgets::PopupMenuGroup sort;
+    sort.title = tr("Sort order (single)");
+    sort.items = {animatedwidgets::PopupMenuItem{tr("Newest first")}, separator,
+                  animatedwidgets::PopupMenuItem{tr("Oldest first")},
+                  animatedwidgets::PopupMenuItem{tr("Name")}};
+
+    auto* popup = new animatedwidgets::PopupMenu(this);
+    popup->setAutoClose(false);
+    popup->setGroups({filters, sort});
+
+    auto* style = new animatedwidgets::DefaultPopupMenuListStyle;
+    style->checkedIcon = QIcon(QStringLiteral(":/animatedwidgets/gallery/buttoncheck.svg"));
+    style->checkedIconAlignment = Qt::AlignRight;
+    popup->setListStyle(style);
+
+    auto* model = popup->groupedModel();
+    connect(model, &animatedwidgets::GroupedPopupMenuModel::selectedIndexesChanged,
+            this, [this, model](const QList<QPair<int, int>>& indexes) {
+                QStringList selected;
+                for (const auto& itemIndex : indexes)
+                    selected.append(QStringLiteral("%1/%2: %3").arg(itemIndex.first).arg(itemIndex.second)
+                                        .arg(model->indexForItem(itemIndex.first, itemIndex.second).data().toString()));
+                m_ui->resultLabel->setText(tr("Mixed selection (group/item): %1")
+                                               .arg(selected.isEmpty() ? tr("none") : selected.join(QStringLiteral(", "))));
+            });
+    model->setSelectedIndexes({{0, 1}, {1, 2}});
+
+    m_popup = popup;
+    popup->setAdaptiveHeight(300, 8);
+    popup->moveToTargetBottom(anchor, Qt::AlignLeft);
+    popup->show();
 }
 
 void PopupMenusPage::showVariant(animatedwidgets::PopupMenu* popup, QWidget* anchor) {

@@ -28,6 +28,7 @@ private:
     void showModulesMenu(QWidget* anchor);
     void showSearchMenu(QWidget* anchor);
     void showIconMenu(QWidget* anchor);
+    void showMixedSelectionMenu(QWidget* anchor);
     void showVariant(animatedwidgets::PopupMenu* popup, QWidget* anchor);
 
     std::unique_ptr<Ui::PopupMenusPage> m_ui;
