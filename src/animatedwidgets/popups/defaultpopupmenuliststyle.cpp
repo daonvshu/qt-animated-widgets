@@ -35,6 +35,8 @@ void DefaultPopupMenuListStyle::apply(QAbstractItemView* view) const {
         delegate->itemSpacing = qMax(0, itemSpacing);
         delegate->itemCornerRadius = qMax(0, itemCornerRadius);
         delegate->contentPadding = qMax(0, contentPadding);
+        delegate->itemIconSize = itemIconSize.expandedTo(QSize(1, 1));
+        delegate->itemIconSpacing = qMax(0, itemIconSpacing);
         delegate->checkedIconSpacing = iconSpacing;
         delegate->drawCheckedIcon = checkedIconVisible;
         delegate->drawSeparator = separatorVisible;

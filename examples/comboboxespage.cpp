@@ -44,6 +44,20 @@ ComboBoxesPage::ComboBoxesPage(QWidget* parent)
     emptyLabel->setMinimumHeight(72);
     ui.comboSearch->setEmptyWidget(emptyLabel);
 
+    ui.comboIcons->setIconSize(QSize(20, 20));
+    ui.comboIcons->addItem(QIcon(QStringLiteral(":/animatedwidgets/gallery/folder.svg")), QStringLiteral("Project folder"));
+    ui.comboIcons->addItem(QIcon(QStringLiteral(":/animatedwidgets/gallery/document.svg")), QStringLiteral("Release notes"));
+    ui.comboIcons->addItem(QIcon(QStringLiteral(":/animatedwidgets/gallery/bookmark.svg")), QStringLiteral("Saved view"));
+    ui.comboIcons->addItem(QStringLiteral("No icon"));
+    connect(ui.comboIcons, &ComboBox::popupAboutToShow, this, [](animatedwidgets::PopupMenu* popup) {
+        auto* style = new animatedwidgets::DefaultPopupMenuListStyle;
+        style->itemIconSize = QSize(20, 20);
+        style->itemIconSpacing = 8;
+        style->checkedIcon = QIcon(QStringLiteral(":/animatedwidgets/gallery/buttoncheck.svg"));
+        style->checkedIconAlignment = Qt::AlignRight;
+        popup->setListStyle(style);
+    });
+
     ui.comboComposite->setLeadingWidget(new QLabel(QStringLiteral("Team"), ui.comboComposite));
     ui.comboComposite->setTrailingWidget(new QLabel(QStringLiteral("Role"), ui.comboComposite));
     ui.comboComposite->setTopWidget(new QLabel(QStringLiteral("Assignment"), ui.comboComposite));

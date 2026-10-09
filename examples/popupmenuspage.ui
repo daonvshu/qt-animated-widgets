@@ -78,6 +78,11 @@
        <property name="text"><string>Search assets</string></property>
       </widget>
      </item>
+     <item>
+      <widget class="QPushButton" name="iconsButton">
+       <property name="text"><string>Item icons</string></property>
+      </widget>
+     </item>
     </layout>
    </item>
    <item>

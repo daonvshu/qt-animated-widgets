@@ -83,11 +83,12 @@ void PopupMenuItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem&
     }
 
     const QIcon icon = qvariant_cast<QIcon>(index.data(Qt::DecorationRole));
-    if (!icon.isNull()) {
-        const int iconSize = option.decorationSize.width();
-        const QRect iconRect(contentRect.left(), contentRect.center().y() - iconSize / 2, iconSize, iconSize);
+    if (hasItemIcons(index)) {
+        const QSize iconSize = itemIconSize.expandedTo(QSize(1, 1));
+        const QRect iconRect(contentRect.left(), contentRect.center().y() - iconSize.height() / 2,
+                             iconSize.width(), iconSize.height());
         icon.paint(painter, iconRect, Qt::AlignCenter, enabled ? QIcon::Normal : QIcon::Disabled);
-        contentRect.setLeft(iconRect.right() + 1 + checkedIconSpacing);
+        contentRect.setLeft(iconRect.right() + 1 + itemIconSpacing);
     }
 
     const QString shortcut = index.data(ShortcutRole).toString();
@@ -135,11 +136,13 @@ QSize PopupMenuItemDelegate::sizeHint(const QStyleOptionViewItem& option, const 
     if (index.data(SeparatorRole).toBool())
         return QSize(2 * qMax(0, contentPadding) + 1, 8);
 
-    QSize size = QStyledItemDelegate::sizeHint(option, index);
+    QStyleOptionViewItem itemOption(option);
+    initStyleOption(&itemOption, index);
+    const QVariant explicitSize = index.data(Qt::SizeHintRole);
+    QSize size = explicitSize.isValid() ? explicitSize.toSize()
+        : QSize(itemOption.fontMetrics.horizontalAdvance(itemOption.text), itemOption.fontMetrics.height());
     const QString shortcut = index.data(ShortcutRole).toString();
     if (!shortcut.isEmpty()) {
-        QStyleOptionViewItem itemOption(option);
-        initStyleOption(&itemOption, index);
         size.rwidth() += itemOption.fontMetrics.horizontalAdvance(shortcut) + qMax(8, checkedIconSpacing);
     }
     if (drawCheckedIcon && index.data(Qt::CheckStateRole).isValid()
@@ -147,12 +150,69 @@ QSize PopupMenuItemDelegate::sizeHint(const QStyleOptionViewItem& option, const 
         size.rwidth() += checkedIconSize.width() + checkedIconSpacing;
         size.setHeight(qMax(size.height(), checkedIconSize.height()));
     }
+    if (index.data(TypeRole).toInt() == PopupMenuItem::Option && hasItemIcons(index)) {
+        const QSize iconSize = itemIconSize.expandedTo(QSize(1, 1));
+        size.rwidth() += iconSize.width() + itemIconSpacing;
+        size.setHeight(qMax(size.height(), iconSize.height()));
+    }
     size.rwidth() += 2 * qMax(0, contentPadding);
     size.setHeight(qMax(index.data(TypeRole).toInt() == PopupMenuItem::GroupTitle ? groupTitleHeight : itemHeight,
                         size.height()));
     if (index.row() < index.model()->rowCount(index.parent()) - 1)
         size.rheight() += qMax(0, itemSpacing);
     return size;
+}
+
+bool PopupMenuItemDelegate::hasItemIcons(const QModelIndex& index) const {
+    if (!index.isValid())
+        return false;
+
+    if (m_iconModel != index.model()) {
+        for (const auto& connection : m_iconConnections)
+            disconnect(connection);
+        m_iconConnections.clear();
+        m_iconModel = index.model();
+        m_iconCacheValid = false;
+
+        auto* self = const_cast<PopupMenuItemDelegate*>(this);
+        const auto invalidate = [self] {
+            self->m_iconCacheValid = false;
+            if (self->m_iconModel && self->m_iconModel->rowCount(self->m_iconRoot) > 0)
+                emit self->sizeHintChanged(self->m_iconModel->index(0, self->m_iconColumn, self->m_iconRoot));
+        };
+        m_iconConnections.append(connect(m_iconModel.data(), &QAbstractItemModel::dataChanged, self,
+            [invalidate](const QModelIndex&, const QModelIndex&, const QVector<int>& roles) {
+                if (roles.isEmpty() || roles.contains(Qt::DecorationRole) || roles.contains(PopupMenuItem::TypeRole)
+                    || roles.contains(PopupMenuItem::SeparatorRole) || roles.contains(Qt::AccessibleDescriptionRole))
+                    invalidate();
+            }));
+        m_iconConnections.append(connect(m_iconModel.data(), &QAbstractItemModel::rowsInserted, self, invalidate));
+        m_iconConnections.append(connect(m_iconModel.data(), &QAbstractItemModel::rowsRemoved, self, invalidate));
+        m_iconConnections.append(connect(m_iconModel.data(), &QAbstractItemModel::rowsMoved, self, invalidate));
+        m_iconConnections.append(connect(m_iconModel.data(), &QAbstractItemModel::columnsInserted, self, invalidate));
+        m_iconConnections.append(connect(m_iconModel.data(), &QAbstractItemModel::columnsRemoved, self, invalidate));
+        m_iconConnections.append(connect(m_iconModel.data(), &QAbstractItemModel::columnsMoved, self, invalidate));
+        m_iconConnections.append(connect(m_iconModel.data(), &QAbstractItemModel::modelReset, self, invalidate));
+        m_iconConnections.append(connect(m_iconModel.data(), &QAbstractItemModel::layoutChanged, self, invalidate));
+    }
+
+    if (m_iconCacheValid && m_iconRoot == index.parent() && m_iconColumn == index.column())
+        return m_hasItemIcons;
+
+    // Cache per sibling list/column so painting each row does not rescan the whole model.
+    m_iconRoot = index.parent();
+    m_iconColumn = index.column();
+    m_hasItemIcons = false;
+    for (int row = 0; row < index.model()->rowCount(m_iconRoot); ++row) {
+        const QModelIndex sibling = index.model()->index(row, m_iconColumn, m_iconRoot);
+        if (sibling.data(TypeRole).toInt() == PopupMenuItem::Option && !sibling.data(SeparatorRole).toBool()
+            && !qvariant_cast<QIcon>(sibling.data(Qt::DecorationRole)).isNull()) {
+            m_hasItemIcons = true;
+            break;
+        }
+    }
+    m_iconCacheValid = true;
+    return m_hasItemIcons;
 }
 
 } // namespace animatedwidgets

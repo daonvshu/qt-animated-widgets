@@ -4,6 +4,8 @@
 #include <QColor>
 #include <QIcon>
 #include <QSize>
+#include <QPointer>
+#include <QPersistentModelIndex>
 #include "animatedwidgets/popups/popupmenuitem.h"
 
 namespace animatedwidgets {
@@ -36,10 +38,22 @@ public:
     int itemSpacing = 0;
     int itemCornerRadius = 4;
     int contentPadding = 8;
+    QSize itemIconSize = QSize(16, 16);
+    int itemIconSpacing = 4;
     int checkedIconSpacing = 4;
     bool drawCheckedIcon = true;
     bool drawSeparator = false;
     QColor separatorColor = QColor(QStringLiteral("#e5e8ec"));
+
+private:
+    bool hasItemIcons(const QModelIndex& index) const;
+
+    mutable QPointer<const QAbstractItemModel> m_iconModel;
+    mutable QList<QMetaObject::Connection> m_iconConnections;
+    mutable QPersistentModelIndex m_iconRoot;
+    mutable int m_iconColumn = 0;
+    mutable bool m_iconCacheValid = false;
+    mutable bool m_hasItemIcons = false;
 };
 
 } // namespace animatedwidgets

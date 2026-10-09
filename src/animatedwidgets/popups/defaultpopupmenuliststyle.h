@@ -31,7 +31,9 @@ public:
     int itemCornerRadius = 4; // Background corner radius for normal, hovered and selected items.
     int cornerRadius = 4; // List background and viewport clipping radius.
     int contentPadding = 8; // Left and right inset of item text and icons.
-    int iconSpacing = 4; // Gap after checked and decoration icons.
+    QSize itemIconSize = QSize(16, 16); // Size of each item's DecorationRole icon.
+    int itemIconSpacing = 4; // Gap between a DecorationRole icon and item content.
+    int iconSpacing = 4; // Gap after checked icons.
 
     bool checkedIconVisible = true; // Draw the configured checked icon.
     bool separatorVisible = false; // Draw a line below each item except the last.

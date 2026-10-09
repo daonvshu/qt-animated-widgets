@@ -34,6 +34,7 @@ PopupMenusPage::PopupMenusPage(QWidget* parent)
     connect(m_ui->groupedButton, &QPushButton::clicked, this, [this] { showGroupedMenu(m_ui->groupedButton); });
     connect(m_ui->modulesButton, &QPushButton::clicked, this, [this] { showModulesMenu(m_ui->modulesButton); });
     connect(m_ui->searchButton, &QPushButton::clicked, this, [this] { showSearchMenu(m_ui->searchButton); });
+    connect(m_ui->iconsButton, &QPushButton::clicked, this, [this] { showIconMenu(m_ui->iconsButton); });
 }
 
 PopupMenusPage::~PopupMenusPage() = default;
@@ -301,6 +302,39 @@ void PopupMenusPage::showSearchMenu(QWidget* anchor) {
         m_ui->resultLabel->setText(tr("Asset ID %1: %2").arg(index.data(Qt::UserRole + 100).toInt())
                                      .arg(index.data().toString()));
     });
+    showVariant(popup, anchor);
+}
+
+void PopupMenusPage::showIconMenu(QWidget* anchor) {
+    if (m_popup)
+        return;
+
+    using animatedwidgets::PopupMenuItem;
+    auto* popup = new animatedwidgets::PopupMenu(this);
+    PopupMenuItem folder;
+    folder.text = tr("Project folder");
+    folder.icon = QIcon(QStringLiteral(":/animatedwidgets/gallery/folder.svg"));
+    PopupMenuItem document;
+    document.text = tr("Release notes");
+    document.icon = QIcon(QStringLiteral(":/animatedwidgets/gallery/document.svg"));
+    PopupMenuItem bookmark;
+    bookmark.text = tr("Saved view");
+    bookmark.icon = QIcon(QStringLiteral(":/animatedwidgets/gallery/bookmark.svg"));
+    PopupMenuItem plain;
+    plain.text = tr("No icon");
+    PopupMenuItem disabled = document;
+    disabled.text = tr("Unavailable document");
+    disabled.enabled = false;
+    popup->setItems({folder, document, bookmark, plain, disabled});
+    popup->defaultModel()->setCurrentIndex(2);
+
+    auto* style = new animatedwidgets::DefaultPopupMenuListStyle;
+    style->itemIconSize = QSize(20, 20);
+    style->itemIconSpacing = 8;
+    style->checkedIcon = QIcon(QStringLiteral(":/animatedwidgets/gallery/buttoncheck.svg"));
+    style->checkedIconAlignment = Qt::AlignRight;
+    popup->setListStyle(style);
+    popup->setBottomWidget(new QLabel(tr("Item icons: 20 px; text gap: 8 px"), popup));
     showVariant(popup, anchor);
 }
 

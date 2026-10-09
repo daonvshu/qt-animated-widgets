@@ -32,6 +32,25 @@ Use other roles, such as `Qt::UserRole + 100`, for application data or custom de
 Custom models may supply these roles to use the default delegate, or provide their own delegate.
 
 `DefaultPopupMenuListStyle::groupTitleText` and `groupTitleHeight` control headings.
+The default delegate draws each option's `PopupMenuItem::icon` (or `Qt::DecorationRole`)
+when it is set. Configure `DefaultPopupMenuListStyle::itemIconSize` and
+`itemIconSpacing` for ordinary item icons; `iconSpacing` remains the gap after checked
+and unchecked state icons. These settings also apply to ComboBox and SearchComboBox popups.
+If any option in the displayed model's sibling list has an icon, all option rows reserve
+the same icon width and spacing so their text aligns. Lists without icons reserve no icon column.
+Group titles and separators keep their own layout. Icon changes and filtering recalculate the column.
+
+```cpp
+PopupMenuItem item;
+item.text = QStringLiteral("Harbor");
+item.icon = QIcon(QStringLiteral(":/icons/harbor.svg"));
+popup->setItems({item});
+
+auto* style = new DefaultPopupMenuListStyle;
+style->itemIconSize = QSize(18, 18);
+style->itemIconSpacing = 8;
+popup->setListStyle(style);
+```
 
 ## ComboBox groups
 

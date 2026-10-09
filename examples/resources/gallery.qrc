@@ -7,5 +7,8 @@
         <file>radiochecked.svg</file>
         <file>radiounchecked.svg</file>
         <file>switchhandle.svg</file>
+        <file>folder.svg</file>
+        <file>document.svg</file>
+        <file>bookmark.svg</file>
     </qresource>
 </RCC>
