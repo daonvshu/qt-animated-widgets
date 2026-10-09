@@ -250,7 +250,8 @@ void GroupedPopupMenuModel::applySelection(const QList<QPair<int, int>>& indexes
             selected.append(itemIndex);
     }
     std::sort(selected.begin(), selected.end());
-    if (selected == m_selectedIndexes)
+    if (selected.size() == m_selectedIndexes.size()
+        && std::equal(selected.cbegin(), selected.cend(), m_selectedIndexes.cbegin()))
         return;
 
     const QList<QPair<int, int>> previous = m_selectedIndexes;
