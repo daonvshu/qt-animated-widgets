@@ -94,6 +94,7 @@ add_library(AnimatedWidgetsWidgets
     src/animatedwidgets/utils/textsearchutils.cpp
     src/animatedwidgets/utils/popupmenuitemdata.h
     src/animatedwidgets/utils/popupmenuresources.h
+    src/animatedwidgets/utils/widgetresources.h
     src/animatedwidgets/utils/popupmenuitemdata.cpp
     src/animatedwidgets/utils/buttonpainter.h
     src/animatedwidgets/utils/buttonpainter.cpp
@@ -156,6 +157,11 @@ add_library(AnimatedWidgetsWidgets
     src/animatedwidgets/comboboxes/combobox.cpp
     src/animatedwidgets/comboboxes/searchcombobox.h
     src/animatedwidgets/comboboxes/searchcombobox.cpp
+    src/animatedwidgets/comboboxes/multiselectcombobox.h
+    src/animatedwidgets/comboboxes/multiselectcombobox.cpp
+    src/animatedwidgets/tags/tagstyle.h
+    src/animatedwidgets/tags/tagwidget.h
+    src/animatedwidgets/tags/tagwidget.cpp
     src/animatedwidgets/comboboxes/combolistpopup.h
     src/animatedwidgets/comboboxes/combolistpopup.cpp
     src/animatedwidgets/comboboxes/combopopupmodel.h

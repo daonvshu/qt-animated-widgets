@@ -48,7 +48,7 @@ public:
     int submenuIconSpacing = 4;
 
     int itemHeight = 32;
-    int itemSpacing = 0;
+    int itemSpacing = 2;
     int itemCornerRadius = 4;
     int contentPadding = 8;
     QSize itemIconSize = QSize(16, 16);

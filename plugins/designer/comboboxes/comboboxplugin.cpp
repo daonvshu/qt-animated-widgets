@@ -37,10 +37,18 @@ QIcon ComboBoxPlugin::icon() const {
         painter.drawEllipse(QPointF(8, 8), 2, 2);
         painter.drawLine(QPointF(9.5, 9.5), QPointF(12, 12));
     }
+    if (m_kind == 3) {
+        painter.setPen(Qt::NoPen);
+        painter.setBrush(QColor(QStringLiteral("#e3f3ff")));
+        painter.drawRoundedRect(QRectF(3, 5, 5, 6), 1, 1);
+        painter.drawRoundedRect(QRectF(9, 5, 5, 6), 1, 1);
+    }
     return QIcon(pixmap);
 }
 
 QString ComboBoxPlugin::domXml() const {
+    if (m_kind == 3)
+        return QStringLiteral("<widget class=\"MultiSelectComboBox\" name=\"multiSelectComboBox\"/>");
     return QStringLiteral("<widget class=\"%1\" name=\"%2\"/>")
             .arg(name(), m_kind == 0 ? QStringLiteral("comboBox")
                 : m_kind == 1 ? QStringLiteral("compositeComboBox") : QStringLiteral("searchComboBox"));
@@ -51,6 +59,8 @@ QString ComboBoxPlugin::group() const {
 }
 
 QString ComboBoxPlugin::includeFile() const {
+    if (m_kind == 3)
+        return QStringLiteral("animatedwidgets/comboboxes/multiselectcombobox.h");
     if (m_kind == 2)
         return QStringLiteral("animatedwidgets/comboboxes/searchcombobox.h");
     return m_kind == 0 ? QStringLiteral("animatedwidgets/comboboxes/combobox.h")
@@ -58,6 +68,8 @@ QString ComboBoxPlugin::includeFile() const {
 }
 
 QString ComboBoxPlugin::name() const {
+    if (m_kind == 3)
+        return QStringLiteral("MultiSelectComboBox");
     if (m_kind == 2)
         return QStringLiteral("SearchComboBox");
     return m_kind == 0 ? QStringLiteral("ComboBox") : QStringLiteral("CompositeComboBox");
@@ -72,6 +84,8 @@ QString ComboBoxPlugin::whatsThis() const {
 }
 
 QWidget* ComboBoxPlugin::createWidget(QWidget* parent) {
+    if (m_kind == 3)
+        return new MultiSelectComboBox(parent);
     if (m_kind == 0)
         return new ComboBox(parent);
     if (m_kind == 2)

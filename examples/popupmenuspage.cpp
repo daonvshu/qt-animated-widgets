@@ -80,7 +80,7 @@ void PopupMenusPage::resetSettings() {
     m_ui->borderWidthSpin->setValue(1);
     m_ui->shadowRadiusSpin->setValue(12);
     m_ui->heightSpin->setValue(32);
-    m_ui->itemSpacingSpin->setValue(0);
+    m_ui->itemSpacingSpin->setValue(2);
     m_ui->itemRadiusSpin->setValue(4);
     m_ui->listRadiusSpin->setValue(4);
     m_ui->paddingSpin->setValue(8);

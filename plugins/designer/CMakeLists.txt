@@ -16,6 +16,8 @@ add_library(animatedwidgetsdesigner MODULE
     inputs/inputplugin.cpp
     comboboxes/comboboxplugin.h
     comboboxes/comboboxplugin.cpp
+    tags/tagplugin.h
+    tags/tagplugin.cpp
 )
 target_compile_definitions(animatedwidgetsdesigner PRIVATE ANIMATEDWIDGETS_DESIGNER_PLUGIN)
 target_link_libraries(animatedwidgetsdesigner PRIVATE

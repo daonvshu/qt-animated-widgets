@@ -556,7 +556,8 @@ void PopupMenu::openSubmenu(const QModelIndex& index, bool keyboard) {
     m_activeSubmenu = submenu;
     m_submenuIndex = index;
     setHoveredIndex(index);
-    m_view->setCurrentIndex(index);
+    if (keyboard)
+        m_view->setCurrentIndex(index);
     submenu->setScrollBarStyleSheet(rootMenu()->scrollBarStyleSheet());
     submenu->applyStyle();
 
@@ -676,8 +677,6 @@ void PopupMenu::updateHoveredItem(const QPoint& globalPos) {
             return;
         }
         setHoveredIndex(index);
-        if (index.flags().testFlag(Qt::ItemIsEnabled) && index.flags().testFlag(Qt::ItemIsSelectable))
-            m_view->setCurrentIndex(index);
         openSubmenu(index);
     } else if (!m_activeSubmenu) {
         setHoveredIndex(QModelIndex());

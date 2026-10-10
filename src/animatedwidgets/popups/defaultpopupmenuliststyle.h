@@ -36,7 +36,7 @@ public:
 
     QMargins viewMargins = QMargins(8, 8, 8, 8); // Spacing between the list and popup body.
     int itemHeight = 32; // Minimum item height in logical pixels.
-    int itemSpacing = 0; // Vertical gap between item backgrounds, added to each row except the last.
+    int itemSpacing = 2; // Vertical gap between item backgrounds, added to each row except the last.
     int itemCornerRadius = 4; // Background corner radius for normal, hovered and selected items.
     int cornerRadius = 4; // List background and viewport clipping radius.
     int contentPadding = 8; // Left and right inset of item text and icons.

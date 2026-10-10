@@ -3,6 +3,7 @@
 
 #include "animatedwidgets/popups/defaultpopupmenuliststyle.h"
 #include "animatedwidgets/popups/defaultpopupmenustyle.h"
+#include "animatedwidgets/popups/defaultpopupmenumodel.h"
 
 #include <QLabel>
 #include <QStringList>
@@ -57,6 +58,46 @@ ComboBoxesPage::ComboBoxesPage(QWidget* parent)
         style->checkedIconAlignment = Qt::AlignRight;
         popup->setListStyle(style);
     });
+
+    ui.comboMulti->setStrings(choices);
+    ui.comboMulti->setSelectedIndexes({0, 1});
+    ui.comboMultiDisabled->setStrings(choices);
+    ui.comboMultiDisabled->setSelectedIndexes({1, 2});
+
+    const int tagColorRole = Qt::UserRole + 100;
+    QList<animatedwidgets::PopupMenuItem> tagItems;
+    const QStringList categories = {QStringLiteral("Ocean"), QStringLiteral("Sunrise"), QStringLiteral("Forest"), QStringLiteral("Lavender"),
+                                    QStringLiteral("Coral"), QStringLiteral("Slate"), QStringLiteral("Cloud"), QStringLiteral("Sand")};
+    const QStringList colors = {QStringLiteral("#1778ff"), QStringLiteral("#c78d0c"), QStringLiteral("#24875e"), QStringLiteral("#8b5cf6"),
+                                QStringLiteral("#d76655"), QStringLiteral("#64748b"), QStringLiteral("#4d8caa"), QStringLiteral("#aa8752")};
+    for (int i = 0; i < categories.size(); ++i) {
+        animatedwidgets::PopupMenuItem item;
+        item.text = categories.at(i);
+        item.values.insert(tagColorRole, QColor(colors.at(i)));
+        tagItems.append(item);
+    }
+    ui.comboMultiSearch->setItems(tagItems);
+    ui.comboMultiSearch->setPlaceholderText(QStringLiteral("Filter categories"));
+    ui.comboMultiSearch->setMaxVisibleItems(5);
+    ui.comboMultiSearch->setTagStyleFactory([tagColorRole](const QModelIndex& index) {
+        animatedwidgets::TagStyle style;
+        style.content = index.data(tagColorRole).value<QColor>();
+        style.background = style.content;
+        style.background.setAlpha(24);
+        return style;
+    });
+    ui.comboMultiSearch->setSelectedIndexes({0, 1});
+    for (auto* combo : {ui.comboMulti, ui.comboMultiSearch}) {
+        connect(combo, &MultiSelectComboBox::selectedIndexesChanged, this, [combo, label = ui.multiResultLabel](const QList<int>& indexes) {
+            QStringList selected;
+            for (int index : indexes)
+                selected.append(combo->model()->indexForItem(index).data().toString());
+            label->setText(QStringLiteral("Selected: %1").arg(selected.isEmpty() ? QStringLiteral("none") : selected.join(QStringLiteral(", "))));
+        });
+        connect(ui.errorCheck, &QCheckBox::toggled, combo, &MultiSelectComboBox::setHasError);
+        connect(ui.arrowCheck, &QCheckBox::toggled, combo, &MultiSelectComboBox::setArrowVisible);
+        connect(ui.durationSpin, QOverload<int>::of(&QSpinBox::valueChanged), combo, &MultiSelectComboBox::setAnimationDuration);
+    }
 
     ui.comboComposite->setLeadingWidget(new QLabel(QStringLiteral("Team"), ui.comboComposite));
     ui.comboComposite->setTrailingWidget(new QLabel(QStringLiteral("Role"), ui.comboComposite));

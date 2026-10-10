@@ -6,6 +6,7 @@
 #include "progressbars/progressbarplugin.h"
 #include "sliders/sliderplugin.h"
 #include "switches/switchplugin.h"
+#include "tags/tagplugin.h"
 
 AnimatedWidgetsDesignerPlugin::AnimatedWidgetsDesignerPlugin(QObject* parent)
     : QObject(parent)
@@ -19,9 +20,10 @@ AnimatedWidgetsDesignerPlugin::AnimatedWidgetsDesignerPlugin(QObject* parent)
     for (int kind = 0; kind < 10; ++kind) {
         m_widgets.append(new InputPlugin(kind, this));
     }
-    for (int kind = 0; kind < 3; ++kind) {
+    for (int kind = 0; kind < 4; ++kind) {
         m_widgets.append(new ComboBoxPlugin(kind, this));
     }
+    m_widgets.append(new TagPlugin(this));
 }
 
 QList<QDesignerCustomWidgetInterface*> AnimatedWidgetsDesignerPlugin::customWidgets() const {

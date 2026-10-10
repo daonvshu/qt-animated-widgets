@@ -113,6 +113,40 @@
      <item row="5" column="1">
       <widget class="ComboBox" name="comboIcons"/>
      </item>
+     <item row="6" column="0">
+      <widget class="QLabel" name="multiLabel">
+       <property name="text"><string>Multiple selection</string></property>
+      </widget>
+     </item>
+     <item row="6" column="1">
+      <widget class="MultiSelectComboBox" name="comboMulti">
+       <property name="searchable"><bool>false</bool></property>
+       <property name="clearButtonVisible"><bool>false</bool></property>
+      </widget>
+     </item>
+     <item row="7" column="0">
+      <widget class="QLabel" name="multiSearchLabel">
+       <property name="text"><string>Searchable colored tags</string></property>
+      </widget>
+     </item>
+     <item row="7" column="1">
+      <widget class="MultiSelectComboBox" name="comboMultiSearch"/>
+     </item>
+     <item row="8" column="0">
+      <widget class="QLabel" name="multiDisabledLabel">
+       <property name="text"><string>Multiple selection disabled</string></property>
+      </widget>
+     </item>
+     <item row="8" column="1">
+      <widget class="MultiSelectComboBox" name="comboMultiDisabled">
+       <property name="enabled"><bool>false</bool></property>
+      </widget>
+     </item>
+     <item row="9" column="0" colspan="2">
+      <widget class="QLabel" name="multiResultLabel">
+       <property name="text"><string>Choose options, remove tags, or type to filter.</string></property>
+      </widget>
+     </item>
     </layout>
    </item>
    <item>
@@ -126,6 +160,11 @@
   </layout>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>MultiSelectComboBox</class>
+   <extends>QWidget</extends>
+   <header>animatedwidgets/comboboxes/multiselectcombobox.h</header>
+  </customwidget>
   <customwidget>
    <class>SearchComboBox</class>
    <extends>QComboBox</extends>
