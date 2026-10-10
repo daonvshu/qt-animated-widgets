@@ -7,6 +7,7 @@
 
 #include <QLabel>
 #include <QStringList>
+#include <QStandardItemModel>
 
 ComboBoxesPage::ComboBoxesPage(QWidget* parent)
     : QWidget(parent)
@@ -63,6 +64,8 @@ ComboBoxesPage::ComboBoxesPage(QWidget* parent)
     ui.comboMulti->setSelectedIndexes({0, 1});
     ui.comboMultiDisabled->setStrings(choices);
     ui.comboMultiDisabled->setSelectedIndexes({1, 2});
+
+    setupTreeExamples(ui);
 
     const int tagColorRole = Qt::UserRole + 100;
     QList<animatedwidgets::PopupMenuItem> tagItems;
@@ -139,4 +142,47 @@ ComboBoxesPage::ComboBoxesPage(QWidget* parent)
     connect(ui.durationSpin, QOverload<int>::of(&QSpinBox::valueChanged), ui.comboEditable, &ComboBox::setAnimationDuration);
     connect(ui.durationSpin, QOverload<int>::of(&QSpinBox::valueChanged), ui.comboSearch, &ComboBox::setAnimationDuration);
     connect(ui.durationSpin, QOverload<int>::of(&QSpinBox::valueChanged), ui.comboComposite, &CompositeComboBox::setAnimationDuration);
+}
+
+void ComboBoxesPage::setupTreeExamples(const Ui::ComboBoxesPage& ui) {
+    auto* treeModel = new QStandardItemModel(this);
+    auto* workspace = new QStandardItem(QIcon(QStringLiteral(":/animatedwidgets/gallery/folder.svg")), QStringLiteral("Workspace"));
+    auto* documents = new QStandardItem(QStringLiteral("Documents"));
+    auto* guide = new QStandardItem(QIcon(QStringLiteral(":/animatedwidgets/gallery/document.svg")), QStringLiteral("Quick guide"));
+    guide->setData(QStringLiteral("guide"), Qt::UserRole);
+    documents->appendRow(guide);
+    auto* notes = new QStandardItem(QStringLiteral("Release notes"));
+    notes->setData(QStringLiteral("notes"), Qt::UserRole);
+    documents->appendRow(notes);
+    workspace->appendRow(documents);
+
+    auto* media = new QStandardItem(QStringLiteral("Media"));
+    auto* illustrations = new QStandardItem(QStringLiteral("Illustrations"));
+    illustrations->setData(QStringLiteral("illustrations"), Qt::UserRole);
+    media->appendRow(illustrations);
+    auto* archived = new QStandardItem(QStringLiteral("Archived assets"));
+    archived->setEnabled(false);
+    media->appendRow(archived);
+    workspace->appendRow(media);
+    treeModel->appendRow(workspace);
+
+    auto* shared = new QStandardItem(QStringLiteral("Shared library"));
+    shared->appendRow(new QStandardItem(QStringLiteral("Templates")));
+    treeModel->appendRow(shared);
+
+    for (auto* combo : {ui.comboTree, ui.comboTreeParents}) {
+        combo->setModel(treeModel);
+        combo->setMaxVisibleItems(8);
+        connect(combo, &TreeComboBox::currentModelIndexChanged, this, [label = ui.treeResultLabel](const QModelIndex& index) {
+            QStringList path;
+            for (QModelIndex node = index; node.isValid(); node = node.parent())
+                path.prepend(node.data().toString());
+            label->setText(QStringLiteral("Path: %1 | Data: %2").arg(path.join(QStringLiteral(" / ")), index.data(Qt::UserRole).toString()));
+        });
+        connect(ui.errorCheck, &QCheckBox::toggled, combo, &ComboBox::setHasError);
+        connect(ui.arrowCheck, &QCheckBox::toggled, combo, &ComboBox::setArrowVisible);
+        connect(ui.durationSpin, QOverload<int>::of(&QSpinBox::valueChanged), combo, &ComboBox::setAnimationDuration);
+    }
+    ui.comboTree->setCurrentModelIndex(guide->index());
+    ui.comboTreeParents->setCurrentModelIndex(workspace->index());
 }

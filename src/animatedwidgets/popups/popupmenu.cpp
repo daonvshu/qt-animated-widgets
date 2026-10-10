@@ -14,6 +14,7 @@
 #include <QEvent>
 #include <QKeyEvent>
 #include <QListView>
+#include <QTreeView>
 #include <QScrollBar>
 #include <QVBoxLayout>
 #include <QApplication>
@@ -339,8 +340,20 @@ void PopupMenu::setAdaptiveHeight(int width, int maximumVisibleItems) {
     if (auto* itemModel = includeListInAdaptiveHeight() ? model() : nullptr) {
         const QModelIndex root = m_view->rootIndex();
         const auto* listView = qobject_cast<QListView*>(m_view.data());
+        const auto* treeView = qobject_cast<QTreeView*>(m_view.data());
         int visibleItems = 0;
-        for (int row = 0; row < itemModel->rowCount(root); ++row) {
+        if (treeView) {
+            QModelIndex index = itemModel->index(0, 0, root);
+            while (index.isValid() && (maximumVisibleItems <= 0 || visibleItems < maximumVisibleItems)) {
+                if (!treeView->isRowHidden(index.row(), index.parent())) {
+                    const int column = qMax(0, treeView->treePosition());
+                    height += qMax(0, m_view->sizeHintForIndex(index.sibling(index.row(), column)).height());
+                    ++visibleItems;
+                }
+                index = treeView->indexBelow(index);
+            }
+        }
+        for (int row = 0; !treeView && row < itemModel->rowCount(root); ++row) {
             if (listView && listView->isRowHidden(row))
                 continue;
             if (maximumVisibleItems > 0 && visibleItems >= maximumVisibleItems)
@@ -394,7 +407,7 @@ bool PopupMenu::eventFilter(QObject* watched, QEvent* event) {
             }
             return true;
         }
-        if (key->key() == Qt::Key_Right) {
+        if (key->key() == Qt::Key_Right && !qobject_cast<QTreeView*>(m_view.data())) {
             openSubmenu(m_view->currentIndex(), true);
             return true;
         }

@@ -83,6 +83,8 @@ add_library(AnimatedWidgetsWidgets
     src/animatedwidgets/popups/popupmenuitemdelegate.cpp
     src/animatedwidgets/popups/popupmenu.h
     src/animatedwidgets/popups/popupmenu.cpp
+    src/animatedwidgets/popups/treepopupmenu.h
+    src/animatedwidgets/popups/treepopupmenu.cpp
     src/animatedwidgets/buttons/animatedbuttonbase.h
     src/animatedwidgets/buttons/animatedbuttonbase.cpp
     src/animatedwidgets/buttons/buttonstate.h
@@ -98,6 +100,8 @@ add_library(AnimatedWidgetsWidgets
     src/animatedwidgets/utils/widgetresources.h
     src/animatedwidgets/utils/smoothscrolling.h
     src/animatedwidgets/utils/smoothscrolling.cpp
+    src/animatedwidgets/utils/treemodelutils.h
+    src/animatedwidgets/utils/treemodelutils.cpp
     src/animatedwidgets/utils/popupmenuitemdata.cpp
     src/animatedwidgets/utils/buttonpainter.h
     src/animatedwidgets/utils/buttonpainter.cpp
@@ -160,6 +164,10 @@ add_library(AnimatedWidgetsWidgets
     src/animatedwidgets/comboboxes/combobox.cpp
     src/animatedwidgets/comboboxes/searchcombobox.h
     src/animatedwidgets/comboboxes/searchcombobox.cpp
+    src/animatedwidgets/comboboxes/treecombobox.h
+    src/animatedwidgets/comboboxes/treecombobox.cpp
+    src/animatedwidgets/comboboxes/treepopupmodel.h
+    src/animatedwidgets/comboboxes/treepopupmodel.cpp
     src/animatedwidgets/comboboxes/multiselectcombobox.h
     src/animatedwidgets/comboboxes/multiselectcombobox.cpp
     src/animatedwidgets/tags/tagstyle.h

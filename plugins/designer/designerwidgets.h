@@ -4,6 +4,7 @@
 #include "animatedwidgets/comboboxes/combobox.h"
 #include "animatedwidgets/comboboxes/compositecombobox.h"
 #include "animatedwidgets/comboboxes/searchcombobox.h"
+#include "animatedwidgets/comboboxes/treecombobox.h"
 #include "animatedwidgets/comboboxes/multiselectcombobox.h"
 #include "animatedwidgets/tags/tagwidget.h"
 #include "animatedwidgets/inputs/compositedoublespinbox.h"
@@ -157,6 +158,12 @@ class MultiSelectComboBox : public animatedwidgets::MultiSelectComboBox {
     Q_OBJECT
 public:
     using animatedwidgets::MultiSelectComboBox::MultiSelectComboBox;
+};
+
+class TreeComboBox : public animatedwidgets::TreeComboBox {
+    Q_OBJECT
+public:
+    using animatedwidgets::TreeComboBox::TreeComboBox;
 };
 
 class TagWidget : public animatedwidgets::TagWidget {

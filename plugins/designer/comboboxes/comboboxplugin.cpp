@@ -43,10 +43,17 @@ QIcon ComboBoxPlugin::icon() const {
         painter.drawRoundedRect(QRectF(3, 5, 5, 6), 1, 1);
         painter.drawRoundedRect(QRectF(9, 5, 5, 6), 1, 1);
     }
+    if (m_kind == 4) {
+        painter.drawLine(QPointF(5, 5), QPointF(5, 11));
+        painter.drawLine(QPointF(5, 11), QPointF(11, 11));
+        painter.drawLine(QPointF(8, 8), QPointF(8, 11));
+    }
     return QIcon(pixmap);
 }
 
 QString ComboBoxPlugin::domXml() const {
+    if (m_kind == 4)
+        return QStringLiteral("<widget class=\"TreeComboBox\" name=\"treeComboBox\"/>");
     if (m_kind == 3)
         return QStringLiteral("<widget class=\"MultiSelectComboBox\" name=\"multiSelectComboBox\"/>");
     return QStringLiteral("<widget class=\"%1\" name=\"%2\"/>")
@@ -59,6 +66,8 @@ QString ComboBoxPlugin::group() const {
 }
 
 QString ComboBoxPlugin::includeFile() const {
+    if (m_kind == 4)
+        return QStringLiteral("animatedwidgets/comboboxes/treecombobox.h");
     if (m_kind == 3)
         return QStringLiteral("animatedwidgets/comboboxes/multiselectcombobox.h");
     if (m_kind == 2)
@@ -68,6 +77,8 @@ QString ComboBoxPlugin::includeFile() const {
 }
 
 QString ComboBoxPlugin::name() const {
+    if (m_kind == 4)
+        return QStringLiteral("TreeComboBox");
     if (m_kind == 3)
         return QStringLiteral("MultiSelectComboBox");
     if (m_kind == 2)
@@ -84,6 +95,8 @@ QString ComboBoxPlugin::whatsThis() const {
 }
 
 QWidget* ComboBoxPlugin::createWidget(QWidget* parent) {
+    if (m_kind == 4)
+        return new TreeComboBox(parent);
     if (m_kind == 3)
         return new MultiSelectComboBox(parent);
     if (m_kind == 0)

@@ -1,7 +1,9 @@
 #include "animatedwidgets/comboboxes/combopopupmodel.h"
+#include "animatedwidgets/comboboxes/treepopupmodel.h"
 #include "animatedwidgets/popups/popupmenurowtype.h"
 #include "animatedwidgets/popups/popupmenuitemdelegate.h"
 #include "animatedwidgets/popups/popupmenufiltermodel.h"
+#include "animatedwidgets/utils/treemodelutils.h"
 
 #include <QStandardItemModel>
 #include <QtTest>
@@ -17,6 +19,7 @@ private slots:
     void separatorsAndSourceReplacement();
     void groupTitles();
     void filteredGroupsAndSelectionMapping();
+    void treeSelectionAndFiltering();
 };
 
 void ComboPopupModelTest::selectionDoesNotChangeSource() {
@@ -183,6 +186,58 @@ void ComboPopupModelTest::filteredGroupsAndSelectionMapping() {
     const QModelIndex restoredRoot = filter.mapFromSource(selection.mapFromSource(root->index()));
     QCOMPARE(filter.rowCount(restoredRoot), 3);
     QCOMPARE(filter.index(2, 1, restoredRoot).data(Qt::CheckStateRole).toInt(), int(Qt::Checked));
+}
+
+void ComboPopupModelTest::treeSelectionAndFiltering() {
+    QStandardItemModel source;
+    auto* root = new QStandardItem(QStringLiteral("Workspace"));
+    auto* branch = new QStandardItem(QStringLiteral("Documents"));
+    auto* leaf = new QStandardItem(QStringLiteral("Quick guide"));
+    leaf->setData(42, Qt::UserRole);
+    branch->appendRow(leaf);
+    root->appendRow(branch);
+    source.appendRow(root);
+    source.appendRow(new QStandardItem(QStringLiteral("Other")));
+    source.setItem(0, 1, new QStandardItem(QStringLiteral("Workspace label")));
+    leaf->setData(QStringLiteral("Node metadata"), PopupMenuItem::ChildrenRole);
+
+    QVERIFY(!TreeModelUtils::isLeaf(root->index()));
+    QVERIFY(!TreeModelUtils::isLeaf(source.index(0, 1)));
+    QVERIFY(TreeModelUtils::isLeaf(leaf->index()));
+    QVERIFY(TreeModelUtils::belongsToRoot(leaf->index(), root->index()));
+    QVERIFY(!TreeModelUtils::belongsToRoot(root->index(), root->index()));
+    QVERIFY(!TreeModelUtils::belongsToRoot(source.index(1, 0), root->index()));
+    QVERIFY(!TreeModelUtils::isSelectable(branch->index(), true));
+    QVERIFY(TreeModelUtils::isSelectable(branch->index(), false));
+
+    TreePopupModel selection;
+    selection.setSourceModel(&source);
+    QVERIFY(!selection.flags(selection.mapFromSource(branch->index())).testFlag(Qt::ItemIsSelectable));
+    QVERIFY(selection.flags(selection.mapFromSource(leaf->index())).testFlag(Qt::ItemIsSelectable));
+    selection.setCurrentIndex(leaf->index());
+    QVERIFY(!selection.mapFromSource(leaf->index()).data(PopupMenuItem::ChildrenRole).isValid());
+    QCOMPARE(leaf->data(PopupMenuItem::ChildrenRole).toString(), QStringLiteral("Node metadata"));
+
+    PopupMenuFilterModel filter;
+    filter.setRecursiveFilteringEnabled(true);
+    filter.setSourceModel(&selection);
+    filter.setSearchText(QStringLiteral("guide"));
+    QCOMPARE(filter.rowCount(), 1);
+    const QModelIndex filteredLeaf = filter.mapFromSource(selection.mapFromSource(leaf->index()));
+    QVERIFY(filteredLeaf.isValid());
+    QCOMPARE(selection.mapToSource(filter.mapToSource(filteredLeaf)), leaf->index());
+    QCOMPARE(filteredLeaf.data(Qt::UserRole).toInt(), 42);
+    QCOMPARE(filteredLeaf.data(Qt::CheckStateRole).toInt(), int(Qt::Checked));
+
+    branch->setEnabled(false);
+    QVERIFY(!TreeModelUtils::isSelectable(leaf->index(), true));
+    QVERIFY(!selection.flags(selection.mapFromSource(leaf->index())).testFlag(Qt::ItemIsEnabled));
+    branch->setEnabled(true);
+    selection.setLeafOnly(false);
+    QVERIFY(selection.flags(selection.mapFromSource(branch->index())).testFlag(Qt::ItemIsSelectable));
+
+    root->removeRow(0);
+    QCOMPARE(selection.index(0, 0).data(Qt::CheckStateRole).toInt(), int(Qt::Unchecked));
 }
 
 QTEST_APPLESS_MAIN(ComboPopupModelTest)

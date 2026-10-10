@@ -14,10 +14,16 @@
 namespace animatedwidgets {
 
 ComboListPopup::ComboListPopup(QWidget* parent)
+    : ComboListPopup(new ComboPopupModel, parent)
+{
+}
+
+ComboListPopup::ComboListPopup(ComboPopupModel* model, QWidget* parent)
     : PopupMenu(parent)
 {
     Q_INIT_RESOURCE(comboboxes);
-    m_popupModel = new ComboPopupModel(this);
+    m_popupModel = model;
+    m_popupModel->setParent(this);
     auto* style = new DefaultPopupMenuListStyle;
     style->checkedIcon = QIcon(QStringLiteral(":/animatedwidgets/comboboxes/checked.svg"));
     style->checkedIconAlignment = Qt::AlignRight;
@@ -27,9 +33,13 @@ ComboListPopup::ComboListPopup(QWidget* parent)
         const Qt::ItemFlags flags = index.flags();
         if (!flags.testFlag(Qt::ItemIsEnabled) || !flags.testFlag(Qt::ItemIsSelectable))
             return;
-        const QModelIndex source = mapToSource(index);
-        if (source.isValid())
+        const QPersistentModelIndex source = mapToSource(index);
+        if (source.isValid()) {
+            QPointer<ComboListPopup> guard(this);
             emit itemChosen(source.row());
+            if (guard && source.isValid())
+                emit modelIndexChosen(source);
+        }
     });
 }
 
@@ -52,11 +62,19 @@ void ComboListPopup::setItems(QAbstractItemModel* model, const QModelIndex& root
 void ComboListPopup::setCurrentRow(int row) {
     auto* sourceModel = m_popupModel->sourceModel();
     const QModelIndex source = sourceModel ? sourceModel->index(row, m_column, m_root) : QModelIndex();
+    setCurrentModelIndex(source);
+}
+
+void ComboListPopup::setCurrentModelIndex(const QModelIndex& source) {
     m_popupModel->setCurrentIndex(source);
     const QModelIndex current = mapFromSource(source);
     view()->setCurrentIndex(current);
     if (isVisible() && current.isValid())
         view()->scrollTo(current, QAbstractItemView::EnsureVisible);
+}
+
+ComboPopupModel* ComboListPopup::selectionModel() const {
+    return m_popupModel;
 }
 
 PopupMenuFilterModel* ComboListPopup::enableFiltering() {

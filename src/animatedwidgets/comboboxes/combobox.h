@@ -125,6 +125,9 @@ protected:
     void hidePopup() override;
 
     ComboListPopup* currentPopup() const;
+    virtual ComboListPopup* createPopup();
+    virtual QModelIndex popupRootModelIndex() const;
+    virtual void choosePopupIndex(const QModelIndex& index);
     virtual void configurePopup(ComboListPopup* popup);
     virtual void popupClosed();
 

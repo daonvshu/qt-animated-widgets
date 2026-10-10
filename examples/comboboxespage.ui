@@ -142,6 +142,30 @@
        <property name="enabled"><bool>false</bool></property>
       </widget>
      </item>
+     <item row="10" column="0">
+      <widget class="QLabel" name="treeLabel">
+       <property name="text"><string>Tree selection (leaves only)</string></property>
+      </widget>
+     </item>
+     <item row="10" column="1">
+      <widget class="TreeComboBox" name="comboTree"/>
+     </item>
+     <item row="11" column="0">
+      <widget class="QLabel" name="treeParentLabel">
+       <property name="text"><string>Tree selection (parents allowed)</string></property>
+      </widget>
+     </item>
+     <item row="11" column="1">
+      <widget class="TreeComboBox" name="comboTreeParents">
+       <property name="leafOnly"><bool>false</bool></property>
+       <property name="searchable"><bool>false</bool></property>
+      </widget>
+     </item>
+     <item row="12" column="0" colspan="2">
+      <widget class="QLabel" name="treeResultLabel">
+       <property name="text"><string>Select a tree node to inspect its path and role data.</string></property>
+      </widget>
+     </item>
      <item row="9" column="0" colspan="2">
       <widget class="QLabel" name="multiResultLabel">
        <property name="text"><string>Choose options, remove tags, or type to filter.</string></property>
@@ -160,6 +184,11 @@
   </layout>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>TreeComboBox</class>
+   <extends>QComboBox</extends>
+   <header>animatedwidgets/comboboxes/treecombobox.h</header>
+  </customwidget>
   <customwidget>
    <class>MultiSelectComboBox</class>
    <extends>QWidget</extends>

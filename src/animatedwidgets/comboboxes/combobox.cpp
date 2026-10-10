@@ -580,21 +580,23 @@ void ComboBox::paintEvent(QPaintEvent*) {
 }
 
 void ComboBox::showPopup() {
-    if (m_popup || count() == 0 || !isEnabled())
+    if (m_popup || model()->rowCount(popupRootModelIndex()) == 0 || !isEnabled())
         return;
 
     m_popupNavigation = false;
-    auto* popup = new ComboListPopup(this);
+    auto* popup = createPopup();
+    if (!popup)
+        return;
     m_popup = popup;
     if (!m_popupScrollBarStyleSheet.isNull())
         popup->setScrollBarStyleSheet(m_popupScrollBarStyleSheet);
 
-    connect(popup, &ComboListPopup::itemChosen, this, [this](int index) {
+    connect(popup, &ComboListPopup::modelIndexChosen, this, [this](const QModelIndex& index) {
         QPointer<ComboBox> guard(this);
-        setCurrentIndex(index);
+        choosePopupIndex(index);
         if (!guard)
             return;
-        emit activated(index);
+        emit activated(currentIndex());
         if (!guard)
             return;
 #if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
@@ -604,7 +606,9 @@ void ComboBox::showPopup() {
 #endif
         hidePopup();
     });
-    connect(this, QOverload<int>::of(&QComboBox::currentIndexChanged), popup, &ComboListPopup::setCurrentRow);
+    connect(this, QOverload<int>::of(&QComboBox::currentIndexChanged), popup, [this, popup](int row) {
+        popup->setCurrentModelIndex(model()->index(row, modelColumn(), rootModelIndex()));
+    });
     connect(popup, &BasePopupDlg::closeRequested, this, [this, popup] {
         if (m_popup == popup) {
             m_popup = nullptr;
@@ -625,7 +629,7 @@ void ComboBox::showPopup() {
     if (!guard || m_popup != popup)
         return;
     popup->view()->setIconSize(iconSize());
-    popup->setItems(model(), rootModelIndex(), modelColumn(), currentIndex(), maxVisibleItems(), m_popupWidth > 0 ? m_popupWidth : width());
+    popup->setItems(model(), popupRootModelIndex(), modelColumn(), currentIndex(), maxVisibleItems(), m_popupWidth > 0 ? m_popupWidth : width());
     configurePopup(popup);
     popup->moveToTargetBottom(this, m_popupAlign);
     m_popupOpen = true;
@@ -647,6 +651,18 @@ void ComboBox::hidePopup() {
 
 ComboListPopup* ComboBox::currentPopup() const {
     return m_popup;
+}
+
+ComboListPopup* ComboBox::createPopup() {
+    return new ComboListPopup(this);
+}
+
+QModelIndex ComboBox::popupRootModelIndex() const {
+    return rootModelIndex();
+}
+
+void ComboBox::choosePopupIndex(const QModelIndex& index) {
+    setCurrentIndex(index.row());
 }
 
 void ComboBox::configurePopup(ComboListPopup* popup) {
