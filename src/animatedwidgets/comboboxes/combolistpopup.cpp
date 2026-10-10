@@ -29,6 +29,13 @@ ComboListPopup::ComboListPopup(ComboPopupModel* model, QWidget* parent)
     style->checkedIconAlignment = Qt::AlignRight;
     setListStyle(style);
 
+    connect(this, &BasePopupDlg::closeRequested, this, [this] {
+        // Preserve the last frame while the hide animation is running.
+        m_closing = true;
+        setUpdatesEnabled(false);
+        layout()->setEnabled(false);
+    });
+
     connect(this, &PopupMenu::itemTriggered, this, [this](const QModelIndex& index) {
         const Qt::ItemFlags flags = index.flags();
         if (!flags.testFlag(Qt::ItemIsEnabled) || !flags.testFlag(Qt::ItemIsSelectable))
@@ -66,6 +73,9 @@ void ComboListPopup::setCurrentRow(int row) {
 }
 
 void ComboListPopup::setCurrentModelIndex(const QModelIndex& source) {
+    if (m_closing)
+        return;
+
     m_popupModel->setCurrentIndex(source);
     const QModelIndex current = mapFromSource(source);
     view()->setCurrentIndex(current);
@@ -102,7 +112,7 @@ PopupMenuFilterModel* ComboListPopup::enableFiltering() {
 }
 
 void ComboListPopup::setSearchText(const QString& text) {
-    if (!m_filterModel)
+    if (m_closing || !m_filterModel)
         return;
     m_filterModel->setSearchText(text);
     updateFilteredLayout();
@@ -175,7 +185,7 @@ bool ComboListPopup::includeListInAdaptiveHeight() const {
 }
 
 void ComboListPopup::scheduleFilteredLayout() {
-    if (m_heightUpdatePending)
+    if (m_closing || m_heightUpdatePending)
         return;
     m_heightUpdatePending = true;
     QTimer::singleShot(0, this, [this] {
@@ -185,7 +195,7 @@ void ComboListPopup::scheduleFilteredLayout() {
 }
 
 void ComboListPopup::updateFilteredLayout() {
-    if (!m_filterModel)
+    if (m_closing || !m_filterModel)
         return;
 
     const QModelIndex root = mapFromSource(m_root);

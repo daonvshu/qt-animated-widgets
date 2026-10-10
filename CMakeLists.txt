@@ -102,6 +102,8 @@ add_library(AnimatedWidgetsWidgets
     src/animatedwidgets/utils/smoothscrolling.cpp
     src/animatedwidgets/utils/treemodelutils.h
     src/animatedwidgets/utils/treemodelutils.cpp
+    src/animatedwidgets/utils/combocreationutils.h
+    src/animatedwidgets/utils/combocreationutils.cpp
     src/animatedwidgets/utils/popupmenuitemdata.cpp
     src/animatedwidgets/utils/buttonpainter.h
     src/animatedwidgets/utils/buttonpainter.cpp
@@ -166,6 +168,8 @@ add_library(AnimatedWidgetsWidgets
     src/animatedwidgets/comboboxes/searchcombobox.cpp
     src/animatedwidgets/comboboxes/treecombobox.h
     src/animatedwidgets/comboboxes/treecombobox.cpp
+    src/animatedwidgets/comboboxes/creatablecombobox.h
+    src/animatedwidgets/comboboxes/creatablecombobox.cpp
     src/animatedwidgets/comboboxes/treepopupmodel.h
     src/animatedwidgets/comboboxes/treepopupmodel.cpp
     src/animatedwidgets/comboboxes/multiselectcombobox.h

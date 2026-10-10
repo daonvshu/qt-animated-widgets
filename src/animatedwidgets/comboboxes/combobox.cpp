@@ -580,7 +580,7 @@ void ComboBox::paintEvent(QPaintEvent*) {
 }
 
 void ComboBox::showPopup() {
-    if (m_popup || model()->rowCount(popupRootModelIndex()) == 0 || !isEnabled())
+    if (m_popup || !canShowPopup() || !isEnabled())
         return;
 
     m_popupNavigation = false;
@@ -655,6 +655,10 @@ ComboListPopup* ComboBox::currentPopup() const {
 
 ComboListPopup* ComboBox::createPopup() {
     return new ComboListPopup(this);
+}
+
+bool ComboBox::canShowPopup() const {
+    return model()->rowCount(popupRootModelIndex()) > 0;
 }
 
 QModelIndex ComboBox::popupRootModelIndex() const {

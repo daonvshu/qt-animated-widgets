@@ -48,10 +48,16 @@ QIcon ComboBoxPlugin::icon() const {
         painter.drawLine(QPointF(5, 11), QPointF(11, 11));
         painter.drawLine(QPointF(8, 8), QPointF(8, 11));
     }
+    if (m_kind == 5) {
+        painter.drawLine(QPointF(8, 5), QPointF(8, 11));
+        painter.drawLine(QPointF(5, 8), QPointF(11, 8));
+    }
     return QIcon(pixmap);
 }
 
 QString ComboBoxPlugin::domXml() const {
+    if (m_kind == 5)
+        return QStringLiteral("<widget class=\"CreatableComboBox\" name=\"creatableComboBox\"/>");
     if (m_kind == 4)
         return QStringLiteral("<widget class=\"TreeComboBox\" name=\"treeComboBox\"/>");
     if (m_kind == 3)
@@ -66,6 +72,8 @@ QString ComboBoxPlugin::group() const {
 }
 
 QString ComboBoxPlugin::includeFile() const {
+    if (m_kind == 5)
+        return QStringLiteral("animatedwidgets/comboboxes/creatablecombobox.h");
     if (m_kind == 4)
         return QStringLiteral("animatedwidgets/comboboxes/treecombobox.h");
     if (m_kind == 3)
@@ -77,6 +85,8 @@ QString ComboBoxPlugin::includeFile() const {
 }
 
 QString ComboBoxPlugin::name() const {
+    if (m_kind == 5)
+        return QStringLiteral("CreatableComboBox");
     if (m_kind == 4)
         return QStringLiteral("TreeComboBox");
     if (m_kind == 3)
@@ -95,6 +105,8 @@ QString ComboBoxPlugin::whatsThis() const {
 }
 
 QWidget* ComboBoxPlugin::createWidget(QWidget* parent) {
+    if (m_kind == 5)
+        return new CreatableComboBox(parent);
     if (m_kind == 4)
         return new TreeComboBox(parent);
     if (m_kind == 3)

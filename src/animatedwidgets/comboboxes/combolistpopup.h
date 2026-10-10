@@ -49,6 +49,7 @@ private:
     int m_visibleRows = 0;
     int m_width = 0;
     bool m_heightUpdatePending = false;
+    bool m_closing = false;
 
     void updateFilteredLayout();
     void scheduleFilteredLayout();

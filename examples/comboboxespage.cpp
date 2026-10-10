@@ -66,6 +66,7 @@ ComboBoxesPage::ComboBoxesPage(QWidget* parent)
     ui.comboMultiDisabled->setSelectedIndexes({1, 2});
 
     setupTreeExamples(ui);
+    setupCreationExamples(ui);
 
     const int tagColorRole = Qt::UserRole + 100;
     QList<animatedwidgets::PopupMenuItem> tagItems;
@@ -185,4 +186,24 @@ void ComboBoxesPage::setupTreeExamples(const Ui::ComboBoxesPage& ui) {
     }
     ui.comboTree->setCurrentModelIndex(guide->index());
     ui.comboTreeParents->setCurrentModelIndex(workspace->index());
+}
+
+void ComboBoxesPage::setupCreationExamples(const Ui::ComboBoxesPage& ui) {
+    ui.comboCreatable->addItems({QStringLiteral("Illustration"), QStringLiteral("Motion"), QStringLiteral("Typography")});
+    ui.comboCreatable->setCurrentIndex(-1);
+    ui.comboCreatable->lineEdit()->setPlaceholderText(QStringLiteral("Choose or create a category"));
+    ui.comboCreatableEmpty->lineEdit()->setPlaceholderText(QStringLiteral("Type at least two characters"));
+
+    for (auto* combo : {ui.comboCreatable, ui.comboCreatableEmpty}) {
+        combo->setMaxVisibleItems(5);
+        connect(combo, &CreatableComboBox::createRequested, this, [combo, label = ui.creationResultLabel](const QString& text) {
+            combo->addItem(text, QStringLiteral("created:%1").arg(text));
+            combo->setCurrentIndex(combo->count() - 1);
+            label->setText(QStringLiteral("Created and selected: %1").arg(text));
+        });
+        connect(ui.errorCheck, &QCheckBox::toggled, combo, &ComboBox::setHasError);
+        connect(ui.arrowCheck, &QCheckBox::toggled, combo, &ComboBox::setArrowVisible);
+        connect(ui.popupOnEditCheck, &QCheckBox::toggled, combo, &ComboBox::setPopupOnEdit);
+        connect(ui.durationSpin, QOverload<int>::of(&QSpinBox::valueChanged), combo, &ComboBox::setAnimationDuration);
+    }
 }

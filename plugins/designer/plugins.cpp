@@ -20,7 +20,7 @@ AnimatedWidgetsDesignerPlugin::AnimatedWidgetsDesignerPlugin(QObject* parent)
     for (int kind = 0; kind < 10; ++kind) {
         m_widgets.append(new InputPlugin(kind, this));
     }
-    for (int kind = 0; kind < 5; ++kind) {
+    for (int kind = 0; kind < 6; ++kind) {
         m_widgets.append(new ComboBoxPlugin(kind, this));
     }
     m_widgets.append(new TagPlugin(this));

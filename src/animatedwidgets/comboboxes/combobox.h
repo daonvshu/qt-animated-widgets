@@ -126,6 +126,7 @@ protected:
 
     ComboListPopup* currentPopup() const;
     virtual ComboListPopup* createPopup();
+    virtual bool canShowPopup() const;
     virtual QModelIndex popupRootModelIndex() const;
     virtual void choosePopupIndex(const QModelIndex& index);
     virtual void configurePopup(ComboListPopup* popup);
