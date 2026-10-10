@@ -2,4 +2,7 @@
 include(CMakeFindDependencyMacro)
 find_dependency(QT NAMES Qt6 Qt5 COMPONENTS Core Gui Widgets)
 find_dependency(Qt${QT_VERSION_MAJOR} COMPONENTS Core Gui Widgets)
+if(@ANIMATEDWIDGETS_HAS_SMOOTHSCROLLBAR@)
+    find_dependency(SmoothScrollbar CONFIG)
+endif()
 include("${CMAKE_CURRENT_LIST_DIR}/AnimatedWidgetsTargets.cmake")

@@ -6,6 +6,7 @@
 #include "animatedwidgets/popups/defaultpopupmenumodel.h"
 #include "animatedwidgets/popups/groupedpopupmenumodel.h"
 #include "animatedwidgets/popups/popupmenurowtype.h"
+#include "animatedwidgets/utils/smoothscrolling.h"
 
 #include <QAbstractItemDelegate>
 #include <QAbstractItemModel>
@@ -109,12 +110,11 @@ void PopupMenu::setView(QAbstractItemView* view) {
     }
     m_view = view;
     m_view->setParent(this);
-    m_view->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
-    m_view->setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
     m_view->installEventFilter(this);
     m_view->viewport()->installEventFilter(this);
     m_view->setMouseTracking(true);
     m_view->viewport()->setMouseTracking(true);
+    SmoothScrolling::install(m_view);
     setFocusProxy(m_view);
     if (auto* boxLayout = qobject_cast<QVBoxLayout*>(layout()))
         boxLayout->insertWidget(m_topWidget ? 1 : 0, m_view, 1);

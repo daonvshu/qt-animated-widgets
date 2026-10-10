@@ -17,6 +17,7 @@ set(CMAKE_AUTORCC ON)
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Gui Widgets Svg)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Gui Widgets Svg)
+find_package(SmoothScrollbar QUIET CONFIG)
 
 add_library(AnimatedWidgetsCore
     src/animatedwidgets/core/animationspec.h
@@ -95,6 +96,8 @@ add_library(AnimatedWidgetsWidgets
     src/animatedwidgets/utils/popupmenuitemdata.h
     src/animatedwidgets/utils/popupmenuresources.h
     src/animatedwidgets/utils/widgetresources.h
+    src/animatedwidgets/utils/smoothscrolling.h
+    src/animatedwidgets/utils/smoothscrolling.cpp
     src/animatedwidgets/utils/popupmenuitemdata.cpp
     src/animatedwidgets/utils/buttonpainter.h
     src/animatedwidgets/utils/buttonpainter.cpp
@@ -181,6 +184,16 @@ target_link_libraries(AnimatedWidgetsWidgets PUBLIC
     Qt${QT_VERSION_MAJOR}::Widgets
     Qt${QT_VERSION_MAJOR}::Svg
 )
+
+set(ANIMATEDWIDGETS_HAS_SMOOTHSCROLLBAR OFF)
+if(TARGET SmoothScrollbar::SmoothScrollbar)
+    target_link_libraries(AnimatedWidgetsWidgets PRIVATE SmoothScrollbar::SmoothScrollbar)
+    target_compile_definitions(AnimatedWidgetsWidgets PRIVATE ANIMATEDWIDGETS_HAS_SMOOTHSCROLLBAR)
+    set(ANIMATEDWIDGETS_HAS_SMOOTHSCROLLBAR ON)
+    message(STATUS "AnimatedWidgets: SmoothScrollbar enabled")
+else()
+    message(STATUS "AnimatedWidgets: SmoothScrollbar not found; using native scrolling")
+endif()
 
 add_library(AnimatedWidgets INTERFACE)
 add_library(AnimatedWidgets::AnimatedWidgets ALIAS AnimatedWidgets)

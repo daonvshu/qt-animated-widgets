@@ -1,5 +1,6 @@
 #include "animatedwidgets/inputs/plaintextedit.h"
 #include "animatedwidgets/utils/inputcontextmenu.h"
+#include "animatedwidgets/utils/smoothscrolling.h"
 
 #include <QEvent>
 #include <QPainter>
@@ -20,6 +21,7 @@ PlainTextEdit::PlainTextEdit(QWidget* parent)
     viewport()->setAttribute(Qt::WA_OpaquePaintEvent, false);
     updateContentMargins();
     InputContextMenu::install(this);
+    SmoothScrolling::install(this);
     for (auto* transition : {&m_borderTransition, &m_backgroundTransition}) {
         transition->setDuration(m_animationDuration);
         transition->setEasingCurve(QEasingCurve::OutCubic);

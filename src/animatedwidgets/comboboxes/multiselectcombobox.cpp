@@ -9,6 +9,7 @@
 #include "animatedwidgets/popups/popupmenufiltermodel.h"
 #include "animatedwidgets/tags/tagwidget.h"
 #include "animatedwidgets/utils/widgetresources.h"
+#include "animatedwidgets/utils/smoothscrolling.h"
 
 #include <QAbstractItemView>
 #include <QApplication>
@@ -97,6 +98,7 @@ MultiSelectComboBox::MultiSelectComboBox(QWidget* parent)
 
     for (auto* widget : {static_cast<QWidget*>(m_editor), m_content, m_scrollArea->viewport()})
         widget->installEventFilter(this);
+    SmoothScrolling::install(m_scrollArea);
     connect(m_clearButton, &QPushButton::clicked, this, &MultiSelectComboBox::clearSelection);
     connect(m_arrowButton, &QPushButton::clicked, this, [this] {
         if (m_popup)
@@ -135,13 +137,18 @@ MultiSelectComboBox::MultiSelectComboBox(QWidget* parent)
 
 MultiSelectComboBox::~MultiSelectComboBox() {
     disconnect(qApp, nullptr, this, nullptr);
-    disconnect(m_model, nullptr, this, nullptr);
-    disconnect(m_filterModel, nullptr, this, nullptr);
-    disconnect(m_editor, nullptr, this, nullptr);
-    if (m_popup) {
-        disconnect(m_popup, nullptr, this, nullptr);
-        delete m_popup.data();
+
+    // QWidget destroys children after derived members, so detach their callbacks first.
+    const auto descendants = findChildren<QObject*>();
+    for (auto* child : descendants) {
+        child->removeEventFilter(this);
+        disconnect(child, nullptr, this, nullptr);
     }
+
+    // Closing popups may still be alive after m_popup was cleared for their hide animation.
+    const auto popups = findChildren<PopupMenu*>(QString(), Qt::FindDirectChildrenOnly);
+    for (auto* popup : popups)
+        delete popup;
 }
 
 void MultiSelectComboBox::setStrings(const QStringList& strings) {
@@ -604,11 +611,16 @@ bool MultiSelectComboBox::eventFilter(QObject* watched, QEvent* event) {
         m_preediting = !static_cast<QInputMethodEvent*>(event)->preeditString().isEmpty();
     if (event->type() == QEvent::Wheel && watched == m_scrollArea->viewport()) {
         const auto* wheel = static_cast<QWheelEvent*>(event);
+        if (wheel->modifiers().testFlag(Qt::ControlModifier))
+            return false;
         const QPoint delta = wheel->pixelDelta().isNull() ? wheel->angleDelta() / 3 : wheel->pixelDelta();
         auto* bar = m_scrollArea->horizontalScrollBar();
         if (bar->maximum() == 0)
             return false;
-        bar->setValue(bar->value() - (delta.x() ? delta.x() : delta.y()));
+        const int target = qBound(bar->minimum(), bar->value() - (delta.x() ? delta.x() : delta.y()), bar->maximum());
+        if (target == bar->value())
+            return false;
+        bar->setValue(target);
         return true;
     }
     if (event->type() == QEvent::MouseButtonRelease && static_cast<QMouseEvent*>(event)->button() == Qt::LeftButton) {
