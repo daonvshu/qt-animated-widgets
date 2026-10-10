@@ -168,7 +168,7 @@ QRect BasePopupDlg::screenAvailableRectForPlacement() const {
     return screen ? screen->availableGeometry() : QRect();
 }
 
-void BasePopupDlg::showEvent(QShowEvent* event) {
+void BasePopupDlg::placePopup() {
     if (m_hasPlacementRequest) {
         auto edgeAlign = arrowEdgeAlign;
         auto posAlign = arrowPosAlign;
@@ -250,14 +250,28 @@ void BasePopupDlg::showEvent(QShowEvent* event) {
         if (screen)
             move(screen->geometry().center() - QPoint(width() / 2, height() / 2));
     }
+}
 
+void BasePopupDlg::updatePopupPlacement() {
+    if (!isVisible() || m_closing || !m_hasPlacementRequest)
+        return;
+    ++m_showGeneration;
+    if (m_animation)
+        m_animation->stop();
+    setWindowOpacity(1.0);
+    placePopup();
+}
+
+void BasePopupDlg::showEvent(QShowEvent* event) {
+    placePopup();
+    const int generation = ++m_showGeneration;
     const QRect targetGeometry = geometry();
     const Qt::Edge targetEdge = arrowEdgeAlign;
     if (m_animation)
         m_animation->prepareShow(this, targetEdge, targetGeometry);
     ShadowWidget::showEvent(event);
-    QTimer::singleShot(0, this, [this, targetEdge, targetGeometry] {
-        if (isVisible() && !m_closing && m_animation)
+    QTimer::singleShot(0, this, [this, targetEdge, targetGeometry, generation] {
+        if (isVisible() && !m_closing && m_animation && generation == m_showGeneration)
             m_animation->show(this, targetEdge, targetGeometry, [] {});
     });
     if (!(windowFlags() & Qt::WindowDoesNotAcceptFocus)) {

@@ -28,6 +28,20 @@ void PopupMenuItemDelegate::setHoveredIndex(const QModelIndex& index) {
     m_hoveredIndex = index;
 }
 
+bool PopupMenuItemDelegate::hasChildItems(const QModelIndex& index) const {
+    return !index.data(PopupMenuItem::ChildrenRole).value<QList<PopupMenuNode>>().isEmpty();
+}
+
+QVariant PopupMenuItemDelegate::itemCheckState(const QModelIndex& index) const {
+    return index.data(Qt::CheckStateRole);
+}
+
+bool PopupMenuItemDelegate::isItemSelected(const QStyleOptionViewItem& option, const QModelIndex& index) const {
+    const QVariant checkState = itemCheckState(index);
+    return !hasChildItems(index) && (checkState.isValid() ? checkState.toInt() == Qt::Checked
+                                                        : option.state.testFlag(QStyle::State_Selected));
+}
+
 void PopupMenuItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option,
                                   const QModelIndex& index) const {
     painter->save();
@@ -61,10 +75,9 @@ void PopupMenuItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem&
         return;
     }
 
-    const QVariant checkState = index.data(Qt::CheckStateRole);
-    const bool hasChildren = !index.data(PopupMenuItem::ChildrenRole).value<QList<PopupMenuNode>>().isEmpty();
-    const bool selected = !hasChildren && (checkState.isValid() ? checkState.toInt() == Qt::Checked
-                                               : option.state.testFlag(QStyle::State_Selected));
+    const QVariant checkState = itemCheckState(index);
+    const bool hasChildren = hasChildItems(index);
+    const bool selected = isItemSelected(option, index);
     QColor background = itemBackground;
     if (selected)
         background = itemSelectedBackground;
@@ -173,7 +186,7 @@ QSize PopupMenuItemDelegate::sizeHint(const QStyleOptionViewItem& option, const 
     if (!shortcut.isEmpty()) {
         size.rwidth() += itemOption.fontMetrics.horizontalAdvance(shortcut) + qMax(8, checkedIconSpacing);
     }
-    const bool hasChildren = !index.data(PopupMenuItem::ChildrenRole).value<QList<PopupMenuNode>>().isEmpty();
+    const bool hasChildren = hasChildItems(index);
     if (hasChildren) {
         size.rwidth() += submenuIconSize.width() + submenuIconSpacing;
         size.setHeight(qMax(size.height(), submenuIconSize.height()));

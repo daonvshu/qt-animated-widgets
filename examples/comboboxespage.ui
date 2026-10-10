@@ -10,203 +10,251 @@
     <height>640</height>
    </rect>
   </property>
-  <layout class="QVBoxLayout" name="comboBoxesPageLayout">
-   <property name="spacing"><number>16</number></property>
-   <property name="leftMargin"><number>20</number></property>
-   <property name="topMargin"><number>16</number></property>
-   <property name="rightMargin"><number>20</number></property>
-   <property name="bottomMargin"><number>16</number></property>
+  <layout class="QVBoxLayout" name="pageOuterLayout">
+   <property name="leftMargin"><number>0</number></property>
+   <property name="topMargin"><number>0</number></property>
+   <property name="rightMargin"><number>0</number></property>
+   <property name="bottomMargin"><number>0</number></property>
    <item>
-    <layout class="QHBoxLayout" name="comboSettingsLayout">
-     <item>
-      <widget class="QLabel" name="durationLabel">
-       <property name="text"><string>Duration (ms)</string></property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QSpinBox" name="durationSpin">
-       <property name="maximum"><number>2000</number></property>
-       <property name="singleStep"><number>25</number></property>
-       <property name="value"><number>300</number></property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QCheckBox" name="errorCheck">
-       <property name="text"><string>Error state</string></property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QCheckBox" name="arrowCheck">
-       <property name="text"><string>Arrow</string></property>
-       <property name="checked"><bool>true</bool></property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QCheckBox" name="popupOnEditCheck">
-       <property name="text"><string>Popup on edit</string></property>
-       <property name="checked"><bool>true</bool></property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="settingsSpacer">
-       <property name="orientation"><enum>Qt::Horizontal</enum></property>
-       <property name="sizeHint" stdset="0">
-        <size><width>40</width><height>20</height></size>
-       </property>
-      </spacer>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <layout class="QGridLayout" name="comboGrid">
-     <property name="horizontalSpacing"><number>18</number></property>
-     <property name="verticalSpacing"><number>14</number></property>
-     <item row="0" column="0">
-      <widget class="QLabel" name="normalLabel">
-       <property name="text"><string>Selection</string></property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="ComboBox" name="comboNormal"/>
-     </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="editableLabel">
-       <property name="text"><string>Editable selection</string></property>
-      </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="ComboBox" name="comboEditable">
-       <property name="editable"><bool>true</bool></property>
-      </widget>
-     </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="disabledLabel">
-       <property name="text"><string>Selection disabled</string></property>
-      </widget>
-     </item>
-     <item row="2" column="1">
-      <widget class="ComboBox" name="comboDisabled">
-       <property name="enabled"><bool>false</bool></property>
-      </widget>
-     </item>
-     <item row="3" column="0">
-      <widget class="QLabel" name="compositeLabel">
-       <property name="text"><string>Composite selection</string></property>
-      </widget>
-     </item>
-     <item row="3" column="1">
-      <widget class="CompositeComboBox" name="comboComposite"/>
-     </item>
-     <item row="4" column="0">
-      <widget class="QLabel" name="searchLabel">
-       <property name="text"><string>Search selection</string></property>
-      </widget>
-     </item>
-     <item row="4" column="1">
-      <widget class="SearchComboBox" name="comboSearch"/>
-     </item>
-     <item row="5" column="0">
-      <widget class="QLabel" name="iconsLabel">
-       <property name="text"><string>Item icons (20 px, 8 px gap)</string></property>
-      </widget>
-     </item>
-     <item row="5" column="1">
-      <widget class="ComboBox" name="comboIcons"/>
-     </item>
-     <item row="6" column="0">
-      <widget class="QLabel" name="multiLabel">
-       <property name="text"><string>Multiple selection</string></property>
-      </widget>
-     </item>
-     <item row="6" column="1">
-      <widget class="MultiSelectComboBox" name="comboMulti">
-       <property name="searchable"><bool>false</bool></property>
-       <property name="clearButtonVisible"><bool>false</bool></property>
-      </widget>
-     </item>
-     <item row="7" column="0">
-      <widget class="QLabel" name="multiSearchLabel">
-       <property name="text"><string>Searchable colored tags</string></property>
-      </widget>
-     </item>
-     <item row="7" column="1">
-      <widget class="MultiSelectComboBox" name="comboMultiSearch"/>
-     </item>
-     <item row="8" column="0">
-      <widget class="QLabel" name="multiDisabledLabel">
-       <property name="text"><string>Multiple selection disabled</string></property>
-      </widget>
-     </item>
-     <item row="8" column="1">
-      <widget class="MultiSelectComboBox" name="comboMultiDisabled">
-       <property name="enabled"><bool>false</bool></property>
-      </widget>
-     </item>
-     <item row="10" column="0">
-      <widget class="QLabel" name="treeLabel">
-       <property name="text"><string>Tree selection (leaves only)</string></property>
-      </widget>
-     </item>
-     <item row="10" column="1">
-      <widget class="TreeComboBox" name="comboTree"/>
-     </item>
-     <item row="11" column="0">
-      <widget class="QLabel" name="treeParentLabel">
-       <property name="text"><string>Tree selection (parents allowed)</string></property>
-      </widget>
-     </item>
-     <item row="11" column="1">
-      <widget class="TreeComboBox" name="comboTreeParents">
-       <property name="leafOnly"><bool>false</bool></property>
-       <property name="searchable"><bool>false</bool></property>
-      </widget>
-     </item>
-     <item row="12" column="0" colspan="2">
-      <widget class="QLabel" name="treeResultLabel">
-       <property name="text"><string>Select a tree node to inspect its path and role data.</string></property>
-      </widget>
-     </item>
-     <item row="13" column="0">
-      <widget class="QLabel" name="creatableLabel">
-       <property name="text"><string>Search or create an option</string></property>
-      </widget>
-     </item>
-     <item row="13" column="1">
-      <widget class="CreatableComboBox" name="comboCreatable"/>
-     </item>
-     <item row="14" column="0">
-      <widget class="QLabel" name="creatableEmptyLabel">
-       <property name="text"><string>Create from an empty list</string></property>
-      </widget>
-     </item>
-     <item row="14" column="1">
-      <widget class="CreatableComboBox" name="comboCreatableEmpty">
-       <property name="minimumCreateLength"><number>2</number></property>
-      </widget>
-     </item>
-     <item row="15" column="0" colspan="2">
-      <widget class="QLabel" name="creationResultLabel">
-       <property name="text"><string>Enter a new name, then click Create or press Enter.</string></property>
-      </widget>
-     </item>
-     <item row="9" column="0" colspan="2">
-      <widget class="QLabel" name="multiResultLabel">
-       <property name="text"><string>Choose options, remove tags, or type to filter.</string></property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <spacer name="pageSpacer">
-     <property name="orientation"><enum>Qt::Vertical</enum></property>
-     <property name="sizeHint" stdset="0">
-      <size><width>20</width><height>40</height></size>
-     </property>
-    </spacer>
+    <widget class="QScrollArea" name="comboScrollArea">
+     <property name="frameShape"><enum>QFrame::NoFrame</enum></property>
+     <property name="widgetResizable"><bool>true</bool></property>
+     <widget class="QWidget" name="comboScrollContent">
+      <layout class="QVBoxLayout" name="comboBoxesPageLayout">
+       <property name="spacing"><number>16</number></property>
+       <property name="leftMargin"><number>20</number></property>
+       <property name="topMargin"><number>16</number></property>
+       <property name="rightMargin"><number>20</number></property>
+       <property name="bottomMargin"><number>16</number></property>
+       <item>
+        <layout class="QHBoxLayout" name="comboSettingsLayout">
+         <item>
+          <widget class="QLabel" name="durationLabel">
+           <property name="text"><string>Duration (ms)</string></property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSpinBox" name="durationSpin">
+           <property name="maximum"><number>2000</number></property>
+           <property name="singleStep"><number>25</number></property>
+           <property name="value"><number>300</number></property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="errorCheck">
+           <property name="text"><string>Error state</string></property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="arrowCheck">
+           <property name="text"><string>Arrow</string></property>
+           <property name="checked"><bool>true</bool></property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="popupOnEditCheck">
+           <property name="text"><string>Popup on edit</string></property>
+           <property name="checked"><bool>true</bool></property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="settingsSpacer">
+           <property name="orientation"><enum>Qt::Horizontal</enum></property>
+           <property name="sizeHint" stdset="0">
+            <size><width>40</width><height>20</height></size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QGridLayout" name="comboGrid">
+         <property name="horizontalSpacing"><number>18</number></property>
+         <property name="verticalSpacing"><number>14</number></property>
+         <item row="0" column="0">
+          <widget class="QLabel" name="normalLabel">
+           <property name="text"><string>Selection</string></property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="ComboBox" name="comboNormal"/>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="editableLabel">
+           <property name="text"><string>Editable selection</string></property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="ComboBox" name="comboEditable">
+           <property name="editable"><bool>true</bool></property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="disabledLabel">
+           <property name="text"><string>Selection disabled</string></property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="ComboBox" name="comboDisabled">
+           <property name="enabled"><bool>false</bool></property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="compositeLabel">
+           <property name="text"><string>Composite selection</string></property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="CompositeComboBox" name="comboComposite"/>
+         </item>
+         <item row="4" column="0">
+          <widget class="QLabel" name="searchLabel">
+           <property name="text"><string>Search selection</string></property>
+          </widget>
+         </item>
+         <item row="4" column="1">
+          <widget class="SearchComboBox" name="comboSearch"/>
+         </item>
+         <item row="5" column="0">
+          <widget class="QLabel" name="iconsLabel">
+           <property name="text"><string>Item icons (20 px, 8 px gap)</string></property>
+          </widget>
+         </item>
+         <item row="5" column="1">
+          <widget class="ComboBox" name="comboIcons"/>
+         </item>
+         <item row="6" column="0">
+          <widget class="QLabel" name="multiLabel">
+           <property name="text"><string>Multiple selection</string></property>
+          </widget>
+         </item>
+         <item row="6" column="1">
+          <widget class="MultiSelectComboBox" name="comboMulti">
+           <property name="searchable"><bool>false</bool></property>
+           <property name="clearButtonVisible"><bool>false</bool></property>
+          </widget>
+         </item>
+         <item row="7" column="0">
+          <widget class="QLabel" name="multiSearchLabel">
+           <property name="text"><string>Searchable colored tags</string></property>
+          </widget>
+         </item>
+         <item row="7" column="1">
+          <widget class="MultiSelectComboBox" name="comboMultiSearch"/>
+         </item>
+         <item row="8" column="0">
+          <widget class="QLabel" name="multiDisabledLabel">
+           <property name="text"><string>Multiple selection disabled</string></property>
+          </widget>
+         </item>
+         <item row="8" column="1">
+          <widget class="MultiSelectComboBox" name="comboMultiDisabled">
+           <property name="enabled"><bool>false</bool></property>
+          </widget>
+         </item>
+         <item row="10" column="0">
+          <widget class="QLabel" name="treeLabel">
+           <property name="text"><string>Tree selection (leaves only)</string></property>
+          </widget>
+         </item>
+         <item row="10" column="1">
+          <widget class="TreeComboBox" name="comboTree"/>
+         </item>
+         <item row="11" column="0">
+          <widget class="QLabel" name="treeParentLabel">
+           <property name="text"><string>Tree selection (parents allowed)</string></property>
+          </widget>
+         </item>
+         <item row="11" column="1">
+          <widget class="TreeComboBox" name="comboTreeParents">
+           <property name="leafOnly"><bool>false</bool></property>
+           <property name="searchable"><bool>false</bool></property>
+          </widget>
+         </item>
+         <item row="12" column="0" colspan="2">
+          <widget class="QLabel" name="treeResultLabel">
+           <property name="text"><string>Select a tree node to inspect its path and role data.</string></property>
+          </widget>
+         </item>
+         <item row="13" column="0">
+          <widget class="QLabel" name="creatableLabel">
+           <property name="text"><string>Search or create an option</string></property>
+          </widget>
+         </item>
+         <item row="13" column="1">
+          <widget class="CreatableComboBox" name="comboCreatable"/>
+         </item>
+         <item row="14" column="0">
+          <widget class="QLabel" name="creatableEmptyLabel">
+           <property name="text"><string>Create from an empty list</string></property>
+          </widget>
+         </item>
+         <item row="14" column="1">
+          <widget class="CreatableComboBox" name="comboCreatableEmpty">
+           <property name="minimumCreateLength"><number>2</number></property>
+          </widget>
+         </item>
+         <item row="15" column="0" colspan="2">
+          <widget class="QLabel" name="creationResultLabel">
+           <property name="text"><string>Enter a new name, then click Create or press Enter.</string></property>
+          </widget>
+         </item>
+         <item row="9" column="0" colspan="2">
+          <widget class="QLabel" name="multiResultLabel">
+           <property name="text"><string>Choose options, remove tags, or type to filter.</string></property>
+          </widget>
+         </item>
+         <item row="16" column="0">
+          <widget class="QLabel" name="cascaderLabel">
+           <property name="text"><string>Cascading columns: leaf selection</string></property>
+          </widget>
+         </item>
+         <item row="16" column="1">
+          <widget class="CascaderComboBox" name="comboCascader"/>
+         </item>
+         <item row="17" column="0">
+          <widget class="QLabel" name="cascaderParentsLabel">
+           <property name="text"><string>Cascading columns: any level</string></property>
+          </widget>
+         </item>
+         <item row="17" column="1">
+          <widget class="CascaderComboBox" name="comboCascaderParents">
+           <property name="leafOnly"><bool>false</bool></property>
+           <property name="showFullPath"><bool>false</bool></property>
+          </widget>
+         </item>
+         <item row="18" column="0" colspan="2">
+          <widget class="QLabel" name="cascaderResultLabel">
+           <property name="text"><string>Select a leaf to inspect its full path and role data.</string></property>
+          </widget>
+         </item>
+         <item row="19" column="0" colspan="2">
+          <widget class="QLabel" name="cascaderHelpLabel">
+           <property name="text"><string>Click a branch to browse the next column. Use arrows to navigate and Enter to confirm.</string></property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <spacer name="pageSpacer">
+         <property name="orientation"><enum>Qt::Vertical</enum></property>
+         <property name="sizeHint" stdset="0">
+          <size><width>20</width><height>40</height></size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+    </widget>
    </item>
   </layout>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>CascaderComboBox</class>
+   <extends>QComboBox</extends>
+   <header>animatedwidgets/comboboxes/cascadercombobox.h</header>
+  </customwidget>
   <customwidget>
    <class>CreatableComboBox</class>
    <extends>QComboBox</extends>

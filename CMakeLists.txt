@@ -168,6 +168,16 @@ add_library(AnimatedWidgetsWidgets
     src/animatedwidgets/comboboxes/searchcombobox.cpp
     src/animatedwidgets/comboboxes/treecombobox.h
     src/animatedwidgets/comboboxes/treecombobox.cpp
+    src/animatedwidgets/comboboxes/hierarchicalcombobox.h
+    src/animatedwidgets/comboboxes/hierarchicalcombobox.cpp
+    src/animatedwidgets/comboboxes/cascadercombobox.h
+    src/animatedwidgets/comboboxes/cascadercombobox.cpp
+    src/animatedwidgets/popups/cascaderpopupmenu.h
+    src/animatedwidgets/popups/cascaderpopupmenu.cpp
+    src/animatedwidgets/popups/cascadercolumnview.h
+    src/animatedwidgets/popups/cascadercolumnview.cpp
+    src/animatedwidgets/popups/cascaderitemdelegate.h
+    src/animatedwidgets/popups/cascaderitemdelegate.cpp
     src/animatedwidgets/comboboxes/creatablecombobox.h
     src/animatedwidgets/comboboxes/creatablecombobox.cpp
     src/animatedwidgets/comboboxes/treepopupmodel.h

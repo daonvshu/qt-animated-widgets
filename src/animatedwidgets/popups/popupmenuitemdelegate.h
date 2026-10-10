@@ -58,6 +58,11 @@ public:
     bool drawSeparator = false;
     QColor separatorColor = QColor(QStringLiteral("#e5e8ec"));
 
+protected:
+    virtual bool hasChildItems(const QModelIndex& index) const;
+    virtual QVariant itemCheckState(const QModelIndex& index) const;
+    virtual bool isItemSelected(const QStyleOptionViewItem& option, const QModelIndex& index) const;
+
 private:
     bool hasItemIcons(const QModelIndex& index) const;
 

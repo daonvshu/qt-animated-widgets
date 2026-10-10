@@ -4,6 +4,7 @@
 #include "animatedwidgets/popups/defaultpopupmenuliststyle.h"
 #include "animatedwidgets/popups/defaultpopupmenustyle.h"
 #include "animatedwidgets/popups/defaultpopupmenumodel.h"
+#include "animatedwidgets/utils/smoothscrolling.h"
 
 #include <QLabel>
 #include <QStringList>
@@ -14,6 +15,8 @@ ComboBoxesPage::ComboBoxesPage(QWidget* parent)
 {
     Ui::ComboBoxesPage ui;
     ui.setupUi(this);
+
+    animatedwidgets::SmoothScrolling::install(ui.comboScrollArea);
 
     const QStringList choices = {QStringLiteral("Design"), QStringLiteral("Development"), QStringLiteral("Testing"),
                                  QStringLiteral("Delivery")};
@@ -67,6 +70,7 @@ ComboBoxesPage::ComboBoxesPage(QWidget* parent)
 
     setupTreeExamples(ui);
     setupCreationExamples(ui);
+    setupCascaderExamples(ui);
 
     const int tagColorRole = Qt::UserRole + 100;
     QList<animatedwidgets::PopupMenuItem> tagItems;
@@ -186,6 +190,41 @@ void ComboBoxesPage::setupTreeExamples(const Ui::ComboBoxesPage& ui) {
     }
     ui.comboTree->setCurrentModelIndex(guide->index());
     ui.comboTreeParents->setCurrentModelIndex(workspace->index());
+}
+
+void ComboBoxesPage::setupCascaderExamples(const Ui::ComboBoxesPage& ui) {
+    auto* model = new QStandardItemModel(this);
+    auto* creative = new QStandardItem(QIcon(QStringLiteral(":/animatedwidgets/gallery/folder.svg")), QStringLiteral("Creative"));
+    auto* design = new QStandardItem(QStringLiteral("Design"));
+    auto* illustration = new QStandardItem(QStringLiteral("Illustration"));
+    illustration->setData(QStringLiteral("illustration"), Qt::UserRole);
+    design->appendRow(illustration);
+    design->appendRow(new QStandardItem(QStringLiteral("Typography")));
+    creative->appendRow(design);
+    creative->appendRow(new QStandardItem(QStringLiteral("Motion")));
+    model->appendRow(creative);
+
+    auto* engineering = new QStandardItem(QStringLiteral("Engineering"));
+    for (int index = 0; index < 12; ++index)
+        engineering->appendRow(new QStandardItem(QStringLiteral("Toolset %1").arg(index + 1)));
+    auto* unavailable = new QStandardItem(QStringLiteral("Unavailable"));
+    unavailable->setEnabled(false);
+    engineering->appendRow(unavailable);
+    model->appendRow(engineering);
+
+    for (auto* combo : {ui.comboCascader, ui.comboCascaderParents}) {
+        combo->setModel(model);
+        combo->setMaxVisibleItems(6);
+        connect(combo, &CascaderComboBox::currentModelIndexChanged, this, [combo, label = ui.cascaderResultLabel](const QModelIndex& index) {
+            label->setText(QStringLiteral("Path: %1 | Data: %2")
+                .arg(combo->currentPathTexts().join(QStringLiteral(" / ")), index.data(Qt::UserRole).toString()));
+        });
+        connect(ui.errorCheck, &QCheckBox::toggled, combo, &ComboBox::setHasError);
+        connect(ui.arrowCheck, &QCheckBox::toggled, combo, &ComboBox::setArrowVisible);
+        connect(ui.durationSpin, QOverload<int>::of(&QSpinBox::valueChanged), combo, &ComboBox::setAnimationDuration);
+    }
+    ui.comboCascader->setCurrentModelIndex(illustration->index());
+    ui.comboCascaderParents->setCurrentModelIndex(design->index());
 }
 
 void ComboBoxesPage::setupCreationExamples(const Ui::ComboBoxesPage& ui) {

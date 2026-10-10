@@ -13,4 +13,5 @@ public:
 private:
     void setupTreeExamples(const Ui::ComboBoxesPage& ui);
     void setupCreationExamples(const Ui::ComboBoxesPage& ui);
+    void setupCascaderExamples(const Ui::ComboBoxesPage& ui);
 };

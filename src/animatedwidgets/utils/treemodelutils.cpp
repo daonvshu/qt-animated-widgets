@@ -29,4 +29,24 @@ bool TreeModelUtils::isSelectable(const QModelIndex& index, bool leafOnly) {
     return true;
 }
 
+QList<QModelIndex> TreeModelUtils::path(const QModelIndex& index, const QModelIndex& root) {
+    QList<QModelIndex> result;
+    if (!belongsToRoot(index, root))
+        return result;
+
+    for (QModelIndex node = index; node.isValid() && node != root; node = node.parent())
+        result.prepend(node);
+    return result;
+}
+
+QList<QModelIndex> TreeModelUtils::columnRoots(const QModelIndex& index, const QModelIndex& root) {
+    QList<QModelIndex> roots;
+    roots.append(root);
+    const auto nodes = path(index, root);
+    for (const QModelIndex& node : nodes)
+        if (!isLeaf(node))
+            roots.append(node.sibling(node.row(), 0));
+    return roots;
+}
+
 } // namespace animatedwidgets

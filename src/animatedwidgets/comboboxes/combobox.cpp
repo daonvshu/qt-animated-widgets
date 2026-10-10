@@ -575,7 +575,7 @@ void ComboBox::paintEvent(QPaintEvent*) {
     }
 
     painter.setPen(isEnabled() ? m_textColor : m_disabledTextColor);
-    const QString label = fontMetrics().elidedText(currentText(), Qt::ElideRight, qMax(0, textRect.width()));
+    const QString label = fontMetrics().elidedText(displayText(), Qt::ElideRight, qMax(0, textRect.width()));
     painter.drawText(textRect, Qt::AlignVCenter | (rightToLeft ? Qt::AlignRight : Qt::AlignLeft), label);
 }
 
@@ -659,6 +659,10 @@ ComboListPopup* ComboBox::createPopup() {
 
 bool ComboBox::canShowPopup() const {
     return model()->rowCount(popupRootModelIndex()) > 0;
+}
+
+QString ComboBox::displayText() const {
+    return currentText();
 }
 
 QModelIndex ComboBox::popupRootModelIndex() const {

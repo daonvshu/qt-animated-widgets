@@ -32,6 +32,8 @@ signals:
     void popClosed();
 
 protected:
+    void updatePopupPlacement();
+
     void resizeEvent(QResizeEvent* event) override;
     void showEvent(QShowEvent* event) override;
     void closeEvent(QCloseEvent* event) override;
@@ -39,6 +41,7 @@ protected:
 private:
     void startHideAnimation();
     void finishClose(int generation);
+    void placePopup();
     void moveToTarget(const QWidget* target, Qt::Edge edgeAlign, Qt::Alignment posAlign, const QPoint& offset);
     void moveToTargetRect(const QRect& rect, Qt::Edge edge, Qt::Alignment alignment, const QPoint& offset);
     QPoint calcAnchorPoint(Qt::Edge edge, Qt::Alignment alignment) const;
@@ -54,6 +57,7 @@ private:
     bool m_reallyClose = false;
     bool m_hideAnimationStarted = false;
     int m_hideGeneration = 0;
+    int m_showGeneration = 0;
     QPointer<PopupAnimation> m_animation;
 };
 
