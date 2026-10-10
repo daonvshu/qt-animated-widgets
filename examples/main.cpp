@@ -1,4 +1,5 @@
 #include "buttonspage.h"
+#include "calendarspage.h"
 #include "comboboxespage.h"
 #include "inputspage.h"
 #include "popupmenuspage.h"
@@ -11,8 +12,23 @@
 #include <QApplication>
 #include <QTabBar>
 
+#ifdef Q_OS_WIN
+#include <Windows.h>
+#endif
+
 int main(int argc, char* argv[]) {
     QApplication app(argc, argv);
+
+#ifdef Q_OS_WIN
+    NONCLIENTMETRICSW metrics{};
+    metrics.cbSize = sizeof(metrics);
+    if (SystemParametersInfoW(SPI_GETNONCLIENTMETRICS, metrics.cbSize, &metrics, 0)) {
+        auto font = QApplication::font();
+        font.setFamily(QString::fromWCharArray(metrics.lfMenuFont.lfFaceName));
+        QApplication::setFont(font);
+    }
+#endif
+
     QWidget gallery;
     Ui::Gallery ui;
     ui.setupUi(&gallery);
@@ -28,6 +44,7 @@ int main(int argc, char* argv[]) {
     addPage(new SlidersPage(&gallery), QObject::tr("Sliders"));
     addPage(new InputsPage(&gallery), QObject::tr("Inputs"));
     addPage(new ComboBoxesPage(&gallery), QObject::tr("Combo Boxes"));
+    addPage(new CalendarsPage(&gallery), QObject::tr("Calendars"));
     addPage(new PopupMenusPage(&gallery), QObject::tr("Popup Menus"));
 
     QObject::connect(ui.tabs, &QTabBar::currentChanged, ui.stack, &QStackedWidget::setCurrentIndex);

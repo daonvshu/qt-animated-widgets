@@ -1,6 +1,7 @@
 #include "plugins.h"
 
 #include "buttons/variantbuttonplugin.h"
+#include "calendars/calendarplugin.h"
 #include "comboboxes/comboboxplugin.h"
 #include "inputs/inputplugin.h"
 #include "progressbars/progressbarplugin.h"
@@ -24,6 +25,8 @@ AnimatedWidgetsDesignerPlugin::AnimatedWidgetsDesignerPlugin(QObject* parent)
         m_widgets.append(new ComboBoxPlugin(kind, this));
     }
     m_widgets.append(new TagPlugin(this));
+    for (int kind = 0; kind < 4; ++kind)
+        m_widgets.append(new CalendarPlugin(kind, this));
 }
 
 QList<QDesignerCustomWidgetInterface*> AnimatedWidgetsDesignerPlugin::customWidgets() const {

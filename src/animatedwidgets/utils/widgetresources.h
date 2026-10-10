@@ -12,4 +12,8 @@ public:
     static void initializeComboBoxes() {
         Q_INIT_RESOURCE(comboboxes);
     }
+
+    static void initializeCalendars() {
+        Q_INIT_RESOURCE(calendars);
+    }
 };

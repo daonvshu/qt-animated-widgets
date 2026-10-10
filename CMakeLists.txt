@@ -47,6 +47,36 @@ target_include_directories(AnimatedWidgetsStyle PUBLIC
 target_link_libraries(AnimatedWidgetsStyle PUBLIC AnimatedWidgetsCore Qt${QT_VERSION_MAJOR}::Gui)
 
 add_library(AnimatedWidgetsWidgets
+    src/animatedwidgets/calendars/calendarstyle.h
+    src/animatedwidgets/calendars/calendarstyle.cpp
+    src/animatedwidgets/utils/calendarstyleutils.h
+    src/animatedwidgets/utils/calendarstyleutils.cpp
+    src/animatedwidgets/calendars/calendardateitemdelegate.cpp
+    src/animatedwidgets/calendars/calendardateitemdelegate.h
+    src/animatedwidgets/calendars/calendardaterangeselectpopup.cpp
+    src/animatedwidgets/calendars/calendardaterangeselectpopup.h
+    src/animatedwidgets/calendars/calendardateselector.cpp
+    src/animatedwidgets/calendars/calendardateselector.h
+    src/animatedwidgets/calendars/calendardateselectpopup.cpp
+    src/animatedwidgets/calendars/calendardateselectpopup.h
+    src/animatedwidgets/calendars/calendardatetimeselectpopup.cpp
+    src/animatedwidgets/calendars/calendardatetimeselectpopup.h
+    src/animatedwidgets/calendars/calendarmonthselector.cpp
+    src/animatedwidgets/calendars/calendarmonthselector.h
+    src/animatedwidgets/calendars/calendarmonthselectpopup.cpp
+    src/animatedwidgets/calendars/calendarmonthselectpopup.h
+    src/animatedwidgets/calendars/calendarsectiondata.h
+    src/animatedwidgets/calendars/calendartimeitemstyledelegate.cpp
+    src/animatedwidgets/calendars/calendartimeitemstyledelegate.h
+    src/animatedwidgets/calendars/calendartimeselector.cpp
+    src/animatedwidgets/calendars/calendartimeselector.h
+    src/animatedwidgets/calendars/calendaryearselector.cpp
+    src/animatedwidgets/calendars/calendaryearselector.h
+    src/animatedwidgets/calendars/calendaryearselectpopup.cpp
+    src/animatedwidgets/calendars/calendaryearselectpopup.h
+    src/animatedwidgets/calendars/resources/calendars.qrc
+    src/animatedwidgets/utils/calendardateutils.h
+    src/animatedwidgets/utils/calendardateutils.cpp
     src/animatedwidgets/popups/shadowwidget.h
     src/animatedwidgets/popups/shadowwidget.cpp
     src/animatedwidgets/popups/basepopupdlg.h

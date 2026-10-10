@@ -2,6 +2,9 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Svg)
 
 add_executable(animatedwidgets-gallery
     main.cpp
+    calendarspage.cpp
+    calendarspage.h
+    calendarspage.ui
     buttonspage.cpp
     buttonspage.h
     buttonspage.ui

@@ -4,6 +4,8 @@ add_library(animatedwidgetsdesigner MODULE
     plugins.h
     plugins.cpp
     designerwidgets.h
+    calendars/calendarplugin.h
+    calendars/calendarplugin.cpp
     buttons/variantbuttonplugin.h
     buttons/variantbuttonplugin.cpp
     switches/switchplugin.h

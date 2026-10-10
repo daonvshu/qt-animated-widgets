@@ -1,5 +1,10 @@
 #pragma once
 
+#include "animatedwidgets/calendars/calendardateselector.h"
+#include "animatedwidgets/calendars/calendaryearselector.h"
+#include "animatedwidgets/calendars/calendarmonthselector.h"
+#include "animatedwidgets/calendars/calendartimeselector.h"
+
 #include "animatedwidgets/buttons/variantbuttons.h"
 #include "animatedwidgets/comboboxes/combobox.h"
 #include "animatedwidgets/comboboxes/compositecombobox.h"
@@ -24,6 +29,30 @@
 #include "animatedwidgets/switches/switch.h"
 
 // Designer requires the plugin name and the created widget's meta-object name to match.
+class CalendarDateSelector : public animatedwidgets::CalendarDateSelector {
+    Q_OBJECT
+public:
+    using animatedwidgets::CalendarDateSelector::CalendarDateSelector;
+};
+
+class CalendarYearSelector : public animatedwidgets::CalendarYearSelector {
+    Q_OBJECT
+public:
+    using animatedwidgets::CalendarYearSelector::CalendarYearSelector;
+};
+
+class CalendarMonthSelector : public animatedwidgets::CalendarMonthSelector {
+    Q_OBJECT
+public:
+    using animatedwidgets::CalendarMonthSelector::CalendarMonthSelector;
+};
+
+class CalendarTimeSelector : public animatedwidgets::CalendarTimeSelector {
+    Q_OBJECT
+public:
+    using animatedwidgets::CalendarTimeSelector::CalendarTimeSelector;
+};
+
 class FilledButton : public animatedwidgets::FilledButton {
     Q_OBJECT
 public:

@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/animatedwidgets/calendars">
+        <file>yearleft.svg</file>
+        <file>yearright.svg</file>
+        <file>monthleft.svg</file>
+        <file>monthright.svg</file>
+        <file>timeseparator.svg</file>
+        <file>calendar.svg</file>
+    </qresource>
+</RCC>
