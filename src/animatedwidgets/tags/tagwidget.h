@@ -1,5 +1,7 @@
 #pragma once
 
+#include "animatedwidgets/namespacealias.h"
+
 #include "animatedwidgets/tags/tagstyle.h"
 
 #include <QWidget>

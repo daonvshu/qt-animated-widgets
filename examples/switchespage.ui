@@ -16,14 +16,14 @@
     <number>16</number>
    </property>
    <item>
-    <widget class="Switch" name="switchInteractive">
+    <widget class="aw::Switch" name="switchInteractive">
      <property name="text">
       <string>Interactive</string>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="Switch" name="switchChecked">
+    <widget class="aw::Switch" name="switchChecked">
      <property name="text">
       <string>Checked</string>
      </property>
@@ -33,7 +33,7 @@
     </widget>
    </item>
    <item>
-    <widget class="Switch" name="switchCustom">
+    <widget class="aw::Switch" name="switchCustom">
      <property name="text">
       <string>Custom handle</string>
      </property>
@@ -43,7 +43,7 @@
     </widget>
    </item>
    <item>
-    <widget class="Switch" name="switchDisabled">
+    <widget class="aw::Switch" name="switchDisabled">
      <property name="text">
       <string>Disabled</string>
      </property>
@@ -53,7 +53,7 @@
     </widget>
    </item>
    <item>
-    <widget class="Switch" name="switchDisabledChecked">
+    <widget class="aw::Switch" name="switchDisabledChecked">
      <property name="text">
       <string>Disabled checked</string>
      </property>
@@ -82,7 +82,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>Switch</class>
+   <class>aw::Switch</class>
    <extends>QCheckBox</extends>
    <header>animatedwidgets/switches/switch.h</header>
   </customwidget>

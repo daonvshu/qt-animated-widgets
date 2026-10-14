@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>StylePreviewPanel</class>
+ <widget class="QWidget" name="StylePreviewPanel">
+  <property name="styleSheet"><string notr="true">QScrollArea#previewScrollArea, QWidget#previewHost { background: transparent; border: none; }
+animatedwidgets--LineEdit#previewWidthEdit, animatedwidgets--LineEdit#previewHeightEdit {
+    background: transparent; border: none;
+    qproperty-borderVisible: true; qproperty-borderWidth: 1;
+}</string></property>
+  <layout class="QVBoxLayout" name="panelLayout">
+   <property name="spacing"><number>8</number></property>
+   <property name="leftMargin"><number>0</number></property>
+   <property name="topMargin"><number>0</number></property>
+   <property name="rightMargin"><number>0</number></property>
+   <property name="bottomMargin"><number>0</number></property>
+   <item>
+    <widget class="QWidget" name="previewControls">
+     <layout class="QHBoxLayout" name="controlsLayout">
+      <property name="spacing"><number>8</number></property>
+      <property name="leftMargin"><number>17</number></property>
+      <property name="topMargin"><number>0</number></property>
+      <property name="rightMargin"><number>17</number></property>
+      <property name="bottomMargin"><number>0</number></property>
+      <item><widget class="QLabel" name="previewWidthLabel"><property name="text"><string>W</string></property></widget></item>
+      <item>
+       <widget class="aw::LineEdit" name="previewWidthEdit">
+        <property name="maximumSize"><size><width>72</width><height>16777215</height></size></property>
+        <property name="maxLength"><number>4</number></property>
+        <property name="alignment"><set>Qt::AlignCenter</set></property>
+        <property name="toolTip"><string>Preview width in pixels (1-4096)</string></property>
+        <property name="editorControl" stdset="0"><bool>true</bool></property>
+       </widget>
+      </item>
+      <item><widget class="QLabel" name="previewHeightLabel"><property name="text"><string>H</string></property></widget></item>
+      <item>
+       <widget class="aw::LineEdit" name="previewHeightEdit">
+        <property name="maximumSize"><size><width>72</width><height>16777215</height></size></property>
+        <property name="maxLength"><number>4</number></property>
+        <property name="alignment"><set>Qt::AlignCenter</set></property>
+        <property name="toolTip"><string>Preview height in pixels (1-4096)</string></property>
+        <property name="editorControl" stdset="0"><bool>true</bool></property>
+       </widget>
+      </item>
+      <item><widget class="QLabel" name="previewBackgroundLabel"><property name="text"><string>Background</string></property></widget></item>
+      <item>
+       <widget class="aw::BorderedButton" name="previewBackgroundButton">
+        <property name="minimumSize"><size><width>64</width><height>34</height></size></property>
+        <property name="maximumSize"><size><width>64</width><height>34</height></size></property>
+        <property name="text"><string>Theme</string></property>
+        <property name="cornerRadius"><number>8</number></property>
+       </widget>
+      </item>
+      <item><spacer name="controlsSpacer"><property name="orientation"><enum>Qt::Horizontal</enum></property><property name="sizeHint" stdset="0"><size><width>10</width><height>10</height></size></property></spacer></item>
+      <item><widget class="aw::OutlineButton" name="resetPreviewButton"><property name="text"><string>Reset preview</string></property><property name="editorControl" stdset="0"><bool>true</bool></property></widget></item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QFrame" name="previewCanvas">
+     <property name="frameShape"><enum>QFrame::NoFrame</enum></property>
+     <property name="backgroundStyleTemplate" stdset="0"><string notr="true">QFrame#previewCanvas { background-color: %1; }</string></property>
+     <layout class="QVBoxLayout" name="canvasLayout">
+      <property name="leftMargin"><number>14</number></property>
+      <property name="topMargin"><number>14</number></property>
+      <property name="rightMargin"><number>14</number></property>
+      <property name="bottomMargin"><number>14</number></property>
+      <item>
+       <widget class="QScrollArea" name="previewScrollArea">
+        <property name="widgetResizable"><bool>true</bool></property>
+        <property name="frameShape"><enum>QFrame::NoFrame</enum></property>
+        <property name="alignment"><set>Qt::AlignCenter</set></property>
+        <widget class="QWidget" name="previewHost">
+         <layout class="QVBoxLayout" name="previewWidgetLayout">
+          <property name="sizeConstraint"><enum>QLayout::SetMinAndMaxSize</enum></property>
+          <property name="leftMargin"><number>0</number></property>
+          <property name="topMargin"><number>0</number></property>
+          <property name="rightMargin"><number>0</number></property>
+          <property name="bottomMargin"><number>0</number></property>
+         </layout>
+        </widget>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget><class>aw::LineEdit</class><extends>QLineEdit</extends><header>animatedwidgets/inputs/lineedit.h</header></customwidget>
+  <customwidget><class>aw::BorderedButton</class><extends>QPushButton</extends><header>animatedwidgets/buttons/borderedbutton.h</header></customwidget>
+  <customwidget><class>aw::OutlineButton</class><extends>QPushButton</extends><header>animatedwidgets/buttons/outlinebutton.h</header></customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

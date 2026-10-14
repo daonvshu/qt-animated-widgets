@@ -191,6 +191,35 @@ void OutlineButton::setIconPlacement(IconPlacement placement) {
     update();
 }
 
+Qt::Alignment OutlineButton::contentAlignment() const {
+    return m_contentAlignment;
+}
+
+void OutlineButton::setContentAlignment(Qt::Alignment alignment) {
+    m_contentAlignment = alignment;
+    update();
+}
+
+int OutlineButton::contentHorizontalPadding() const {
+    return m_contentHorizontalPadding;
+}
+
+void OutlineButton::setContentHorizontalPadding(int padding) {
+    m_contentHorizontalPadding = qMax(0, padding);
+    updateGeometry();
+    update();
+}
+
+int OutlineButton::contentVerticalPadding() const {
+    return m_contentVerticalPadding;
+}
+
+void OutlineButton::setContentVerticalPadding(int padding) {
+    m_contentVerticalPadding = qMax(0, padding);
+    updateGeometry();
+    update();
+}
+
 QColor OutlineButton::borderForState(ButtonState state) const {
     return ButtonStateColorUtils::resolve({m_normalBorder, m_hoverBorder, m_pressedBorder, m_checkedBorder, m_disabledBorder}, state, darkerStep());
 }
@@ -209,7 +238,7 @@ void OutlineButton::updateAnimationTargets(bool immediate) {
 QSize OutlineButton::sizeHint() const {
     const QSize content =
             ButtonPainter::contentSize(ButtonContentOptions{icon(), iconSize(), text(), font(), {}, m_iconSpacing, false, contentPlacement(m_iconPlacement)});
-    return ButtonPainter::textSizeHint(content);
+    return ButtonPainter::textSizeHint(content, m_contentHorizontalPadding, m_contentVerticalPadding);
 }
 
 void OutlineButton::paintEvent(QPaintEvent*) {
@@ -219,7 +248,8 @@ void OutlineButton::paintEvent(QPaintEvent*) {
                                ButtonSurfaceOptions{{}, animatedBorderColor(), m_borderWidth, m_cornerRadius, false, true, false});
     ButtonPainter::drawContent(
             painter, rect(),
-            ButtonContentOptions{icon(), iconSize(), text(), font(), animatedContentColor(), m_iconSpacing, false, contentPlacement(m_iconPlacement)});
+            ButtonContentOptions{icon(), iconSize(), text(), font(), animatedContentColor(), m_iconSpacing, false, contentPlacement(m_iconPlacement),
+                                 m_contentAlignment, m_contentHorizontalPadding, m_contentVerticalPadding, layoutDirection()});
 }
 
 } // namespace animatedwidgets

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "animatedwidgets/namespacealias.h"
+
 #include "animatedwidgets/buttons/animatedbuttonbase.h"
 #include "animatedwidgets/buttons/buttonstatestyle.h"
 
@@ -23,6 +25,10 @@ class FilledButton : public AnimatedButtonBase {
     Q_PROPERTY(int cornerRadius READ cornerRadius WRITE setCornerRadius)
     Q_PROPERTY(int iconSpacing READ iconSpacing WRITE setIconSpacing)
     Q_PROPERTY(IconPlacement iconPlacement READ iconPlacement WRITE setIconPlacement)
+
+    Q_PROPERTY(Qt::Alignment contentAlignment READ contentAlignment WRITE setContentAlignment)
+    Q_PROPERTY(int contentHorizontalPadding READ contentHorizontalPadding WRITE setContentHorizontalPadding)
+    Q_PROPERTY(int contentVerticalPadding READ contentVerticalPadding WRITE setContentVerticalPadding)
 
 public:
     explicit FilledButton(QWidget* parent = nullptr);
@@ -65,6 +71,13 @@ public:
     IconPlacement iconPlacement() const;
     void setIconPlacement(IconPlacement placement);
 
+    Qt::Alignment contentAlignment() const;
+    void setContentAlignment(Qt::Alignment alignment);
+    int contentHorizontalPadding() const;
+    void setContentHorizontalPadding(int padding);
+    int contentVerticalPadding() const;
+    void setContentVerticalPadding(int padding);
+
     QSize sizeHint() const override;
 
 protected:
@@ -88,6 +101,10 @@ private:
     int m_cornerRadius = 6;
     int m_iconSpacing = 6;
     IconPlacement m_iconPlacement = IconPlacement::BeforeText;
+
+    Qt::Alignment m_contentAlignment = Qt::AlignCenter;
+    int m_contentHorizontalPadding = 0;
+    int m_contentVerticalPadding = 0;
 };
 
 } // namespace animatedwidgets

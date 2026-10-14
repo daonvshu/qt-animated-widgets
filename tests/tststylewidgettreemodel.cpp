@@ -1,0 +1,125 @@
+#include "../styleeditor/panels/stylewidgettreemodel.h"
+
+#include <QtTest>
+
+using animatedwidgets::styleeditor::StyleEditorWidgetType;
+
+class StyleWidgetTreeModelTest : public QObject {
+    Q_OBJECT
+
+private slots:
+    void categoriesAndDocumentIndices();
+    void searchByCategoryStyleAndType();
+    void unavailableTypesAndStableIds();
+
+private:
+    static StyleEditorWidgetType widgetType(const QString& id, const QString& name, const QString& category);
+    static StyleDocumentItem documentItem(const QString& id, const QString& name, const QString& typeId);
+};
+
+StyleEditorWidgetType StyleWidgetTreeModelTest::widgetType(const QString& id, const QString& name, const QString& category) {
+    StyleEditorWidgetType type;
+    type.id = id;
+    type.name = name;
+    type.category = category;
+    return type;
+}
+
+StyleDocumentItem StyleWidgetTreeModelTest::documentItem(const QString& id, const QString& name, const QString& typeId) {
+    StyleDocumentItem item;
+    item.id = id;
+    item.displayName = name;
+    item.widgetTypeId = typeId;
+    return item;
+}
+
+void StyleWidgetTreeModelTest::categoriesAndDocumentIndices() {
+    const QList<StyleEditorWidgetType> types{
+        widgetType(QStringLiteral("filled"), QStringLiteral("Filled button"), QStringLiteral("Buttons")),
+        widgetType(QStringLiteral("outline"), QStringLiteral("Outline button"), QStringLiteral("Buttons")),
+        widgetType(QStringLiteral("line"), QStringLiteral("Line edit"), QStringLiteral("Inputs")),
+        widgetType(QStringLiteral("custom"), QStringLiteral("Custom widget"), QStringLiteral("  "))};
+    const QList<StyleDocumentItem> items{
+        documentItem(QStringLiteral("input"), QStringLiteral("Search"), QStringLiteral("line")),
+        documentItem(QStringLiteral("button"), QStringLiteral("Primary"), QStringLiteral("filled"))};
+    StyleWidgetTreeModel model;
+    model.rebuild(types, items, QString());
+
+    QCOMPARE(model.rowCount(), 3);
+    QCOMPARE(model.index(0, 0).data().toString(), QStringLiteral("Buttons"));
+    QCOMPARE(model.index(1, 0).data().toString(), QStringLiteral("Inputs"));
+    QCOMPARE(model.index(2, 0).data().toString(), QStringLiteral("Other widgets"));
+    QCOMPARE(model.rowCount(model.index(2, 0)), 0);
+    QVERIFY(model.index(2, 0).data(StyleWidgetTreeModel::ActionEnabledRole).toBool());
+    QVERIFY(!(model.flags(model.index(0, 0)) & Qt::ItemIsSelectable));
+
+    const QModelIndex button = model.indexForItem(QStringLiteral("button"));
+    QCOMPARE(button.parent(), model.index(0, 0));
+    QCOMPARE(button.data(StyleWidgetTreeModel::ItemIndexRole).toInt(), 1);
+    QCOMPARE(button.data(StyleWidgetTreeModel::DetailRole).toString(), QStringLiteral("Filled button"));
+    QVERIFY(model.flags(button) & Qt::ItemIsSelectable);
+    QCOMPARE(model.indexForItem(QStringLiteral("input")).data(StyleWidgetTreeModel::ItemIndexRole).toInt(), 0);
+    QVERIFY(!model.indexForItem(QString()).isValid());
+    QVERIFY(!model.indexForItem(QStringLiteral("missing")).isValid());
+}
+
+void StyleWidgetTreeModelTest::searchByCategoryStyleAndType() {
+    const QList<StyleEditorWidgetType> types{
+        widgetType(QStringLiteral("filled"), QStringLiteral("Filled button"), QStringLiteral("Buttons")),
+        widgetType(QStringLiteral("outline"), QStringLiteral("Outline button"), QStringLiteral("Buttons")),
+        widgetType(QStringLiteral("line"), QStringLiteral("Line edit"), QStringLiteral("Inputs"))};
+    const QList<StyleDocumentItem> items{
+        documentItem(QStringLiteral("first"), QStringLiteral("Primary"), QStringLiteral("filled")),
+        documentItem(QStringLiteral("second"), QStringLiteral("Secondary"), QStringLiteral("outline"))};
+    StyleWidgetTreeModel model;
+    model.rebuild(types, items, QStringLiteral("  pRiMaRy  "));
+    QCOMPARE(model.rowCount(), 1);
+    QCOMPARE(model.rowCount(model.index(0, 0)), 1);
+    QVERIFY(model.indexForItem(QStringLiteral("first")).isValid());
+    QVERIFY(!model.indexForItem(QStringLiteral("second")).isValid());
+
+    model.rebuild(types, items, QStringLiteral("outline"));
+    QCOMPARE(model.indexForItem(QStringLiteral("second")).data(StyleWidgetTreeModel::ItemIndexRole).toInt(), 1);
+    model.rebuild(types, items, QStringLiteral("BUTTONS"));
+    QCOMPARE(model.rowCount(model.index(0, 0)), 2);
+    model.rebuild(types, items, QStringLiteral("Inputs"));
+    QCOMPARE(model.rowCount(), 1);
+    QCOMPARE(model.rowCount(model.index(0, 0)), 0);
+    model.rebuild(types, items, QStringLiteral("no results"));
+    QCOMPARE(model.rowCount(), 0);
+}
+
+void StyleWidgetTreeModelTest::unavailableTypesAndStableIds() {
+    const QList<StyleEditorWidgetType> types{
+        widgetType(QStringLiteral("filled"), QStringLiteral("Filled button"), QStringLiteral("Buttons")),
+        widgetType(QStringLiteral("line"), QStringLiteral("Line edit"), QStringLiteral("Inputs"))};
+    QList<StyleDocumentItem> items{
+        documentItem(QStringLiteral("stable"), QStringLiteral("Primary"), QStringLiteral("filled")),
+        documentItem(QStringLiteral("external"), QStringLiteral("External"), QStringLiteral("missing-plugin"))};
+    StyleWidgetTreeModel model;
+    model.rebuild(types, items, QString());
+    const QPersistentModelIndex oldIndex(model.indexForItem(QStringLiteral("stable")));
+    const QModelIndex unavailable = model.indexForItem(QStringLiteral("external"));
+    QCOMPARE(unavailable.parent().data().toString(), QStringLiteral("Unavailable widgets"));
+    QVERIFY(!unavailable.parent().data(StyleWidgetTreeModel::ActionEnabledRole).toBool());
+    QVERIFY(unavailable.data(StyleWidgetTreeModel::ActionEnabledRole).toBool());
+
+    items[0].displayName = QStringLiteral("Renamed input");
+    items[0].widgetTypeId = QStringLiteral("line");
+    model.rebuild(types, items, QString());
+    QVERIFY(!oldIndex.isValid());
+    const QModelIndex renamed = model.indexForItem(QStringLiteral("stable"));
+    QCOMPARE(renamed.parent().data().toString(), QStringLiteral("Inputs"));
+    QCOMPARE(renamed.data().toString(), QStringLiteral("Renamed input"));
+    QCOMPARE(renamed.data(StyleWidgetTreeModel::TypeIdRole).toString(), QStringLiteral("line"));
+    QCOMPARE(renamed.data(StyleWidgetTreeModel::ItemIndexRole).toInt(), 0);
+
+    model.rebuild({}, items, QString());
+    QCOMPARE(model.rowCount(), 1);
+    QVERIFY(!model.indexForItem(QStringLiteral("stable")).data(StyleWidgetTreeModel::ActionEnabledRole).toBool());
+    QCOMPARE(items.at(1).widgetTypeId, QStringLiteral("missing-plugin"));
+}
+
+QTEST_APPLESS_MAIN(StyleWidgetTreeModelTest)
+
+#include "tststylewidgettreemodel.moc"

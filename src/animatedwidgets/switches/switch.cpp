@@ -151,6 +151,10 @@ void Switch::updateTargets(bool immediate) {
     m_thumbColor.setTarget(!isEnabled() ? m_disabledThumbColor : (isChecked() ? m_checkedThumbColor : m_uncheckedThumbColor), immediate);
 }
 
+bool Switch::hitButton(const QPoint& pos) const {
+    return rect().contains(pos);
+}
+
 void Switch::paintEvent(QPaintEvent*) {
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);

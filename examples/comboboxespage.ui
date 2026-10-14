@@ -77,7 +77,7 @@
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="ComboBox" name="comboNormal"/>
+          <widget class="aw::ComboBox" name="comboNormal"/>
          </item>
          <item row="1" column="0">
           <widget class="QLabel" name="editableLabel">
@@ -85,7 +85,7 @@
           </widget>
          </item>
          <item row="1" column="1">
-          <widget class="ComboBox" name="comboEditable">
+          <widget class="aw::ComboBox" name="comboEditable">
            <property name="editable"><bool>true</bool></property>
           </widget>
          </item>
@@ -95,7 +95,7 @@
           </widget>
          </item>
          <item row="2" column="1">
-          <widget class="ComboBox" name="comboDisabled">
+          <widget class="aw::ComboBox" name="comboDisabled">
            <property name="enabled"><bool>false</bool></property>
           </widget>
          </item>
@@ -105,7 +105,7 @@
           </widget>
          </item>
          <item row="3" column="1">
-          <widget class="CompositeComboBox" name="comboComposite"/>
+          <widget class="aw::CompositeComboBox" name="comboComposite"/>
          </item>
          <item row="4" column="0">
           <widget class="QLabel" name="searchLabel">
@@ -113,7 +113,7 @@
           </widget>
          </item>
          <item row="4" column="1">
-          <widget class="SearchComboBox" name="comboSearch"/>
+          <widget class="aw::SearchComboBox" name="comboSearch"/>
          </item>
          <item row="5" column="0">
           <widget class="QLabel" name="iconsLabel">
@@ -121,7 +121,7 @@
           </widget>
          </item>
          <item row="5" column="1">
-          <widget class="ComboBox" name="comboIcons"/>
+          <widget class="aw::ComboBox" name="comboIcons"/>
          </item>
          <item row="6" column="0">
           <widget class="QLabel" name="multiLabel">
@@ -129,7 +129,7 @@
           </widget>
          </item>
          <item row="6" column="1">
-          <widget class="MultiSelectComboBox" name="comboMulti">
+          <widget class="aw::MultiSelectComboBox" name="comboMulti">
            <property name="searchable"><bool>false</bool></property>
            <property name="clearButtonVisible"><bool>false</bool></property>
           </widget>
@@ -140,7 +140,7 @@
           </widget>
          </item>
          <item row="7" column="1">
-          <widget class="MultiSelectComboBox" name="comboMultiSearch"/>
+          <widget class="aw::MultiSelectComboBox" name="comboMultiSearch"/>
          </item>
          <item row="8" column="0">
           <widget class="QLabel" name="multiDisabledLabel">
@@ -148,7 +148,7 @@
           </widget>
          </item>
          <item row="8" column="1">
-          <widget class="MultiSelectComboBox" name="comboMultiDisabled">
+          <widget class="aw::MultiSelectComboBox" name="comboMultiDisabled">
            <property name="enabled"><bool>false</bool></property>
           </widget>
          </item>
@@ -158,7 +158,7 @@
           </widget>
          </item>
          <item row="10" column="1">
-          <widget class="TreeComboBox" name="comboTree"/>
+          <widget class="aw::TreeComboBox" name="comboTree"/>
          </item>
          <item row="11" column="0">
           <widget class="QLabel" name="treeParentLabel">
@@ -166,7 +166,7 @@
           </widget>
          </item>
          <item row="11" column="1">
-          <widget class="TreeComboBox" name="comboTreeParents">
+          <widget class="aw::TreeComboBox" name="comboTreeParents">
            <property name="leafOnly"><bool>false</bool></property>
            <property name="searchable"><bool>false</bool></property>
           </widget>
@@ -182,7 +182,7 @@
           </widget>
          </item>
          <item row="13" column="1">
-          <widget class="CreatableComboBox" name="comboCreatable"/>
+          <widget class="aw::CreatableComboBox" name="comboCreatable"/>
          </item>
          <item row="14" column="0">
           <widget class="QLabel" name="creatableEmptyLabel">
@@ -190,7 +190,7 @@
           </widget>
          </item>
          <item row="14" column="1">
-          <widget class="CreatableComboBox" name="comboCreatableEmpty">
+          <widget class="aw::CreatableComboBox" name="comboCreatableEmpty">
            <property name="minimumCreateLength"><number>2</number></property>
           </widget>
          </item>
@@ -210,7 +210,7 @@
           </widget>
          </item>
          <item row="16" column="1">
-          <widget class="CascaderComboBox" name="comboCascader"/>
+          <widget class="aw::CascaderComboBox" name="comboCascader"/>
          </item>
          <item row="17" column="0">
           <widget class="QLabel" name="cascaderParentsLabel">
@@ -218,7 +218,7 @@
           </widget>
          </item>
          <item row="17" column="1">
-          <widget class="CascaderComboBox" name="comboCascaderParents">
+          <widget class="aw::CascaderComboBox" name="comboCascaderParents">
            <property name="leafOnly"><bool>false</bool></property>
            <property name="showFullPath"><bool>false</bool></property>
           </widget>
@@ -251,37 +251,37 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>CascaderComboBox</class>
+   <class>aw::CascaderComboBox</class>
    <extends>QComboBox</extends>
    <header>animatedwidgets/comboboxes/cascadercombobox.h</header>
   </customwidget>
   <customwidget>
-   <class>CreatableComboBox</class>
+   <class>aw::CreatableComboBox</class>
    <extends>QComboBox</extends>
    <header>animatedwidgets/comboboxes/creatablecombobox.h</header>
   </customwidget>
   <customwidget>
-   <class>TreeComboBox</class>
+   <class>aw::TreeComboBox</class>
    <extends>QComboBox</extends>
    <header>animatedwidgets/comboboxes/treecombobox.h</header>
   </customwidget>
   <customwidget>
-   <class>MultiSelectComboBox</class>
+   <class>aw::MultiSelectComboBox</class>
    <extends>QWidget</extends>
    <header>animatedwidgets/comboboxes/multiselectcombobox.h</header>
   </customwidget>
   <customwidget>
-   <class>SearchComboBox</class>
+   <class>aw::SearchComboBox</class>
    <extends>QComboBox</extends>
    <header>animatedwidgets/comboboxes/searchcombobox.h</header>
   </customwidget>
   <customwidget>
-   <class>ComboBox</class>
+   <class>aw::ComboBox</class>
    <extends>QComboBox</extends>
    <header>animatedwidgets/comboboxes/combobox.h</header>
   </customwidget>
   <customwidget>
-   <class>CompositeComboBox</class>
+   <class>aw::CompositeComboBox</class>
    <extends>QWidget</extends>
    <header>animatedwidgets/comboboxes/compositecombobox.h</header>
   </customwidget>

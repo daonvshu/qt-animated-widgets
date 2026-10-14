@@ -1,5 +1,7 @@
 #pragma once
 
+#include "animatedwidgets/namespacealias.h"
+
 #include "animatedwidgets/buttons/animatedbuttonbase.h"
 #include "animatedwidgets/buttons/buttonstatestyle.h"
 

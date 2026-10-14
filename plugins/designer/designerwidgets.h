@@ -28,6 +28,8 @@
 #include "animatedwidgets/sliders/slider.h"
 #include "animatedwidgets/switches/switch.h"
 
+namespace aw {
+
 // Designer requires the plugin name and the created widget's meta-object name to match.
 class CalendarDateSelector : public animatedwidgets::CalendarDateSelector {
     Q_OBJECT
@@ -214,3 +216,5 @@ class TagWidget : public animatedwidgets::TagWidget {
 public:
     using animatedwidgets::TagWidget::TagWidget;
 };
+
+} // namespace aw

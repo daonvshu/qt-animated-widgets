@@ -39,3 +39,38 @@ add_test(NAME tsttreepathutils COMMAND tsttreepathutils)
 add_executable(tstpopupmenufiltermodel tstpopupmenufiltermodel.cpp)
 target_link_libraries(tstpopupmenufiltermodel PRIVATE AnimatedWidgets::Widgets Qt${QT_VERSION_MAJOR}::Test)
 add_test(NAME tstpopupmenufiltermodel COMMAND tstpopupmenufiltermodel)
+
+if(BUILD_STYLE_EDITOR)
+    add_executable(tststylepropertybuilder
+        tststylepropertybuilder.cpp
+        stylepropertytestobject.h
+        ../styleeditor/utils/stylecodegenerator.h
+        ../styleeditor/utils/stylecodegenerator.cpp
+        ../styleeditor/utils/styledocumentcodec.h
+        ../styleeditor/utils/styledocumentcodec.cpp
+    )
+    target_link_libraries(tststylepropertybuilder PRIVATE AnimatedWidgets::StyleEditorApi Qt${QT_VERSION_MAJOR}::Test)
+    add_test(NAME tststylepropertybuilder COMMAND tststylepropertybuilder)
+
+    add_executable(tststyledocumentsession
+        tststyledocumentsession.cpp
+        ../styleeditor/document/styledocumentsession.h
+        ../styleeditor/document/styledocumentsession.cpp
+        ../styleeditor/utils/stylepreviewutils.h
+        ../styleeditor/utils/stylepreviewutils.cpp
+        ../styleeditor/utils/styledocumentcodec.h
+        ../styleeditor/utils/styledocumentcodec.cpp
+        ../styleeditor/utils/stylecodegenerator.h
+        ../styleeditor/utils/stylecodegenerator.cpp
+    )
+    target_link_libraries(tststyledocumentsession PRIVATE AnimatedWidgets::StyleEditorApi Qt${QT_VERSION_MAJOR}::Test)
+    add_test(NAME tststyledocumentsession COMMAND tststyledocumentsession)
+
+    add_executable(tststylewidgettreemodel
+        tststylewidgettreemodel.cpp
+        ../styleeditor/panels/stylewidgettreemodel.h
+        ../styleeditor/panels/stylewidgettreemodel.cpp
+    )
+    target_link_libraries(tststylewidgettreemodel PRIVATE AnimatedWidgets::StyleEditorApi Qt${QT_VERSION_MAJOR}::Test)
+    add_test(NAME tststylewidgettreemodel COMMAND tststylewidgettreemodel)
+endif()

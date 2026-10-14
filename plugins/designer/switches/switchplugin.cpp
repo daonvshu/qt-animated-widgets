@@ -29,7 +29,7 @@ QIcon SwitchPlugin::icon() const {
     return QIcon(pixmap);
 }
 QString SwitchPlugin::domXml() const {
-    return QStringLiteral("<widget class=\"Switch\" name=\"switchWidget\">"
+    return QStringLiteral("<widget class=\"aw::Switch\" name=\"switchWidget\">"
                           "<property name=\"text\"><string>Switch</string></property>"
                           "</widget>");
 }
@@ -40,7 +40,7 @@ QString SwitchPlugin::includeFile() const {
     return QStringLiteral("animatedwidgets/switches/switch.h");
 }
 QString SwitchPlugin::name() const {
-    return QStringLiteral("Switch");
+    return QStringLiteral("aw::Switch");
 }
 QString SwitchPlugin::toolTip() const {
     return QString();
@@ -49,7 +49,7 @@ QString SwitchPlugin::whatsThis() const {
     return QString();
 }
 QWidget* SwitchPlugin::createWidget(QWidget* parent) {
-    return new Switch(parent);
+    return new aw::Switch(parent);
 }
 void SwitchPlugin::initialize(QDesignerFormEditorInterface*) {
     m_initialized = true;

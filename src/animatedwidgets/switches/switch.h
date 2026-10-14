@@ -1,5 +1,7 @@
 #pragma once
 
+#include "animatedwidgets/namespacealias.h"
+
 #include "animatedwidgets/core/valuetransition.h"
 
 #include <QCheckBox>
@@ -54,6 +56,7 @@ public:
     QSize sizeHint() const override;
 
 protected:
+    bool hitButton(const QPoint& pos) const override;
     void paintEvent(QPaintEvent* event) override;
     void changeEvent(QEvent* event) override;
     void showEvent(QShowEvent* event) override;

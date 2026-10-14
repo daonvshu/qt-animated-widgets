@@ -130,9 +130,15 @@ container; arbitrary factory content is supplied by application code.
 ## Qt Designer plugin
 
 `BUILD_DESIGNER_PLUGIN` is ON by default. The `animatedwidgetsdesigner` module
-registers the buttons, selection controls, Switch, ProgressBar, Slider, and inputs with short class names
-and distinct icons in the `animated-widgets` group. The concrete classes use
-those short names; `animatedwidgets::` aliases preserve namespaced C++ usage.
+registers the controls with short namespaced names such as `aw::FilledButton`
+and distinct icons in the `animated-widgets` group. Designer adapters have
+matching meta-object names to avoid collisions with other widget plugins.
+The public classes remain in `animatedwidgets`; widget headers expose the
+`aw` namespace alias for generated C++ code. Existing unqualified C++ aliases
+remain available. Use the `aw::` names in existing forms' widget declarations
+and custom widget definitions when migrating from unqualified Designer names.
+Stylesheet type selectors continue to use `animatedwidgets--FilledButton`
+and the corresponding names of the other public classes.
 More widget adapters can be added under
 `plugins/designer/` and registered
 in `plugins/designer/plugins.cpp`.

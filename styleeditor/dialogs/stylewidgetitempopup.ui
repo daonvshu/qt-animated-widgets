@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>StyleWidgetItemPopup</class>
+ <widget class="QWidget" name="StyleWidgetItemPopup">
+  <property name="geometry"><rect><x>0</x><y>0</y><width>480</width><height>340</height></rect></property>
+  <property name="minimumSize"><size><width>440</width><height>320</height></size></property>
+  <property name="styleSheet">
+   <string notr="true">QWidget#StyleWidgetItemPopup { background: #ffffff; border: 1px solid #e6eaf0; border-radius: 12px; }
+QLabel { color: #172033; background: transparent; }
+QLabel#titleLabel { font-size: 18px; font-weight: 700; }
+QLabel#categoryLabel { color: #5b67f1; font-size: 12px; font-weight: 600; }
+QLabel#hintLabel { color: #7c879a; font-size: 12px; }
+animatedwidgets--FilledButton[editorControl="true"] {
+    min-height: 36px; min-width: 72px; qproperty-backgroundNormal: #5b67f1; qproperty-backgroundHover: #6975fa;
+    qproperty-contentNormal: #ffffff; qproperty-cornerRadius: 9; qproperty-animateContentColor: true;
+}
+animatedwidgets--OutlineButton[editorControl="true"] {
+    min-height: 36px; min-width: 72px; qproperty-borderNormal: #d7dde8; qproperty-borderHover: #5b67f1;
+    qproperty-contentNormal: #172033; qproperty-contentHover: #5b67f1; qproperty-cornerRadius: 9; qproperty-animateContentColor: true;
+}
+animatedwidgets--LineEdit[editorControl="true"], animatedwidgets--ComboBox[editorControl="true"] {
+    min-height: 34px; qproperty-backgroundNormal: #f5f7fb; qproperty-backgroundHover: #f5f7fb; qproperty-backgroundFocus: #f5f7fb;
+    qproperty-borderNormal: #e6eaf0; qproperty-borderHover: #5b67f1; qproperty-borderFocus: #5b67f1;
+    qproperty-textColor: #172033; qproperty-cornerRadius: 8; qproperty-contentPadding: 9;
+}
+animatedwidgets--LineEdit#nameEdit {
+    background: transparent; border: none;
+    qproperty-borderVisible: true; qproperty-borderWidth: 1; qproperty-borderNormal: #d7dde8;
+}</string>
+  </property>
+  <layout class="QVBoxLayout" name="dialogLayout">
+   <property name="spacing"><number>14</number></property>
+   <property name="leftMargin"><number>24</number></property>
+   <property name="topMargin"><number>24</number></property>
+   <property name="rightMargin"><number>24</number></property>
+   <property name="bottomMargin"><number>24</number></property>
+   <item><widget class="QLabel" name="titleLabel"><property name="text"><string>Add widget style</string></property></widget></item>
+   <item><widget class="QLabel" name="categoryLabel"><property name="text"><string>Widget category</string></property><property name="textFormat"><enum>Qt::PlainText</enum></property></widget></item>
+   <item>
+    <layout class="QFormLayout" name="propertyLayout">
+     <property name="horizontalSpacing"><number>16</number></property>
+     <property name="verticalSpacing"><number>12</number></property>
+     <item row="0" column="0"><widget class="QLabel" name="typeLabel"><property name="text"><string>Widget type</string></property></widget></item>
+     <item row="0" column="1"><widget class="aw::ComboBox" name="typeCombo"><property name="editorControl" stdset="0"><bool>true</bool></property></widget></item>
+     <item row="1" column="0"><widget class="QLabel" name="nameLabel"><property name="text"><string>Style name</string></property></widget></item>
+     <item row="1" column="1"><widget class="aw::LineEdit" name="nameEdit"><property name="placeholderText"><string>Enter a style name</string></property><property name="editorControl" stdset="0"><bool>true</bool></property></widget></item>
+    </layout>
+   </item>
+   <item><widget class="QLabel" name="hintLabel"><property name="text"><string>Choose a widget type and give this style a name.</string></property><property name="wordWrap"><bool>true</bool></property></widget></item>
+   <item><spacer name="bodySpacer"><property name="orientation"><enum>Qt::Vertical</enum></property><property name="sizeHint" stdset="0"><size><width>20</width><height>12</height></size></property></spacer></item>
+   <item>
+    <layout class="QHBoxLayout" name="actionLayout">
+     <property name="spacing"><number>8</number></property>
+     <item><spacer name="actionSpacer"><property name="orientation"><enum>Qt::Horizontal</enum></property><property name="sizeHint" stdset="0"><size><width>20</width><height>20</height></size></property></spacer></item>
+     <item><widget class="aw::OutlineButton" name="cancelButton"><property name="text"><string>Cancel</string></property><property name="editorControl" stdset="0"><bool>true</bool></property></widget></item>
+     <item><widget class="aw::FilledButton" name="acceptButton"><property name="text"><string>Add style</string></property><property name="editorControl" stdset="0"><bool>true</bool></property></widget></item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget><class>aw::FilledButton</class><extends>QPushButton</extends><header>animatedwidgets/buttons/filledbutton.h</header></customwidget>
+  <customwidget><class>aw::OutlineButton</class><extends>QPushButton</extends><header>animatedwidgets/buttons/outlinebutton.h</header></customwidget>
+  <customwidget><class>aw::ComboBox</class><extends>QComboBox</extends><header>animatedwidgets/comboboxes/combobox.h</header></customwidget>
+  <customwidget><class>aw::LineEdit</class><extends>QLineEdit</extends><header>animatedwidgets/inputs/lineedit.h</header></customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

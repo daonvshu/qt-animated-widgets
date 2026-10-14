@@ -172,6 +172,35 @@ void HoverButton::setIconPlacement(IconPlacement placement) {
     update();
 }
 
+Qt::Alignment HoverButton::contentAlignment() const {
+    return m_contentAlignment;
+}
+
+void HoverButton::setContentAlignment(Qt::Alignment alignment) {
+    m_contentAlignment = alignment;
+    update();
+}
+
+int HoverButton::contentHorizontalPadding() const {
+    return m_contentHorizontalPadding;
+}
+
+void HoverButton::setContentHorizontalPadding(int padding) {
+    m_contentHorizontalPadding = qMax(0, padding);
+    updateGeometry();
+    update();
+}
+
+int HoverButton::contentVerticalPadding() const {
+    return m_contentVerticalPadding;
+}
+
+void HoverButton::setContentVerticalPadding(int padding) {
+    m_contentVerticalPadding = qMax(0, padding);
+    updateGeometry();
+    update();
+}
+
 QColor HoverButton::backgroundForState(ButtonState state) const {
     return ButtonStateColorUtils::resolveHoverOnly(
             {ButtonStateColorUtils::defaultActiveFill(), m_hoverBackground, m_pressedBackground, m_checkedBackground, m_disabledBackground}, state,
@@ -192,7 +221,7 @@ void HoverButton::updateAnimationTargets(bool immediate) {
 QSize HoverButton::sizeHint() const {
     const QSize content =
             ButtonPainter::contentSize(ButtonContentOptions{icon(), iconSize(), text(), font(), {}, m_iconSpacing, false, contentPlacement(m_iconPlacement)});
-    return ButtonPainter::textSizeHint(content);
+    return ButtonPainter::textSizeHint(content, m_contentHorizontalPadding, m_contentVerticalPadding);
 }
 
 void HoverButton::paintEvent(QPaintEvent*) {
@@ -200,7 +229,8 @@ void HoverButton::paintEvent(QPaintEvent*) {
     ButtonPainter::drawSurface(painter, QRectF(rect()), ButtonSurfaceOptions{animatedBackgroundColor(), {}, 0.0, m_cornerRadius, true, false, false});
     ButtonPainter::drawContent(
             painter, rect(),
-            ButtonContentOptions{icon(), iconSize(), text(), font(), animatedContentColor(), m_iconSpacing, false, contentPlacement(m_iconPlacement)});
+            ButtonContentOptions{icon(), iconSize(), text(), font(), animatedContentColor(), m_iconSpacing, false, contentPlacement(m_iconPlacement),
+                                 m_contentAlignment, m_contentHorizontalPadding, m_contentVerticalPadding, layoutDirection()});
 }
 
 } // namespace animatedwidgets

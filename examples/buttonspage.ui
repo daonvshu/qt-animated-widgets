@@ -233,7 +233,7 @@
            </widget>
           </item>
           <item row="1" column="1">
-           <widget class="FilledButton" name="filledInteractive">
+           <widget class="aw::FilledButton" name="filledInteractive">
             <property name="minimumSize">
              <size>
               <width>150</width>
@@ -246,7 +246,7 @@
            </widget>
           </item>
           <item row="1" column="2">
-           <widget class="FilledButton" name="filledChecked">
+           <widget class="aw::FilledButton" name="filledChecked">
             <property name="minimumSize">
              <size>
               <width>150</width>
@@ -262,7 +262,7 @@
            </widget>
           </item>
           <item row="1" column="3">
-           <widget class="FilledButton" name="filledDisabled">
+           <widget class="aw::FilledButton" name="filledDisabled">
             <property name="minimumSize">
              <size>
               <width>150</width>
@@ -285,7 +285,7 @@
            </widget>
           </item>
           <item row="2" column="1">
-           <widget class="OutlineButton" name="outlineInteractive">
+           <widget class="aw::OutlineButton" name="outlineInteractive">
             <property name="minimumSize">
              <size>
               <width>150</width>
@@ -298,7 +298,7 @@
            </widget>
           </item>
           <item row="2" column="2">
-           <widget class="OutlineButton" name="outlineChecked">
+           <widget class="aw::OutlineButton" name="outlineChecked">
             <property name="minimumSize">
              <size>
               <width>150</width>
@@ -314,7 +314,7 @@
            </widget>
           </item>
           <item row="2" column="3">
-           <widget class="OutlineButton" name="outlineDisabled">
+           <widget class="aw::OutlineButton" name="outlineDisabled">
             <property name="minimumSize">
              <size>
               <width>150</width>
@@ -337,7 +337,7 @@
            </widget>
           </item>
           <item row="3" column="1">
-           <widget class="BorderedButton" name="borderedInteractive">
+           <widget class="aw::BorderedButton" name="borderedInteractive">
             <property name="minimumSize">
              <size>
               <width>150</width>
@@ -350,7 +350,7 @@
            </widget>
           </item>
           <item row="3" column="2">
-           <widget class="BorderedButton" name="borderedChecked">
+           <widget class="aw::BorderedButton" name="borderedChecked">
             <property name="minimumSize">
              <size>
               <width>150</width>
@@ -369,7 +369,7 @@
            </widget>
           </item>
           <item row="3" column="3">
-           <widget class="BorderedButton" name="borderedDisabled">
+           <widget class="aw::BorderedButton" name="borderedDisabled">
             <property name="minimumSize">
              <size>
               <width>150</width>
@@ -392,7 +392,7 @@
            </widget>
           </item>
           <item row="4" column="1">
-           <widget class="HoverButton" name="hoverInteractive">
+           <widget class="aw::HoverButton" name="hoverInteractive">
             <property name="minimumSize">
              <size>
               <width>150</width>
@@ -405,7 +405,7 @@
            </widget>
           </item>
           <item row="4" column="2">
-           <widget class="HoverButton" name="hoverChecked">
+           <widget class="aw::HoverButton" name="hoverChecked">
             <property name="minimumSize">
              <size>
               <width>150</width>
@@ -424,7 +424,7 @@
            </widget>
           </item>
           <item row="4" column="3">
-           <widget class="HoverButton" name="hoverDisabled">
+           <widget class="aw::HoverButton" name="hoverDisabled">
             <property name="minimumSize">
              <size>
               <width>150</width>
@@ -503,7 +503,7 @@
            </widget>
           </item>
           <item row="1" column="1">
-           <widget class="FilledIconButton" name="filledIconInteractive">
+           <widget class="aw::FilledIconButton" name="filledIconInteractive">
             <property name="minimumSize">
              <size>
               <width>44</width>
@@ -519,7 +519,7 @@
            </widget>
           </item>
           <item row="1" column="2">
-           <widget class="FilledIconButton" name="filledIconChecked">
+           <widget class="aw::FilledIconButton" name="filledIconChecked">
             <property name="minimumSize">
              <size>
               <width>44</width>
@@ -538,7 +538,7 @@
            </widget>
           </item>
           <item row="1" column="3">
-           <widget class="FilledIconButton" name="filledIconDisabled">
+           <widget class="aw::FilledIconButton" name="filledIconDisabled">
             <property name="minimumSize">
              <size>
               <width>44</width>
@@ -564,7 +564,7 @@
            </widget>
           </item>
           <item row="2" column="1">
-           <widget class="OutlineIconButton" name="outlineIconInteractive">
+           <widget class="aw::OutlineIconButton" name="outlineIconInteractive">
             <property name="minimumSize">
              <size>
               <width>44</width>
@@ -580,7 +580,7 @@
            </widget>
           </item>
           <item row="2" column="2">
-           <widget class="OutlineIconButton" name="outlineIconChecked">
+           <widget class="aw::OutlineIconButton" name="outlineIconChecked">
             <property name="minimumSize">
              <size>
               <width>44</width>
@@ -599,7 +599,7 @@
            </widget>
           </item>
           <item row="2" column="3">
-           <widget class="OutlineIconButton" name="outlineIconDisabled">
+           <widget class="aw::OutlineIconButton" name="outlineIconDisabled">
             <property name="minimumSize">
              <size>
               <width>44</width>
@@ -625,7 +625,7 @@
            </widget>
           </item>
           <item row="3" column="1">
-           <widget class="BorderedIconButton" name="borderedIconInteractive">
+           <widget class="aw::BorderedIconButton" name="borderedIconInteractive">
             <property name="minimumSize">
              <size>
               <width>44</width>
@@ -641,7 +641,7 @@
            </widget>
           </item>
           <item row="3" column="2">
-           <widget class="BorderedIconButton" name="borderedIconChecked">
+           <widget class="aw::BorderedIconButton" name="borderedIconChecked">
             <property name="minimumSize">
              <size>
               <width>44</width>
@@ -663,7 +663,7 @@
            </widget>
           </item>
           <item row="3" column="3">
-           <widget class="BorderedIconButton" name="borderedIconDisabled">
+           <widget class="aw::BorderedIconButton" name="borderedIconDisabled">
             <property name="minimumSize">
              <size>
               <width>44</width>
@@ -689,7 +689,7 @@
            </widget>
           </item>
           <item row="4" column="1">
-           <widget class="HoverIconButton" name="hoverIconInteractive">
+           <widget class="aw::HoverIconButton" name="hoverIconInteractive">
             <property name="minimumSize">
              <size>
               <width>44</width>
@@ -705,7 +705,7 @@
            </widget>
           </item>
           <item row="4" column="2">
-           <widget class="HoverIconButton" name="hoverIconChecked">
+           <widget class="aw::HoverIconButton" name="hoverIconChecked">
             <property name="minimumSize">
              <size>
               <width>44</width>
@@ -727,7 +727,7 @@
            </widget>
           </item>
           <item row="4" column="3">
-           <widget class="HoverIconButton" name="hoverIconDisabled">
+           <widget class="aw::HoverIconButton" name="hoverIconDisabled">
             <property name="minimumSize">
              <size>
               <width>44</width>
@@ -769,42 +769,42 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>FilledButton</class>
+   <class>aw::FilledButton</class>
    <extends>QPushButton</extends>
    <header>animatedwidgets/buttons/filledbutton.h</header>
   </customwidget>
   <customwidget>
-   <class>OutlineButton</class>
+   <class>aw::OutlineButton</class>
    <extends>QPushButton</extends>
    <header>animatedwidgets/buttons/outlinebutton.h</header>
   </customwidget>
   <customwidget>
-   <class>BorderedButton</class>
+   <class>aw::BorderedButton</class>
    <extends>QPushButton</extends>
    <header>animatedwidgets/buttons/borderedbutton.h</header>
   </customwidget>
   <customwidget>
-   <class>HoverButton</class>
+   <class>aw::HoverButton</class>
    <extends>QPushButton</extends>
    <header>animatedwidgets/buttons/hoverbutton.h</header>
   </customwidget>
   <customwidget>
-   <class>FilledIconButton</class>
+   <class>aw::FilledIconButton</class>
    <extends>QPushButton</extends>
    <header>animatedwidgets/buttons/fillediconbutton.h</header>
   </customwidget>
   <customwidget>
-   <class>OutlineIconButton</class>
+   <class>aw::OutlineIconButton</class>
    <extends>QPushButton</extends>
    <header>animatedwidgets/buttons/outlineiconbutton.h</header>
   </customwidget>
   <customwidget>
-   <class>BorderedIconButton</class>
+   <class>aw::BorderedIconButton</class>
    <extends>QPushButton</extends>
    <header>animatedwidgets/buttons/borderediconbutton.h</header>
   </customwidget>
   <customwidget>
-   <class>HoverIconButton</class>
+   <class>aw::HoverIconButton</class>
    <extends>QPushButton</extends>
    <header>animatedwidgets/buttons/hovericonbutton.h</header>
   </customwidget>

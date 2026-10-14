@@ -12,7 +12,7 @@ class AnimatedButtonBase : public QPushButton {
     Q_OBJECT
 
 public:
-    enum class IconPlacement { BeforeText, AfterText, AboveText, BelowText };
+    enum IconPlacement { BeforeText, AfterText, AboveText, BelowText };
     Q_ENUM(IconPlacement)
     enum class Shape { Circle, RoundedRectangle };
     Q_ENUM(Shape)

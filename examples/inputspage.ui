@@ -129,7 +129,7 @@
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="LineEdit" name="inputNormal">
+          <widget class="aw::LineEdit" name="inputNormal">
            <property name="placeholderText">
             <string>Enter text</string>
            </property>
@@ -143,7 +143,7 @@
           </widget>
          </item>
          <item row="1" column="1">
-          <widget class="LineEdit" name="inputError">
+          <widget class="aw::LineEdit" name="inputError">
            <property name="placeholderText">
             <string>Review this value</string>
            </property>
@@ -160,7 +160,7 @@
           </widget>
          </item>
          <item row="2" column="1">
-          <widget class="LineEdit" name="inputDisabled">
+          <widget class="aw::LineEdit" name="inputDisabled">
            <property name="enabled">
             <bool>false</bool>
            </property>
@@ -177,7 +177,7 @@
           </widget>
          </item>
          <item row="3" column="1">
-          <widget class="LineEdit" name="inputReadOnly">
+          <widget class="aw::LineEdit" name="inputReadOnly">
            <property name="text">
             <string>Read-only value</string>
            </property>
@@ -194,7 +194,7 @@
           </widget>
          </item>
          <item row="4" column="1">
-          <widget class="IconLineEdit" name="inputLeadingIcon">
+          <widget class="aw::IconLineEdit" name="inputLeadingIcon">
            <property name="placeholderText">
             <string>Search</string>
            </property>
@@ -221,7 +221,7 @@
           </widget>
          </item>
          <item row="5" column="1">
-          <widget class="IconLineEdit" name="inputTrailingIcon">
+          <widget class="aw::IconLineEdit" name="inputTrailingIcon">
            <property name="text">
             <string>Clear this text</string>
            </property>
@@ -239,7 +239,7 @@
           </widget>
          </item>
          <item row="6" column="1">
-          <widget class="PasswordLineEdit" name="inputPassword">
+          <widget class="aw::PasswordLineEdit" name="inputPassword">
            <property name="text">
             <string>sample-password</string>
            </property>
@@ -253,7 +253,7 @@
           </widget>
          </item>
          <item row="7" column="1">
-          <widget class="CompositeLineEdit" name="inputComposite">
+          <widget class="aw::CompositeLineEdit" name="inputComposite">
            <property name="placeholderText">
             <string>Amount</string>
            </property>
@@ -267,7 +267,7 @@
           </widget>
          </item>
          <item row="8" column="1">
-          <widget class="LineEdit" name="inputStateColors">
+          <widget class="aw::LineEdit" name="inputStateColors">
            <property name="placeholderText">
             <string>Focus or change the state</string>
            </property>
@@ -334,7 +334,7 @@
           </widget>
          </item>
          <item row="9" column="1">
-          <widget class="PlainTextEdit" name="inputMultiline">
+          <widget class="aw::PlainTextEdit" name="inputMultiline">
            <property name="placeholderText">
             <string>Enter a longer note</string>
            </property>
@@ -383,7 +383,7 @@
           </widget>
          </item>
          <item row="10" column="1">
-          <widget class="PlainTextEdit" name="inputMultilineDisabled">
+          <widget class="aw::PlainTextEdit" name="inputMultilineDisabled">
            <property name="enabled">
             <bool>false</bool>
            </property>
@@ -400,7 +400,7 @@
           </widget>
          </item>
          <item row="11" column="1">
-          <widget class="CompositePlainTextEdit" name="inputCompositeMultiline">
+          <widget class="aw::CompositePlainTextEdit" name="inputCompositeMultiline">
            <property name="backgroundNormal">
             <color>
              <red>243</red>
@@ -447,7 +447,7 @@
           </widget>
          </item>
          <item row="12" column="1">
-          <widget class="SpinBox" name="inputSpin">
+          <widget class="aw::SpinBox" name="inputSpin">
            <property name="minimum"><number>-50</number></property>
            <property name="maximum"><number>200</number></property>
            <property name="value"><number>24</number></property>
@@ -482,7 +482,7 @@
           </widget>
          </item>
          <item row="13" column="1">
-          <widget class="DoubleSpinBox" name="inputDoubleSpin">
+          <widget class="aw::DoubleSpinBox" name="inputDoubleSpin">
            <property name="decimals"><number>2</number></property>
            <property name="maximum"><double>100.000000000000000</double></property>
            <property name="singleStep"><double>0.250000000000000</double></property>
@@ -502,7 +502,7 @@
           </widget>
          </item>
          <item row="14" column="1">
-          <widget class="SpinBox" name="inputSpinDisabled">
+          <widget class="aw::SpinBox" name="inputSpinDisabled">
            <property name="enabled"><bool>false</bool></property>
            <property name="value"><number>8</number></property>
           </widget>
@@ -513,7 +513,7 @@
           </widget>
          </item>
          <item row="15" column="1">
-          <widget class="CompositeSpinBox" name="inputCompositeSpin">
+          <widget class="aw::CompositeSpinBox" name="inputCompositeSpin">
            <property name="maximum"><number>1000</number></property>
            <property name="value"><number>25</number></property>
           </widget>
@@ -524,7 +524,7 @@
           </widget>
          </item>
          <item row="16" column="1">
-          <widget class="CompositeDoubleSpinBox" name="inputCompositeDoubleSpin">
+          <widget class="aw::CompositeDoubleSpinBox" name="inputCompositeDoubleSpin">
            <property name="decimals"><number>2</number></property>
            <property name="maximum"><double>100.000000000000000</double></property>
            <property name="singleStep"><double>0.250000000000000</double></property>
@@ -554,52 +554,52 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>LineEdit</class>
+   <class>aw::LineEdit</class>
    <extends>QLineEdit</extends>
    <header>animatedwidgets/inputs/lineedit.h</header>
   </customwidget>
   <customwidget>
-   <class>IconLineEdit</class>
+   <class>aw::IconLineEdit</class>
    <extends>QLineEdit</extends>
    <header>animatedwidgets/inputs/iconlineedit.h</header>
   </customwidget>
   <customwidget>
-   <class>PasswordLineEdit</class>
+   <class>aw::PasswordLineEdit</class>
    <extends>QLineEdit</extends>
    <header>animatedwidgets/inputs/passwordlineedit.h</header>
   </customwidget>
   <customwidget>
-   <class>CompositeLineEdit</class>
+   <class>aw::CompositeLineEdit</class>
    <extends>QWidget</extends>
    <header>animatedwidgets/inputs/compositelineedit.h</header>
   </customwidget>
   <customwidget>
-   <class>PlainTextEdit</class>
+   <class>aw::PlainTextEdit</class>
    <extends>QPlainTextEdit</extends>
    <header>animatedwidgets/inputs/plaintextedit.h</header>
   </customwidget>
   <customwidget>
-   <class>CompositePlainTextEdit</class>
+   <class>aw::CompositePlainTextEdit</class>
    <extends>QWidget</extends>
    <header>animatedwidgets/inputs/compositeplaintextedit.h</header>
   </customwidget>
   <customwidget>
-   <class>SpinBox</class>
+   <class>aw::SpinBox</class>
    <extends>QSpinBox</extends>
    <header>animatedwidgets/inputs/spinbox.h</header>
   </customwidget>
   <customwidget>
-   <class>DoubleSpinBox</class>
+   <class>aw::DoubleSpinBox</class>
    <extends>QDoubleSpinBox</extends>
    <header>animatedwidgets/inputs/doublespinbox.h</header>
   </customwidget>
   <customwidget>
-   <class>CompositeSpinBox</class>
+   <class>aw::CompositeSpinBox</class>
    <extends>QWidget</extends>
    <header>animatedwidgets/inputs/compositespinbox.h</header>
   </customwidget>
   <customwidget>
-   <class>CompositeDoubleSpinBox</class>
+   <class>aw::CompositeDoubleSpinBox</class>
    <extends>QWidget</extends>
    <header>animatedwidgets/inputs/compositedoublespinbox.h</header>
   </customwidget>

@@ -28,7 +28,7 @@ QIcon ProgressBarPlugin::icon() const {
     return QIcon(pixmap);
 }
 QString ProgressBarPlugin::domXml() const {
-    return QStringLiteral("<widget class=\"ProgressBar\" name=\"progressBar\">"
+    return QStringLiteral("<widget class=\"aw::ProgressBar\" name=\"progressBar\">"
                           "<property name=\"value\"><number>35</number></property>"
                           "</widget>");
 }
@@ -39,7 +39,7 @@ QString ProgressBarPlugin::includeFile() const {
     return QStringLiteral("animatedwidgets/progressbars/progressbar.h");
 }
 QString ProgressBarPlugin::name() const {
-    return QStringLiteral("ProgressBar");
+    return QStringLiteral("aw::ProgressBar");
 }
 QString ProgressBarPlugin::toolTip() const {
     return QString();
@@ -48,7 +48,7 @@ QString ProgressBarPlugin::whatsThis() const {
     return QString();
 }
 QWidget* ProgressBarPlugin::createWidget(QWidget* parent) {
-    return new ProgressBar(parent);
+    return new aw::ProgressBar(parent);
 }
 void ProgressBarPlugin::initialize(QDesignerFormEditorInterface*) {
     m_initialized = true;

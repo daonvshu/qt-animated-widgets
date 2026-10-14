@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>StylePropertyRow</class>
+ <widget class="QWidget" name="StylePropertyRow">
+  <property name="styleSheet"><string notr="true">QWidget#StylePropertyRow { background: transparent; }
+QLabel#nameLabel { color: #657084; font-size: 11px; background: transparent; }
+QLabel#nameLabel:disabled { color: #a8b1bf; }
+animatedwidgets--LineEdit[compactPropertyEditor="true"], animatedwidgets--ComboBox[compactPropertyEditor="true"] {
+    min-height: 22px; max-height: 24px; min-width: 0px; font-size: 11px;
+    qproperty-cornerRadius: 4; qproperty-contentPadding: 5;
+}
+animatedwidgets--LineEdit[compactPropertyEditor="true"] { background: transparent; border: none; qproperty-borderVisible: true; }
+animatedwidgets--BorderedButton#colorSwatch {
+    font-size: 10px; qproperty-borderNormal: #cbd3df; qproperty-borderHover: #5b67f1;
+    qproperty-contentNormal: #657084; qproperty-borderWidth: 1; qproperty-cornerRadius: 4;
+    qproperty-contentHorizontalPadding: 0; qproperty-contentVerticalPadding: 0;
+}
+animatedwidgets--HoverIconButton#resetButton {
+    qproperty-backgroundHover: #eef0ff; qproperty-contentNormal: #7c879a; qproperty-contentHover: #5b67f1;
+    qproperty-animateContentColor: true; qproperty-cornerRadius: 4;
+}</string></property>
+  <layout class="QHBoxLayout" name="rowLayout" stretch="4,5,0">
+   <property name="spacing"><number>6</number></property>
+   <property name="leftMargin"><number>4</number></property><property name="topMargin"><number>3</number></property>
+   <property name="rightMargin"><number>4</number></property><property name="bottomMargin"><number>3</number></property>
+   <item><widget class="QLabel" name="nameLabel">
+    <property name="minimumSize"><size><width>70</width><height>0</height></size></property>
+    <property name="sizePolicy"><sizepolicy hsizetype="Ignored" vsizetype="Preferred"><horstretch>0</horstretch><verstretch>0</verstretch></sizepolicy></property>
+    <property name="text"><string>Property</string></property><property name="textFormat"><enum>Qt::PlainText</enum></property>
+   </widget></item>
+   <item><widget class="QWidget" name="editorHost">
+    <property name="minimumSize"><size><width>90</width><height>0</height></size></property>
+    <layout class="QHBoxLayout" name="editorLayout">
+     <property name="spacing"><number>4</number></property><property name="leftMargin"><number>0</number></property><property name="topMargin"><number>0</number></property>
+     <property name="rightMargin"><number>0</number></property><property name="bottomMargin"><number>0</number></property>
+    </layout>
+   </widget></item>
+   <item><widget class="aw::HoverIconButton" name="resetButton">
+    <property name="minimumSize"><size><width>20</width><height>24</height></size></property><property name="maximumSize"><size><width>20</width><height>24</height></size></property>
+    <property name="iconSize"><size><width>12</width><height>12</height></size></property>
+    <property name="icon"><iconset resource="../resources/styleeditor.qrc"><normaloff>:/styleeditor/icons/reset.svg</normaloff>:/styleeditor/icons/reset.svg</iconset></property>
+    <property name="toolTip"><string>Restore the default value</string></property>
+    <property name="accessibleName"><string>Reset property</string></property>
+   </widget></item>
+  </layout>
+ </widget>
+ <customwidgets><customwidget><class>aw::HoverIconButton</class><extends>QPushButton</extends><header>animatedwidgets/buttons/hovericonbutton.h</header></customwidget></customwidgets>
+ <resources><include location="../resources/styleeditor.qrc"/></resources>
+ <connections/>
+</ui>

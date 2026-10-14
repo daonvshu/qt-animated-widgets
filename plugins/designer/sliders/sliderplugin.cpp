@@ -28,7 +28,7 @@ QIcon SliderPlugin::icon() const {
     return QIcon(pixmap);
 }
 QString SliderPlugin::domXml() const {
-    return QStringLiteral("<widget class=\"Slider\" name=\"slider\">"
+    return QStringLiteral("<widget class=\"aw::Slider\" name=\"slider\">"
                           "<property name=\"orientation\"><enum>Qt::Horizontal</enum></property>"
                           "<property name=\"value\"><number>35</number></property>"
                           "</widget>");
@@ -40,7 +40,7 @@ QString SliderPlugin::includeFile() const {
     return QStringLiteral("animatedwidgets/sliders/slider.h");
 }
 QString SliderPlugin::name() const {
-    return QStringLiteral("Slider");
+    return QStringLiteral("aw::Slider");
 }
 QString SliderPlugin::toolTip() const {
     return QString();
@@ -49,7 +49,7 @@ QString SliderPlugin::whatsThis() const {
     return QString();
 }
 QWidget* SliderPlugin::createWidget(QWidget* parent) {
-    return new Slider(parent);
+    return new aw::Slider(parent);
 }
 void SliderPlugin::initialize(QDesignerFormEditorInterface*) {
     m_initialized = true;

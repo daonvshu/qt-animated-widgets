@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/styleeditor/icons">
+        <file alias="styleeditor.svg">styleeditor.svg</file>
+        <file alias="componentlibrary.svg">componentlibrary.svg</file>
+        <file alias="thememanager.svg">thememanager.svg</file>
+        <file alias="exportproject.svg">exportproject.svg</file>
+        <file alias="designguidelines.svg">designguidelines.svg</file>
+        <file alias="helpdocumentation.svg">helpdocumentation.svg</file>
+        <file alias="add.svg">add.svg</file>
+        <file alias="edit.svg">edit.svg</file>
+        <file alias="reset.svg">reset.svg</file>
+        <file alias="close.svg">close.svg</file>
+    </qresource>
+</RCC>

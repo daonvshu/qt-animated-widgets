@@ -21,6 +21,10 @@ struct ButtonContentOptions {
     int spacing = 6;
     bool iconOnly = false;
     enum class Placement { BeforeText, AfterText, AboveText, BelowText } placement = Placement::BeforeText;
+    Qt::Alignment alignment = Qt::AlignCenter;
+    int horizontalPadding = 0;
+    int verticalPadding = 0;
+    Qt::LayoutDirection direction = Qt::LeftToRight;
 };
 
 struct ButtonSurfaceOptions {
@@ -39,7 +43,7 @@ public:
     static void drawSurface(QPainter& painter, const QRectF& rect, const ButtonSurfaceOptions& options);
     static void drawContent(QPainter& painter, const QRect& bounds, const ButtonContentOptions& options);
 
-    static QSize textSizeHint(const QSize& contentSize);
+    static QSize textSizeHint(const QSize& contentSize, int horizontalPadding = 0, int verticalPadding = 0);
     static QSize iconSizeHint(const QSize& iconSize);
 
     static QSize checkableSizeHint(const QSize& indicatorSize, int spacing, const QFontMetrics& fontMetrics, const QString& text);

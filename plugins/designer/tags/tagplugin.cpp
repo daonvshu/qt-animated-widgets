@@ -34,7 +34,7 @@ QIcon TagPlugin::icon() const {
 }
 
 QString TagPlugin::domXml() const {
-    return QStringLiteral("<widget class=\"TagWidget\" name=\"tagWidget\"><property name=\"text\"><string>Tag</string></property></widget>");
+    return QStringLiteral("<widget class=\"aw::TagWidget\" name=\"tagWidget\"><property name=\"text\"><string>Tag</string></property></widget>");
 }
 
 QString TagPlugin::group() const {
@@ -46,7 +46,7 @@ QString TagPlugin::includeFile() const {
 }
 
 QString TagPlugin::name() const {
-    return QStringLiteral("TagWidget");
+    return QStringLiteral("aw::TagWidget");
 }
 
 QString TagPlugin::toolTip() const {
@@ -58,7 +58,7 @@ QString TagPlugin::whatsThis() const {
 }
 
 QWidget* TagPlugin::createWidget(QWidget* parent) {
-    return new TagWidget(parent);
+    return new aw::TagWidget(parent);
 }
 
 void TagPlugin::initialize(QDesignerFormEditorInterface*) {

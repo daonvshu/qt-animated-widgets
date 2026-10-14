@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>StyleDocumentFilePopup</class>
+ <widget class="QWidget" name="StyleDocumentFilePopup">
+  <property name="geometry"><rect><x>0</x><y>0</y><width>820</width><height>560</height></rect></property>
+  <property name="minimumSize"><size><width>620</width><height>430</height></size></property>
+  <property name="styleSheet">
+   <string notr="true">QWidget#StyleDocumentFilePopup { background: #ffffff; border: 1px solid #e6eaf0; border-radius: 12px; }
+QLabel { color: #657084; background: transparent; }
+QLabel#titleLabel { color: #172033; font-size: 18px; font-weight: 700; }
+QLabel#errorLabel { color: #c84343; }
+QTreeView { color: #172033; background: #f5f7fb; border: 1px solid #e6eaf0; border-radius: 8px; outline: none; }
+QTreeView::item { height: 32px; padding: 2px 6px; border: none; }
+QTreeView::item:hover { background: #eef0ff; }
+QTreeView::item:selected { color: #5b67f1; background: #e5e9ff; }
+QHeaderView::section { color: #657084; background: #f5f7fb; border: none; border-bottom: 1px solid #e6eaf0; padding: 8px; }
+QScrollBar:vertical { width: 8px; background: transparent; }
+QScrollBar::handle:vertical { min-height: 24px; background: #c5ccda; border-radius: 4px; }
+QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical { height: 0; }
+animatedwidgets--FilledButton[editorControl="true"] {
+    min-height: 36px; min-width: 72px;
+    qproperty-backgroundNormal: #5b67f1; qproperty-backgroundHover: #6975fa;
+    qproperty-contentNormal: #ffffff; qproperty-cornerRadius: 9; qproperty-animateContentColor: true;
+}
+animatedwidgets--OutlineButton[editorControl="true"] {
+    min-height: 36px; min-width: 64px;
+    qproperty-borderNormal: #d7dde8; qproperty-borderHover: #5b67f1;
+    qproperty-contentNormal: #172033; qproperty-contentHover: #5b67f1;
+    qproperty-cornerRadius: 9; qproperty-animateContentColor: true;
+}
+animatedwidgets--LineEdit[editorControl="true"] {
+    min-height: 34px; qproperty-backgroundNormal: #f5f7fb;
+    qproperty-borderNormal: #e6eaf0; qproperty-borderHover: #5b67f1; qproperty-borderFocus: #5b67f1;
+    qproperty-textColor: #172033; qproperty-cornerRadius: 8; qproperty-contentPadding: 9;
+}</string>
+  </property>
+  <layout class="QVBoxLayout" name="dialogLayout">
+   <property name="spacing"><number>16</number></property>
+   <property name="leftMargin"><number>24</number></property>
+   <property name="topMargin"><number>24</number></property>
+   <property name="rightMargin"><number>24</number></property>
+   <property name="bottomMargin"><number>24</number></property>
+   <item><widget class="QLabel" name="titleLabel"><property name="text"><string>Style document</string></property></widget></item>
+   <item>
+    <layout class="QHBoxLayout" name="navigationLayout">
+     <property name="spacing"><number>8</number></property>
+     <item><widget class="aw::OutlineButton" name="homeButton"><property name="text"><string>Home</string></property><property name="editorControl" stdset="0"><bool>true</bool></property></widget></item>
+     <item><widget class="aw::OutlineButton" name="upButton"><property name="text"><string>Up</string></property><property name="editorControl" stdset="0"><bool>true</bool></property></widget></item>
+     <item><widget class="aw::LineEdit" name="pathEdit"><property name="placeholderText"><string>Directory path</string></property><property name="editorControl" stdset="0"><bool>true</bool></property></widget></item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QTreeView" name="fileView">
+     <property name="rootIsDecorated"><bool>false</bool></property>
+     <property name="itemsExpandable"><bool>false</bool></property>
+     <property name="uniformRowHeights"><bool>true</bool></property>
+     <property name="sortingEnabled"><bool>true</bool></property>
+     <property name="selectionMode"><enum>QAbstractItemView::SingleSelection</enum></property>
+     <property name="selectionBehavior"><enum>QAbstractItemView::SelectRows</enum></property>
+     <property name="editTriggers"><set>QAbstractItemView::NoEditTriggers</set></property>
+     <property name="verticalScrollMode"><enum>QAbstractItemView::ScrollPerPixel</enum></property>
+     <property name="horizontalScrollMode"><enum>QAbstractItemView::ScrollPerPixel</enum></property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="fileNameLayout">
+     <property name="spacing"><number>12</number></property>
+     <item><widget class="QLabel" name="fileNameLabel"><property name="text"><string>File name</string></property></widget></item>
+     <item><widget class="aw::LineEdit" name="fileNameEdit"><property name="placeholderText"><string>Style document name</string></property><property name="editorControl" stdset="0"><bool>true</bool></property></widget></item>
+     <item><widget class="QLabel" name="filterLabel"><property name="text"><string>JSON (*.json)</string></property></widget></item>
+    </layout>
+   </item>
+   <item><widget class="QLabel" name="errorLabel"><property name="text"><string>Validation message</string></property><property name="wordWrap"><bool>true</bool></property></widget></item>
+   <item>
+    <layout class="QHBoxLayout" name="actionLayout">
+     <property name="spacing"><number>8</number></property>
+     <item><spacer name="actionSpacer"><property name="orientation"><enum>Qt::Horizontal</enum></property><property name="sizeHint" stdset="0"><size><width>20</width><height>20</height></size></property></spacer></item>
+     <item><widget class="aw::OutlineButton" name="cancelButton"><property name="text"><string>Cancel</string></property><property name="editorControl" stdset="0"><bool>true</bool></property></widget></item>
+     <item><widget class="aw::FilledButton" name="acceptButton"><property name="text"><string>Open</string></property><property name="editorControl" stdset="0"><bool>true</bool></property></widget></item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget><class>aw::FilledButton</class><extends>QPushButton</extends><header>animatedwidgets/buttons/filledbutton.h</header></customwidget>
+  <customwidget><class>aw::OutlineButton</class><extends>QPushButton</extends><header>animatedwidgets/buttons/outlinebutton.h</header></customwidget>
+  <customwidget><class>aw::LineEdit</class><extends>QLineEdit</extends><header>animatedwidgets/inputs/lineedit.h</header></customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

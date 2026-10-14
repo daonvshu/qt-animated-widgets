@@ -55,10 +55,10 @@ QString CalendarPlugin::includeFile() const {
 
 QString CalendarPlugin::name() const {
     switch (m_kind) {
-    case 1: return QStringLiteral("CalendarYearSelector");
-    case 2: return QStringLiteral("CalendarMonthSelector");
-    case 3: return QStringLiteral("CalendarTimeSelector");
-    default: return QStringLiteral("CalendarDateSelector");
+    case 1: return QStringLiteral("aw::CalendarYearSelector");
+    case 2: return QStringLiteral("aw::CalendarMonthSelector");
+    case 3: return QStringLiteral("aw::CalendarTimeSelector");
+    default: return QStringLiteral("aw::CalendarDateSelector");
     }
 }
 
@@ -72,10 +72,10 @@ QString CalendarPlugin::whatsThis() const {
 
 QWidget* CalendarPlugin::createWidget(QWidget* parent) {
     switch (m_kind) {
-    case 1: return new CalendarYearSelector(parent);
-    case 2: return new CalendarMonthSelector(parent);
-    case 3: return new CalendarTimeSelector(parent);
-    default: return new CalendarDateSelector(parent);
+    case 1: return new aw::CalendarYearSelector(parent);
+    case 2: return new aw::CalendarMonthSelector(parent);
+    case 3: return new aw::CalendarTimeSelector(parent);
+    default: return new aw::CalendarDateSelector(parent);
     }
 }
 

@@ -5,8 +5,8 @@
 #include <QPainter>
 
 namespace {
-const char* const buttonNames[] = {"FilledButton",      "OutlineButton",      "BorderedButton",  "HoverButton", "FilledIconButton",
-                                   "OutlineIconButton", "BorderedIconButton", "HoverIconButton", "RadioButton", "CheckBox"};
+const char* const buttonNames[] = {"aw::FilledButton",      "aw::OutlineButton",      "aw::BorderedButton",  "aw::HoverButton", "aw::FilledIconButton",
+                                  "aw::OutlineIconButton", "aw::BorderedIconButton", "aw::HoverIconButton", "aw::RadioButton", "aw::CheckBox"};
 const char* const buttonObjectNames[] = {"filledButton",      "outlineButton",      "borderedButton",  "hoverButton", "filledIconButton",
                                          "outlineIconButton", "borderedIconButton", "hoverIconButton", "radioButton", "checkBox"};
 } // namespace
@@ -127,25 +127,25 @@ QString VariantButtonPlugin::whatsThis() const {
 QWidget* VariantButtonPlugin::createWidget(QWidget* parent) {
     switch (m_kind) {
         case 0:
-            return new FilledButton(parent);
+            return new aw::FilledButton(parent);
         case 1:
-            return new OutlineButton(parent);
+            return new aw::OutlineButton(parent);
         case 2:
-            return new BorderedButton(parent);
+            return new aw::BorderedButton(parent);
         case 3:
-            return new HoverButton(parent);
+            return new aw::HoverButton(parent);
         case 4:
-            return new FilledIconButton(parent);
+            return new aw::FilledIconButton(parent);
         case 5:
-            return new OutlineIconButton(parent);
+            return new aw::OutlineIconButton(parent);
         case 6:
-            return new BorderedIconButton(parent);
+            return new aw::BorderedIconButton(parent);
         case 7:
-            return new HoverIconButton(parent);
+            return new aw::HoverIconButton(parent);
         case 8:
-            return new RadioButton(parent);
+            return new aw::RadioButton(parent);
         default:
-            return new CheckBox(parent);
+            return new aw::CheckBox(parent);
     }
 }
 

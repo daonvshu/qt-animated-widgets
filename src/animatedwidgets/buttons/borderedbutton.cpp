@@ -241,6 +241,35 @@ void BorderedButton::setIconPlacement(IconPlacement placement) {
     update();
 }
 
+Qt::Alignment BorderedButton::contentAlignment() const {
+    return m_contentAlignment;
+}
+
+void BorderedButton::setContentAlignment(Qt::Alignment alignment) {
+    m_contentAlignment = alignment;
+    update();
+}
+
+int BorderedButton::contentHorizontalPadding() const {
+    return m_contentHorizontalPadding;
+}
+
+void BorderedButton::setContentHorizontalPadding(int padding) {
+    m_contentHorizontalPadding = qMax(0, padding);
+    updateGeometry();
+    update();
+}
+
+int BorderedButton::contentVerticalPadding() const {
+    return m_contentVerticalPadding;
+}
+
+void BorderedButton::setContentVerticalPadding(int padding) {
+    m_contentVerticalPadding = qMax(0, padding);
+    updateGeometry();
+    update();
+}
+
 QColor BorderedButton::backgroundForState(ButtonState state) const {
     return ButtonStateColorUtils::resolve({m_normalBackground, m_hoverBackground, m_pressedBackground, m_checkedBackground, m_disabledBackground}, state,
                                           darkerStep());
@@ -265,7 +294,7 @@ void BorderedButton::updateAnimationTargets(bool immediate) {
 QSize BorderedButton::sizeHint() const {
     const QSize content =
             ButtonPainter::contentSize(ButtonContentOptions{icon(), iconSize(), text(), font(), {}, m_iconSpacing, false, contentPlacement(m_iconPlacement)});
-    return ButtonPainter::textSizeHint(content);
+    return ButtonPainter::textSizeHint(content, m_contentHorizontalPadding, m_contentVerticalPadding);
 }
 
 void BorderedButton::paintEvent(QPaintEvent*) {
@@ -275,7 +304,8 @@ void BorderedButton::paintEvent(QPaintEvent*) {
                                ButtonSurfaceOptions{animatedBackgroundColor(), animatedBorderColor(), m_borderWidth, m_cornerRadius, true, true, false});
     ButtonPainter::drawContent(
             painter, rect(),
-            ButtonContentOptions{icon(), iconSize(), text(), font(), animatedContentColor(), m_iconSpacing, false, contentPlacement(m_iconPlacement)});
+            ButtonContentOptions{icon(), iconSize(), text(), font(), animatedContentColor(), m_iconSpacing, false, contentPlacement(m_iconPlacement),
+                                 m_contentAlignment, m_contentHorizontalPadding, m_contentVerticalPadding, layoutDirection()});
 }
 
 } // namespace animatedwidgets

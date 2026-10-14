@@ -1,0 +1,663 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>StyleEditorWindow</class>
+ <widget class="QMainWindow" name="StyleEditorWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1600</width>
+    <height>920</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Custom Widget Styles</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget#centralWidget { font-family: &quot;Segoe UI&quot;; font-size: 13px; }
+QMainWindow, QWidget#centralWidget, QWidget#main, QWidget#workspace { background: #f5f7fb; }
+QLabel { color: #172033; background: transparent; }
+QLabel#sectionDescription, QLabel#sectionStatus { color: #7c879a; background: transparent; }
+QLabel#muted { color: #7c879a; }
+QFrame#sidebar { background: #ffffff; border-right: 1px solid #e6eaf0; }
+QFrame#topbar { background: #ffffff; border-bottom: 1px solid #e6eaf0; }
+QFrame#documentPanel, QFrame#inspector, QFrame#previewCard, QFrame#codeCard, QFrame#sectionCard {
+    background: #ffffff; border: 1px solid #e6eaf0; border-radius: 16px;
+}
+QLabel#brandLogo { color: #ffffff; background: #6571ff; border-radius: 11px; font-size: 15px; font-weight: 800; }
+QLabel#brandName { color: #172033; font-size: 16px; font-weight: 750; }
+QLabel#brandSubtitle, QLabel#pageDescription, QLabel#documentPathLabel, QLabel#documentHintLabel { color: #7c879a; font-size: 11px; }
+QLabel#navigationLabel, QLabel#resourceLabel { padding: 15px 10px 8px; color: #7c879a; font-size: 11px; letter-spacing: 1px; }
+QLabel#pageTitle, QLabel#sectionTitle { color: #172033; font-size: 20px; font-weight: 750; }
+QLabel#documentPanelTitle, QLabel#propertiesTitle, QLabel#previewTitle, QLabel#codeTitle, QLabel#documentInfoTitle { color: #172033; font-size: 14px; font-weight: 700; }
+QLabel#documentCountLabel { padding: 3px 7px; color: #5b67f1; background: #eef0ff; border-radius: 20px; font-size: 11px; }
+QLabel#selectedControlLabel { padding: 10px 11px; color: #5b67f1; background: #eef0ff; border-radius: 9px; font-size: 12px; }
+QFrame#documentInfoPanel { background: transparent; border-top: 1px solid #e6eaf0; }
+QListWidget { padding: 6px; color: #7c879a; background: transparent; border: none; outline: none; }
+QListWidget::item { padding: 11px 10px; margin-bottom: 4px; border-radius: 9px; }
+QListWidget::item:hover { color: #5b67f1; background: #eef0ff; }
+QListWidget::item:selected { color: #5b67f1; background: #eef0ff; font-weight: 650; }
+QTreeWidget#propertyList { color: #172033; background: transparent; border: none; outline: none; }
+QTreeWidget#propertyList::item { border: none; }
+QTreeWidget#propertyList::item:hover { background: #f7f8fc; }
+QTreeWidget#propertyList::item:selected { background: #eef0ff; }
+QFrame#previewCanvas { background: #f5f7fb; border: 1px dashed #d7dde8; border-radius: 12px; }
+QScrollBar:vertical { width: 8px; margin: 2px; background: transparent; }
+QScrollBar::handle:vertical { min-height: 24px; background: #c5ccda; border-radius: 4px; }
+QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical { height: 0; }
+animatedwidgets--FilledButton[editorControl=&quot;true&quot;] {
+    min-height: 36px; min-width: 48px;
+    qproperty-backgroundNormal: #5b67f1; qproperty-backgroundHover: #6975fa;
+    qproperty-contentNormal: #ffffff; qproperty-cornerRadius: 9;
+    qproperty-animateContentColor: true; qproperty-animationDuration: 300;
+}
+animatedwidgets--OutlineButton[editorControl=&quot;true&quot;] {
+    min-height: 36px; min-width: 64px;
+    qproperty-borderNormal: #d7dde8; qproperty-borderHover: #5b67f1;
+    qproperty-contentNormal: #172033; qproperty-contentHover: #5b67f1;
+    qproperty-cornerRadius: 9; qproperty-animateContentColor: true; qproperty-animationDuration: 300;
+}
+animatedwidgets--HoverButton[editorControl=&quot;true&quot;] {
+    min-height: 38px;
+    qproperty-backgroundHover: #eef0ff; qproperty-backgroundChecked: #eef0ff;
+    qproperty-contentNormal: #7c879a; qproperty-contentHover: #5b67f1; qproperty-contentChecked: #5b67f1;
+    qproperty-cornerRadius: 11; qproperty-animateContentColor: true; qproperty-animationDuration: 300;
+}
+animatedwidgets--LineEdit[editorControl=&quot;true&quot;], animatedwidgets--ComboBox[editorControl=&quot;true&quot;] {
+    min-height: 34px; min-width: 48px;
+    qproperty-backgroundNormal: #f5f7fb; qproperty-backgroundHover: #f5f7fb; qproperty-backgroundFocus: #f5f7fb;
+    qproperty-borderNormal: #e6eaf0; qproperty-borderHover: #5b67f1; qproperty-borderFocus: #5b67f1;
+    qproperty-textColor: #172033; qproperty-cornerRadius: 8; qproperty-contentPadding: 9;
+}
+animatedwidgets--LineEdit#documentSearchEdit {
+    background: transparent; border: none;
+    qproperty-borderVisible: true; qproperty-borderWidth: 1; qproperty-borderNormal: #d7dde8;
+}
+animatedwidgets--PlainTextEdit[editorControl=&quot;true&quot;] {
+    qproperty-backgroundNormal: #171b27; qproperty-backgroundHover: #171b27; qproperty-backgroundFocus: #171b27;
+    qproperty-textColor: #aebaff; qproperty-borderVisible: false; qproperty-cornerRadius: 12; qproperty-contentPadding: 15;
+}
+animatedwidgets--Switch[editorControl=&quot;true&quot;] {
+    qproperty-checkedTrackColor: #5b67f1; qproperty-uncheckedTrackColor: #d7dde8; qproperty-animationDuration: 300;
+}</string>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QHBoxLayout" name="appLayout">
+    <property name="spacing">
+     <number>0</number>
+    </property>
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
+    <item>
+     <widget class="QFrame" name="sidebar">
+      <property name="minimumSize">
+       <size>
+        <width>235</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>235</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::NoFrame</enum>
+      </property>
+      <layout class="QVBoxLayout" name="sidebarLayout">
+       <property name="spacing">
+        <number>5</number>
+       </property>
+       <property name="leftMargin">
+        <number>16</number>
+       </property>
+       <property name="topMargin">
+        <number>24</number>
+       </property>
+       <property name="rightMargin">
+        <number>16</number>
+       </property>
+       <property name="bottomMargin">
+        <number>16</number>
+       </property>
+       <item>
+        <layout class="QHBoxLayout" name="brandLayout">
+         <property name="leftMargin">
+          <number>10</number>
+         </property>
+         <property name="bottomMargin">
+          <number>20</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="brandLogo">
+           <property name="minimumSize">
+            <size>
+             <width>36</width>
+             <height>36</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>36</width>
+             <height>36</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>UI</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" name="brandTextLayout">
+           <property name="spacing">
+            <number>1</number>
+           </property>
+           <item>
+            <widget class="QLabel" name="brandName">
+             <property name="text">
+              <string>StyleForge</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="brandSubtitle">
+             <property name="text">
+              <string>Widget style editor</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QLabel" name="navigationLabel">
+         <property name="text">
+          <string>WORKSPACE</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="aw::HoverButton" name="styleEditorNavButton">
+         <property name="text">
+          <string>Style editor</string>
+         </property>
+         <property name="icon">
+          <iconset resource="resources/styleeditor.qrc">
+           <normaloff>:/styleeditor/icons/styleeditor.svg</normaloff>:/styleeditor/icons/styleeditor.svg</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>20</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+         <property name="iconSpacing">
+          <number>10</number>
+         </property>
+         <property name="contentAlignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+         </property>
+         <property name="contentHorizontalPadding">
+          <number>20</number>
+         </property>
+         <property name="editorControl" stdset="0">
+          <bool>true</bool>
+         </property>
+         <attribute name="buttonGroup">
+          <string notr="true">navigationButtonGroup</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="aw::HoverButton" name="componentLibraryNavButton">
+         <property name="text">
+          <string>Component library</string>
+         </property>
+         <property name="icon">
+          <iconset resource="resources/styleeditor.qrc">
+           <normaloff>:/styleeditor/icons/componentlibrary.svg</normaloff>:/styleeditor/icons/componentlibrary.svg</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>20</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <property name="iconSpacing">
+          <number>10</number>
+         </property>
+         <property name="contentAlignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+         </property>
+         <property name="contentHorizontalPadding">
+          <number>20</number>
+         </property>
+         <property name="editorControl" stdset="0">
+          <bool>true</bool>
+         </property>
+         <attribute name="buttonGroup">
+          <string notr="true">navigationButtonGroup</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="aw::HoverButton" name="themeManagerNavButton">
+         <property name="text">
+          <string>Theme manager</string>
+         </property>
+         <property name="icon">
+          <iconset resource="resources/styleeditor.qrc">
+           <normaloff>:/styleeditor/icons/thememanager.svg</normaloff>:/styleeditor/icons/thememanager.svg</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>20</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <property name="iconSpacing">
+          <number>10</number>
+         </property>
+         <property name="contentAlignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+         </property>
+         <property name="contentHorizontalPadding">
+          <number>20</number>
+         </property>
+         <property name="editorControl" stdset="0">
+          <bool>true</bool>
+         </property>
+         <attribute name="buttonGroup">
+          <string notr="true">navigationButtonGroup</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="aw::HoverButton" name="exportNavButton">
+         <property name="text">
+          <string>Export project</string>
+         </property>
+         <property name="icon">
+          <iconset resource="resources/styleeditor.qrc">
+           <normaloff>:/styleeditor/icons/exportproject.svg</normaloff>:/styleeditor/icons/exportproject.svg</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>20</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <property name="iconSpacing">
+          <number>10</number>
+         </property>
+         <property name="contentAlignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+         </property>
+         <property name="contentHorizontalPadding">
+          <number>20</number>
+         </property>
+         <property name="editorControl" stdset="0">
+          <bool>true</bool>
+         </property>
+         <attribute name="buttonGroup">
+          <string notr="true">navigationButtonGroup</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="resourceLabel">
+         <property name="text">
+          <string>RESOURCES</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="aw::HoverButton" name="guidelineNavButton">
+         <property name="text">
+          <string>Design guidelines</string>
+         </property>
+         <property name="icon">
+          <iconset resource="resources/styleeditor.qrc">
+           <normaloff>:/styleeditor/icons/designguidelines.svg</normaloff>:/styleeditor/icons/designguidelines.svg</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>20</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <property name="iconSpacing">
+          <number>10</number>
+         </property>
+         <property name="contentAlignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+         </property>
+         <property name="contentHorizontalPadding">
+          <number>20</number>
+         </property>
+         <property name="editorControl" stdset="0">
+          <bool>true</bool>
+         </property>
+         <attribute name="buttonGroup">
+          <string notr="true">navigationButtonGroup</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="aw::HoverButton" name="helpNavButton">
+         <property name="text">
+          <string>Help documentation</string>
+         </property>
+         <property name="icon">
+          <iconset resource="resources/styleeditor.qrc">
+           <normaloff>:/styleeditor/icons/helpdocumentation.svg</normaloff>:/styleeditor/icons/helpdocumentation.svg</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>20</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <property name="iconSpacing">
+          <number>10</number>
+         </property>
+         <property name="contentAlignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+         </property>
+         <property name="contentHorizontalPadding">
+          <number>20</number>
+         </property>
+         <property name="editorControl" stdset="0">
+          <bool>true</bool>
+         </property>
+         <attribute name="buttonGroup">
+          <string notr="true">navigationButtonGroup</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <spacer name="sidebarSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QFrame" name="documentInfoPanel">
+         <property name="frameShape">
+          <enum>QFrame::NoFrame</enum>
+         </property>
+         <layout class="QVBoxLayout" name="documentInfoLayout">
+          <property name="spacing">
+           <number>8</number>
+          </property>
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>16</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="documentInfoTitle">
+            <property name="text">
+             <string>Document</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="documentNameLabel">
+            <property name="text">
+             <string>Document name</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="aw::LineEdit" name="documentNameEdit">
+            <property name="placeholderText">
+             <string>Untitled</string>
+            </property>
+            <property name="editorControl" stdset="0">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="documentPathLabel">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Ignored" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Temporary document</string>
+            </property>
+            <property name="wordWrap">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="documentHintLabel">
+            <property name="text">
+             <string>Save the document to keep your widget styles.</string>
+            </property>
+            <property name="wordWrap">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <layout class="QVBoxLayout" name="mainLayout">
+      <property name="spacing">
+       <number>0</number>
+      </property>
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QFrame" name="topbar">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>76</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>76</height>
+         </size>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::NoFrame</enum>
+        </property>
+        <layout class="QHBoxLayout" name="topbarLayout">
+         <property name="leftMargin">
+          <number>28</number>
+         </property>
+         <property name="rightMargin">
+          <number>28</number>
+         </property>
+         <item>
+          <layout class="QVBoxLayout" name="pageTitleLayout">
+           <property name="spacing">
+            <number>3</number>
+           </property>
+           <item>
+            <widget class="QLabel" name="pageTitle">
+             <property name="text">
+              <string>Custom widget styles</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="pageDescription">
+             <property name="text">
+              <string>Adjust properties visually and generate style code in real time.</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <spacer name="topbarSpacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="aw::OutlineButton" name="newDocumentButton">
+           <property name="text">
+            <string>New</string>
+           </property>
+           <property name="editorControl" stdset="0">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="aw::OutlineButton" name="openDocumentButton">
+           <property name="text">
+            <string>Open</string>
+           </property>
+           <property name="editorControl" stdset="0">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="aw::OutlineButton" name="saveAsDocumentButton">
+           <property name="text">
+            <string>Save as</string>
+           </property>
+           <property name="editorControl" stdset="0">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="aw::FilledButton" name="saveDocumentButton">
+           <property name="text">
+            <string>Save style</string>
+           </property>
+           <property name="editorControl" stdset="0">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QStackedWidget" name="workspaceStack"/>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>aw::FilledButton</class>
+   <extends>QPushButton</extends>
+   <header>animatedwidgets/buttons/filledbutton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>aw::OutlineButton</class>
+   <extends>QPushButton</extends>
+   <header>animatedwidgets/buttons/outlinebutton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>aw::HoverButton</class>
+   <extends>QPushButton</extends>
+   <header>animatedwidgets/buttons/hoverbutton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>aw::LineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>animatedwidgets/inputs/lineedit.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="resources/styleeditor.qrc"/>
+ </resources>
+ <connections/>
+ <buttongroups>
+  <buttongroup name="navigationButtonGroup">
+   <property name="exclusive">
+    <bool>true</bool>
+   </property>
+  </buttongroup>
+ </buttongroups>
+</ui>

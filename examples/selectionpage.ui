@@ -22,7 +22,7 @@
      </property>
      <layout class="QVBoxLayout" name="radioButtonsLayout">
       <item>
-       <widget class="RadioButton" name="radioInteractive">
+       <widget class="aw::RadioButton" name="radioInteractive">
         <property name="text">
          <string>Interactive</string>
         </property>
@@ -35,7 +35,7 @@
        </widget>
       </item>
       <item>
-       <widget class="RadioButton" name="radioChecked">
+       <widget class="aw::RadioButton" name="radioChecked">
         <property name="text">
          <string>Checked</string>
         </property>
@@ -51,7 +51,7 @@
        </widget>
       </item>
       <item>
-       <widget class="RadioButton" name="radioDisabled">
+       <widget class="aw::RadioButton" name="radioDisabled">
         <property name="text">
          <string>Disabled</string>
         </property>
@@ -76,7 +76,7 @@
      </property>
      <layout class="QVBoxLayout" name="checkBoxesLayout">
       <item>
-       <widget class="CheckBox" name="checkInteractive">
+       <widget class="aw::CheckBox" name="checkInteractive">
         <property name="text">
          <string>Interactive</string>
         </property>
@@ -92,7 +92,7 @@
        </widget>
       </item>
       <item>
-       <widget class="CheckBox" name="checkPartial">
+       <widget class="aw::CheckBox" name="checkPartial">
         <property name="text">
          <string>Partially checked</string>
         </property>
@@ -111,7 +111,7 @@
        </widget>
       </item>
       <item>
-       <widget class="CheckBox" name="checkChecked">
+       <widget class="aw::CheckBox" name="checkChecked">
         <property name="text">
          <string>Checked</string>
         </property>
@@ -130,7 +130,7 @@
        </widget>
       </item>
       <item>
-       <widget class="CheckBox" name="checkDisabled">
+       <widget class="aw::CheckBox" name="checkDisabled">
         <property name="text">
          <string>Disabled</string>
         </property>
@@ -168,12 +168,12 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>RadioButton</class>
+   <class>aw::RadioButton</class>
    <extends>QRadioButton</extends>
    <header>animatedwidgets/buttons/radiobutton.h</header>
   </customwidget>
   <customwidget>
-   <class>CheckBox</class>
+   <class>aw::CheckBox</class>
    <extends>QCheckBox</extends>
    <header>animatedwidgets/buttons/checkbox.h</header>
   </customwidget>

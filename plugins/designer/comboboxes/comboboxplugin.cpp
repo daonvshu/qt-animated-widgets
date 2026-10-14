@@ -61,13 +61,13 @@ QIcon ComboBoxPlugin::icon() const {
 
 QString ComboBoxPlugin::domXml() const {
     if (m_kind == 6)
-        return QStringLiteral("<widget class=\"CascaderComboBox\" name=\"cascaderComboBox\"/>");
+        return QStringLiteral("<widget class=\"aw::CascaderComboBox\" name=\"cascaderComboBox\"/>");
     if (m_kind == 5)
-        return QStringLiteral("<widget class=\"CreatableComboBox\" name=\"creatableComboBox\"/>");
+        return QStringLiteral("<widget class=\"aw::CreatableComboBox\" name=\"creatableComboBox\"/>");
     if (m_kind == 4)
-        return QStringLiteral("<widget class=\"TreeComboBox\" name=\"treeComboBox\"/>");
+        return QStringLiteral("<widget class=\"aw::TreeComboBox\" name=\"treeComboBox\"/>");
     if (m_kind == 3)
-        return QStringLiteral("<widget class=\"MultiSelectComboBox\" name=\"multiSelectComboBox\"/>");
+        return QStringLiteral("<widget class=\"aw::MultiSelectComboBox\" name=\"multiSelectComboBox\"/>");
     return QStringLiteral("<widget class=\"%1\" name=\"%2\"/>")
             .arg(name(), m_kind == 0 ? QStringLiteral("comboBox")
                 : m_kind == 1 ? QStringLiteral("compositeComboBox") : QStringLiteral("searchComboBox"));
@@ -94,16 +94,16 @@ QString ComboBoxPlugin::includeFile() const {
 
 QString ComboBoxPlugin::name() const {
     if (m_kind == 6)
-        return QStringLiteral("CascaderComboBox");
+        return QStringLiteral("aw::CascaderComboBox");
     if (m_kind == 5)
-        return QStringLiteral("CreatableComboBox");
+        return QStringLiteral("aw::CreatableComboBox");
     if (m_kind == 4)
-        return QStringLiteral("TreeComboBox");
+        return QStringLiteral("aw::TreeComboBox");
     if (m_kind == 3)
-        return QStringLiteral("MultiSelectComboBox");
+        return QStringLiteral("aw::MultiSelectComboBox");
     if (m_kind == 2)
-        return QStringLiteral("SearchComboBox");
-    return m_kind == 0 ? QStringLiteral("ComboBox") : QStringLiteral("CompositeComboBox");
+        return QStringLiteral("aw::SearchComboBox");
+    return m_kind == 0 ? QStringLiteral("aw::ComboBox") : QStringLiteral("aw::CompositeComboBox");
 }
 
 QString ComboBoxPlugin::toolTip() const {
@@ -116,18 +116,18 @@ QString ComboBoxPlugin::whatsThis() const {
 
 QWidget* ComboBoxPlugin::createWidget(QWidget* parent) {
     if (m_kind == 6)
-        return new CascaderComboBox(parent);
+        return new aw::CascaderComboBox(parent);
     if (m_kind == 5)
-        return new CreatableComboBox(parent);
+        return new aw::CreatableComboBox(parent);
     if (m_kind == 4)
-        return new TreeComboBox(parent);
+        return new aw::TreeComboBox(parent);
     if (m_kind == 3)
-        return new MultiSelectComboBox(parent);
+        return new aw::MultiSelectComboBox(parent);
     if (m_kind == 0)
-        return new ComboBox(parent);
+        return new aw::ComboBox(parent);
     if (m_kind == 2)
-        return new SearchComboBox(parent);
-    return new CompositeComboBox(parent);
+        return new aw::SearchComboBox(parent);
+    return new aw::CompositeComboBox(parent);
 }
 
 void ComboBoxPlugin::initialize(QDesignerFormEditorInterface*) {

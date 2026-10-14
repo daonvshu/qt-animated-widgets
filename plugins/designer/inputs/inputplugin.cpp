@@ -93,24 +93,24 @@ QString InputPlugin::includeFile() const {
 }
 QString InputPlugin::name() const {
     if (m_kind == 0)
-        return QStringLiteral("LineEdit");
+        return QStringLiteral("aw::LineEdit");
     if (m_kind == 1)
-        return QStringLiteral("IconLineEdit");
+        return QStringLiteral("aw::IconLineEdit");
     if (m_kind == 2)
-        return QStringLiteral("PasswordLineEdit");
+        return QStringLiteral("aw::PasswordLineEdit");
     if (m_kind == 4)
-        return QStringLiteral("PlainTextEdit");
+        return QStringLiteral("aw::PlainTextEdit");
     if (m_kind == 5)
-        return QStringLiteral("CompositePlainTextEdit");
+        return QStringLiteral("aw::CompositePlainTextEdit");
     if (m_kind == 6)
-        return QStringLiteral("SpinBox");
+        return QStringLiteral("aw::SpinBox");
     if (m_kind == 7)
-        return QStringLiteral("DoubleSpinBox");
+        return QStringLiteral("aw::DoubleSpinBox");
     if (m_kind == 8)
-        return QStringLiteral("CompositeSpinBox");
+        return QStringLiteral("aw::CompositeSpinBox");
     if (m_kind == 9)
-        return QStringLiteral("CompositeDoubleSpinBox");
-    return QStringLiteral("CompositeLineEdit");
+        return QStringLiteral("aw::CompositeDoubleSpinBox");
+    return QStringLiteral("aw::CompositeLineEdit");
 }
 QString InputPlugin::toolTip() const {
     return QString();
@@ -120,27 +120,27 @@ QString InputPlugin::whatsThis() const {
 }
 QWidget* InputPlugin::createWidget(QWidget* parent) {
     if (m_kind == 0)
-        return new LineEdit(parent);
+        return new aw::LineEdit(parent);
     if (m_kind == 1) {
-        auto* input = new IconLineEdit(parent);
+        auto* input = new aw::IconLineEdit(parent);
         input->setLeadingIcon(QIcon(QStringLiteral(":/animatedwidgets/inputs/search.svg")));
         return input;
     }
     if (m_kind == 2)
-        return new PasswordLineEdit(parent);
+        return new aw::PasswordLineEdit(parent);
     if (m_kind == 4)
-        return new PlainTextEdit(parent);
+        return new aw::PlainTextEdit(parent);
     if (m_kind == 5)
-        return new CompositePlainTextEdit(parent);
+        return new aw::CompositePlainTextEdit(parent);
     if (m_kind == 6)
-        return new SpinBox(parent);
+        return new aw::SpinBox(parent);
     if (m_kind == 7)
-        return new DoubleSpinBox(parent);
+        return new aw::DoubleSpinBox(parent);
     if (m_kind == 8)
-        return new CompositeSpinBox(parent);
+        return new aw::CompositeSpinBox(parent);
     if (m_kind == 9)
-        return new CompositeDoubleSpinBox(parent);
-    return new CompositeLineEdit(parent);
+        return new aw::CompositeDoubleSpinBox(parent);
+    return new aw::CompositeLineEdit(parent);
 }
 void InputPlugin::initialize(QDesignerFormEditorInterface*) {
     m_initialized = true;

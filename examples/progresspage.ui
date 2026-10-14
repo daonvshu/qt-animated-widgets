@@ -150,7 +150,7 @@
     </widget>
    </item>
    <item>
-    <widget class="ProgressBar" name="progressStandard">
+    <widget class="aw::ProgressBar" name="progressStandard">
      <property name="value">
       <number>35</number>
      </property>
@@ -164,7 +164,7 @@
     </widget>
    </item>
    <item>
-    <widget class="ProgressBar" name="progressCount">
+    <widget class="aw::ProgressBar" name="progressCount">
      <property name="maximum">
       <number>200</number>
      </property>
@@ -215,7 +215,7 @@
     </widget>
    </item>
    <item>
-    <widget class="ProgressBar" name="progressDisabled">
+    <widget class="aw::ProgressBar" name="progressDisabled">
      <property name="value">
       <number>60</number>
      </property>
@@ -232,7 +232,7 @@
     </widget>
    </item>
    <item>
-    <widget class="ProgressBar" name="progressBusy">
+    <widget class="aw::ProgressBar" name="progressBusy">
      <property name="maximum">
       <number>0</number>
      </property>
@@ -255,7 +255,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>ProgressBar</class>
+   <class>aw::ProgressBar</class>
    <extends>QProgressBar</extends>
    <header>animatedwidgets/progressbars/progressbar.h</header>
   </customwidget>

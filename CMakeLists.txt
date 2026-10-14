@@ -5,6 +5,7 @@ project(AnimatedWidgets VERSION 0.1.0 LANGUAGES CXX)
 option(BUILD_EXAMPLES "Build example applications" ON)
 option(BUILD_TESTS "Build unit tests" ON)
 option(BUILD_DESIGNER_PLUGIN "Build the Qt Designer widget plugin" ON)
+option(BUILD_STYLE_EDITOR "Build the QWidget style editor and its plugins" ON)
 option(ANIMATEDWIDGETS_ENABLE_INSTALL "Enable install and package export rules" ON)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -46,7 +47,20 @@ target_include_directories(AnimatedWidgetsStyle PUBLIC
 )
 target_link_libraries(AnimatedWidgetsStyle PUBLIC AnimatedWidgetsCore Qt${QT_VERSION_MAJOR}::Gui)
 
+add_library(AnimatedWidgetsStyleEditorApi INTERFACE)
+add_library(AnimatedWidgets::StyleEditorApi ALIAS AnimatedWidgetsStyleEditorApi)
+set_target_properties(AnimatedWidgetsStyleEditorApi PROPERTIES EXPORT_NAME StyleEditorApi)
+target_include_directories(AnimatedWidgetsStyleEditorApi INTERFACE
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
+    $<INSTALL_INTERFACE:include>
+)
+target_link_libraries(AnimatedWidgetsStyleEditorApi INTERFACE
+    Qt${QT_VERSION_MAJOR}::Core
+    Qt${QT_VERSION_MAJOR}::Widgets
+)
+
 add_library(AnimatedWidgetsWidgets
+    src/animatedwidgets/namespacealias.h
     src/animatedwidgets/calendars/calendarstyle.h
     src/animatedwidgets/calendars/calendarstyle.cpp
     src/animatedwidgets/utils/calendarstyleutils.h
@@ -255,6 +269,11 @@ if(BUILD_DESIGNER_PLUGIN)
     add_subdirectory(plugins/designer)
 endif()
 
+if(BUILD_STYLE_EDITOR)
+    add_subdirectory(styleeditor)
+    add_subdirectory(plugins/styleeditor)
+endif()
+
 if(BUILD_EXAMPLES)
     add_subdirectory(examples)
 endif()
@@ -270,7 +289,7 @@ if(ANIMATEDWIDGETS_ENABLE_INSTALL)
 
     install(DIRECTORY src/animatedwidgets/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/animatedwidgets
         FILES_MATCHING PATTERN "*.h")
-    install(TARGETS AnimatedWidgetsCore AnimatedWidgetsStyle AnimatedWidgetsWidgets AnimatedWidgets
+    install(TARGETS AnimatedWidgetsCore AnimatedWidgetsStyle AnimatedWidgetsStyleEditorApi AnimatedWidgetsWidgets AnimatedWidgets
         EXPORT AnimatedWidgetsTargets
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}

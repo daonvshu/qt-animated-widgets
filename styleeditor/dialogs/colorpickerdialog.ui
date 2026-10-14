@@ -1,0 +1,669 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ColorPickerDialog</class>
+ <widget class="QWidget" name="ColorPickerDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>320</width>
+    <height>464</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>320</width>
+    <height>464</height>
+   </size>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget#ColorPickerDialog { background: #feffff; border: 1px solid #e5e6eb; border-radius: 8px; }
+QLabel { color: #4e5969; background: transparent; font-size: 12px; }
+QLabel#titleLabel { color: #1d2129; font-size: 16px; font-weight: bold; }
+QFrame#separator { background: #e5e6eb; border: none; }
+QSlider#alphaSlider::groove:horizontal { height: 4px; background: #e5e6eb; border-radius: 2px; }
+QSlider#alphaSlider::sub-page:horizontal { background: #1557f0; border-radius: 2px; }
+QSlider#alphaSlider::handle:horizontal { width: 12px; margin: -5px 0; background: #feffff; border: 1px solid #1557f0; border-radius: 7px; }
+QSlider#alphaSlider::handle:horizontal:hover { border-color: #4080ff; }
+animatedwidgets--LineEdit[colorPickerControl=&quot;true&quot;] {
+    background: transparent; border: none; min-height: 30px; min-width: 0px; font-size: 12px;
+    qproperty-backgroundNormal: #feffff; qproperty-backgroundHover: #feffff; qproperty-backgroundFocus: #feffff;
+    qproperty-borderNormal: #e5e6eb; qproperty-borderHover: #4080ff; qproperty-borderFocus: #1557f0;
+    qproperty-borderVisible: true; qproperty-borderWidth: 1; qproperty-textColor: #4e5969; qproperty-cornerRadius: 4; qproperty-contentPadding: 8;
+}
+animatedwidgets--ComboBox[colorPickerControl=&quot;true&quot;] {
+    min-height: 30px; min-width: 0px; font-size: 12px;
+    qproperty-backgroundNormal: #feffff; qproperty-backgroundHover: #feffff; qproperty-backgroundFocus: #feffff;
+    qproperty-borderNormal: #e5e6eb; qproperty-borderHover: #4080ff; qproperty-borderFocus: #1557f0;
+    qproperty-borderVisible: true; qproperty-borderWidth: 1; qproperty-cornerRadius: 4;
+    qproperty-textColor: #4e5969; qproperty-contentPadding: 8;
+}
+animatedwidgets--FilledButton[colorPickerControl=&quot;true&quot;] {
+    min-height: 28px; min-width: 0px; border: none; padding: 0px; font-size: 12px; qproperty-backgroundNormal: #1557f0;
+    qproperty-backgroundHover: #4080ff; qproperty-backgroundPressed: #0e42d2; qproperty-backgroundDisabled: #94bfff;
+    qproperty-contentNormal: white; qproperty-cornerRadius: 4; qproperty-contentHorizontalPadding: 12; qproperty-contentVerticalPadding: 0;
+}
+animatedwidgets--FilledButton#btn_cancel, animatedwidgets--FilledButton#btn_automatic {
+    qproperty-backgroundNormal: #f2f3f5; qproperty-backgroundHover: #e5e6eb; qproperty-backgroundPressed: #c9cdd4; qproperty-contentNormal: #4e5969;
+}
+animatedwidgets--IconLineEdit#alphaValueEdit {
+    border: none; padding: 0px; min-width: 0px; font-size: 12px;
+    qproperty-backgroundNormal: #feffff; qproperty-backgroundHover: #f2f3f5; qproperty-backgroundFocus: #feffff;
+    qproperty-borderNormal: transparent; qproperty-borderHover: #e5e6eb; qproperty-borderFocus: #1557f0;
+    qproperty-borderVisible: true; qproperty-borderWidth: 1; qproperty-textColor: #4e5969;
+    qproperty-cornerRadius: 4; qproperty-contentPadding: 2;
+    qproperty-trailingIconNormalColor: #4e5969; qproperty-trailingIconHoverColor: #1557f0;
+}
+animatedwidgets--HoverIconButton#btn_close {
+    qproperty-backgroundHover: #f53f3f; qproperty-contentNormal: #4e5969; qproperty-contentHover: white;
+    qproperty-animateContentColor: true; qproperty-cornerRadius: 2;
+}</string>
+  </property>
+  <layout class="QVBoxLayout" name="dialogLayout">
+   <property name="spacing">
+    <number>0</number>
+   </property>
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <item>
+    <layout class="QHBoxLayout" name="headerLayout">
+     <property name="leftMargin">
+      <number>16</number>
+     </property>
+     <property name="topMargin">
+      <number>8</number>
+     </property>
+     <property name="rightMargin">
+      <number>10</number>
+     </property>
+     <property name="bottomMargin">
+      <number>8</number>
+     </property>
+     <item>
+      <widget class="QLabel" name="titleLabel">
+       <property name="text">
+        <string>Select color</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="headerSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="aw::HoverIconButton" name="btn_close">
+       <property name="minimumSize">
+        <size>
+         <width>28</width>
+         <height>28</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>28</width>
+         <height>28</height>
+        </size>
+       </property>
+       <property name="toolTip">
+        <string>Cancel</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../resources/styleeditor.qrc">
+         <normaloff>:/styleeditor/icons/close.svg</normaloff>:/styleeditor/icons/close.svg</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>14</width>
+         <height>14</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="pickerLayout">
+     <property name="spacing">
+      <number>16</number>
+     </property>
+     <property name="leftMargin">
+      <number>16</number>
+     </property>
+     <property name="rightMargin">
+      <number>16</number>
+     </property>
+     <item>
+      <widget class="VSColorPicker" name="sv_picker" native="true">
+       <property name="minimumSize">
+        <size>
+         <width>212</width>
+         <height>212</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="HColorPicker" name="h_picker" native="true">
+       <property name="minimumSize">
+        <size>
+         <width>20</width>
+         <height>212</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>20</width>
+         <height>16777215</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="valueLayout" stretch="0,1">
+     <property name="spacing">
+      <number>8</number>
+     </property>
+     <property name="leftMargin">
+      <number>16</number>
+     </property>
+     <property name="topMargin">
+      <number>8</number>
+     </property>
+     <property name="rightMargin">
+      <number>16</number>
+     </property>
+     <property name="bottomMargin">
+      <number>8</number>
+     </property>
+     <item>
+      <widget class="aw::ComboBox" name="value_type">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>2</width>
+         <height>32</height>
+        </size>
+       </property>
+       <property name="toolTip">
+        <string>Choose HEX, RGB or HSV input</string>
+       </property>
+       <property name="accessibleName">
+        <string>Color input format</string>
+       </property>
+       <property name="borderVisible">
+        <bool>true</bool>
+       </property>
+       <property name="arrowIconSize">
+        <size>
+         <width>12</width>
+         <height>12</height>
+        </size>
+       </property>
+       <property name="arrowRightMargin">
+        <number>8</number>
+       </property>
+       <property name="arrowVisible">
+        <bool>true</bool>
+       </property>
+       <property name="colorPickerControl" stdset="0">
+        <bool>true</bool>
+       </property>
+       <item>
+        <property name="text">
+         <string>HEX</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>RGB</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>HSV</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item>
+      <widget class="QStackedWidget" name="stackedWidget">
+       <property name="currentIndex">
+        <number>0</number>
+       </property>
+       <widget class="QWidget" name="hexPage">
+        <layout class="QHBoxLayout" name="hexLayout">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="aw::LineEdit" name="input_hex">
+           <property name="toolTip">
+            <string>HEX RGB or ARGB</string>
+           </property>
+           <property name="accessibleName">
+            <string>HEX color</string>
+           </property>
+           <property name="colorPickerControl" stdset="0">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="rgbPage">
+        <layout class="QHBoxLayout" name="rgbLayout">
+         <property name="spacing">
+          <number>6</number>
+         </property>
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="aw::LineEdit" name="input_r">
+           <property name="toolTip">
+            <string>Red (0-255)</string>
+           </property>
+           <property name="accessibleName">
+            <string>Red</string>
+           </property>
+           <property name="colorPickerControl" stdset="0">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="aw::LineEdit" name="input_g">
+           <property name="toolTip">
+            <string>Green (0-255)</string>
+           </property>
+           <property name="accessibleName">
+            <string>Green</string>
+           </property>
+           <property name="colorPickerControl" stdset="0">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="aw::LineEdit" name="input_b">
+           <property name="toolTip">
+            <string>Blue (0-255)</string>
+           </property>
+           <property name="accessibleName">
+            <string>Blue</string>
+           </property>
+           <property name="colorPickerControl" stdset="0">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="hsvPage">
+        <layout class="QHBoxLayout" name="hsvLayout">
+         <property name="spacing">
+          <number>6</number>
+         </property>
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="aw::LineEdit" name="input_h">
+           <property name="toolTip">
+            <string>Hue (0-360)</string>
+           </property>
+           <property name="accessibleName">
+            <string>Hue</string>
+           </property>
+           <property name="colorPickerControl" stdset="0">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="aw::LineEdit" name="input_s">
+           <property name="toolTip">
+            <string>Saturation (0-255)</string>
+           </property>
+           <property name="accessibleName">
+            <string>Saturation</string>
+           </property>
+           <property name="colorPickerControl" stdset="0">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="aw::LineEdit" name="input_v">
+           <property name="toolTip">
+            <string>Value (0-255)</string>
+           </property>
+           <property name="accessibleName">
+            <string>Value</string>
+           </property>
+           <property name="colorPickerControl" stdset="0">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="alphaLayout" stretch="0,1,0">
+     <property name="spacing">
+      <number>8</number>
+     </property>
+     <property name="leftMargin">
+      <number>16</number>
+     </property>
+     <property name="rightMargin">
+      <number>16</number>
+     </property>
+     <property name="bottomMargin">
+      <number>8</number>
+     </property>
+     <item>
+      <widget class="QLabel" name="alphaLabel">
+       <property name="text">
+        <string>Alpha</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="aw::Slider" name="alphaSlider">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>32</height>
+        </size>
+       </property>
+       <property name="toolTip">
+        <string>Alpha (0-255)</string>
+       </property>
+       <property name="accessibleName">
+        <string>Alpha</string>
+       </property>
+       <property name="maximum">
+        <number>255</number>
+       </property>
+       <property name="singleStep">
+        <number>1</number>
+       </property>
+       <property name="pageStep">
+        <number>16</number>
+       </property>
+       <property name="value">
+        <number>255</number>
+       </property>
+       <property name="tracking">
+        <bool>true</bool>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="animationEnabled">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="aw::IconLineEdit" name="alphaValueEdit">
+       <property name="minimumSize">
+        <size>
+         <width>56</width>
+         <height>32</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>56</width>
+         <height>32</height>
+        </size>
+       </property>
+       <property name="toolTip">
+        <string>Edit alpha; use the arrow to choose its format</string>
+       </property>
+       <property name="accessibleName">
+        <string>Alpha value and display format</string>
+       </property>
+       <property name="text">
+        <string>255</string>
+       </property>
+       <property name="trailingIcon">
+        <iconset>
+         <normaloff>:/animatedwidgets/comboboxes/dropdown.svg</normaloff>:/animatedwidgets/comboboxes/dropdown.svg</iconset>
+       </property>
+       <property name="trailingIconSize">
+        <size>
+         <width>12</width>
+         <height>12</height>
+        </size>
+       </property>
+       <property name="iconSpacing">
+        <number>4</number>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QFrame" name="separator">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>1</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>1</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="PresetColorPicker" name="preset_picker" native="true"/>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="actionsLayout">
+     <property name="spacing">
+      <number>8</number>
+     </property>
+     <property name="leftMargin">
+      <number>16</number>
+     </property>
+     <property name="topMargin">
+      <number>8</number>
+     </property>
+     <property name="rightMargin">
+      <number>16</number>
+     </property>
+     <property name="bottomMargin">
+      <number>8</number>
+     </property>
+     <item>
+      <widget class="aw::FilledButton" name="btn_confirm">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>28</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>28</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Apply</string>
+       </property>
+       <property name="colorPickerControl" stdset="0">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="aw::FilledButton" name="btn_cancel">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>28</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>28</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Cancel</string>
+       </property>
+       <property name="colorPickerControl" stdset="0">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="aw::FilledButton" name="btn_automatic">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>28</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>28</height>
+        </size>
+       </property>
+       <property name="toolTip">
+        <string>Use the default derived color</string>
+       </property>
+       <property name="text">
+        <string>Auto</string>
+       </property>
+       <property name="colorPickerControl" stdset="0">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>aw::FilledButton</class>
+   <extends>QPushButton</extends>
+   <header>animatedwidgets/buttons/filledbutton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>aw::IconLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>animatedwidgets/inputs/iconlineedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>aw::HoverIconButton</class>
+   <extends>QPushButton</extends>
+   <header>animatedwidgets/buttons/hovericonbutton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>aw::Slider</class>
+   <extends>QSlider</extends>
+   <header>animatedwidgets/sliders/slider.h</header>
+  </customwidget>
+  <customwidget>
+   <class>aw::LineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>animatedwidgets/inputs/lineedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>aw::ComboBox</class>
+   <extends>QComboBox</extends>
+   <header>animatedwidgets/comboboxes/combobox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>VSColorPicker</class>
+   <extends>QWidget</extends>
+   <header>widgets/colors/vscolorpicker.h</header>
+  </customwidget>
+  <customwidget>
+   <class>HColorPicker</class>
+   <extends>QWidget</extends>
+   <header>widgets/colors/hcolorpicker.h</header>
+  </customwidget>
+  <customwidget>
+   <class>PresetColorPicker</class>
+   <extends>QWidget</extends>
+   <header>widgets/colors/presetcolorpicker.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="../resources/styleeditor.qrc"/>
+ </resources>
+ <connections/>
+</ui>

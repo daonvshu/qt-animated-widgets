@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>StyleWidgetTreeRow</class>
+ <widget class="QWidget" name="StyleWidgetTreeRow">
+  <property name="styleSheet">
+   <string notr="true">QWidget#StyleWidgetTreeRow { background: transparent; }
+QLabel#nameLabel { color: #172033; font-size: 12px; background: transparent; }
+QLabel#detailLabel { color: #7c879a; font-size: 10px; background: transparent; }
+animatedwidgets--HoverIconButton {
+    qproperty-backgroundHover: #e5e9ff; qproperty-contentNormal: #7c879a; qproperty-contentHover: #5b67f1;
+    qproperty-animateContentColor: true; qproperty-cornerRadius: 6;
+}</string>
+  </property>
+  <layout class="QHBoxLayout" name="rowLayout">
+   <property name="spacing"><number>4</number></property>
+   <property name="leftMargin"><number>4</number></property>
+   <property name="topMargin"><number>4</number></property>
+   <property name="rightMargin"><number>4</number></property>
+   <property name="bottomMargin"><number>4</number></property>
+   <item>
+    <layout class="QVBoxLayout" name="textLayout">
+     <property name="spacing"><number>2</number></property>
+     <item><widget class="QLabel" name="nameLabel"><property name="sizePolicy"><sizepolicy hsizetype="Ignored" vsizetype="Preferred"><horstretch>1</horstretch><verstretch>0</verstretch></sizepolicy></property><property name="text"><string>Style name</string></property><property name="textFormat"><enum>Qt::PlainText</enum></property></widget></item>
+     <item><widget class="QLabel" name="detailLabel"><property name="sizePolicy"><sizepolicy hsizetype="Ignored" vsizetype="Preferred"><horstretch>1</horstretch><verstretch>0</verstretch></sizepolicy></property><property name="text"><string>Widget type</string></property><property name="textFormat"><enum>Qt::PlainText</enum></property></widget></item>
+    </layout>
+   </item>
+   <item><widget class="aw::HoverIconButton" name="actionButton">
+    <property name="minimumSize"><size><width>26</width><height>26</height></size></property>
+    <property name="maximumSize"><size><width>26</width><height>26</height></size></property>
+    <property name="iconSize"><size><width>14</width><height>14</height></size></property>
+    <property name="shape"><enum>animatedwidgets::AnimatedButtonBase::Shape::RoundedRectangle</enum></property>
+   </widget></item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget><class>aw::HoverIconButton</class><extends>QPushButton</extends><header>animatedwidgets/buttons/hovericonbutton.h</header></customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
