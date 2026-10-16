@@ -23,11 +23,10 @@ remembered separately from documents. `StyleThemeScope` exposes color properties
 for custom-painted trees and popup style objects that cannot consume QSS directly;
 their colors are defined in each theme's `palette.css`. Newly created rows,
 dialogs and editor dropdown menus receive the current theme automatically.
-Theme selectors require `editorControl` on the target widget. The preview host
-marks the boundary with `editorPreview`, so its preview widgets and descendants
-are excluded from editor control registration. Changing the editor theme preserves
-widget properties, generated code and explicit preview backgrounds; a preview
-using the default background follows the editor theme.
+The preview runs in a separate process with its own QApplication and widget tree.
+Editor stylesheets therefore need no per-widget isolation marker. Changing the
+editor theme preserves widget properties, generated code and explicit preview
+backgrounds; only a preview using the default canvas background follows the theme.
 
 The application links AnimatedWidgets; the plugin API target remains
 independent of the widget library.
@@ -50,8 +49,14 @@ The application separates its implementation by responsibility:
   they share the `WorkspaceSectionPage` presentation layout.
 - `document/StyleDocumentSession` manages serializable content, file persistence
   and document metadata as a child of the main window.
-- `document/StyleEditorSession` manages editable properties and preview lifetimes
-  as a child of the editor page; it has no file or document metadata APIs.
+- `document/StyleEditorSession` manages editable property data and cached code
+  as a child of the editor page; it has no file APIs or preview QWidget instances.
+- `preview/StylePreviewClient` starts and supervises the isolated worker and owns
+  the local server. `StylePreviewChannel` frames socket messages, and
+  `StylePreviewProtocol` serializes property metadata without executable callbacks.
+- `preview/StylePreviewWorker` creates widgets, applies properties and preview
+  states, resolves icons and generates code using plugin callbacks. Its canvas
+  is embedded by `StylePreviewPanel` as a native foreign window.
 - `dialogs/StylePopupDialog` inherits `BasePopupDlg` and supplies animated,
   window-modal dialogs. `StyleMessagePopup` handles messages and confirmations.
   Their layouts and appearance are declared in their `.ui` files. File and
@@ -266,6 +271,30 @@ background colors are stored per document item in the optional `preview` JSON
 object. Auto dimensions are stored as `widthAuto` and `heightAuto`; their fixed
 pixel values are omitted while Auto is enabled. These editor settings are excluded
 from generated widget setter code.
+
+The first preview starts a persistent worker using the editor executable's
+internal `--style-preview` mode. The editor owns a user-scoped QLocalServer;
+the worker connects with QLocalSocket and a per-launch handshake token. Messages
+are versioned JSON with a length prefix and a 16 MiB limit. Increasing request
+revisions prevent stale responses from replacing a newer selection or edit.
+The worker loads the same plugin directory, while the editor uses plugin type
+registrations without constructing preview widgets. Plugin factories, property
+callbacks and code expressions execute in the worker. Property metadata, including
+defaults and enable conditions, travels back as data.
+
+Only changed properties are applied to an existing preview, preserving running
+animations when the canvas background or size changes. Switching document items
+creates a new preview widget. The embedded canvas uses QWindow::fromWinId and
+QWidget::createWindowContainer; native embedding requires platform support and
+is intended for the Windows editor. The attach message supplies the native host
+handle and viewport dimensions so the worker establishes its Qt window parent
+and initial geometry before showing the canvas. Container resize events send
+viewport-only messages without reapplying widget properties. The container stays
+hidden until the first preview is ready. Startup or connection failures show a
+Reload preview action. Worker crashes preserve document data; reloading rebuilds
+the selected preview from the latest snapshot. The editor detaches the native
+window before shutdown, and the worker exits when its local connection closes.
+Qt Network is required only by the editor and its IPC tests.
 
 Use `enumeration(name, label, scope)` for a `Q_ENUM` property. The scope is its
 fully qualified C++ enum type. For flag combinations or a curated option list,

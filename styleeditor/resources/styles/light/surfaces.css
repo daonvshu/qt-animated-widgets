@@ -1,62 +1,62 @@
-QMainWindow[editorControl="true"],
-QWidget#centralWidget[editorControl="true"],
-QWidget#main[editorControl="true"],
-QWidget#workspace[editorControl="true"] {
+QMainWindow,
+QWidget#centralWidget,
+QWidget#main,
+QWidget#workspace {
     background: #f5f7fb;
 }
 
-QFrame#sidebar[editorControl="true"] {
+QFrame#sidebar {
     background: #ffffff;
     border-right-color: #e6eaf0;
 }
 
-QFrame#topbar[editorControl="true"] {
+QFrame#topbar {
     background: #ffffff;
     border-bottom-color: #e6eaf0;
 }
 
-QFrame#documentPanel[editorControl="true"],
-QFrame#inspector[editorControl="true"],
-QFrame#previewCard[editorControl="true"],
-QFrame#codeCard[editorControl="true"],
-QFrame#sectionCard[editorControl="true"] {
+QFrame#documentPanel,
+QFrame#inspector,
+QFrame#previewCard,
+QFrame#codeCard,
+QFrame#sectionCard {
     background: #ffffff;
     border-color: #e6eaf0;
 }
 
-QFrame#documentInfoPanel[editorControl="true"] {
+QFrame#documentInfoPanel {
     border-top-color: #e6eaf0;
 }
 
-QFrame#previewCanvas[editorControl="true"] {
+QFrame#previewCanvas {
     background: #f5f7fb;
     border-color: #d7dde8;
 }
 
-QWidget#StyleIconResourcePopup[editorControl="true"] {
+QWidget#StyleIconResourcePopup {
     background: #ffffff;
     border-color: #e6eaf0;
 }
 
-#StyleIconResourcePopup[editorControl="true"] QWidget#qt_scrollarea_viewport[editorControl="true"] {
+#StyleIconResourcePopup QWidget#qt_scrollarea_viewport {
     background: #f5f7fb;
 }
 
-QWidget#ColorPickerDialog[editorControl="true"] {
+QWidget#ColorPickerDialog {
     background: #feffff;
     border-color: #e5e6eb;
 }
 
-#ColorPickerDialog[editorControl="true"] QFrame#separator[editorControl="true"] {
+#ColorPickerDialog QFrame#separator {
     background: #e5e6eb;
 }
 
-QWidget#StyleMessagePopup[editorControl="true"] {
+QWidget#StyleMessagePopup {
     background: #ffffff;
     border-color: #e6eaf0;
 }
 
-QWidget#StyleWidgetItemPopup[editorControl="true"] {
+QWidget#StyleWidgetItemPopup {
     background: #ffffff;
     border-color: #e6eaf0;
 }

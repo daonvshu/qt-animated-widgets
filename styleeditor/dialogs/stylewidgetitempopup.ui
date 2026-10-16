@@ -2,56 +2,55 @@
 <ui version="4.0">
  <class>StyleWidgetItemPopup</class>
  <widget class="QWidget" name="StyleWidgetItemPopup">
-  <property name="editorControl" stdset="0"><bool>true</bool></property>
   <property name="geometry"><rect><x>0</x><y>0</y><width>480</width><height>340</height></rect></property>
   <property name="minimumSize"><size><width>440</width><height>320</height></size></property>
   <property name="styleSheet">
-   <string notr="true">QWidget#StyleWidgetItemPopup[editorControl=&quot;true&quot;] {
+   <string notr="true">QWidget#StyleWidgetItemPopup {
     border-width: 1px;
     border-style: solid;
     border-radius: 12px;
 }
 
-#StyleWidgetItemPopup[editorControl=&quot;true&quot;] QLabel[editorControl=&quot;true&quot;] {
+#StyleWidgetItemPopup QLabel {
     background: transparent;
 }
 
-#StyleWidgetItemPopup[editorControl=&quot;true&quot;] QLabel#titleLabel[editorControl=&quot;true&quot;] {
+#StyleWidgetItemPopup QLabel#titleLabel {
     font-size: 18px;
     font-weight: 700;
 }
 
-#StyleWidgetItemPopup[editorControl=&quot;true&quot;] QLabel#categoryLabel[editorControl=&quot;true&quot;] {
+#StyleWidgetItemPopup QLabel#categoryLabel {
     font-size: 12px;
     font-weight: 600;
 }
 
-#StyleWidgetItemPopup[editorControl=&quot;true&quot;] QLabel#hintLabel[editorControl=&quot;true&quot;] {
+#StyleWidgetItemPopup QLabel#hintLabel {
     font-size: 12px;
 }
 
-#StyleWidgetItemPopup[editorControl=&quot;true&quot;] animatedwidgets--FilledButton[editorControl=&quot;true&quot;] {
+#StyleWidgetItemPopup animatedwidgets--FilledButton {
     min-height: 36px;
     min-width: 72px;
     qproperty-cornerRadius: 9;
     qproperty-animateContentColor: true;
 }
 
-#StyleWidgetItemPopup[editorControl=&quot;true&quot;] animatedwidgets--OutlineButton[editorControl=&quot;true&quot;] {
+#StyleWidgetItemPopup animatedwidgets--OutlineButton {
     min-height: 36px;
     min-width: 72px;
     qproperty-cornerRadius: 9;
     qproperty-animateContentColor: true;
 }
 
-#StyleWidgetItemPopup[editorControl=&quot;true&quot;] animatedwidgets--LineEdit[editorControl=&quot;true&quot;],
-#StyleWidgetItemPopup[editorControl=&quot;true&quot;] animatedwidgets--ComboBox[editorControl=&quot;true&quot;] {
+#StyleWidgetItemPopup animatedwidgets--LineEdit,
+#StyleWidgetItemPopup animatedwidgets--ComboBox {
     min-height: 34px;
     qproperty-cornerRadius: 8;
     qproperty-contentPadding: 9;
 }
 
-#StyleWidgetItemPopup[editorControl=&quot;true&quot;] animatedwidgets--LineEdit#nameEdit[editorControl=&quot;true&quot;] {
+#StyleWidgetItemPopup animatedwidgets--LineEdit#nameEdit {
     background: transparent;
     border: none;
     qproperty-borderVisible: true;
@@ -65,30 +64,30 @@
    <property name="rightMargin"><number>24</number></property>
    <property name="bottomMargin"><number>24</number></property>
    <item><widget class="QLabel" name="titleLabel">
-    <property name="editorControl" stdset="0"><bool>true</bool></property><property name="text"><string>Add widget style</string></property></widget></item>
+    <property name="text"><string>Add widget style</string></property></widget></item>
    <item><widget class="QLabel" name="categoryLabel">
-    <property name="editorControl" stdset="0"><bool>true</bool></property><property name="text"><string>Widget category</string></property><property name="textFormat"><enum>Qt::PlainText</enum></property></widget></item>
+    <property name="text"><string>Widget category</string></property><property name="textFormat"><enum>Qt::PlainText</enum></property></widget></item>
    <item>
     <layout class="QFormLayout" name="propertyLayout">
      <property name="horizontalSpacing"><number>16</number></property>
      <property name="verticalSpacing"><number>12</number></property>
      <item row="0" column="0"><widget class="QLabel" name="typeLabel">
-      <property name="editorControl" stdset="0"><bool>true</bool></property><property name="text"><string>Widget type</string></property></widget></item>
-     <item row="0" column="1"><widget class="aw::ComboBox" name="typeCombo"><property name="editorControl" stdset="0"><bool>true</bool></property></widget></item>
+      <property name="text"><string>Widget type</string></property></widget></item>
+     <item row="0" column="1"><widget class="aw::ComboBox" name="typeCombo"></widget></item>
      <item row="1" column="0"><widget class="QLabel" name="nameLabel">
-      <property name="editorControl" stdset="0"><bool>true</bool></property><property name="text"><string>Style name</string></property></widget></item>
-     <item row="1" column="1"><widget class="aw::LineEdit" name="nameEdit"><property name="placeholderText"><string>Enter a style name</string></property><property name="editorControl" stdset="0"><bool>true</bool></property></widget></item>
+      <property name="text"><string>Style name</string></property></widget></item>
+     <item row="1" column="1"><widget class="aw::LineEdit" name="nameEdit"><property name="placeholderText"><string>Enter a style name</string></property></widget></item>
     </layout>
    </item>
    <item><widget class="QLabel" name="hintLabel">
-    <property name="editorControl" stdset="0"><bool>true</bool></property><property name="text"><string>Choose a widget type and give this style a name.</string></property><property name="wordWrap"><bool>true</bool></property></widget></item>
+    <property name="text"><string>Choose a widget type and give this style a name.</string></property><property name="wordWrap"><bool>true</bool></property></widget></item>
    <item><spacer name="bodySpacer"><property name="orientation"><enum>Qt::Vertical</enum></property><property name="sizeHint" stdset="0"><size><width>20</width><height>12</height></size></property></spacer></item>
    <item>
     <layout class="QHBoxLayout" name="actionLayout">
      <property name="spacing"><number>8</number></property>
      <item><spacer name="actionSpacer"><property name="orientation"><enum>Qt::Horizontal</enum></property><property name="sizeHint" stdset="0"><size><width>20</width><height>20</height></size></property></spacer></item>
-     <item><widget class="aw::OutlineButton" name="cancelButton"><property name="text"><string>Cancel</string></property><property name="editorControl" stdset="0"><bool>true</bool></property></widget></item>
-     <item><widget class="aw::FilledButton" name="acceptButton"><property name="text"><string>Add style</string></property><property name="editorControl" stdset="0"><bool>true</bool></property></widget></item>
+     <item><widget class="aw::OutlineButton" name="cancelButton"><property name="text"><string>Cancel</string></property></widget></item>
+     <item><widget class="aw::FilledButton" name="acceptButton"><property name="text"><string>Add style</string></property></widget></item>
     </layout>
    </item>
   </layout>

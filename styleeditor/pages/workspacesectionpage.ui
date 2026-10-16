@@ -2,22 +2,21 @@
 <ui version="4.0">
  <class>WorkspaceSectionPage</class>
  <widget class="QWidget" name="WorkspaceSectionPage">
-  <property name="editorControl" stdset="0"><bool>true</bool></property>
-  <property name="styleSheet"><string notr="true">#WorkspaceSectionPage[editorControl=&quot;true&quot;] QLabel#sectionDescription[editorControl=&quot;true&quot;] {
+  <property name="styleSheet"><string notr="true">#WorkspaceSectionPage QLabel#sectionDescription {
     background: transparent;
 }
 
-#WorkspaceSectionPage[editorControl=&quot;true&quot;] QLabel#sectionStatus[editorControl=&quot;true&quot;] {
+#WorkspaceSectionPage QLabel#sectionStatus {
     background: transparent;
 }
 
-#WorkspaceSectionPage[editorControl=&quot;true&quot;] QFrame#sectionCard[editorControl=&quot;true&quot;] {
+#WorkspaceSectionPage QFrame#sectionCard {
     border-width: 1px;
     border-style: solid;
     border-radius: 16px;
 }
 
-#WorkspaceSectionPage[editorControl=&quot;true&quot;] QLabel#sectionTitle[editorControl=&quot;true&quot;] {
+#WorkspaceSectionPage QLabel#sectionTitle {
     font-size: 20px;
     font-weight: 750;
 }</string></property>
@@ -28,7 +27,6 @@
    <property name="bottomMargin"><number>20</number></property>
    <item>
     <widget class="QFrame" name="sectionCard">
-     <property name="editorControl" stdset="0"><bool>true</bool></property>
      <property name="frameShape"><enum>QFrame::NoFrame</enum></property>
      <layout class="QVBoxLayout" name="sectionLayout">
       <property name="spacing"><number>12</number></property>
@@ -37,11 +35,11 @@
       <property name="rightMargin"><number>32</number></property>
       <property name="bottomMargin"><number>32</number></property>
       <item><widget class="QLabel" name="sectionTitle">
-       <property name="editorControl" stdset="0"><bool>true</bool></property><property name="text"><string>Workspace section</string></property></widget></item>
+       <property name="text"><string>Workspace section</string></property></widget></item>
       <item><widget class="QLabel" name="sectionDescription">
-       <property name="editorControl" stdset="0"><bool>true</bool></property><property name="text"><string>Section description</string></property><property name="wordWrap"><bool>true</bool></property></widget></item>
+       <property name="text"><string>Section description</string></property><property name="wordWrap"><bool>true</bool></property></widget></item>
       <item><widget class="QLabel" name="sectionStatus">
-       <property name="editorControl" stdset="0"><bool>true</bool></property><property name="text"><string>This section is reserved for a future update.</string></property><property name="wordWrap"><bool>true</bool></property></widget></item>
+       <property name="text"><string>This section is reserved for a future update.</string></property><property name="wordWrap"><bool>true</bool></property></widget></item>
       <item><spacer name="sectionSpacer"><property name="orientation"><enum>Qt::Vertical</enum></property><property name="sizeHint" stdset="0"><size><width>20</width><height>40</height></size></property></spacer></item>
      </layout>
     </widget>

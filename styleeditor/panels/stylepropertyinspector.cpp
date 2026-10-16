@@ -9,6 +9,7 @@
 
 #include <QHash>
 #include <QScrollBar>
+#include <QSignalBlocker>
 #include <QTreeWidget>
 
 using animatedwidgets::styleeditor::StyleProperty;
@@ -29,6 +30,12 @@ StylePropertyInspector::StylePropertyInspector(QTreeWidget* tree, QObject* paren
 }
 
 void StylePropertyInspector::setProperties(const QList<StyleProperty>& properties) {
+    const QSignalBlocker blocker(m_tree);
+    const bool updatesEnabled = m_tree->updatesEnabled();
+    const bool animated = m_tree->isAnimated();
+    m_tree->setUpdatesEnabled(false);
+    m_tree->setAnimated(false);
+
     const int scrollPosition = m_tree->verticalScrollBar()->value();
     m_properties = properties;
     ++m_generation;
@@ -64,6 +71,9 @@ void StylePropertyInspector::setProperties(const QList<StyleProperty>& propertie
         it.value()->setExpanded(!m_collapsedGroups.contains(it.key()));
     refreshEnabledStates();
     m_tree->verticalScrollBar()->setValue(scrollPosition);
+
+    m_tree->setAnimated(animated);
+    m_tree->setUpdatesEnabled(updatesEnabled);
 }
 
 void StylePropertyInspector::clear() {

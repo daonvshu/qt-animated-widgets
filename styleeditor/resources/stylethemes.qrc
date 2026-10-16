@@ -5,6 +5,7 @@
         <file alias="comm/views.css">styles/comm/views.css</file>
         <file alias="comm/buttons.css">styles/comm/buttons.css</file>
         <file alias="comm/inputs.css">styles/comm/inputs.css</file>
+        <file alias="comm/palette.css">styles/comm/palette.css</file>
         <file alias="light/surfaces.css">styles/light/surfaces.css</file>
         <file alias="light/labels.css">styles/light/labels.css</file>
         <file alias="light/views.css">styles/light/views.css</file>

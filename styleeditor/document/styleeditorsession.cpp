@@ -2,26 +2,18 @@
 
 #include "../plugins/stylepluginregistry.h"
 #include "../utils/styledocumentcodec.h"
-#include "../utils/styleresourceutils.h"
 
 #include <QUuid>
-#include <QWidget>
 
 #include <algorithm>
 
 using animatedwidgets::styleeditor::StyleEditorWidgetType;
 using animatedwidgets::styleeditor::StyleProperty;
-using animatedwidgets::styleeditor::StylePropertyType;
 
-StyleEditorSession::StyleEditorSession(const StylePluginRegistry& registry, QWidget* previewParent, QObject* parent)
+StyleEditorSession::StyleEditorSession(const StylePluginRegistry& registry, QObject* parent)
     : QObject(parent)
     , m_registry(registry)
-    , m_previewParent(previewParent)
 {
-}
-
-StyleEditorSession::~StyleEditorSession() {
-    clearItems();
 }
 
 const QList<StyleEditorItem>& StyleEditorSession::items() const {
@@ -34,8 +26,8 @@ void StyleEditorSession::loadItems(const QList<StyleDocumentItem>& items) {
         StyleEditorItem item;
         static_cast<StyleDocumentItem&>(item) = stored;
         const StyleEditorWidgetType* type = m_registry.findType(item.widgetTypeId);
-        if (type && initializeItem(item, *type))
-            StyleDocumentCodec::applySerializedProperties(item.properties, item.serializedProperties);
+        if (type)
+            initializeItem(item, *type);
         m_items.append(item);
     }
 }
@@ -80,6 +72,7 @@ bool StyleEditorSession::updateItem(int itemIndex, const QString& typeId, const 
         if (item.displayName == name)
             return true;
         item.displayName = name;
+        item.generatedCode.clear();
     } else {
         StyleEditorItem replacement;
         replacement.id = item.id;
@@ -89,8 +82,8 @@ bool StyleEditorSession::updateItem(int itemIndex, const QString& typeId, const 
         if (!initializeItem(replacement, *type))
             return false;
 
-        StyleDocumentCodec::applyCompatibleProperties(replacement.properties, item.properties);
-        delete item.preview.data();
+        replacement.inheritedProperties = item.properties;
+        replacement.serializedProperties = StyleDocumentCodec::serializeProperties(item.properties);
         item = replacement;
     }
 
@@ -117,8 +110,7 @@ void StyleEditorSession::setPropertyValue(int itemIndex, const QString& name, co
             return;
 
         property.value = value;
-        if (property.apply)
-            property.apply(value);
+        m_items[itemIndex].generatedCode.clear();
         emit contentChanged();
         emit propertyValuesChanged(itemIndex);
         return;
@@ -129,11 +121,9 @@ void StyleEditorSession::resetProperties(int itemIndex) {
     if (itemIndex < 0 || itemIndex >= m_items.size())
         return;
 
-    for (StyleProperty& property : m_items[itemIndex].properties) {
+    for (StyleProperty& property : m_items[itemIndex].properties)
         property.value = property.defaultValue;
-        if (property.apply)
-            property.apply(property.value);
-    }
+    m_items[itemIndex].generatedCode.clear();
     emit contentChanged();
     emit propertyValuesChanged(itemIndex);
 }
@@ -143,10 +133,21 @@ void StyleEditorSession::setPreviewSettings(int itemIndex, const StylePreviewSet
         return;
 
     StylePreviewSettings& current = m_items[itemIndex].previewSettings;
-    if (current.size == settings.size && current.background == settings.background)
+    if (current.size == settings.size && current.background == settings.background
+        && current.widthAuto == settings.widthAuto && current.heightAuto == settings.heightAuto)
         return;
     current = settings;
     emit contentChanged();
+}
+
+void StyleEditorSession::updatePreviewResult(int itemIndex, const QList<StyleProperty>& properties, const QString& code) {
+    if (itemIndex < 0 || itemIndex >= m_items.size())
+        return;
+    if (!m_items[itemIndex].inheritedProperties.isEmpty())
+        m_items[itemIndex].serializedProperties = {};
+    m_items[itemIndex].properties = properties;
+    m_items[itemIndex].inheritedProperties.clear();
+    m_items[itemIndex].generatedCode = code;
 }
 
 const StyleResourceSettings& StyleEditorSession::resourceSettings() const {
@@ -158,43 +159,22 @@ void StyleEditorSession::setResourceSettings(const StyleResourceSettings& settin
         || !std::equal(m_resources.qrcFiles.cbegin(), m_resources.qrcFiles.cend(), settings.qrcFiles.cbegin());
     const bool changed = m_resources.projectDirectory != settings.projectDirectory || m_resources.source != settings.source || historyChanged;
     m_resources = settings;
-    QString error;
-    m_resourceEntries = StyleResourceUtils::scanAll(settings, error);
-    for (const StyleEditorItem& item : m_items) {
-        for (const StyleProperty& property : item.properties) {
-            if (property.type == StylePropertyType::Icon && property.apply)
-                property.apply(property.value);
-        }
-    }
-    if (changed)
+    if (changed) {
+        for (StyleEditorItem& item : m_items)
+            item.generatedCode.clear();
         emit contentChanged();
+    }
 }
 
 bool StyleEditorSession::initializeItem(StyleEditorItem& item, const StyleEditorWidgetType& type) {
     if (!type.create || !type.properties)
         return false;
 
-    item.preview = type.create(m_previewParent.data());
-    if (!item.preview)
-        return false;
-
-    item.preview->hide();
     item.typeName = type.typeName;
     item.suggestedSize = type.suggestedSize;
-    item.properties = type.properties(item.preview);
-    for (StyleProperty& property : item.properties) {
-        if (property.type != StylePropertyType::Icon || !property.apply)
-            continue;
-        property.apply = [session = QPointer<StyleEditorSession>(this), apply = property.apply](const QVariant& value) {
-            if (session)
-                apply(StyleResourceUtils::resolve(session->m_resources, session->m_resourceEntries, value.toString()));
-        };
-    }
     return true;
 }
 
 void StyleEditorSession::clearItems() {
-    for (StyleEditorItem& item : m_items)
-        delete item.preview.data();
     m_items.clear();
 }

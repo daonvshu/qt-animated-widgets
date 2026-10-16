@@ -1,39 +1,39 @@
-QScrollBar[editorControl="true"]:vertical {
+QScrollBar:vertical {
     width: 8px;
     margin: 2px;
     background: transparent;
 }
 
-QScrollBar[editorControl="true"]::handle:vertical {
+QScrollBar::handle:vertical {
     min-height: 24px;
     border-radius: 4px;
 }
 
-QScrollBar[editorControl="true"]::add-line:vertical {
+QScrollBar::add-line:vertical {
     height: 0;
 }
 
-QScrollBar[editorControl="true"]::sub-line:vertical {
+QScrollBar::sub-line:vertical {
     height: 0;
 }
 
-QScrollBar[editorControl="true"]:horizontal {
+QScrollBar:horizontal {
     height: 8px;
     margin: 2px;
     background: transparent;
 }
 
-QScrollBar[editorControl="true"]::handle:horizontal {
+QScrollBar::handle:horizontal {
     min-width: 24px;
     border-radius: 4px;
 }
 
-QScrollBar[editorControl="true"]::add-line:horizontal,
-QScrollBar[editorControl="true"]::sub-line:horizontal {
+QScrollBar::add-line:horizontal,
+QScrollBar::sub-line:horizontal {
     width: 0px;
 }
 
-QScrollBar[editorControl="true"]::add-page,
-QScrollBar[editorControl="true"]::sub-page {
+QScrollBar::add-page,
+QScrollBar::sub-page {
     background: transparent;
 }

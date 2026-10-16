@@ -1,17 +1,17 @@
-animatedwidgets--FilledButton[editorControl="true"] {
+animatedwidgets--FilledButton {
     qproperty-backgroundNormal: #7180f5;
     qproperty-backgroundHover: #8390ff;
     qproperty-contentNormal: #ffffff;
 }
 
-animatedwidgets--OutlineButton[editorControl="true"] {
+animatedwidgets--OutlineButton {
     qproperty-borderNormal: #414d64;
     qproperty-borderHover: #7180f5;
     qproperty-contentNormal: #e7ecf5;
     qproperty-contentHover: #aab3ff;
 }
 
-animatedwidgets--HoverButton[editorControl="true"] {
+animatedwidgets--HoverButton {
     qproperty-backgroundHover: #333b63;
     qproperty-backgroundChecked: #333b63;
     qproperty-contentNormal: #98a7c0;
@@ -19,13 +19,13 @@ animatedwidgets--HoverButton[editorControl="true"] {
     qproperty-contentChecked: #aab3ff;
 }
 
-animatedwidgets--Switch[editorControl="true"] {
+animatedwidgets--Switch {
     qproperty-checkedTrackColor: #7180f5;
     qproperty-uncheckedTrackColor: #414d64;
 }
 
-StylePreviewPanel[editorControl="true"] animatedwidgets--BorderedButton#previewWidthAutoButton[editorControl="true"],
-StylePreviewPanel[editorControl="true"] animatedwidgets--BorderedButton#previewHeightAutoButton[editorControl="true"] {
+StylePreviewPanel animatedwidgets--BorderedButton#previewWidthAutoButton,
+StylePreviewPanel animatedwidgets--BorderedButton#previewHeightAutoButton {
     qproperty-backgroundNormal: #202636;
     qproperty-backgroundHover: #171c28;
     qproperty-backgroundPressed: #3e4775;
@@ -38,49 +38,49 @@ StylePreviewPanel[editorControl="true"] animatedwidgets--BorderedButton#previewH
     qproperty-contentChecked: #aab3ff;
 }
 
-StylePreviewPanel[editorControl="true"] animatedwidgets--BorderedButton#previewBackgroundButton[editorControl="true"] {
+StylePreviewPanel animatedwidgets--BorderedButton#previewBackgroundButton {
     qproperty-borderNormal: #414d64;
     qproperty-borderHover: #7180f5;
 }
 
-#StylePropertyRow[editorControl="true"] animatedwidgets--BorderedButton#iconResourceButton[editorControl="true"] {
+#StylePropertyRow animatedwidgets--BorderedButton#iconResourceButton {
     qproperty-backgroundNormal: #171c28;
     qproperty-borderNormal: #414d64;
     qproperty-borderHover: #7180f5;
     qproperty-contentNormal: #e7ecf5;
 }
 
-#StylePropertyRow[editorControl="true"] animatedwidgets--BorderedButton#colorSwatch[editorControl="true"] {
+#StylePropertyRow animatedwidgets--BorderedButton#colorSwatch {
     qproperty-borderNormal: #414d64;
     qproperty-borderHover: #7180f5;
     qproperty-contentNormal: #b1bdd1;
 }
 
-#StylePropertyRow[editorControl="true"] animatedwidgets--HoverIconButton#resetButton[editorControl="true"] {
+#StylePropertyRow animatedwidgets--HoverIconButton#resetButton {
     qproperty-backgroundHover: #333b63;
     qproperty-contentNormal: #98a7c0;
     qproperty-contentHover: #aab3ff;
 }
 
-#StyleWidgetTreeRow[editorControl="true"] animatedwidgets--HoverIconButton[editorControl="true"] {
+#StyleWidgetTreeRow animatedwidgets--HoverIconButton {
     qproperty-backgroundHover: #3e4775;
     qproperty-contentNormal: #98a7c0;
     qproperty-contentHover: #aab3ff;
 }
 
-#StyleIconResourcePopup[editorControl="true"] animatedwidgets--OutlineButton[editorControl="true"] {
+#StyleIconResourcePopup animatedwidgets--OutlineButton {
     qproperty-borderNormal: #414d64;
     qproperty-borderHover: #7180f5;
     qproperty-contentNormal: #e7ecf5;
     qproperty-contentHover: #aab3ff;
 }
 
-#StyleIconResourcePopup[editorControl="true"] animatedwidgets--FilledButton[editorControl="true"] {
+#StyleIconResourcePopup animatedwidgets--FilledButton {
     qproperty-backgroundNormal: #7180f5;
     qproperty-contentNormal: #ffffff;
 }
 
-#ColorPickerDialog[editorControl="true"] animatedwidgets--FilledButton[colorPickerControl="true"][editorControl="true"] {
+#ColorPickerDialog animatedwidgets--FilledButton[colorPickerControl="true"] {
     qproperty-backgroundNormal: #7180f5;
     qproperty-backgroundHover: #93a0ff;
     qproperty-backgroundPressed: #5868dd;
@@ -88,69 +88,69 @@ StylePreviewPanel[editorControl="true"] animatedwidgets--BorderedButton#previewB
     qproperty-contentNormal: #ffffff;
 }
 
-#ColorPickerDialog[editorControl="true"] animatedwidgets--FilledButton#btn_cancel[editorControl="true"],
-#ColorPickerDialog[editorControl="true"] animatedwidgets--FilledButton#btn_automatic[editorControl="true"] {
+#ColorPickerDialog animatedwidgets--FilledButton#btn_cancel,
+#ColorPickerDialog animatedwidgets--FilledButton#btn_automatic {
     qproperty-backgroundNormal: #2b3345;
     qproperty-backgroundHover: #384258;
     qproperty-backgroundPressed: #434e65;
     qproperty-contentNormal: #c1cadb;
 }
 
-#ColorPickerDialog[editorControl="true"] animatedwidgets--HoverIconButton#btn_close[editorControl="true"] {
+#ColorPickerDialog animatedwidgets--HoverIconButton#btn_close {
     qproperty-backgroundHover: #e84d62;
     qproperty-contentNormal: #c1cadb;
     qproperty-contentHover: white;
 }
 
-#StyleMessagePopup[editorControl="true"] animatedwidgets--FilledButton[editorControl="true"] {
+#StyleMessagePopup animatedwidgets--FilledButton {
     qproperty-backgroundNormal: #7180f5;
     qproperty-backgroundHover: #8390ff;
     qproperty-contentNormal: #ffffff;
 }
 
-#StyleMessagePopup[editorControl="true"] animatedwidgets--OutlineButton[editorControl="true"] {
+#StyleMessagePopup animatedwidgets--OutlineButton {
     qproperty-borderNormal: #414d64;
     qproperty-borderHover: #7180f5;
     qproperty-contentNormal: #e7ecf5;
     qproperty-contentHover: #aab3ff;
 }
 
-#StyleWidgetItemPopup[editorControl="true"] animatedwidgets--FilledButton[editorControl="true"] {
+#StyleWidgetItemPopup animatedwidgets--FilledButton {
     qproperty-backgroundNormal: #7180f5;
     qproperty-backgroundHover: #8390ff;
     qproperty-contentNormal: #ffffff;
 }
 
-#StyleWidgetItemPopup[editorControl="true"] animatedwidgets--OutlineButton[editorControl="true"] {
+#StyleWidgetItemPopup animatedwidgets--OutlineButton {
     qproperty-borderNormal: #414d64;
     qproperty-borderHover: #7180f5;
     qproperty-contentNormal: #e7ecf5;
     qproperty-contentHover: #aab3ff;
 }
 
-animatedwidgets--BorderedButton#previewWidthAutoButton[editorControl="true"],
-animatedwidgets--BorderedButton#previewHeightAutoButton[editorControl="true"] {
+animatedwidgets--BorderedButton#previewWidthAutoButton,
+animatedwidgets--BorderedButton#previewHeightAutoButton {
     qproperty-backgroundDisabled: #2b3345;
     qproperty-borderDisabled: #343e52;
     qproperty-contentDisabled: #66748e;
 }
 
-animatedwidgets--Switch[editorControl="true"] {
+animatedwidgets--Switch {
     qproperty-disabledTrackColor: #384258;
 }
 
-animatedwidgets--BorderedButton[editorControl="true"] {
+animatedwidgets--BorderedButton {
     qproperty-backgroundDisabled: #2b3345;
     qproperty-borderDisabled: #343e52;
     qproperty-contentDisabled: #66748e;
 }
 
-animatedwidgets--FilledButton[editorControl="true"] {
+animatedwidgets--FilledButton {
     qproperty-backgroundDisabled: #414d64;
     qproperty-contentDisabled: #98a7c0;
 }
 
-animatedwidgets--OutlineButton[editorControl="true"] {
+animatedwidgets--OutlineButton {
     qproperty-borderDisabled: #343e52;
     qproperty-contentDisabled: #66748e;
 }

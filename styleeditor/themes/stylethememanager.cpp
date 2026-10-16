@@ -16,8 +16,10 @@
 #include <QApplication>
 #include <QEvent>
 #include <QMainWindow>
+#include <QPalette>
 #include <QSettings>
 #include <QStyle>
+#include <QVariant>
 
 StyleThemeManager::StyleThemeManager(QMainWindow* window, StyleThemeScope* scope)
     : QObject(window)
@@ -39,10 +41,6 @@ bool StyleThemeManager::eventFilter(QObject* watched, QEvent* event) {
     if (event->type() == QEvent::Show) {
         if (auto* popup = qobject_cast<animatedwidgets::PopupMenu*>(watched)) {
             if (forWidget(popup) == this) {
-                for (QWidget* owner = popup; owner; owner = owner->parentWidget()) {
-                    if (owner->property("editorPreview").toBool())
-                        return QObject::eventFilter(watched, event);
-                }
                 // Input controls create context menus internally, outside the dialog callbacks.
                 preparePopup(popup);
             }
@@ -110,14 +108,9 @@ void StyleThemeManager::preparePopup(animatedwidgets::PopupMenu* popup) {
 }
 
 void StyleThemeManager::prepareSubtree(QWidget* widget) {
-    if (!widget || widget->property("editorPreview").toBool())
+    if (!widget)
         return;
 
-    if (!widget->property("editorControl").toBool()) {
-        widget->setProperty("editorControl", true);
-        widget->style()->unpolish(widget);
-        widget->style()->polish(widget);
-    }
     if (auto* combo = qobject_cast<animatedwidgets::ComboBox*>(widget)) {
         if (!combo->property("themePopupConnected").toBool()) {
             combo->setProperty("themePopupConnected", true);
@@ -131,7 +124,7 @@ void StyleThemeManager::prepareSubtree(QWidget* widget) {
 }
 
 void StyleThemeManager::applySubtreeColors(QWidget* widget) {
-    if (!widget || widget->property("editorPreview").toBool())
+    if (!widget)
         return;
 
     applyWidgetColors(widget);
@@ -141,11 +134,18 @@ void StyleThemeManager::applySubtreeColors(QWidget* widget) {
 }
 
 void StyleThemeManager::applyWidgetColors(QWidget* widget) {
-    if (!widget->property("editorControl").toBool())
-        return;
     widget->ensurePolished();
 
     if (auto* tree = qobject_cast<viv::VirtualTreeView*>(widget)) {
+        const QColor background = tree->objectName() == QStringLiteral("iconTree") ? m_scope->canvas() : m_scope->surface();
+        QPalette colors = tree->palette();
+        colors.setColor(QPalette::Base, background);
+        colors.setColor(QPalette::Window, background);
+        colors.setColor(QPalette::Text, m_scope->text());
+        colors.setColor(QPalette::WindowText, m_scope->text());
+        tree->setPalette(colors);
+        tree->viewport()->setPalette(colors);
+
         tree->setHoverBackgroundColor(m_scope->hover());
         tree->setSelectedBackgroundColor(tree->objectName() == QStringLiteral("iconTree") ? m_scope->iconSelection() : m_scope->selection());
         tree->setBranchIconColor(m_scope->mutedText());
@@ -155,16 +155,34 @@ void StyleThemeManager::applyWidgetColors(QWidget* widget) {
         row->setAutomaticColorBackground(m_scope->automatic());
     } else if (auto* popup = qobject_cast<animatedwidgets::PopupMenu*>(widget)) {
         applyPopupColors(popup);
+    } else if (auto* popup = dynamic_cast<animatedwidgets::ShadowWidget*>(widget)) {
+        applyShadowStyle(popup);
     }
+
+    // Finish theme initialization before showing the widget, then preserve interaction animations.
+    const QVariant duration = widget->property("animationDuration");
+    if (duration.isValid() && duration.toInt() > 0) {
+        widget->setProperty("animationDuration", 0);
+        widget->setProperty("animationDuration", duration);
+    }
+}
+
+void StyleThemeManager::applyShadowStyle(animatedwidgets::ShadowWidget* popup) {
+    popup->setShadowColor(m_scope->popupShadow());
+    popup->setShadowRadius(m_scope->popupShadowRadius());
 }
 
 void StyleThemeManager::applyPopupColors(animatedwidgets::PopupMenu* popup) {
     if (!popup || !m_scope)
         return;
 
+    applyShadowStyle(popup);
+
     if (auto* style = dynamic_cast<animatedwidgets::DefaultPopupMenuStyle*>(popup->popupStyle())) {
         style->popupBackground = m_scope->surface();
         style->popupBorder = m_scope->border();
+        style->shadowColor = m_scope->popupShadow();
+        style->shadowRadius = m_scope->popupShadowRadius();
     }
     if (auto* style = dynamic_cast<animatedwidgets::DefaultPopupMenuListStyle*>(popup->listStyle())) {
         style->background = Qt::transparent;

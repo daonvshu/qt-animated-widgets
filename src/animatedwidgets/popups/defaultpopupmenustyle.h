@@ -13,6 +13,7 @@ public:
 
     QColor popupBackground = QColor(Qt::white); // Popup body background.
     QColor popupBorder = QColor(QStringLiteral("#d5dae0")); // Popup border color.
+    QColor shadowColor = QColor(QStringLiteral("#a9acb6")); // Outer shadow color, including opacity.
 
     int popupBorderWidth = 1; // Border width in logical pixels.
     int popupCornerRadius = 8; // Corner radius shared by the body and shadow shape.

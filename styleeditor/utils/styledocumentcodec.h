@@ -13,9 +13,9 @@ public:
     static void applySerializedProperties(QList<animatedwidgets::styleeditor::StyleProperty>& properties, const QJsonObject& values);
     static void applyCompatibleProperties(QList<animatedwidgets::styleeditor::StyleProperty>& properties,
                                           const QList<animatedwidgets::styleeditor::StyleProperty>& previous);
+    static QJsonValue variantToJson(const animatedwidgets::styleeditor::StyleProperty& property, const QVariant& value);
+    static bool jsonToVariant(const animatedwidgets::styleeditor::StyleProperty& property, const QJsonValue& value, QVariant& result);
 
 private:
     static QJsonValue valueToJson(const animatedwidgets::styleeditor::StyleProperty& property);
-    static QJsonValue variantToJson(const animatedwidgets::styleeditor::StyleProperty& property, const QVariant& value);
-    static bool jsonToVariant(const animatedwidgets::styleeditor::StyleProperty& property, const QJsonValue& value, QVariant& result);
 };

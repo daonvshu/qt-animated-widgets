@@ -2,80 +2,79 @@
 <ui version="4.0">
  <class>StyleEditorPage</class>
  <widget class="QWidget" name="StyleEditorPage">
-  <property name="editorControl" stdset="0"><bool>true</bool></property>
-  <property name="styleSheet"><string notr="true">#StyleEditorPage[editorControl=&quot;true&quot;] QFrame#documentPanel[editorControl=&quot;true&quot;] {
+  <property name="styleSheet"><string notr="true">#StyleEditorPage QFrame#documentPanel {
     border-width: 1px;
     border-style: solid;
     border-radius: 16px;
 }
 
-#StyleEditorPage[editorControl=&quot;true&quot;] QFrame#inspector[editorControl=&quot;true&quot;] {
+#StyleEditorPage QFrame#inspector {
     border-width: 1px;
     border-style: solid;
     border-radius: 16px;
 }
 
-#StyleEditorPage[editorControl=&quot;true&quot;] QFrame#previewCard[editorControl=&quot;true&quot;] {
+#StyleEditorPage QFrame#previewCard {
     border-width: 1px;
     border-style: solid;
     border-radius: 16px;
 }
 
-#StyleEditorPage[editorControl=&quot;true&quot;] QFrame#codeCard[editorControl=&quot;true&quot;] {
+#StyleEditorPage QFrame#codeCard {
     border-width: 1px;
     border-style: solid;
     border-radius: 16px;
 }
 
-#StyleEditorPage[editorControl=&quot;true&quot;] QLabel#documentPanelTitle[editorControl=&quot;true&quot;] {
+#StyleEditorPage QLabel#documentPanelTitle {
     font-size: 14px;
     font-weight: 700;
 }
 
-#StyleEditorPage[editorControl=&quot;true&quot;] QLabel#propertiesTitle[editorControl=&quot;true&quot;] {
+#StyleEditorPage QLabel#propertiesTitle {
     font-size: 14px;
     font-weight: 700;
 }
 
-#StyleEditorPage[editorControl=&quot;true&quot;] QLabel#previewTitle[editorControl=&quot;true&quot;] {
+#StyleEditorPage QLabel#previewTitle {
     font-size: 14px;
     font-weight: 700;
 }
 
-#StyleEditorPage[editorControl=&quot;true&quot;] QLabel#codeTitle[editorControl=&quot;true&quot;] {
+#StyleEditorPage QLabel#codeTitle {
     font-size: 14px;
     font-weight: 700;
 }
 
-#StyleEditorPage[editorControl=&quot;true&quot;] QLabel#documentCountLabel[editorControl=&quot;true&quot;] {
+#StyleEditorPage QLabel#documentCountLabel {
     padding: 3px 7px;
     border-radius: 20px;
     font-size: 11px;
 }
 
-#StyleEditorPage[editorControl=&quot;true&quot;] QLabel#selectedControlLabel[editorControl=&quot;true&quot;] {
+#StyleEditorPage QLabel#selectedControlLabel {
     padding: 10px 11px;
     border-radius: 9px;
     font-size: 12px;
 }
 
-#StyleEditorPage[editorControl=&quot;true&quot;] QTreeWidget#propertyList[editorControl=&quot;true&quot;] {
+#StyleEditorPage QTreeWidget#propertyList {
     background: transparent;
     border: none;
     outline: none;
 }
 
-#StyleEditorPage[editorControl=&quot;true&quot;] QTreeWidget#propertyList[editorControl=&quot;true&quot;]::item {
+#StyleEditorPage QTreeWidget#propertyList::item {
     border: none;
 }
 
-#StyleEditorPage[editorControl=&quot;true&quot;] QFrame#previewCanvas[editorControl=&quot;true&quot;] {
+#StyleEditorPage QFrame#previewCanvas {
     border-width: 1px;
     border-style: dashed;
     border-radius: 12px;
 }
 
-#StyleEditorPage[editorControl=&quot;true&quot;] animatedwidgets--FilledButton[editorControl=&quot;true&quot;] {
+#StyleEditorPage animatedwidgets--FilledButton {
     min-height: 36px;
     min-width: 48px;
     qproperty-cornerRadius: 9;
@@ -84,7 +83,7 @@
     qproperty-animationDuration: 300;
 }
 
-#StyleEditorPage[editorControl=&quot;true&quot;] animatedwidgets--OutlineButton[editorControl=&quot;true&quot;] {
+#StyleEditorPage animatedwidgets--OutlineButton {
     min-height: 36px;
     min-width: 64px;
     qproperty-cornerRadius: 9;
@@ -93,28 +92,28 @@
     qproperty-animationDuration: 300;
 }
 
-#StyleEditorPage[editorControl=&quot;true&quot;] animatedwidgets--LineEdit[editorControl=&quot;true&quot;] {
+#StyleEditorPage animatedwidgets--LineEdit {
     min-height: 34px;
     min-width: 48px;
     qproperty-cornerRadius: 8;
     qproperty-contentPadding: 9;
 }
 
-#StyleEditorPage[editorControl=&quot;true&quot;] animatedwidgets--ComboBox[editorControl=&quot;true&quot;] {
+#StyleEditorPage animatedwidgets--ComboBox {
     min-height: 34px;
     min-width: 48px;
     qproperty-cornerRadius: 8;
     qproperty-contentPadding: 9;
 }
 
-#StyleEditorPage[editorControl=&quot;true&quot;] animatedwidgets--LineEdit#documentSearchEdit[editorControl=&quot;true&quot;] {
+#StyleEditorPage animatedwidgets--LineEdit#documentSearchEdit {
     background: transparent;
     border: none;
     qproperty-borderVisible: true;
     qproperty-borderWidth: 1;
 }
 
-#StyleEditorPage[editorControl=&quot;true&quot;] animatedwidgets--PlainTextEdit[editorControl=&quot;true&quot;] {
+#StyleEditorPage animatedwidgets--PlainTextEdit {
     qproperty-borderVisible: false;
     qproperty-cornerRadius: 12;
     qproperty-contentPadding: 15;
@@ -137,7 +136,6 @@
    </property>
    <item>
     <widget class="QFrame" name="documentPanel">
-     <property name="editorControl" stdset="0"><bool>true</bool></property>
      <property name="minimumSize">
       <size>
        <width>250</width>
@@ -182,7 +180,6 @@
         </property>
         <item>
          <widget class="QLabel" name="documentPanelTitle">
-          <property name="editorControl" stdset="0"><bool>true</bool></property>
           <property name="text">
            <string>Widget styles</string>
           </property>
@@ -203,7 +200,6 @@
         </item>
         <item>
          <widget class="QLabel" name="documentCountLabel">
-          <property name="editorControl" stdset="0"><bool>true</bool></property>
           <property name="text">
            <string>0</string>
           </property>
@@ -230,14 +226,10 @@
           <property name="placeholderText">
            <string>Search widget items...</string>
           </property>
-          <property name="editorControl" stdset="0">
-           <bool>true</bool>
-          </property>
          </widget>
         </item>
         <item>
          <widget class="viv::VirtualTreeView" name="widgetTree">
-          <property name="editorControl" stdset="0"><bool>true</bool></property>
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
             <horstretch>0</horstretch>
@@ -253,7 +245,6 @@
    </item>
    <item>
     <widget class="QFrame" name="inspector">
-     <property name="editorControl" stdset="0"><bool>true</bool></property>
      <property name="minimumSize">
       <size>
        <width>300</width>
@@ -301,7 +292,6 @@
         </property>
         <item>
          <widget class="QLabel" name="propertiesTitle">
-          <property name="editorControl" stdset="0"><bool>true</bool></property>
           <property name="minimumSize">
            <size>
             <width>0</width>
@@ -317,7 +307,6 @@
       </item>
       <item>
        <widget class="QLabel" name="selectedControlLabel">
-        <property name="editorControl" stdset="0"><bool>true</bool></property>
         <property name="text">
          <string>Current item: None</string>
         </property>
@@ -328,7 +317,6 @@
       </item>
       <item>
        <widget class="QTreeWidget" name="propertyList">
-        <property name="editorControl" stdset="0"><bool>true</bool></property>
         <property name="animated"><bool>true</bool></property>
         <property name="headerHidden"><bool>true</bool></property>
         <property name="columnCount"><number>1</number></property>
@@ -347,9 +335,6 @@
        <widget class="aw::OutlineButton" name="resetAllButton">
         <property name="text">
          <string>Reset all</string>
-        </property>
-        <property name="editorControl" stdset="0">
-         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -375,7 +360,6 @@
      </property>
      <item>
       <widget class="QFrame" name="previewCard">
-       <property name="editorControl" stdset="0"><bool>true</bool></property>
        <property name="minimumSize">
         <size>
          <width>0</width>
@@ -414,7 +398,6 @@
           </property>
           <item>
            <widget class="QLabel" name="previewTitle">
-            <property name="editorControl" stdset="0"><bool>true</bool></property>
             <property name="text">
              <string>Widget preview</string>
             </property>
@@ -435,9 +418,6 @@
           </item>
           <item>
            <widget class="aw::ComboBox" name="stateCombo">
-            <property name="editorControl" stdset="0">
-             <bool>true</bool>
-            </property>
             <item>
              <property name="text">
               <string>Normal</string>
@@ -475,7 +455,6 @@
      </item>
      <item>
       <widget class="QFrame" name="codeCard">
-       <property name="editorControl" stdset="0"><bool>true</bool></property>
        <property name="minimumSize">
         <size>
          <width>0</width>
@@ -520,7 +499,6 @@
           </property>
           <item>
            <widget class="QLabel" name="codeTitle">
-            <property name="editorControl" stdset="0"><bool>true</bool></property>
             <property name="text">
              <string>Generated C++</string>
             </property>
@@ -544,9 +522,6 @@
             <property name="text">
              <string>Copy code</string>
             </property>
-            <property name="editorControl" stdset="0">
-             <bool>true</bool>
-            </property>
            </widget>
           </item>
          </layout>
@@ -554,9 +529,6 @@
         <item>
          <widget class="aw::PlainTextEdit" name="codeEdit">
           <property name="readOnly">
-           <bool>true</bool>
-          </property>
-          <property name="editorControl" stdset="0">
            <bool>true</bool>
           </property>
          </widget>

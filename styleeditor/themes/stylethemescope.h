@@ -15,6 +15,8 @@ class StyleThemeScope : public QWidget {
     Q_PROPERTY(QColor iconSelection READ iconSelection WRITE setIconSelection)
     Q_PROPERTY(QColor canvas READ canvas WRITE setCanvas)
     Q_PROPERTY(QColor automatic READ automatic WRITE setAutomatic)
+    Q_PROPERTY(QColor popupShadow READ popupShadow WRITE setPopupShadow)
+    Q_PROPERTY(int popupShadowRadius READ popupShadowRadius WRITE setPopupShadowRadius)
 
 public:
     explicit StyleThemeScope(QWidget* parent = nullptr);
@@ -42,6 +44,11 @@ public:
     QColor automatic() const;
     void setAutomatic(const QColor& color);
 
+    QColor popupShadow() const;
+    void setPopupShadow(const QColor& color);
+    int popupShadowRadius() const;
+    void setPopupShadowRadius(int radius);
+
 private:
     QColor m_surface;
     QColor m_border;
@@ -55,4 +62,7 @@ private:
 
     QColor m_canvas;
     QColor m_automatic;
+
+    QColor m_popupShadow;
+    int m_popupShadowRadius = 20;
 };

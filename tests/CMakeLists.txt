@@ -45,6 +45,24 @@ target_link_libraries(tstpopupmenufiltermodel PRIVATE AnimatedWidgets::Widgets Q
 add_test(NAME tstpopupmenufiltermodel COMMAND tstpopupmenufiltermodel)
 
 if(BUILD_STYLE_EDITOR)
+    find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Network)
+
+    add_executable(tststylepreviewprotocol
+        tststylepreviewprotocol.cpp
+        ../styleeditor/preview/stylepreviewprotocol.h
+        ../styleeditor/preview/stylepreviewprotocol.cpp
+        ../styleeditor/preview/stylepreviewchannel.h
+        ../styleeditor/preview/stylepreviewchannel.cpp
+        ../styleeditor/document/styleeditorsession.h
+        ../styleeditor/document/styleeditorsession.cpp
+        ../styleeditor/plugins/stylepluginregistry.h
+        ../styleeditor/plugins/stylepluginregistry.cpp
+        ../styleeditor/utils/styledocumentcodec.cpp
+        ../styleeditor/utils/styleresourceutils.cpp
+    )
+    target_link_libraries(tststylepreviewprotocol PRIVATE AnimatedWidgets::StyleEditorApi Qt${QT_VERSION_MAJOR}::Network Qt${QT_VERSION_MAJOR}::Test)
+    add_test(NAME tststylepreviewprotocol COMMAND tststylepreviewprotocol)
+
     add_executable(tststylethemeutils
         tststylethemeutils.cpp
         ../styleeditor/utils/stylethemeutils.h

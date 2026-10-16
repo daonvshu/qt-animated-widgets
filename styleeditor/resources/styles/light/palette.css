@@ -1,4 +1,4 @@
-StyleThemeScope#centralWidget[editorControl="true"] {
+StyleThemeScope#centralWidget {
     qproperty-surface: #ffffff;
     qproperty-border: #d7dde8;
     qproperty-text: #172033;
@@ -9,4 +9,5 @@ StyleThemeScope#centralWidget[editorControl="true"] {
     qproperty-iconSelection: #e3f3ff;
     qproperty-canvas: #f5f7fb;
     qproperty-automatic: #f2f3f5;
+    qproperty-popupShadow: #a9acb6;
 }

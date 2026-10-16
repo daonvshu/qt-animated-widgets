@@ -1,8 +1,6 @@
 #pragma once
 
 #include "styleeditoritem.h"
-#include "styleresourceentry.h"
-
 #include "animatedwidgets/styleeditor/api/styleeditorplugin.h"
 
 #include <QObject>
@@ -13,8 +11,7 @@ class StyleEditorSession : public QObject {
     Q_OBJECT
 
 public:
-    explicit StyleEditorSession(const StylePluginRegistry& registry, QWidget* previewParent, QObject* parent = nullptr);
-    ~StyleEditorSession() override;
+    explicit StyleEditorSession(const StylePluginRegistry& registry, QObject* parent = nullptr);
 
     const QList<StyleEditorItem>& items() const;
     void loadItems(const QList<StyleDocumentItem>& items);
@@ -25,6 +22,7 @@ public:
 
     void setPropertyValue(int itemIndex, const QString& name, const QVariant& value);
     void resetProperties(int itemIndex);
+    void updatePreviewResult(int itemIndex, const QList<animatedwidgets::styleeditor::StyleProperty>& properties, const QString& code);
 
     void setPreviewSettings(int itemIndex, const StylePreviewSettings& settings);
 
@@ -40,9 +38,7 @@ private:
     void clearItems();
 
     const StylePluginRegistry& m_registry;
-    QPointer<QWidget> m_previewParent;
     QList<StyleEditorItem> m_items;
 
     StyleResourceSettings m_resources;
-    QList<StyleResourceEntry> m_resourceEntries;
 };

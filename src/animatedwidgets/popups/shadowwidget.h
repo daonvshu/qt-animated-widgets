@@ -12,6 +12,9 @@ class ShadowWidget : public QWidget {
 public:
     explicit ShadowWidget(QWidget* parent = nullptr);
 
+    void setShadowColor(const QColor& color);
+    void setShadowRadius(int radius);
+
     void showArrow(bool show = true);
     void resizeContent(int width, int height);
     void setContentFixedSize(int width, int height);
@@ -19,7 +22,6 @@ public:
     void setContentFixedHeight(int height);
 
 protected:
-    void setShadowRadius(int radius);
     void setShadowEdges(Qt::Edges edges);
     void setAutoExpandShadowSize(bool enabled);
     void setAutoAdjustShadowPosition(bool enabled);

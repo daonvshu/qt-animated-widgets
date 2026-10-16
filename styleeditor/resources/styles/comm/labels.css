@@ -1,3 +1,10 @@
-QLabel[editorControl="true"] {
+QLabel {
     background: transparent;
+}
+
+QToolTip {
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 4px;
+    padding: 4px 6px;
 }

@@ -2,20 +2,19 @@
 <ui version="4.0">
  <class>ThemeManagerPage</class>
  <widget class="QWidget" name="ThemeManagerPage">
-  <property name="editorControl" stdset="0"><bool>true</bool></property>
   <property name="styleSheet">
-   <string notr="true">QFrame#sectionCard[editorControl="true"] {
+   <string notr="true">QFrame#sectionCard {
     border-width: 1px;
     border-style: solid;
     border-radius: 16px;
 }
 
-QLabel#sectionTitle[editorControl="true"] {
+QLabel#sectionTitle {
     font-size: 20px;
     font-weight: 750;
 }
 
-animatedwidgets--ComboBox#themeCombo[editorControl="true"] {
+animatedwidgets--ComboBox#themeCombo {
     min-height: 34px;
     qproperty-borderVisible: true;
     qproperty-borderWidth: 1;
@@ -30,7 +29,6 @@ animatedwidgets--ComboBox#themeCombo[editorControl="true"] {
    <property name="bottomMargin"><number>20</number></property>
    <item>
     <widget class="QFrame" name="sectionCard">
-     <property name="editorControl" stdset="0"><bool>true</bool></property>
      <property name="frameShape"><enum>QFrame::NoFrame</enum></property>
      <layout class="QVBoxLayout" name="sectionLayout">
       <property name="spacing"><number>16</number></property>
@@ -39,22 +37,18 @@ animatedwidgets--ComboBox#themeCombo[editorControl="true"] {
       <property name="rightMargin"><number>32</number></property>
       <property name="bottomMargin"><number>32</number></property>
       <item><widget class="QLabel" name="sectionTitle">
-       <property name="editorControl" stdset="0"><bool>true</bool></property>
        <property name="text"><string>Editor appearance</string></property>
       </widget></item>
       <item><widget class="QLabel" name="sectionDescription">
-       <property name="editorControl" stdset="0"><bool>true</bool></property>
        <property name="text"><string>Switch the workspace between light and dark themes.</string></property>
        <property name="wordWrap"><bool>true</bool></property>
       </widget></item>
       <item><layout class="QHBoxLayout" name="themeLayout">
        <property name="spacing"><number>16</number></property>
        <item><widget class="QLabel" name="appearanceLabel">
-        <property name="editorControl" stdset="0"><bool>true</bool></property>
         <property name="text"><string>Theme</string></property>
        </widget></item>
        <item><widget class="aw::ComboBox" name="themeCombo">
-        <property name="editorControl" stdset="0"><bool>true</bool></property>
         <property name="minimumSize"><size><width>240</width><height>36</height></size></property>
        </widget></item>
        <item><spacer name="themeSpacer">
@@ -63,7 +57,6 @@ animatedwidgets--ComboBox#themeCombo[editorControl="true"] {
        </spacer></item>
       </layout></item>
       <item><widget class="QLabel" name="sectionStatus">
-       <property name="editorControl" stdset="0"><bool>true</bool></property>
        <property name="text"><string>The editor theme preserves your widget styles and custom preview backgrounds.</string></property>
        <property name="wordWrap"><bool>true</bool></property>
       </widget></item>

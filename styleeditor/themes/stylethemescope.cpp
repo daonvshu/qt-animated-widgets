@@ -85,3 +85,19 @@ QColor StyleThemeScope::automatic() const {
 void StyleThemeScope::setAutomatic(const QColor& color) {
     m_automatic = color;
 }
+
+QColor StyleThemeScope::popupShadow() const {
+    return m_popupShadow;
+}
+
+void StyleThemeScope::setPopupShadow(const QColor& color) {
+    m_popupShadow = color;
+}
+
+int StyleThemeScope::popupShadowRadius() const {
+    return m_popupShadowRadius;
+}
+
+void StyleThemeScope::setPopupShadowRadius(int radius) {
+    m_popupShadowRadius = qMax(0, radius);
+}

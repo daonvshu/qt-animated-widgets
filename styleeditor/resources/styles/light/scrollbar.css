@@ -1,7 +1,7 @@
-QScrollBar[editorControl="true"]::handle:vertical {
+QScrollBar::handle:vertical {
     background: #c5ccda;
 }
 
-QScrollBar[editorControl="true"]::handle:horizontal {
+QScrollBar::handle:horizontal {
     background: #c5ccda;
 }

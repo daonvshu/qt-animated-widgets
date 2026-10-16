@@ -17,6 +17,15 @@ ShadowWidget::ShadowWidget(QWidget* parent)
     setContentsMargins(shadowMargins());
 }
 
+void ShadowWidget::setShadowColor(const QColor& color) {
+    if (shadowColor == color)
+        return;
+
+    shadowColor = color;
+    shadowImage = QImage();
+    update();
+}
+
 void ShadowWidget::showArrow(bool show) {
     m_showArrow = show;
     shadowImage = QImage();

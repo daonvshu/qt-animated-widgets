@@ -1,30 +1,30 @@
-QListWidget[editorControl="true"] {
+QListWidget {
     padding: 6px;
     background: transparent;
     border: none;
     outline: none;
 }
 
-QListWidget[editorControl="true"]::item {
+QListWidget::item {
     padding: 11px 10px;
     margin-bottom: 4px;
     border-radius: 9px;
 }
 
-QListWidget[editorControl="true"]::item:selected {
+QListWidget::item:selected {
     font-weight: 650;
 }
 
-QWidget#qt_scrollarea_viewport[editorControl="true"] {
+QWidget#qt_scrollarea_viewport {
     background: transparent;
 }
 
-viv--VirtualTreeView[editorControl="true"] {
+viv--VirtualTreeView {
     background: transparent;
     border: none;
 }
 
-QTreeWidget#propertyList[editorControl="true"]::branch {
+QTreeWidget#propertyList::branch {
     border-image: none;
     image: none;
 }

@@ -21,7 +21,6 @@ QWidget* StylePropertyEditorUtils::createEditor(const StyleProperty& property, Q
 
     if (property.type == StylePropertyType::Boolean) {
         auto* check = new Switch(parent);
-        check->setProperty("editorControl", true);
         check->setProperty("compactPropertyEditor", true);
         check->setTrackSize(QSize(32, 18));
         check->setFixedSize(36, 24);
@@ -32,7 +31,6 @@ QWidget* StylePropertyEditorUtils::createEditor(const StyleProperty& property, Q
 
     if (property.type == StylePropertyType::Enum) {
         auto* combo = new ComboBox(parent);
-        combo->setProperty("editorControl", true);
         combo->setProperty("compactPropertyEditor", true);
         combo->setArrowIconSize(QSize(10, 10));
         combo->addItems(property.enumNames);
@@ -42,7 +40,6 @@ QWidget* StylePropertyEditorUtils::createEditor(const StyleProperty& property, Q
     }
 
     auto* edit = new LineEdit(parent);
-    edit->setProperty("editorControl", true);
     edit->setProperty("compactPropertyEditor", true);
     if (property.type == StylePropertyType::Color)
         edit->setText(property.value.value<QColor>().name(QColor::HexArgb));
@@ -102,7 +99,6 @@ QWidget* StylePropertyEditorUtils::createAlignmentEditor(const StyleProperty& pr
     auto* horizontal = new ComboBox(editor);
     auto* vertical = new ComboBox(editor);
     for (ComboBox* combo : {horizontal, vertical}) {
-        combo->setProperty("editorControl", true);
         combo->setProperty("compactPropertyEditor", true);
         combo->setArrowIconSize(QSize(10, 10));
         combo->setFixedHeight(24);

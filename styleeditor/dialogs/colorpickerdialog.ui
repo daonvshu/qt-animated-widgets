@@ -2,7 +2,6 @@
 <ui version="4.0">
  <class>ColorPickerDialog</class>
  <widget class="QWidget" name="ColorPickerDialog">
-  <property name="editorControl" stdset="0"><bool>true</bool></property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -18,36 +17,36 @@
    </size>
   </property>
   <property name="styleSheet">
-   <string notr="true">QWidget#ColorPickerDialog[editorControl=&quot;true&quot;] {
+   <string notr="true">QWidget#ColorPickerDialog {
     border-width: 1px;
     border-style: solid;
     border-radius: 8px;
 }
 
-#ColorPickerDialog[editorControl=&quot;true&quot;] QLabel[editorControl=&quot;true&quot;] {
+#ColorPickerDialog QLabel {
     background: transparent;
     font-size: 12px;
 }
 
-#ColorPickerDialog[editorControl=&quot;true&quot;] QLabel#titleLabel[editorControl=&quot;true&quot;] {
+#ColorPickerDialog QLabel#titleLabel {
     font-size: 16px;
     font-weight: bold;
 }
 
-#ColorPickerDialog[editorControl=&quot;true&quot;] QFrame#separator[editorControl=&quot;true&quot;] {
+#ColorPickerDialog QFrame#separator {
     border: none;
 }
 
-#ColorPickerDialog[editorControl=&quot;true&quot;] QSlider#alphaSlider[editorControl=&quot;true&quot;]::groove:horizontal {
+#ColorPickerDialog QSlider#alphaSlider::groove:horizontal {
     height: 4px;
     border-radius: 2px;
 }
 
-#ColorPickerDialog[editorControl=&quot;true&quot;] QSlider#alphaSlider[editorControl=&quot;true&quot;]::sub-page:horizontal {
+#ColorPickerDialog QSlider#alphaSlider::sub-page:horizontal {
     border-radius: 2px;
 }
 
-#ColorPickerDialog[editorControl=&quot;true&quot;] QSlider#alphaSlider[editorControl=&quot;true&quot;]::handle:horizontal {
+#ColorPickerDialog QSlider#alphaSlider::handle:horizontal {
     width: 12px;
     margin: -5px 0;
     border-width: 1px;
@@ -55,7 +54,7 @@
     border-radius: 7px;
 }
 
-#ColorPickerDialog[editorControl=&quot;true&quot;] animatedwidgets--LineEdit[colorPickerControl=&quot;true&quot;][editorControl=&quot;true&quot;] {
+#ColorPickerDialog animatedwidgets--LineEdit[colorPickerControl=&quot;true&quot;] {
     background: transparent;
     border: none;
     min-height: 30px;
@@ -67,7 +66,7 @@
     qproperty-contentPadding: 8;
 }
 
-#ColorPickerDialog[editorControl=&quot;true&quot;] animatedwidgets--ComboBox[colorPickerControl=&quot;true&quot;][editorControl=&quot;true&quot;] {
+#ColorPickerDialog animatedwidgets--ComboBox[colorPickerControl=&quot;true&quot;] {
     min-height: 30px;
     min-width: 0px;
     font-size: 12px;
@@ -77,7 +76,7 @@
     qproperty-contentPadding: 8;
 }
 
-#ColorPickerDialog[editorControl=&quot;true&quot;] animatedwidgets--FilledButton[colorPickerControl=&quot;true&quot;][editorControl=&quot;true&quot;] {
+#ColorPickerDialog animatedwidgets--FilledButton[colorPickerControl=&quot;true&quot;] {
     min-height: 28px;
     min-width: 0px;
     border: none;
@@ -88,7 +87,7 @@
     qproperty-contentVerticalPadding: 0;
 }
 
-#ColorPickerDialog[editorControl=&quot;true&quot;] animatedwidgets--IconLineEdit#alphaValueEdit[editorControl=&quot;true&quot;] {
+#ColorPickerDialog animatedwidgets--IconLineEdit#alphaValueEdit {
     border: none;
     padding: 0px;
     min-width: 0px;
@@ -100,7 +99,7 @@
     qproperty-iconHint: true;
 }
 
-#ColorPickerDialog[editorControl=&quot;true&quot;] animatedwidgets--HoverIconButton#btn_close[editorControl=&quot;true&quot;] {
+#ColorPickerDialog animatedwidgets--HoverIconButton#btn_close {
     qproperty-animateContentColor: true;
     qproperty-iconHint: true;
     qproperty-cornerRadius: 2;
@@ -138,7 +137,6 @@
      </property>
      <item>
       <widget class="QLabel" name="titleLabel">
-       <property name="editorControl" stdset="0"><bool>true</bool></property>
        <property name="text">
         <string>Select color</string>
        </property>
@@ -159,7 +157,6 @@
      </item>
      <item>
       <widget class="aw::HoverIconButton" name="btn_close">
-       <property name="editorControl" stdset="0"><bool>true</bool></property>
        <property name="minimumSize">
         <size>
          <width>28</width>
@@ -247,7 +244,6 @@
      </property>
      <item>
       <widget class="aw::ComboBox" name="value_type">
-       <property name="editorControl" stdset="0"><bool>true</bool></property>
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -303,12 +299,10 @@
      </item>
      <item>
       <widget class="QStackedWidget" name="stackedWidget">
-       <property name="editorControl" stdset="0"><bool>true</bool></property>
        <property name="currentIndex">
         <number>0</number>
        </property>
        <widget class="QWidget" name="hexPage">
-        <property name="editorControl" stdset="0"><bool>true</bool></property>
         <layout class="QHBoxLayout" name="hexLayout">
          <property name="leftMargin">
           <number>0</number>
@@ -324,7 +318,6 @@
          </property>
          <item>
           <widget class="aw::LineEdit" name="input_hex">
-           <property name="editorControl" stdset="0"><bool>true</bool></property>
            <property name="toolTip">
             <string>HEX RGB or ARGB</string>
            </property>
@@ -339,7 +332,6 @@
         </layout>
        </widget>
        <widget class="QWidget" name="rgbPage">
-        <property name="editorControl" stdset="0"><bool>true</bool></property>
         <layout class="QHBoxLayout" name="rgbLayout">
          <property name="spacing">
           <number>6</number>
@@ -358,7 +350,6 @@
          </property>
          <item>
           <widget class="aw::LineEdit" name="input_r">
-           <property name="editorControl" stdset="0"><bool>true</bool></property>
            <property name="toolTip">
             <string>Red (0-255)</string>
            </property>
@@ -372,7 +363,6 @@
          </item>
          <item>
           <widget class="aw::LineEdit" name="input_g">
-           <property name="editorControl" stdset="0"><bool>true</bool></property>
            <property name="toolTip">
             <string>Green (0-255)</string>
            </property>
@@ -386,7 +376,6 @@
          </item>
          <item>
           <widget class="aw::LineEdit" name="input_b">
-           <property name="editorControl" stdset="0"><bool>true</bool></property>
            <property name="toolTip">
             <string>Blue (0-255)</string>
            </property>
@@ -401,7 +390,6 @@
         </layout>
        </widget>
        <widget class="QWidget" name="hsvPage">
-        <property name="editorControl" stdset="0"><bool>true</bool></property>
         <layout class="QHBoxLayout" name="hsvLayout">
          <property name="spacing">
           <number>6</number>
@@ -420,7 +408,6 @@
          </property>
          <item>
           <widget class="aw::LineEdit" name="input_h">
-           <property name="editorControl" stdset="0"><bool>true</bool></property>
            <property name="toolTip">
             <string>Hue (0-360)</string>
            </property>
@@ -434,7 +421,6 @@
          </item>
          <item>
           <widget class="aw::LineEdit" name="input_s">
-           <property name="editorControl" stdset="0"><bool>true</bool></property>
            <property name="toolTip">
             <string>Saturation (0-255)</string>
            </property>
@@ -448,7 +434,6 @@
          </item>
          <item>
           <widget class="aw::LineEdit" name="input_v">
-           <property name="editorControl" stdset="0"><bool>true</bool></property>
            <property name="toolTip">
             <string>Value (0-255)</string>
            </property>
@@ -482,7 +467,6 @@
      </property>
      <item>
       <widget class="QLabel" name="alphaLabel">
-       <property name="editorControl" stdset="0"><bool>true</bool></property>
        <property name="text">
         <string>Alpha</string>
        </property>
@@ -490,7 +474,6 @@
      </item>
      <item>
       <widget class="aw::Slider" name="alphaSlider">
-       <property name="editorControl" stdset="0"><bool>true</bool></property>
        <property name="minimumSize">
         <size>
          <width>0</width>
@@ -528,7 +511,6 @@
      </item>
      <item>
       <widget class="aw::IconLineEdit" name="alphaValueEdit">
-       <property name="editorControl" stdset="0"><bool>true</bool></property>
        <property name="minimumSize">
         <size>
          <width>56</width>
@@ -572,7 +554,6 @@
    </item>
    <item>
     <widget class="QFrame" name="separator">
-     <property name="editorControl" stdset="0"><bool>true</bool></property>
      <property name="minimumSize">
       <size>
        <width>0</width>
@@ -609,7 +590,6 @@
      </property>
      <item>
       <widget class="aw::FilledButton" name="btn_confirm">
-       <property name="editorControl" stdset="0"><bool>true</bool></property>
        <property name="minimumSize">
         <size>
          <width>0</width>
@@ -632,7 +612,6 @@
      </item>
      <item>
       <widget class="aw::FilledButton" name="btn_cancel">
-       <property name="editorControl" stdset="0"><bool>true</bool></property>
        <property name="minimumSize">
         <size>
          <width>0</width>
@@ -655,7 +634,6 @@
      </item>
      <item>
       <widget class="aw::FilledButton" name="btn_automatic">
-       <property name="editorControl" stdset="0"><bool>true</bool></property>
        <property name="minimumSize">
         <size>
          <width>0</width>

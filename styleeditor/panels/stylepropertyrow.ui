@@ -2,19 +2,18 @@
 <ui version="4.0">
  <class>StylePropertyRow</class>
  <widget class="QWidget" name="StylePropertyRow">
-  <property name="editorControl" stdset="0"><bool>true</bool></property>
   <property name="styleSheet">
-   <string notr="true">QWidget#StylePropertyRow[editorControl=&quot;true&quot;] {
+   <string notr="true">QWidget#StylePropertyRow {
     background: transparent;
 }
 
-#StylePropertyRow[editorControl=&quot;true&quot;] QLabel#nameLabel[editorControl=&quot;true&quot;] {
+#StylePropertyRow QLabel#nameLabel {
     font-size: 11px;
     background: transparent;
 }
 
-#StylePropertyRow[editorControl=&quot;true&quot;] animatedwidgets--LineEdit[compactPropertyEditor=&quot;true&quot;][editorControl=&quot;true&quot;],
-#StylePropertyRow[editorControl=&quot;true&quot;] animatedwidgets--ComboBox[compactPropertyEditor=&quot;true&quot;][editorControl=&quot;true&quot;] {
+#StylePropertyRow animatedwidgets--LineEdit[compactPropertyEditor=&quot;true&quot;],
+#StylePropertyRow animatedwidgets--ComboBox[compactPropertyEditor=&quot;true&quot;] {
     min-height: 22px;
     max-height: 24px;
     min-width: 0px;
@@ -23,13 +22,13 @@
     qproperty-contentPadding: 5;
 }
 
-#StylePropertyRow[editorControl=&quot;true&quot;] animatedwidgets--LineEdit[compactPropertyEditor=&quot;true&quot;][editorControl=&quot;true&quot;] {
+#StylePropertyRow animatedwidgets--LineEdit[compactPropertyEditor=&quot;true&quot;] {
     background: transparent;
     border: none;
     qproperty-borderVisible: true;
 }
 
-#StylePropertyRow[editorControl=&quot;true&quot;] animatedwidgets--SpinBox[compactPropertyEditor=&quot;true&quot;][editorControl=&quot;true&quot;] {
+#StylePropertyRow animatedwidgets--SpinBox[compactPropertyEditor=&quot;true&quot;] {
     min-height: 22px;
     max-height: 24px;
     min-width: 0px;
@@ -39,14 +38,14 @@
     qproperty-borderVisible: true;
 }
 
-#StylePropertyRow[editorControl=&quot;true&quot;] animatedwidgets--BorderedButton#iconResourceButton[editorControl=&quot;true&quot;] {
+#StylePropertyRow animatedwidgets--BorderedButton#iconResourceButton {
     font-size: 11px;
     qproperty-contentHorizontalPadding: 5;
     qproperty-contentVerticalPadding: 0;
     qproperty-cornerRadius: 4;
 }
 
-#StylePropertyRow[editorControl=&quot;true&quot;] animatedwidgets--BorderedButton#colorSwatch[editorControl=&quot;true&quot;] {
+#StylePropertyRow animatedwidgets--BorderedButton#colorSwatch {
     font-size: 10px;
     qproperty-borderWidth: 1;
     qproperty-cornerRadius: 4;
@@ -54,7 +53,7 @@
     qproperty-contentVerticalPadding: 0;
 }
 
-#StylePropertyRow[editorControl=&quot;true&quot;] animatedwidgets--HoverIconButton#resetButton[editorControl=&quot;true&quot;] {
+#StylePropertyRow animatedwidgets--HoverIconButton#resetButton {
     qproperty-animateContentColor: true;
     qproperty-iconHint: true;
     qproperty-cornerRadius: 4;
@@ -65,13 +64,11 @@
    <property name="leftMargin"><number>4</number></property><property name="topMargin"><number>3</number></property>
    <property name="rightMargin"><number>4</number></property><property name="bottomMargin"><number>3</number></property>
    <item><widget class="QLabel" name="nameLabel">
-    <property name="editorControl" stdset="0"><bool>true</bool></property>
     <property name="minimumSize"><size><width>70</width><height>0</height></size></property>
     <property name="sizePolicy"><sizepolicy hsizetype="Ignored" vsizetype="Preferred"><horstretch>0</horstretch><verstretch>0</verstretch></sizepolicy></property>
     <property name="text"><string>Property</string></property><property name="textFormat"><enum>Qt::PlainText</enum></property>
    </widget></item>
    <item><widget class="QWidget" name="editorHost">
-    <property name="editorControl" stdset="0"><bool>true</bool></property>
     <property name="minimumSize"><size><width>90</width><height>0</height></size></property>
     <layout class="QHBoxLayout" name="editorLayout">
      <property name="spacing"><number>4</number></property><property name="leftMargin"><number>0</number></property><property name="topMargin"><number>0</number></property>
@@ -79,7 +76,6 @@
     </layout>
    </widget></item>
    <item><widget class="aw::HoverIconButton" name="resetButton">
-    <property name="editorControl" stdset="0"><bool>true</bool></property>
     <property name="minimumSize"><size><width>20</width><height>24</height></size></property><property name="maximumSize"><size><width>20</width><height>24</height></size></property>
     <property name="iconSize"><size><width>12</width><height>12</height></size></property>
     <property name="icon"><iconset resource="../resources/styleeditor.qrc"><normaloff>:/styleeditor/icons/reset.svg</normaloff>:/styleeditor/icons/reset.svg</iconset></property>

@@ -2,7 +2,6 @@
 <ui version="4.0">
  <class>StyleEditorWindow</class>
  <widget class="QMainWindow" name="StyleEditorWindow">
-  <property name="editorControl" stdset="0"><bool>true</bool></property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -16,8 +15,7 @@
   </property>
 
   <widget class="StyleThemeScope" name="centralWidget">
-   <property name="editorControl" stdset="0"><bool>true</bool></property>
-      <property name="styleSheet"><string notr="true">QWidget#centralWidget[editorControl=&quot;true&quot;] {
+      <property name="styleSheet"><string notr="true">QWidget#centralWidget {
     font-family: &quot;Segoe UI&quot;;
     font-size: 13px;
 }</string></property>
@@ -39,40 +37,39 @@
     </property>
     <item>
      <widget class="QFrame" name="sidebar">
-      <property name="editorControl" stdset="0"><bool>true</bool></property>
-      <property name="styleSheet"><string notr="true">QFrame#sidebar[editorControl=&quot;true&quot;] {
+      <property name="styleSheet"><string notr="true">QFrame#sidebar {
     border-right-width: 1px;
     border-right-style: solid;
 }
 
-QLabel#brandLogo[editorControl=&quot;true&quot;] {
+QLabel#brandLogo {
     border-radius: 11px;
     font-size: 15px;
     font-weight: 800;
 }
 
-QLabel#brandName[editorControl=&quot;true&quot;] {
+QLabel#brandName {
     font-size: 16px;
     font-weight: 750;
 }
 
-QLabel#brandSubtitle[editorControl=&quot;true&quot;] {
+QLabel#brandSubtitle {
     font-size: 11px;
 }
 
-QLabel#navigationLabel[editorControl=&quot;true&quot;] {
+QLabel#navigationLabel {
     padding: 15px 10px 8px;
     font-size: 11px;
     letter-spacing: 1px;
 }
 
-QLabel#resourceLabel[editorControl=&quot;true&quot;] {
+QLabel#resourceLabel {
     padding: 15px 10px 8px;
     font-size: 11px;
     letter-spacing: 1px;
 }
 
-animatedwidgets--HoverButton[editorControl=&quot;true&quot;] {
+animatedwidgets--HoverButton {
     min-height: 38px;
     qproperty-cornerRadius: 11;
     qproperty-animateContentColor: true;
@@ -120,7 +117,6 @@ animatedwidgets--HoverButton[editorControl=&quot;true&quot;] {
          </property>
          <item>
           <widget class="QLabel" name="brandLogo">
-           <property name="editorControl" stdset="0"><bool>true</bool></property>
            <property name="minimumSize">
             <size>
              <width>36</width>
@@ -148,7 +144,6 @@ animatedwidgets--HoverButton[editorControl=&quot;true&quot;] {
            </property>
            <item>
             <widget class="QLabel" name="brandName">
-             <property name="editorControl" stdset="0"><bool>true</bool></property>
              <property name="text">
               <string>StyleForge</string>
              </property>
@@ -156,7 +151,6 @@ animatedwidgets--HoverButton[editorControl=&quot;true&quot;] {
            </item>
            <item>
             <widget class="QLabel" name="brandSubtitle">
-             <property name="editorControl" stdset="0"><bool>true</bool></property>
              <property name="text">
               <string>Widget style editor</string>
              </property>
@@ -168,7 +162,6 @@ animatedwidgets--HoverButton[editorControl=&quot;true&quot;] {
        </item>
        <item>
         <widget class="QLabel" name="navigationLabel">
-         <property name="editorControl" stdset="0"><bool>true</bool></property>
          <property name="text">
           <string>WORKSPACE</string>
          </property>
@@ -204,9 +197,6 @@ animatedwidgets--HoverButton[editorControl=&quot;true&quot;] {
          <property name="contentHorizontalPadding">
           <number>20</number>
          </property>
-         <property name="editorControl" stdset="0">
-          <bool>true</bool>
-         </property>
          <attribute name="buttonGroup">
           <string notr="true">navigationButtonGroup</string>
          </attribute>
@@ -238,9 +228,6 @@ animatedwidgets--HoverButton[editorControl=&quot;true&quot;] {
          </property>
          <property name="contentHorizontalPadding">
           <number>20</number>
-         </property>
-         <property name="editorControl" stdset="0">
-          <bool>true</bool>
          </property>
          <attribute name="buttonGroup">
           <string notr="true">navigationButtonGroup</string>
@@ -274,9 +261,6 @@ animatedwidgets--HoverButton[editorControl=&quot;true&quot;] {
          <property name="contentHorizontalPadding">
           <number>20</number>
          </property>
-         <property name="editorControl" stdset="0">
-          <bool>true</bool>
-         </property>
          <attribute name="buttonGroup">
           <string notr="true">navigationButtonGroup</string>
          </attribute>
@@ -309,9 +293,6 @@ animatedwidgets--HoverButton[editorControl=&quot;true&quot;] {
          <property name="contentHorizontalPadding">
           <number>20</number>
          </property>
-         <property name="editorControl" stdset="0">
-          <bool>true</bool>
-         </property>
          <attribute name="buttonGroup">
           <string notr="true">navigationButtonGroup</string>
          </attribute>
@@ -319,7 +300,6 @@ animatedwidgets--HoverButton[editorControl=&quot;true&quot;] {
        </item>
        <item>
         <widget class="QLabel" name="resourceLabel">
-         <property name="editorControl" stdset="0"><bool>true</bool></property>
          <property name="text">
           <string>RESOURCES</string>
          </property>
@@ -351,9 +331,6 @@ animatedwidgets--HoverButton[editorControl=&quot;true&quot;] {
          </property>
          <property name="contentHorizontalPadding">
           <number>20</number>
-         </property>
-         <property name="editorControl" stdset="0">
-          <bool>true</bool>
          </property>
          <attribute name="buttonGroup">
           <string notr="true">navigationButtonGroup</string>
@@ -387,9 +364,6 @@ animatedwidgets--HoverButton[editorControl=&quot;true&quot;] {
          <property name="contentHorizontalPadding">
           <number>20</number>
          </property>
-         <property name="editorControl" stdset="0">
-          <bool>true</bool>
-         </property>
          <attribute name="buttonGroup">
           <string notr="true">navigationButtonGroup</string>
          </attribute>
@@ -410,34 +384,33 @@ animatedwidgets--HoverButton[editorControl=&quot;true&quot;] {
        </item>
        <item>
         <widget class="QFrame" name="documentInfoPanel">
-         <property name="editorControl" stdset="0"><bool>true</bool></property>
-      <property name="styleSheet"><string notr="true">QLabel#documentPathLabel[editorControl=&quot;true&quot;] {
+      <property name="styleSheet"><string notr="true">QLabel#documentPathLabel {
     font-size: 11px;
 }
 
-QLabel#documentHintLabel[editorControl=&quot;true&quot;] {
+QLabel#documentHintLabel {
     font-size: 11px;
 }
 
-QLabel#documentInfoTitle[editorControl=&quot;true&quot;] {
+QLabel#documentInfoTitle {
     font-size: 14px;
     font-weight: 700;
 }
 
-QFrame#documentInfoPanel[editorControl=&quot;true&quot;] {
+QFrame#documentInfoPanel {
     background: transparent;
     border-top-width: 1px;
     border-top-style: solid;
 }
 
-animatedwidgets--LineEdit[editorControl=&quot;true&quot;] {
+animatedwidgets--LineEdit {
     min-height: 34px;
     min-width: 48px;
     qproperty-cornerRadius: 8;
     qproperty-contentPadding: 9;
 }
 
-animatedwidgets--ComboBox[editorControl=&quot;true&quot;] {
+animatedwidgets--ComboBox {
     min-height: 34px;
     min-width: 48px;
     qproperty-cornerRadius: 8;
@@ -464,7 +437,6 @@ animatedwidgets--ComboBox[editorControl=&quot;true&quot;] {
           </property>
           <item>
            <widget class="QLabel" name="documentInfoTitle">
-            <property name="editorControl" stdset="0"><bool>true</bool></property>
             <property name="text">
              <string>Document</string>
             </property>
@@ -472,7 +444,6 @@ animatedwidgets--ComboBox[editorControl=&quot;true&quot;] {
           </item>
           <item>
            <widget class="QLabel" name="documentNameLabel">
-            <property name="editorControl" stdset="0"><bool>true</bool></property>
             <property name="text">
              <string>Document name</string>
             </property>
@@ -483,14 +454,10 @@ animatedwidgets--ComboBox[editorControl=&quot;true&quot;] {
             <property name="placeholderText">
              <string>Untitled</string>
             </property>
-            <property name="editorControl" stdset="0">
-             <bool>true</bool>
-            </property>
            </widget>
           </item>
           <item>
            <widget class="QLabel" name="documentPathLabel">
-            <property name="editorControl" stdset="0"><bool>true</bool></property>
             <property name="sizePolicy">
              <sizepolicy hsizetype="Ignored" vsizetype="Preferred">
               <horstretch>0</horstretch>
@@ -507,7 +474,6 @@ animatedwidgets--ComboBox[editorControl=&quot;true&quot;] {
           </item>
           <item>
            <widget class="QLabel" name="documentHintLabel">
-            <property name="editorControl" stdset="0"><bool>true</bool></property>
             <property name="text">
              <string>Save the document to keep your widget styles.</string>
             </property>
@@ -541,22 +507,21 @@ animatedwidgets--ComboBox[editorControl=&quot;true&quot;] {
       </property>
       <item>
        <widget class="QFrame" name="topbar">
-        <property name="editorControl" stdset="0"><bool>true</bool></property>
-      <property name="styleSheet"><string notr="true">QFrame#topbar[editorControl=&quot;true&quot;] {
+      <property name="styleSheet"><string notr="true">QFrame#topbar {
     border-bottom-width: 1px;
     border-bottom-style: solid;
 }
 
-QLabel#pageDescription[editorControl=&quot;true&quot;] {
+QLabel#pageDescription {
     font-size: 11px;
 }
 
-QLabel#pageTitle[editorControl=&quot;true&quot;] {
+QLabel#pageTitle {
     font-size: 20px;
     font-weight: 750;
 }
 
-animatedwidgets--FilledButton[editorControl=&quot;true&quot;] {
+animatedwidgets--FilledButton {
     min-height: 36px;
     min-width: 48px;
     qproperty-cornerRadius: 9;
@@ -565,7 +530,7 @@ animatedwidgets--FilledButton[editorControl=&quot;true&quot;] {
     qproperty-animationDuration: 300;
 }
 
-animatedwidgets--OutlineButton[editorControl=&quot;true&quot;] {
+animatedwidgets--OutlineButton {
     min-height: 36px;
     min-width: 64px;
     qproperty-cornerRadius: 9;
@@ -602,7 +567,6 @@ animatedwidgets--OutlineButton[editorControl=&quot;true&quot;] {
            </property>
            <item>
             <widget class="QLabel" name="pageTitle">
-             <property name="editorControl" stdset="0"><bool>true</bool></property>
              <property name="text">
               <string>Custom widget styles</string>
              </property>
@@ -610,7 +574,6 @@ animatedwidgets--OutlineButton[editorControl=&quot;true&quot;] {
            </item>
            <item>
             <widget class="QLabel" name="pageDescription">
-             <property name="editorControl" stdset="0"><bool>true</bool></property>
              <property name="text">
               <string>Adjust properties visually and generate style code in real time.</string>
              </property>
@@ -636,18 +599,12 @@ animatedwidgets--OutlineButton[editorControl=&quot;true&quot;] {
            <property name="text">
             <string>New</string>
            </property>
-           <property name="editorControl" stdset="0">
-            <bool>true</bool>
-           </property>
           </widget>
          </item>
          <item>
           <widget class="aw::OutlineButton" name="openDocumentButton">
            <property name="text">
             <string>Open</string>
-           </property>
-           <property name="editorControl" stdset="0">
-            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -656,18 +613,12 @@ animatedwidgets--OutlineButton[editorControl=&quot;true&quot;] {
            <property name="text">
             <string>Save as</string>
            </property>
-           <property name="editorControl" stdset="0">
-            <bool>true</bool>
-           </property>
           </widget>
          </item>
          <item>
           <widget class="aw::FilledButton" name="saveDocumentButton">
            <property name="text">
             <string>Save style</string>
-           </property>
-           <property name="editorControl" stdset="0">
-            <bool>true</bool>
            </property>
           </widget>
          </item>

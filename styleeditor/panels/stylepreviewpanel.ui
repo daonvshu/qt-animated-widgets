@@ -2,7 +2,6 @@
 <ui version="4.0">
  <class>StylePreviewPanel</class>
  <widget class="QWidget" name="StylePreviewPanel">
-  <property name="editorControl" stdset="0"><bool>true</bool></property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -12,22 +11,22 @@
    </rect>
   </property>
   <property name="styleSheet">
-   <string notr="true">StylePreviewPanel[editorControl=&quot;true&quot;] QScrollArea#previewScrollArea[editorControl=&quot;true&quot;],
-StylePreviewPanel[editorControl=&quot;true&quot;] QWidget#previewHost[editorControl=&quot;true&quot;] {
+   <string notr="true">StylePreviewPanel QScrollArea#previewScrollArea,
+StylePreviewPanel QWidget#previewHost {
     background: transparent;
     border: none;
 }
 
-StylePreviewPanel[editorControl=&quot;true&quot;] animatedwidgets--LineEdit#previewWidthEdit[editorControl=&quot;true&quot;],
-StylePreviewPanel[editorControl=&quot;true&quot;] animatedwidgets--LineEdit#previewHeightEdit[editorControl=&quot;true&quot;] {
+StylePreviewPanel animatedwidgets--LineEdit#previewWidthEdit,
+StylePreviewPanel animatedwidgets--LineEdit#previewHeightEdit {
     background: transparent;
     border: none;
     qproperty-borderVisible: true;
     qproperty-borderWidth: 1;
 }
 
-StylePreviewPanel[editorControl=&quot;true&quot;] animatedwidgets--BorderedButton#previewWidthAutoButton[editorControl=&quot;true&quot;],
-StylePreviewPanel[editorControl=&quot;true&quot;] animatedwidgets--BorderedButton#previewHeightAutoButton[editorControl=&quot;true&quot;] {
+StylePreviewPanel animatedwidgets--BorderedButton#previewWidthAutoButton,
+StylePreviewPanel animatedwidgets--BorderedButton#previewHeightAutoButton {
     border: none;
     padding: 0px;
     min-width: 0px;
@@ -37,25 +36,25 @@ StylePreviewPanel[editorControl=&quot;true&quot;] animatedwidgets--BorderedButto
     qproperty-animationDuration: 180;
 }
 
-StylePreviewPanel[editorControl=&quot;true&quot;] animatedwidgets--LineEdit#previewWidthEdit[editorControl=&quot;true&quot;],
-StylePreviewPanel[editorControl=&quot;true&quot;] animatedwidgets--LineEdit#previewHeightEdit[editorControl=&quot;true&quot;],
-StylePreviewPanel[editorControl=&quot;true&quot;] animatedwidgets--BorderedButton#previewWidthAutoButton[editorControl=&quot;true&quot;],
-StylePreviewPanel[editorControl=&quot;true&quot;] animatedwidgets--BorderedButton#previewHeightAutoButton[editorControl=&quot;true&quot;],
-StylePreviewPanel[editorControl=&quot;true&quot;] animatedwidgets--BorderedButton#previewBackgroundButton[editorControl=&quot;true&quot;],
-StylePreviewPanel[editorControl=&quot;true&quot;] animatedwidgets--OutlineButton#resetPreviewButton[editorControl=&quot;true&quot;] {
+StylePreviewPanel animatedwidgets--LineEdit#previewWidthEdit,
+StylePreviewPanel animatedwidgets--LineEdit#previewHeightEdit,
+StylePreviewPanel animatedwidgets--BorderedButton#previewWidthAutoButton,
+StylePreviewPanel animatedwidgets--BorderedButton#previewHeightAutoButton,
+StylePreviewPanel animatedwidgets--BorderedButton#previewBackgroundButton,
+StylePreviewPanel animatedwidgets--OutlineButton#resetPreviewButton {
     min-height: 28px;
     max-height: 28px;
 }
 
-StylePreviewPanel[editorControl=&quot;true&quot;] animatedwidgets--BorderedButton#previewWidthAutoButton[editorControl=&quot;true&quot;],
-StylePreviewPanel[editorControl=&quot;true&quot;] animatedwidgets--BorderedButton#previewHeightAutoButton[editorControl=&quot;true&quot;],
-StylePreviewPanel[editorControl=&quot;true&quot;] animatedwidgets--BorderedButton#previewBackgroundButton[editorControl=&quot;true&quot;],
-StylePreviewPanel[editorControl=&quot;true&quot;] animatedwidgets--OutlineButton#resetPreviewButton[editorControl=&quot;true&quot;] {
+StylePreviewPanel animatedwidgets--BorderedButton#previewWidthAutoButton,
+StylePreviewPanel animatedwidgets--BorderedButton#previewHeightAutoButton,
+StylePreviewPanel animatedwidgets--BorderedButton#previewBackgroundButton,
+StylePreviewPanel animatedwidgets--OutlineButton#resetPreviewButton {
     qproperty-cornerRadius: 4;
 }
 
-animatedwidgets--LineEdit#previewWidthEdit[editorControl=&quot;true&quot;],
-animatedwidgets--LineEdit#previewHeightEdit[editorControl=&quot;true&quot;] {
+animatedwidgets--LineEdit#previewWidthEdit,
+animatedwidgets--LineEdit#previewHeightEdit {
     qproperty-cornerRadius: 4;
 }</string>
   </property>
@@ -99,7 +98,6 @@ animatedwidgets--LineEdit#previewHeightEdit[editorControl=&quot;true&quot;] {
        </property>
        <item>
         <widget class="QLabel" name="previewWidthLabel">
-         <property name="editorControl" stdset="0"><bool>true</bool></property>
          <property name="text">
           <string>W</string>
          </property>
@@ -131,14 +129,10 @@ animatedwidgets--LineEdit#previewHeightEdit[editorControl=&quot;true&quot;] {
          <property name="cornerRadius">
           <number>4</number>
          </property>
-         <property name="editorControl" stdset="0">
-          <bool>true</bool>
-         </property>
         </widget>
        </item>
        <item>
         <widget class="aw::BorderedButton" name="previewWidthAutoButton">
-         <property name="editorControl" stdset="0"><bool>true</bool></property>
          <property name="minimumSize">
           <size>
            <width>0</width>
@@ -171,7 +165,6 @@ animatedwidgets--LineEdit#previewHeightEdit[editorControl=&quot;true&quot;] {
        </property>
        <item>
         <widget class="QLabel" name="previewHeightLabel">
-         <property name="editorControl" stdset="0"><bool>true</bool></property>
          <property name="text">
           <string>H</string>
          </property>
@@ -203,14 +196,10 @@ animatedwidgets--LineEdit#previewHeightEdit[editorControl=&quot;true&quot;] {
          <property name="cornerRadius">
           <number>4</number>
          </property>
-         <property name="editorControl" stdset="0">
-          <bool>true</bool>
-         </property>
         </widget>
        </item>
        <item>
         <widget class="aw::BorderedButton" name="previewHeightAutoButton">
-         <property name="editorControl" stdset="0"><bool>true</bool></property>
          <property name="minimumSize">
           <size>
            <width>0</width>
@@ -238,7 +227,6 @@ animatedwidgets--LineEdit#previewHeightEdit[editorControl=&quot;true&quot;] {
      </item>
      <item>
       <widget class="QLabel" name="previewBackgroundLabel">
-       <property name="editorControl" stdset="0"><bool>true</bool></property>
        <property name="text">
         <string>Background</string>
        </property>
@@ -246,7 +234,6 @@ animatedwidgets--LineEdit#previewHeightEdit[editorControl=&quot;true&quot;] {
      </item>
      <item>
       <widget class="aw::BorderedButton" name="previewBackgroundButton">
-       <property name="editorControl" stdset="0"><bool>true</bool></property>
        <property name="minimumSize">
         <size>
          <width>64</width>
@@ -300,16 +287,12 @@ animatedwidgets--LineEdit#previewHeightEdit[editorControl=&quot;true&quot;] {
        <property name="cornerRadius">
         <number>4</number>
        </property>
-       <property name="editorControl" stdset="0">
-        <bool>true</bool>
-       </property>
       </widget>
      </item>
     </layout>
    </item>
    <item>
     <widget class="QFrame" name="previewCanvas">
-     <property name="editorControl" stdset="0"><bool>true</bool></property>
      <property name="frameShape">
       <enum>QFrame::NoFrame</enum>
      </property>
@@ -328,7 +311,6 @@ animatedwidgets--LineEdit#previewHeightEdit[editorControl=&quot;true&quot;] {
       </property>
       <item>
        <widget class="QScrollArea" name="previewScrollArea">
-        <property name="editorControl" stdset="0"><bool>true</bool></property>
         <property name="frameShape">
          <enum>QFrame::NoFrame</enum>
         </property>
@@ -339,8 +321,6 @@ animatedwidgets--LineEdit#previewHeightEdit[editorControl=&quot;true&quot;] {
          <set>Qt::AlignCenter</set>
         </property>
         <widget class="QWidget" name="previewHost">
-         <property name="editorPreview" stdset="0"><bool>true</bool></property>
-         <property name="editorControl" stdset="0"><bool>true</bool></property>
          <property name="geometry">
           <rect>
            <x>0</x>
@@ -365,6 +345,19 @@ animatedwidgets--LineEdit#previewHeightEdit[editorControl=&quot;true&quot;] {
           <property name="bottomMargin">
            <number>0</number>
           </property>
+          <item>
+           <widget class="QLabel" name="previewStatusLabel">
+            <property name="text"><string>Select a widget style to preview.</string></property>
+            <property name="alignment"><set>Qt::AlignCenter</set></property>
+            <property name="wordWrap"><bool>true</bool></property>
+           </widget>
+          </item>
+          <item alignment="Qt::AlignHCenter">
+           <widget class="aw::OutlineButton" name="previewRetryButton">
+            <property name="text"><string>Reload preview</string></property>
+            <property name="cornerRadius"><number>4</number></property>
+           </widget>
+          </item>
          </layout>
         </widget>
        </widget>

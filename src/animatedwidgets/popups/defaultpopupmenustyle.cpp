@@ -10,8 +10,10 @@ void DefaultPopupMenuStyle::applyPopup(QWidget* popup) const {
         return;
 
     const int cornerRadius = qMax(0, popupCornerRadius);
-    if (auto* menu = qobject_cast<PopupMenu*>(popup))
+    if (auto* menu = qobject_cast<PopupMenu*>(popup)) {
         menu->setSurfaceMetrics(shadowVisible ? shadowRadius : 0, cornerRadius);
+        menu->setShadowColor(shadowColor);
+    }
 
     popup->setStyleSheet(QStringLiteral("animatedwidgets--PopupMenu { background-color: %1; border: %2px solid %3; border-radius: %4px; }")
                               .arg(popupBackground.name(QColor::HexArgb))

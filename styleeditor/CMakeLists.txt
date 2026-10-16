@@ -1,5 +1,6 @@
 find_package(QRouter REQUIRED CONFIG)
 find_package(VirtualItemViews REQUIRED CONFIG)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Network)
 
 add_executable(animatedwidgets-styleeditor
     main.cpp
@@ -33,6 +34,17 @@ add_executable(animatedwidgets-styleeditor
 
     resources/styleeditor.qrc
     resources/stylethemes.qrc
+
+    preview/stylepreviewprotocol.h
+    preview/stylepreviewprotocol.cpp
+    preview/stylepreviewchannel.h
+    preview/stylepreviewchannel.cpp
+    preview/stylepreviewclient.h
+    preview/stylepreviewclient.cpp
+    preview/stylepreviewcanvas.h
+    preview/stylepreviewcanvas.cpp
+    preview/stylepreviewworker.h
+    preview/stylepreviewworker.cpp
 
     themes/stylethememanager.h
     themes/stylethememanager.cpp
@@ -118,6 +130,7 @@ target_link_libraries(animatedwidgets-styleeditor PRIVATE
     AnimatedWidgets::StyleEditorApi
     AnimatedWidgets::AnimatedWidgets
     Qt${QT_VERSION_MAJOR}::Widgets
+    Qt${QT_VERSION_MAJOR}::Network
     qrouter
     VirtualItemViews::VirtualItemViews
 )

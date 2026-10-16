@@ -7,8 +7,6 @@
 #include "../panels/stylewidgettreeadapter.h"
 #include "../panels/stylewidgettreemodel.h"
 #include "../plugins/stylepluginregistry.h"
-#include "../utils/stylecodegenerator.h"
-#include "../utils/stylepreviewutils.h"
 
 #include "animatedwidgets/utils/smoothscrolling.h"
 
@@ -53,7 +51,7 @@ void StyleEditorPage::createLayout() {
 
     propertyInspector = new StylePropertyInspector(ui.propertyList, ui.propertyList);
     animatedwidgets::SmoothScrolling::install(ui.propertyList);
-    editorSession = new StyleEditorSession(*pluginRegistry, ui.previewPanel->widgetParent(), ui.previewPanel);
+    editorSession = new StyleEditorSession(*pluginRegistry, ui.previewPanel);
 
     treeModel = new StyleWidgetTreeModel(ui.widgetTree);
     auto* adapter = new StyleWidgetTreeAdapter;
@@ -98,14 +96,25 @@ void StyleEditorPage::connectEditorSignals() {
     connect(propertyInspector, &StylePropertyInspector::dialogRequested, this, &WorkspacePage::dialogRequested);
     connect(propertyInspector, &StylePropertyInspector::resourceSettingsEdited, this, [this](const StyleResourceSettings& settings) {
         editorSession->setResourceSettings(settings);
-        rebuildCode();
+        refreshDocumentPreview();
     });
     connect(editorSession, &StyleEditorSession::contentChanged, this, &WorkspacePage::contentChanged);
     connect(editorSession, &StyleEditorSession::propertyValuesChanged, this, [this](int index) {
         if (index == currentItem) {
-            on_stateCombo_currentIndexChanged(ui.stateCombo->currentIndex());
-            rebuildCode();
+            ui.codeEdit->clear();
+            refreshDocumentPreview();
         }
+    });
+    connect(ui.previewPanel, &StylePreviewPanel::previewUpdated, this,
+            [this](const QString& itemId, const QList<animatedwidgets::styleeditor::StyleProperty>& properties, const QString& code) {
+        const int index = editorSession->indexOfItem(itemId);
+        if (index < 0 || index != currentItem)
+            return;
+        const bool initialize = editorSession->items().at(index).properties.isEmpty();
+        editorSession->updatePreviewResult(index, properties, code);
+        if (initialize)
+            rebuildProperties();
+        rebuildCode();
     });
     connect(propertyInspector, &StylePropertyInspector::valueEdited, this, [this](const QString& name, const QVariant& value) {
         editorSession->setPropertyValue(currentItem, name, value);
@@ -131,7 +140,6 @@ void StyleEditorPage::on_tree_currentChanged(const QModelIndex& index) {
     refreshDocumentPreview();
     rebuildProperties();
     rebuildCode();
-    on_stateCombo_currentIndexChanged(ui.stateCombo->currentIndex());
 }
 
 void StyleEditorPage::refreshDocumentTree() {
@@ -158,9 +166,9 @@ void StyleEditorPage::refreshDocumentTree() {
 
 void StyleEditorPage::refreshDocumentPreview() {
     const QList<StyleEditorItem>& items = editorSession->items();
-    if (currentItem >= 0 && currentItem < items.size() && items.at(currentItem).preview) {
+    if (currentItem >= 0 && currentItem < items.size()) {
         const StyleEditorItem& item = items.at(currentItem);
-        ui.previewPanel->setPreview(item.preview.data(), item.previewSettings, item.suggestedSize);
+        ui.previewPanel->setPreview(&item, editorSession->resourceSettings(), ui.stateCombo->currentIndex());
         return;
     }
     ui.previewPanel->setPreview(nullptr);
@@ -236,28 +244,22 @@ void StyleEditorPage::applyItemChanges(const QString& itemId, const QString& typ
 
 void StyleEditorPage::rebuildProperties() {
     const QList<StyleEditorItem>& items = editorSession->items();
-    propertyInspector->clear();
-    if (currentItem < 0 || currentItem >= items.size())
+    if (currentItem < 0 || currentItem >= items.size()) {
+        propertyInspector->clear();
         return;
+    }
     propertyInspector->setProperties(items.at(currentItem).properties);
 }
 
-void StyleEditorPage::on_stateCombo_currentIndexChanged(int index) {
-    const QList<StyleEditorItem>& items = editorSession->items();
-    if (currentItem < 0 || currentItem >= items.size())
-        return;
-    StylePreviewUtils::applyState(items.at(currentItem).preview.data(), index, items.at(currentItem).properties);
+void StyleEditorPage::on_stateCombo_currentIndexChanged(int) {
+    refreshDocumentPreview();
 }
 
 void StyleEditorPage::rebuildCode() {
     const QList<StyleEditorItem>& items = editorSession->items();
     if (currentItem < 0 || currentItem >= items.size())
         return;
-    if (!items.at(currentItem).preview) {
-        ui.codeEdit->clear();
-        return;
-    }
-    ui.codeEdit->setPlainText(StyleCodeGenerator::generate(items.at(currentItem), editorSession->resourceSettings().projectDirectory));
+    ui.codeEdit->setPlainText(items.at(currentItem).generatedCode);
 }
 
 void StyleEditorPage::on_resetAllButton_clicked() {

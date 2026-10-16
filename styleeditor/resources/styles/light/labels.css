@@ -1,120 +1,126 @@
-QLabel[editorControl="true"] {
+QLabel {
     color: #172033;
 }
 
-QLabel#sectionDescription[editorControl="true"],
-QLabel#sectionStatus[editorControl="true"] {
+QToolTip {
+    color: #172033;
+    background: #ffffff;
+    border-color: #d7dde8;
+}
+
+QLabel#sectionDescription,
+QLabel#sectionStatus {
     color: #7c879a;
 }
 
-QLabel#muted[editorControl="true"] {
+QLabel#muted {
     color: #7c879a;
 }
 
-QLabel#brandLogo[editorControl="true"] {
+QLabel#brandLogo {
     color: #ffffff;
     background: #6571ff;
 }
 
-QLabel#brandName[editorControl="true"] {
+QLabel#brandName {
     color: #172033;
 }
 
-QLabel#brandSubtitle[editorControl="true"],
-QLabel#pageDescription[editorControl="true"],
-QLabel#documentPathLabel[editorControl="true"],
-QLabel#documentHintLabel[editorControl="true"] {
+QLabel#brandSubtitle,
+QLabel#pageDescription,
+QLabel#documentPathLabel,
+QLabel#documentHintLabel {
     color: #7c879a;
 }
 
-QLabel#navigationLabel[editorControl="true"],
-QLabel#resourceLabel[editorControl="true"] {
+QLabel#navigationLabel,
+QLabel#resourceLabel {
     color: #7c879a;
 }
 
-QLabel#pageTitle[editorControl="true"],
-QLabel#sectionTitle[editorControl="true"] {
+QLabel#pageTitle,
+QLabel#sectionTitle {
     color: #172033;
 }
 
-QLabel#documentPanelTitle[editorControl="true"],
-QLabel#propertiesTitle[editorControl="true"],
-QLabel#previewTitle[editorControl="true"],
-QLabel#codeTitle[editorControl="true"],
-QLabel#documentInfoTitle[editorControl="true"] {
+QLabel#documentPanelTitle,
+QLabel#propertiesTitle,
+QLabel#previewTitle,
+QLabel#codeTitle,
+QLabel#documentInfoTitle {
     color: #172033;
 }
 
-QLabel#documentCountLabel[editorControl="true"] {
+QLabel#documentCountLabel {
     color: #5b67f1;
     background: #eef0ff;
 }
 
-QLabel#selectedControlLabel[editorControl="true"] {
+QLabel#selectedControlLabel {
     color: #5b67f1;
     background: #eef0ff;
 }
 
-#StylePropertyRow[editorControl="true"] QLabel#nameLabel[editorControl="true"] {
+#StylePropertyRow QLabel#nameLabel {
     color: #657084;
 }
 
-#StylePropertyRow[editorControl="true"] QLabel#nameLabel[editorControl="true"]:disabled {
+#StylePropertyRow QLabel#nameLabel:disabled {
     color: #a8b1bf;
 }
 
-#StyleWidgetTreeRow[editorControl="true"] QLabel#nameLabel[editorControl="true"] {
+#StyleWidgetTreeRow QLabel#nameLabel {
     color: #172033;
 }
 
-#StyleWidgetTreeRow[editorControl="true"] QLabel#detailLabel[editorControl="true"] {
+#StyleWidgetTreeRow QLabel#detailLabel {
     color: #7c879a;
 }
 
-#StyleIconResourcePopup[editorControl="true"] QLabel[editorControl="true"] {
+#StyleIconResourcePopup QLabel {
     color: #657084;
 }
 
-#StyleIconResourcePopup[editorControl="true"] QLabel#titleLabel[editorControl="true"] {
+#StyleIconResourcePopup QLabel#titleLabel {
     color: #172033;
 }
 
-#StyleIconResourcePopup[editorControl="true"] QLabel#selectionLabel[editorControl="true"] {
+#StyleIconResourcePopup QLabel#selectionLabel {
     color: #5b67f1;
 }
 
-#StyleIconResourcePopup[editorControl="true"] QWidget#qt_scrollarea_viewport QLabel[editorControl="true"] {
+#StyleIconResourcePopup QWidget#qt_scrollarea_viewport QLabel {
     color: #172033;
 }
 
-#ColorPickerDialog[editorControl="true"] QLabel[editorControl="true"] {
+#ColorPickerDialog QLabel {
     color: #4e5969;
 }
 
-#ColorPickerDialog[editorControl="true"] QLabel#titleLabel[editorControl="true"] {
+#ColorPickerDialog QLabel#titleLabel {
     color: #1d2129;
 }
 
-#StyleMessagePopup[editorControl="true"] QLabel[editorControl="true"] {
+#StyleMessagePopup QLabel {
     color: #172033;
 }
 
-#StyleMessagePopup[editorControl="true"] QLabel#messageLabel[editorControl="true"] {
+#StyleMessagePopup QLabel#messageLabel {
     color: #657084;
 }
 
-#StyleWidgetItemPopup[editorControl="true"] QLabel[editorControl="true"] {
+#StyleWidgetItemPopup QLabel {
     color: #172033;
 }
 
-#StyleWidgetItemPopup[editorControl="true"] QLabel#categoryLabel[editorControl="true"] {
+#StyleWidgetItemPopup QLabel#categoryLabel {
     color: #5b67f1;
 }
 
-#StyleWidgetItemPopup[editorControl="true"] QLabel#hintLabel[editorControl="true"] {
+#StyleWidgetItemPopup QLabel#hintLabel {
     color: #7c879a;
 }
 
-QLabel[editorControl="true"]:disabled {
+QLabel:disabled {
     color: #a8b1bf;
 }

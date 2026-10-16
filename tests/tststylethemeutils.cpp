@@ -13,7 +13,6 @@ class StyleThemeUtilsTest : public QObject {
 private slots:
     void bundledThemesLoad();
     void themeFilesMatch();
-    void selectorsRequireEditorControls();
     void themesContainOnlyColorsAndIcons();
     void scrollBarStylesAreScopedAndComplete();
     void unknownThemesAreRejected();
@@ -43,23 +42,6 @@ void StyleThemeUtilsTest::themeFilesMatch() {
     QVERIFY(!light.isEmpty());
     QCOMPARE(light.size(), dark.size());
     QVERIFY(std::equal(light.cbegin(), light.cend(), dark.cbegin()));
-}
-
-void StyleThemeUtilsTest::selectorsRequireEditorControls() {
-    const QRegularExpression rules(QStringLiteral("([^{}]+)\\{[^{}]*\\}"));
-    for (const QString& theme : {QStringLiteral("light"), QStringLiteral("dark")}) {
-        QString error;
-        const QString styleSheet = StyleThemeUtils::loadStyleSheet(theme, error);
-        QVERIFY2(error.isEmpty(), qPrintable(error));
-        auto matches = rules.globalMatch(styleSheet);
-        while (matches.hasNext()) {
-            const QStringList selectors = matches.next().captured(1).trimmed().split(QLatin1Char(','));
-            for (const QString& selector : selectors) {
-                const QString target = selector.trimmed().section(QRegularExpression(QStringLiteral("\\s+")), -1);
-                QVERIFY2(target.contains(QStringLiteral("[editorControl=\"true\"]")), qPrintable(selector));
-            }
-        }
-    }
 }
 
 void StyleThemeUtilsTest::themesContainOnlyColorsAndIcons() {
@@ -93,8 +75,8 @@ void StyleThemeUtilsTest::scrollBarStylesAreScopedAndComplete() {
         QString error;
         const QString styleSheet = StyleThemeUtils::loadScrollBarStyleSheet(theme, error);
         QVERIFY2(error.isEmpty(), qPrintable(error));
-        QVERIFY(styleSheet.contains(QStringLiteral("QScrollBar[editorControl=\"true\"]:vertical")));
-        QVERIFY(styleSheet.contains(QStringLiteral("QScrollBar[editorControl=\"true\"]:horizontal")));
+        QVERIFY(styleSheet.contains(QStringLiteral("QScrollBar:vertical")));
+        QVERIFY(styleSheet.contains(QStringLiteral("QScrollBar:horizontal")));
         QVERIFY(styleSheet.contains(QStringLiteral("::handle:vertical")));
         QVERIFY(styleSheet.contains(QStringLiteral("::handle:horizontal")));
     }

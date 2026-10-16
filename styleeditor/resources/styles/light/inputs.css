@@ -1,5 +1,5 @@
-animatedwidgets--LineEdit[editorControl="true"],
-animatedwidgets--ComboBox[editorControl="true"] {
+animatedwidgets--LineEdit,
+animatedwidgets--ComboBox {
     qproperty-backgroundNormal: #f5f7fb;
     qproperty-backgroundHover: #f5f7fb;
     qproperty-backgroundFocus: #f5f7fb;
@@ -9,25 +9,25 @@ animatedwidgets--ComboBox[editorControl="true"] {
     qproperty-textColor: #172033;
 }
 
-animatedwidgets--LineEdit#documentSearchEdit[editorControl="true"] {
+animatedwidgets--LineEdit#documentSearchEdit {
     qproperty-borderNormal: #d7dde8;
 }
 
-animatedwidgets--PlainTextEdit[editorControl="true"] {
+animatedwidgets--PlainTextEdit {
     qproperty-backgroundNormal: #171b27;
     qproperty-backgroundHover: #171b27;
     qproperty-backgroundFocus: #171b27;
     qproperty-textColor: #aebaff;
 }
 
-#StyleIconResourcePopup[editorControl="true"] animatedwidgets--LineEdit#searchEdit[editorControl="true"] {
+#StyleIconResourcePopup animatedwidgets--LineEdit#searchEdit {
     qproperty-borderNormal: #d7dde8;
     qproperty-borderHover: #5b67f1;
     qproperty-borderFocus: #5b67f1;
     qproperty-backgroundNormal: #f5f7fb;
 }
 
-#StyleIconResourcePopup[editorControl="true"] animatedwidgets--ComboBox#qrcCombo[editorControl="true"] {
+#StyleIconResourcePopup animatedwidgets--ComboBox#qrcCombo {
     qproperty-borderNormal: #d7dde8;
     qproperty-borderHover: #5b67f1;
     qproperty-borderFocus: #5b67f1;
@@ -35,24 +35,24 @@ animatedwidgets--PlainTextEdit[editorControl="true"] {
     qproperty-textColor: #172033;
 }
 
-#ColorPickerDialog[editorControl="true"] QSlider#alphaSlider[editorControl="true"]::groove:horizontal {
+#ColorPickerDialog QSlider#alphaSlider::groove:horizontal {
     background: #e5e6eb;
 }
 
-#ColorPickerDialog[editorControl="true"] QSlider#alphaSlider[editorControl="true"]::sub-page:horizontal {
+#ColorPickerDialog QSlider#alphaSlider::sub-page:horizontal {
     background: #1557f0;
 }
 
-#ColorPickerDialog[editorControl="true"] QSlider#alphaSlider[editorControl="true"]::handle:horizontal {
+#ColorPickerDialog QSlider#alphaSlider::handle:horizontal {
     background: #feffff;
     border-color: #1557f0;
 }
 
-#ColorPickerDialog[editorControl="true"] QSlider#alphaSlider[editorControl="true"]::handle:horizontal:hover {
+#ColorPickerDialog QSlider#alphaSlider::handle:horizontal:hover {
     border-color: #4080ff;
 }
 
-#ColorPickerDialog[editorControl="true"] animatedwidgets--LineEdit[colorPickerControl="true"][editorControl="true"] {
+#ColorPickerDialog animatedwidgets--LineEdit[colorPickerControl="true"] {
     qproperty-backgroundNormal: #feffff;
     qproperty-backgroundHover: #feffff;
     qproperty-backgroundFocus: #feffff;
@@ -62,7 +62,7 @@ animatedwidgets--PlainTextEdit[editorControl="true"] {
     qproperty-textColor: #4e5969;
 }
 
-#ColorPickerDialog[editorControl="true"] animatedwidgets--ComboBox[colorPickerControl="true"][editorControl="true"] {
+#ColorPickerDialog animatedwidgets--ComboBox[colorPickerControl="true"] {
     qproperty-backgroundNormal: #feffff;
     qproperty-backgroundHover: #feffff;
     qproperty-backgroundFocus: #feffff;
@@ -72,7 +72,7 @@ animatedwidgets--PlainTextEdit[editorControl="true"] {
     qproperty-textColor: #4e5969;
 }
 
-#ColorPickerDialog[editorControl="true"] animatedwidgets--IconLineEdit#alphaValueEdit[editorControl="true"] {
+#ColorPickerDialog animatedwidgets--IconLineEdit#alphaValueEdit {
     qproperty-backgroundNormal: #feffff;
     qproperty-backgroundHover: #f2f3f5;
     qproperty-backgroundFocus: #feffff;
@@ -84,8 +84,8 @@ animatedwidgets--PlainTextEdit[editorControl="true"] {
     qproperty-trailingIconHoverColor: #1557f0;
 }
 
-#StyleWidgetItemPopup[editorControl="true"] animatedwidgets--LineEdit[editorControl="true"],
-#StyleWidgetItemPopup[editorControl="true"] animatedwidgets--ComboBox[editorControl="true"] {
+#StyleWidgetItemPopup animatedwidgets--LineEdit,
+#StyleWidgetItemPopup animatedwidgets--ComboBox {
     qproperty-backgroundNormal: #f5f7fb;
     qproperty-backgroundHover: #f5f7fb;
     qproperty-backgroundFocus: #f5f7fb;
@@ -95,26 +95,27 @@ animatedwidgets--PlainTextEdit[editorControl="true"] {
     qproperty-textColor: #172033;
 }
 
-#StyleWidgetItemPopup[editorControl="true"] animatedwidgets--LineEdit#nameEdit[editorControl="true"] {
+#StyleWidgetItemPopup animatedwidgets--LineEdit#nameEdit {
     qproperty-borderNormal: #d7dde8;
 }
 
-animatedwidgets--LineEdit[editorControl="true"],
-animatedwidgets--ComboBox[editorControl="true"],
-animatedwidgets--SpinBox[editorControl="true"] > QLineEdit[editorControl="true"] {
+animatedwidgets--LineEdit,
+animatedwidgets--ComboBox,
+animatedwidgets--SpinBox,
+animatedwidgets--SpinBox > QLineEdit {
     color: #172033;
     selection-background-color: #eef0ff;
     selection-color: #172033;
 }
 
-animatedwidgets--LineEdit[editorControl="true"],
-animatedwidgets--ComboBox[editorControl="true"] {
+animatedwidgets--LineEdit,
+animatedwidgets--ComboBox {
     qproperty-backgroundDisabled: #f2f3f5;
     qproperty-borderDisabled: #e6eaf0;
     qproperty-disabledTextColor: #a8b1bf;
 }
 
-animatedwidgets--SpinBox[editorControl="true"] {
+animatedwidgets--SpinBox {
     qproperty-backgroundNormal: #f5f7fb;
     qproperty-backgroundHover: #f5f7fb;
     qproperty-backgroundFocus: #f5f7fb;
@@ -127,8 +128,9 @@ animatedwidgets--SpinBox[editorControl="true"] {
     qproperty-disabledTextColor: #a8b1bf;
 }
 
-animatedwidgets--LineEdit[editorControl="true"]:disabled,
-animatedwidgets--ComboBox[editorControl="true"]:disabled,
-animatedwidgets--SpinBox[editorControl="true"] > QLineEdit[editorControl="true"]:disabled {
+animatedwidgets--LineEdit:disabled,
+animatedwidgets--ComboBox:disabled,
+animatedwidgets--SpinBox:disabled,
+animatedwidgets--SpinBox > QLineEdit:disabled {
     color: #a8b1bf;
 }

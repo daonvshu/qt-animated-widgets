@@ -2,23 +2,22 @@
 <ui version="4.0">
  <class>StyleWidgetTreeRow</class>
  <widget class="QWidget" name="StyleWidgetTreeRow">
-  <property name="editorControl" stdset="0"><bool>true</bool></property>
   <property name="styleSheet">
-   <string notr="true">QWidget#StyleWidgetTreeRow[editorControl=&quot;true&quot;] {
+   <string notr="true">QWidget#StyleWidgetTreeRow {
     background: transparent;
 }
 
-#StyleWidgetTreeRow[editorControl=&quot;true&quot;] QLabel#nameLabel[editorControl=&quot;true&quot;] {
+#StyleWidgetTreeRow QLabel#nameLabel {
     font-size: 12px;
     background: transparent;
 }
 
-#StyleWidgetTreeRow[editorControl=&quot;true&quot;] QLabel#detailLabel[editorControl=&quot;true&quot;] {
+#StyleWidgetTreeRow QLabel#detailLabel {
     font-size: 10px;
     background: transparent;
 }
 
-#StyleWidgetTreeRow[editorControl=&quot;true&quot;] animatedwidgets--HoverIconButton[editorControl=&quot;true&quot;] {
+#StyleWidgetTreeRow animatedwidgets--HoverIconButton {
     qproperty-animateContentColor: true;
     qproperty-iconHint: true;
     qproperty-cornerRadius: 6;
@@ -34,13 +33,12 @@
     <layout class="QVBoxLayout" name="textLayout">
      <property name="spacing"><number>2</number></property>
      <item><widget class="QLabel" name="nameLabel">
-      <property name="editorControl" stdset="0"><bool>true</bool></property><property name="sizePolicy"><sizepolicy hsizetype="Ignored" vsizetype="Preferred"><horstretch>1</horstretch><verstretch>0</verstretch></sizepolicy></property><property name="text"><string>Style name</string></property><property name="textFormat"><enum>Qt::PlainText</enum></property></widget></item>
+      <property name="sizePolicy"><sizepolicy hsizetype="Ignored" vsizetype="Preferred"><horstretch>1</horstretch><verstretch>0</verstretch></sizepolicy></property><property name="text"><string>Style name</string></property><property name="textFormat"><enum>Qt::PlainText</enum></property></widget></item>
      <item><widget class="QLabel" name="detailLabel">
-      <property name="editorControl" stdset="0"><bool>true</bool></property><property name="sizePolicy"><sizepolicy hsizetype="Ignored" vsizetype="Preferred"><horstretch>1</horstretch><verstretch>0</verstretch></sizepolicy></property><property name="text"><string>Widget type</string></property><property name="textFormat"><enum>Qt::PlainText</enum></property></widget></item>
+      <property name="sizePolicy"><sizepolicy hsizetype="Ignored" vsizetype="Preferred"><horstretch>1</horstretch><verstretch>0</verstretch></sizepolicy></property><property name="text"><string>Widget type</string></property><property name="textFormat"><enum>Qt::PlainText</enum></property></widget></item>
     </layout>
    </item>
    <item><widget class="aw::HoverIconButton" name="actionButton">
-    <property name="editorControl" stdset="0"><bool>true</bool></property>
     <property name="minimumSize"><size><width>26</width><height>26</height></size></property>
     <property name="maximumSize"><size><width>26</width><height>26</height></size></property>
     <property name="iconSize"><size><width>14</width><height>14</height></size></property>

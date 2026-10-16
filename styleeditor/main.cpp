@@ -1,16 +1,30 @@
 #include "styleeditorwindow.h"
 
 #include "utils/objectfindtool.h"
+#include "preview/stylepreviewworker.h"
 
 #include <QApplication>
+#ifdef Q_OS_WIN
 #include <Windows.h>
+#endif
+
+#include <memory>
 
 int main(int argc, char* argv[]) {
+    const bool previewWorker = argc > 1 && QString::fromLocal8Bit(argv[1]) == QStringLiteral("--style-preview");
+    if (previewWorker && argc != 4)
+        return 2;
+
+    std::unique_ptr<QApplication> app;
+    if (previewWorker) {
+        app = std::make_unique<QApplication>(argc, argv);
+    } else {
 #ifdef QT_DEBUG
-    ObjectFinderApplication app(argc, argv);
+        app = std::make_unique<ObjectFinderApplication>(argc, argv);
 #else
-    QApplication app(argc, argv);
+        app = std::make_unique<QApplication>(argc, argv);
 #endif
+    }
 
     QApplication::setApplicationName(QStringLiteral("Animated Widgets Style Editor"));
 
@@ -26,8 +40,14 @@ int main(int argc, char* argv[]) {
     }
 #endif
 
+    if (previewWorker) {
+        QApplication::setQuitOnLastWindowClosed(false);
+        StylePreviewWorker worker(QString::fromLocal8Bit(argv[2]), QString::fromLocal8Bit(argv[3]));
+        return app->exec();
+    }
+
     StyleEditorWindow window;
     window.show();
 
-    return app.exec();
+    return app->exec();
 }

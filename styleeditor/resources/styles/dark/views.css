@@ -1,43 +1,48 @@
-QListWidget[editorControl="true"] {
+QListWidget {
     color: #98a7c0;
 }
 
-QListWidget[editorControl="true"]::item:hover {
+QListWidget::item:hover {
     color: #aab3ff;
     background: #333b63;
 }
 
-QListWidget[editorControl="true"]::item:selected {
+QListWidget::item:selected {
     color: #aab3ff;
     background: #333b63;
 }
 
-QTreeWidget#propertyList[editorControl="true"] {
+QTreeWidget#propertyList {
     color: #e7ecf5;
 }
 
-QTreeWidget#propertyList[editorControl="true"]::branch:has-children:closed {
+QTreeWidget#propertyList::branch:has-children:closed {
     image: url(:/styleeditor/styles/dark/branchclosed.svg);
 }
 
-QTreeWidget#propertyList[editorControl="true"]::branch:has-children:open {
+QTreeWidget#propertyList::branch:has-children:open {
     image: url(:/styleeditor/styles/dark/branchopen.svg);
 }
 
-QTreeWidget#propertyList[editorControl="true"]::item:hover {
+QTreeWidget#propertyList::item:hover {
     background: #283044;
 }
 
-QTreeWidget#propertyList[editorControl="true"]::item:selected {
+QTreeWidget#propertyList::item:selected {
     background: #333b63;
 }
 
-#StyleIconResourcePopup[editorControl="true"] viv--VirtualTreeView#iconTree[editorControl="true"] {
+#StyleIconResourcePopup viv--VirtualTreeView#iconTree {
     background: #171c28;
     border-color: #343e52;
 }
 
-viv--VirtualTreeView#widgetTree[editorControl="true"],
-viv--VirtualTreeView#widgetTree[editorControl="true"] > QWidget#qt_scrollarea_viewport[editorControl="true"] {
+viv--VirtualTreeView#widgetTree,
+viv--VirtualTreeView#widgetTree > QWidget#qt_scrollarea_viewport,
+viv--VirtualTreeView#widgetTree QWidget#vivRowSpacingHost {
     background: #202636;
+}
+
+#StyleIconResourcePopup viv--VirtualTreeView#iconTree QWidget#vivRowSpacingHost {
+    background: #171c28;
 }

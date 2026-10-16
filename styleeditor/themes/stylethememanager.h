@@ -9,6 +9,7 @@ class StyleThemeScope;
 
 namespace animatedwidgets {
 class PopupMenu;
+class ShadowWidget;
 }
 
 class StyleThemeManager : public QObject {
@@ -35,6 +36,7 @@ private:
     void prepareSubtree(QWidget* widget);
     void applySubtreeColors(QWidget* widget);
     void applyWidgetColors(QWidget* widget);
+    void applyShadowStyle(animatedwidgets::ShadowWidget* popup);
     void applyPopupColors(animatedwidgets::PopupMenu* popup);
 
     QPointer<QMainWindow> m_window;
