@@ -2,6 +2,7 @@
 <ui version="4.0">
  <class>ColorPickerDialog</class>
  <widget class="QWidget" name="ColorPickerDialog">
+  <property name="editorControl" stdset="0"><bool>true</bool></property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -17,47 +18,92 @@
    </size>
   </property>
   <property name="styleSheet">
-   <string notr="true">QWidget#ColorPickerDialog { background: #feffff; border: 1px solid #e5e6eb; border-radius: 8px; }
-QLabel { color: #4e5969; background: transparent; font-size: 12px; }
-QLabel#titleLabel { color: #1d2129; font-size: 16px; font-weight: bold; }
-QFrame#separator { background: #e5e6eb; border: none; }
-QSlider#alphaSlider::groove:horizontal { height: 4px; background: #e5e6eb; border-radius: 2px; }
-QSlider#alphaSlider::sub-page:horizontal { background: #1557f0; border-radius: 2px; }
-QSlider#alphaSlider::handle:horizontal { width: 12px; margin: -5px 0; background: #feffff; border: 1px solid #1557f0; border-radius: 7px; }
-QSlider#alphaSlider::handle:horizontal:hover { border-color: #4080ff; }
-animatedwidgets--LineEdit[colorPickerControl=&quot;true&quot;] {
-    background: transparent; border: none; min-height: 30px; min-width: 0px; font-size: 12px;
-    qproperty-backgroundNormal: #feffff; qproperty-backgroundHover: #feffff; qproperty-backgroundFocus: #feffff;
-    qproperty-borderNormal: #e5e6eb; qproperty-borderHover: #4080ff; qproperty-borderFocus: #1557f0;
-    qproperty-borderVisible: true; qproperty-borderWidth: 1; qproperty-textColor: #4e5969; qproperty-cornerRadius: 4; qproperty-contentPadding: 8;
+   <string notr="true">QWidget#ColorPickerDialog[editorControl=&quot;true&quot;] {
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 8px;
 }
-animatedwidgets--ComboBox[colorPickerControl=&quot;true&quot;] {
-    min-height: 30px; min-width: 0px; font-size: 12px;
-    qproperty-backgroundNormal: #feffff; qproperty-backgroundHover: #feffff; qproperty-backgroundFocus: #feffff;
-    qproperty-borderNormal: #e5e6eb; qproperty-borderHover: #4080ff; qproperty-borderFocus: #1557f0;
-    qproperty-borderVisible: true; qproperty-borderWidth: 1; qproperty-cornerRadius: 4;
-    qproperty-textColor: #4e5969; qproperty-contentPadding: 8;
+
+#ColorPickerDialog[editorControl=&quot;true&quot;] QLabel[editorControl=&quot;true&quot;] {
+    background: transparent;
+    font-size: 12px;
 }
-animatedwidgets--FilledButton[colorPickerControl=&quot;true&quot;] {
-    min-height: 28px; min-width: 0px; border: none; padding: 0px; font-size: 12px; qproperty-backgroundNormal: #1557f0;
-    qproperty-backgroundHover: #4080ff; qproperty-backgroundPressed: #0e42d2; qproperty-backgroundDisabled: #94bfff;
-    qproperty-contentNormal: white; qproperty-cornerRadius: 4; qproperty-contentHorizontalPadding: 12; qproperty-contentVerticalPadding: 0;
+
+#ColorPickerDialog[editorControl=&quot;true&quot;] QLabel#titleLabel[editorControl=&quot;true&quot;] {
+    font-size: 16px;
+    font-weight: bold;
 }
-animatedwidgets--FilledButton#btn_cancel, animatedwidgets--FilledButton#btn_automatic {
-    qproperty-backgroundNormal: #f2f3f5; qproperty-backgroundHover: #e5e6eb; qproperty-backgroundPressed: #c9cdd4; qproperty-contentNormal: #4e5969;
+
+#ColorPickerDialog[editorControl=&quot;true&quot;] QFrame#separator[editorControl=&quot;true&quot;] {
+    border: none;
 }
-animatedwidgets--IconLineEdit#alphaValueEdit {
-    border: none; padding: 0px; min-width: 0px; font-size: 12px;
-    qproperty-backgroundNormal: #feffff; qproperty-backgroundHover: #f2f3f5; qproperty-backgroundFocus: #feffff;
-    qproperty-borderNormal: transparent; qproperty-borderHover: #e5e6eb; qproperty-borderFocus: #1557f0;
-    qproperty-borderVisible: true; qproperty-borderWidth: 1; qproperty-textColor: #4e5969;
-    qproperty-cornerRadius: 4; qproperty-contentPadding: 2;
-    qproperty-trailingIconNormalColor: #4e5969; qproperty-trailingIconHoverColor: #1557f0;
+
+#ColorPickerDialog[editorControl=&quot;true&quot;] QSlider#alphaSlider[editorControl=&quot;true&quot;]::groove:horizontal {
+    height: 4px;
+    border-radius: 2px;
+}
+
+#ColorPickerDialog[editorControl=&quot;true&quot;] QSlider#alphaSlider[editorControl=&quot;true&quot;]::sub-page:horizontal {
+    border-radius: 2px;
+}
+
+#ColorPickerDialog[editorControl=&quot;true&quot;] QSlider#alphaSlider[editorControl=&quot;true&quot;]::handle:horizontal {
+    width: 12px;
+    margin: -5px 0;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 7px;
+}
+
+#ColorPickerDialog[editorControl=&quot;true&quot;] animatedwidgets--LineEdit[colorPickerControl=&quot;true&quot;][editorControl=&quot;true&quot;] {
+    background: transparent;
+    border: none;
+    min-height: 30px;
+    min-width: 0px;
+    font-size: 12px;
+    qproperty-borderVisible: true;
+    qproperty-borderWidth: 1;
+    qproperty-cornerRadius: 4;
+    qproperty-contentPadding: 8;
+}
+
+#ColorPickerDialog[editorControl=&quot;true&quot;] animatedwidgets--ComboBox[colorPickerControl=&quot;true&quot;][editorControl=&quot;true&quot;] {
+    min-height: 30px;
+    min-width: 0px;
+    font-size: 12px;
+    qproperty-borderVisible: true;
+    qproperty-borderWidth: 1;
+    qproperty-cornerRadius: 4;
+    qproperty-contentPadding: 8;
+}
+
+#ColorPickerDialog[editorControl=&quot;true&quot;] animatedwidgets--FilledButton[colorPickerControl=&quot;true&quot;][editorControl=&quot;true&quot;] {
+    min-height: 28px;
+    min-width: 0px;
+    border: none;
+    padding: 0px;
+    font-size: 12px;
+    qproperty-cornerRadius: 4;
+    qproperty-contentHorizontalPadding: 12;
+    qproperty-contentVerticalPadding: 0;
+}
+
+#ColorPickerDialog[editorControl=&quot;true&quot;] animatedwidgets--IconLineEdit#alphaValueEdit[editorControl=&quot;true&quot;] {
+    border: none;
+    padding: 0px;
+    min-width: 0px;
+    font-size: 12px;
+    qproperty-borderVisible: true;
+    qproperty-borderWidth: 1;
+    qproperty-cornerRadius: 4;
+    qproperty-contentPadding: 2;
     qproperty-iconHint: true;
 }
-animatedwidgets--HoverIconButton#btn_close {
-    qproperty-backgroundHover: #f53f3f; qproperty-contentNormal: #4e5969; qproperty-contentHover: white;
-    qproperty-animateContentColor: true; qproperty-iconHint: true; qproperty-cornerRadius: 2;
+
+#ColorPickerDialog[editorControl=&quot;true&quot;] animatedwidgets--HoverIconButton#btn_close[editorControl=&quot;true&quot;] {
+    qproperty-animateContentColor: true;
+    qproperty-iconHint: true;
+    qproperty-cornerRadius: 2;
 }</string>
   </property>
   <layout class="QVBoxLayout" name="dialogLayout">
@@ -92,6 +138,7 @@ animatedwidgets--HoverIconButton#btn_close {
      </property>
      <item>
       <widget class="QLabel" name="titleLabel">
+       <property name="editorControl" stdset="0"><bool>true</bool></property>
        <property name="text">
         <string>Select color</string>
        </property>
@@ -112,6 +159,7 @@ animatedwidgets--HoverIconButton#btn_close {
      </item>
      <item>
       <widget class="aw::HoverIconButton" name="btn_close">
+       <property name="editorControl" stdset="0"><bool>true</bool></property>
        <property name="minimumSize">
         <size>
          <width>28</width>
@@ -199,6 +247,7 @@ animatedwidgets--HoverIconButton#btn_close {
      </property>
      <item>
       <widget class="aw::ComboBox" name="value_type">
+       <property name="editorControl" stdset="0"><bool>true</bool></property>
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -254,10 +303,12 @@ animatedwidgets--HoverIconButton#btn_close {
      </item>
      <item>
       <widget class="QStackedWidget" name="stackedWidget">
+       <property name="editorControl" stdset="0"><bool>true</bool></property>
        <property name="currentIndex">
         <number>0</number>
        </property>
        <widget class="QWidget" name="hexPage">
+        <property name="editorControl" stdset="0"><bool>true</bool></property>
         <layout class="QHBoxLayout" name="hexLayout">
          <property name="leftMargin">
           <number>0</number>
@@ -273,6 +324,7 @@ animatedwidgets--HoverIconButton#btn_close {
          </property>
          <item>
           <widget class="aw::LineEdit" name="input_hex">
+           <property name="editorControl" stdset="0"><bool>true</bool></property>
            <property name="toolTip">
             <string>HEX RGB or ARGB</string>
            </property>
@@ -287,6 +339,7 @@ animatedwidgets--HoverIconButton#btn_close {
         </layout>
        </widget>
        <widget class="QWidget" name="rgbPage">
+        <property name="editorControl" stdset="0"><bool>true</bool></property>
         <layout class="QHBoxLayout" name="rgbLayout">
          <property name="spacing">
           <number>6</number>
@@ -305,6 +358,7 @@ animatedwidgets--HoverIconButton#btn_close {
          </property>
          <item>
           <widget class="aw::LineEdit" name="input_r">
+           <property name="editorControl" stdset="0"><bool>true</bool></property>
            <property name="toolTip">
             <string>Red (0-255)</string>
            </property>
@@ -318,6 +372,7 @@ animatedwidgets--HoverIconButton#btn_close {
          </item>
          <item>
           <widget class="aw::LineEdit" name="input_g">
+           <property name="editorControl" stdset="0"><bool>true</bool></property>
            <property name="toolTip">
             <string>Green (0-255)</string>
            </property>
@@ -331,6 +386,7 @@ animatedwidgets--HoverIconButton#btn_close {
          </item>
          <item>
           <widget class="aw::LineEdit" name="input_b">
+           <property name="editorControl" stdset="0"><bool>true</bool></property>
            <property name="toolTip">
             <string>Blue (0-255)</string>
            </property>
@@ -345,6 +401,7 @@ animatedwidgets--HoverIconButton#btn_close {
         </layout>
        </widget>
        <widget class="QWidget" name="hsvPage">
+        <property name="editorControl" stdset="0"><bool>true</bool></property>
         <layout class="QHBoxLayout" name="hsvLayout">
          <property name="spacing">
           <number>6</number>
@@ -363,6 +420,7 @@ animatedwidgets--HoverIconButton#btn_close {
          </property>
          <item>
           <widget class="aw::LineEdit" name="input_h">
+           <property name="editorControl" stdset="0"><bool>true</bool></property>
            <property name="toolTip">
             <string>Hue (0-360)</string>
            </property>
@@ -376,6 +434,7 @@ animatedwidgets--HoverIconButton#btn_close {
          </item>
          <item>
           <widget class="aw::LineEdit" name="input_s">
+           <property name="editorControl" stdset="0"><bool>true</bool></property>
            <property name="toolTip">
             <string>Saturation (0-255)</string>
            </property>
@@ -389,6 +448,7 @@ animatedwidgets--HoverIconButton#btn_close {
          </item>
          <item>
           <widget class="aw::LineEdit" name="input_v">
+           <property name="editorControl" stdset="0"><bool>true</bool></property>
            <property name="toolTip">
             <string>Value (0-255)</string>
            </property>
@@ -422,6 +482,7 @@ animatedwidgets--HoverIconButton#btn_close {
      </property>
      <item>
       <widget class="QLabel" name="alphaLabel">
+       <property name="editorControl" stdset="0"><bool>true</bool></property>
        <property name="text">
         <string>Alpha</string>
        </property>
@@ -429,6 +490,7 @@ animatedwidgets--HoverIconButton#btn_close {
      </item>
      <item>
       <widget class="aw::Slider" name="alphaSlider">
+       <property name="editorControl" stdset="0"><bool>true</bool></property>
        <property name="minimumSize">
         <size>
          <width>0</width>
@@ -466,6 +528,7 @@ animatedwidgets--HoverIconButton#btn_close {
      </item>
      <item>
       <widget class="aw::IconLineEdit" name="alphaValueEdit">
+       <property name="editorControl" stdset="0"><bool>true</bool></property>
        <property name="minimumSize">
         <size>
          <width>56</width>
@@ -509,6 +572,7 @@ animatedwidgets--HoverIconButton#btn_close {
    </item>
    <item>
     <widget class="QFrame" name="separator">
+     <property name="editorControl" stdset="0"><bool>true</bool></property>
      <property name="minimumSize">
       <size>
        <width>0</width>
@@ -545,6 +609,7 @@ animatedwidgets--HoverIconButton#btn_close {
      </property>
      <item>
       <widget class="aw::FilledButton" name="btn_confirm">
+       <property name="editorControl" stdset="0"><bool>true</bool></property>
        <property name="minimumSize">
         <size>
          <width>0</width>
@@ -567,6 +632,7 @@ animatedwidgets--HoverIconButton#btn_close {
      </item>
      <item>
       <widget class="aw::FilledButton" name="btn_cancel">
+       <property name="editorControl" stdset="0"><bool>true</bool></property>
        <property name="minimumSize">
         <size>
          <width>0</width>
@@ -589,6 +655,7 @@ animatedwidgets--HoverIconButton#btn_close {
      </item>
      <item>
       <widget class="aw::FilledButton" name="btn_automatic">
+       <property name="editorControl" stdset="0"><bool>true</bool></property>
        <property name="minimumSize">
         <size>
          <width>0</width>

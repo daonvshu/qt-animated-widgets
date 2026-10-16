@@ -1,0 +1,12 @@
+StyleThemeScope#centralWidget[editorControl="true"] {
+    qproperty-surface: #ffffff;
+    qproperty-border: #d7dde8;
+    qproperty-text: #172033;
+    qproperty-mutedText: #7c879a;
+    qproperty-disabledText: #a8b1bf;
+    qproperty-hover: #f2f3f5;
+    qproperty-selection: #eef0ff;
+    qproperty-iconSelection: #e3f3ff;
+    qproperty-canvas: #f5f7fb;
+    qproperty-automatic: #f2f3f5;
+}

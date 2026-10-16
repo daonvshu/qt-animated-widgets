@@ -20,6 +20,7 @@ add_executable(animatedwidgets-styleeditor
     pages/componentlibrarypage.cpp
     pages/thememanagerpage.h
     pages/thememanagerpage.cpp
+    pages/thememanagerpage.ui
     pages/exportprojectpage.h
     pages/exportprojectpage.cpp
     pages/designguidelinespage.h
@@ -31,6 +32,12 @@ add_executable(animatedwidgets-styleeditor
     navigation/styleworkspacerouter.cpp
 
     resources/styleeditor.qrc
+    resources/stylethemes.qrc
+
+    themes/stylethememanager.h
+    themes/stylethememanager.cpp
+    themes/stylethemescope.h
+    themes/stylethemescope.cpp
 
     dialogs/stylepopupdialog.h
     dialogs/stylepopupdialog.cpp
@@ -101,6 +108,8 @@ add_executable(animatedwidgets-styleeditor
     utils/stylepropertyeditorutils.cpp
     utils/stylepreviewutils.h
     utils/stylepreviewutils.cpp
+    utils/stylethemeutils.h
+    utils/stylethemeutils.cpp
     utils/objectfindtool.h
     utils/objectfindtool.cpp
 )

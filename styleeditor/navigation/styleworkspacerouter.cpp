@@ -59,6 +59,8 @@ void StyleWorkspaceRouter::navigate(Section section) {
 
     if (section == Section::StyleEditor) {
         emit sectionChanged(QStringLiteral("Custom widget styles"), QStringLiteral("Adjust properties visually and generate style code in real time."));
+    } else if (section == Section::ThemeManager) {
+        emit sectionChanged(QStringLiteral("Theme manager"), QStringLiteral("Choose the appearance of the editor workspace."));
     } else if (const auto* page = qobject_cast<WorkspaceSectionPage*>(router.current())) {
         emit sectionChanged(page->title(), page->description());
     }

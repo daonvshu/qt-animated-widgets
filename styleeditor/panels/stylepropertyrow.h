@@ -12,6 +12,7 @@ public:
     void setColor(const QColor& color);
     void setIconReference(const QString& reference, const QString& previewPath);
     void setIconPreview(const QString& previewPath);
+    void setAutomaticColorBackground(const QColor& color);
 
 signals:
     void valueEdited(const QVariant& value);
@@ -31,4 +32,5 @@ private:
     animatedwidgets::styleeditor::StyleProperty m_property;
     animatedwidgets::BorderedButton* m_colorButton = nullptr;
     animatedwidgets::BorderedButton* m_iconButton = nullptr;
+    QColor m_automaticColorBackground;
 };

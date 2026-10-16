@@ -2,23 +2,41 @@
 <ui version="4.0">
  <class>StyleMessagePopup</class>
  <widget class="QWidget" name="StyleMessagePopup">
+  <property name="editorControl" stdset="0"><bool>true</bool></property>
   <property name="geometry"><rect><x>0</x><y>0</y><width>480</width><height>230</height></rect></property>
   <property name="minimumSize"><size><width>440</width><height>200</height></size></property>
   <property name="styleSheet">
-   <string notr="true">QWidget#StyleMessagePopup { background: #ffffff; border: 1px solid #e6eaf0; border-radius: 12px; }
-QLabel { color: #172033; background: transparent; }
-QLabel#titleLabel { font-size: 18px; font-weight: 700; }
-QLabel#messageLabel { color: #657084; font-size: 13px; }
-animatedwidgets--FilledButton[editorControl="true"] {
-    min-height: 36px; min-width: 72px;
-    qproperty-backgroundNormal: #5b67f1; qproperty-backgroundHover: #6975fa;
-    qproperty-contentNormal: #ffffff; qproperty-cornerRadius: 9; qproperty-animateContentColor: true;
+   <string notr="true">QWidget#StyleMessagePopup[editorControl=&quot;true&quot;] {
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 12px;
 }
-animatedwidgets--OutlineButton[editorControl="true"] {
-    min-height: 36px; min-width: 72px;
-    qproperty-borderNormal: #d7dde8; qproperty-borderHover: #5b67f1;
-    qproperty-contentNormal: #172033; qproperty-contentHover: #5b67f1;
-    qproperty-cornerRadius: 9; qproperty-animateContentColor: true;
+
+#StyleMessagePopup[editorControl=&quot;true&quot;] QLabel[editorControl=&quot;true&quot;] {
+    background: transparent;
+}
+
+#StyleMessagePopup[editorControl=&quot;true&quot;] QLabel#titleLabel[editorControl=&quot;true&quot;] {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+#StyleMessagePopup[editorControl=&quot;true&quot;] QLabel#messageLabel[editorControl=&quot;true&quot;] {
+    font-size: 13px;
+}
+
+#StyleMessagePopup[editorControl=&quot;true&quot;] animatedwidgets--FilledButton[editorControl=&quot;true&quot;] {
+    min-height: 36px;
+    min-width: 72px;
+    qproperty-cornerRadius: 9;
+    qproperty-animateContentColor: true;
+}
+
+#StyleMessagePopup[editorControl=&quot;true&quot;] animatedwidgets--OutlineButton[editorControl=&quot;true&quot;] {
+    min-height: 36px;
+    min-width: 72px;
+    qproperty-cornerRadius: 9;
+    qproperty-animateContentColor: true;
 }</string>
   </property>
   <layout class="QVBoxLayout" name="dialogLayout">
@@ -27,8 +45,10 @@ animatedwidgets--OutlineButton[editorControl="true"] {
    <property name="topMargin"><number>24</number></property>
    <property name="rightMargin"><number>24</number></property>
    <property name="bottomMargin"><number>24</number></property>
-   <item><widget class="QLabel" name="titleLabel"><property name="text"><string>Message</string></property></widget></item>
-   <item><widget class="QLabel" name="messageLabel"><property name="text"><string>Message details</string></property><property name="textFormat"><enum>Qt::PlainText</enum></property><property name="wordWrap"><bool>true</bool></property></widget></item>
+   <item><widget class="QLabel" name="titleLabel">
+    <property name="editorControl" stdset="0"><bool>true</bool></property><property name="text"><string>Message</string></property></widget></item>
+   <item><widget class="QLabel" name="messageLabel">
+    <property name="editorControl" stdset="0"><bool>true</bool></property><property name="text"><string>Message details</string></property><property name="textFormat"><enum>Qt::PlainText</enum></property><property name="wordWrap"><bool>true</bool></property></widget></item>
    <item><spacer name="messageSpacer"><property name="orientation"><enum>Qt::Vertical</enum></property><property name="sizeHint" stdset="0"><size><width>20</width><height>12</height></size></property></spacer></item>
    <item>
     <layout class="QHBoxLayout" name="actionLayout">

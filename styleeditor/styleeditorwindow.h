@@ -12,6 +12,7 @@ class QCloseEvent;
 class StyleDocumentSession;
 class StylePluginRegistry;
 class StylePopupDialog;
+class StyleThemeManager;
 class StyleWorkspaceRouter;
 class WorkspacePage;
 
@@ -58,6 +59,7 @@ private:
     StylePluginRegistry* pluginRegistry = nullptr;
     StyleDocumentSession* documentSession = nullptr;
     StyleWorkspaceRouter* workspaceRouter = nullptr;
+    StyleThemeManager* themeManager = nullptr;
 
     QPointer<StylePopupDialog> activePopup;
     bool closeApproved = false;

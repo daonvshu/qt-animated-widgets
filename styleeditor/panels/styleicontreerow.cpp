@@ -1,6 +1,7 @@
 #include "styleicontreerow.h"
 
 #include "styleicontreemodel.h"
+#include "../themes/stylethememanager.h"
 
 #include <QHBoxLayout>
 #include <QIcon>
@@ -26,6 +27,8 @@ void StyleIconTreeRow::createLayout() {
     m_nameLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Preferred);
     rowLayout->addWidget(m_iconLabel);
     rowLayout->addWidget(m_nameLabel, 1);
+
+    StyleThemeManager::prepareWidget(this);
 }
 
 void StyleIconTreeRow::bind(const QModelIndex& index) {

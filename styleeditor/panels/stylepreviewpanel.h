@@ -16,6 +16,7 @@ public:
 
     QWidget* widgetParent() const;
     void setPreview(QWidget* preview, const StylePreviewSettings& settings = {}, const QSize& suggestedSize = {});
+    void setThemeBackground(const QColor& color);
 
 signals:
     void settingsEdited(const StylePreviewSettings& settings);
@@ -45,6 +46,7 @@ private:
     QPointer<QWidget> m_preview;
     QPointer<ColorPickerDialog> m_colorPopup;
     StylePreviewSettings m_settings;
+    QColor m_themeBackground;
     QSize m_suggestedSize;
     quint64 m_generation = 0;
     bool m_layoutReady = false;

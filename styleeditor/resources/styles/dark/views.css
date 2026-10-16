@@ -1,0 +1,43 @@
+QListWidget[editorControl="true"] {
+    color: #98a7c0;
+}
+
+QListWidget[editorControl="true"]::item:hover {
+    color: #aab3ff;
+    background: #333b63;
+}
+
+QListWidget[editorControl="true"]::item:selected {
+    color: #aab3ff;
+    background: #333b63;
+}
+
+QTreeWidget#propertyList[editorControl="true"] {
+    color: #e7ecf5;
+}
+
+QTreeWidget#propertyList[editorControl="true"]::branch:has-children:closed {
+    image: url(:/styleeditor/styles/dark/branchclosed.svg);
+}
+
+QTreeWidget#propertyList[editorControl="true"]::branch:has-children:open {
+    image: url(:/styleeditor/styles/dark/branchopen.svg);
+}
+
+QTreeWidget#propertyList[editorControl="true"]::item:hover {
+    background: #283044;
+}
+
+QTreeWidget#propertyList[editorControl="true"]::item:selected {
+    background: #333b63;
+}
+
+#StyleIconResourcePopup[editorControl="true"] viv--VirtualTreeView#iconTree[editorControl="true"] {
+    background: #171c28;
+    border-color: #343e52;
+}
+
+viv--VirtualTreeView#widgetTree[editorControl="true"],
+viv--VirtualTreeView#widgetTree[editorControl="true"] > QWidget#qt_scrollarea_viewport[editorControl="true"] {
+    background: #202636;
+}

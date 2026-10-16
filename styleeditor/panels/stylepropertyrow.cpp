@@ -1,6 +1,7 @@
 #include "stylepropertyrow.h"
 
 #include "../utils/stylepropertyeditorutils.h"
+#include "../themes/stylethememanager.h"
 
 #include <QFileInfo>
 
@@ -50,6 +51,8 @@ void StylePropertyRow::createLayout() {
         if (m_property.type == animatedwidgets::styleeditor::StylePropertyType::Boolean)
             ui.editorLayout->addStretch();
     }
+
+    StyleThemeManager::prepareWidget(this);
 }
 
 void StylePropertyRow::setIconReference(const QString& reference, const QString& previewPath) {
@@ -78,9 +81,15 @@ void StylePropertyRow::setColor(const QColor& color) {
     emit valueEdited(color);
 }
 
+void StylePropertyRow::setAutomaticColorBackground(const QColor& color) {
+    m_automaticColorBackground = color;
+    if (m_colorButton)
+        refreshColor();
+}
+
 void StylePropertyRow::refreshColor() {
     const QColor color = m_property.value.value<QColor>();
-    const QColor displayColor = color.isValid() ? color : QColor(QStringLiteral("#f2f3f5"));
+    const QColor displayColor = color.isValid() ? color : m_automaticColorBackground;
     m_colorButton->setBackgroundNormal(displayColor);
     m_colorButton->setBackgroundHover(displayColor);
     m_colorButton->setBackgroundPressed(displayColor);

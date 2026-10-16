@@ -1,0 +1,156 @@
+animatedwidgets--FilledButton[editorControl="true"] {
+    qproperty-backgroundNormal: #7180f5;
+    qproperty-backgroundHover: #8390ff;
+    qproperty-contentNormal: #ffffff;
+}
+
+animatedwidgets--OutlineButton[editorControl="true"] {
+    qproperty-borderNormal: #414d64;
+    qproperty-borderHover: #7180f5;
+    qproperty-contentNormal: #e7ecf5;
+    qproperty-contentHover: #aab3ff;
+}
+
+animatedwidgets--HoverButton[editorControl="true"] {
+    qproperty-backgroundHover: #333b63;
+    qproperty-backgroundChecked: #333b63;
+    qproperty-contentNormal: #98a7c0;
+    qproperty-contentHover: #aab3ff;
+    qproperty-contentChecked: #aab3ff;
+}
+
+animatedwidgets--Switch[editorControl="true"] {
+    qproperty-checkedTrackColor: #7180f5;
+    qproperty-uncheckedTrackColor: #414d64;
+}
+
+StylePreviewPanel[editorControl="true"] animatedwidgets--BorderedButton#previewWidthAutoButton[editorControl="true"],
+StylePreviewPanel[editorControl="true"] animatedwidgets--BorderedButton#previewHeightAutoButton[editorControl="true"] {
+    qproperty-backgroundNormal: #202636;
+    qproperty-backgroundHover: #171c28;
+    qproperty-backgroundPressed: #3e4775;
+    qproperty-backgroundChecked: #333b63;
+    qproperty-borderNormal: #414d64;
+    qproperty-borderHover: #7180f5;
+    qproperty-borderChecked: #7180f5;
+    qproperty-contentNormal: #b1bdd1;
+    qproperty-contentHover: #aab3ff;
+    qproperty-contentChecked: #aab3ff;
+}
+
+StylePreviewPanel[editorControl="true"] animatedwidgets--BorderedButton#previewBackgroundButton[editorControl="true"] {
+    qproperty-borderNormal: #414d64;
+    qproperty-borderHover: #7180f5;
+}
+
+#StylePropertyRow[editorControl="true"] animatedwidgets--BorderedButton#iconResourceButton[editorControl="true"] {
+    qproperty-backgroundNormal: #171c28;
+    qproperty-borderNormal: #414d64;
+    qproperty-borderHover: #7180f5;
+    qproperty-contentNormal: #e7ecf5;
+}
+
+#StylePropertyRow[editorControl="true"] animatedwidgets--BorderedButton#colorSwatch[editorControl="true"] {
+    qproperty-borderNormal: #414d64;
+    qproperty-borderHover: #7180f5;
+    qproperty-contentNormal: #b1bdd1;
+}
+
+#StylePropertyRow[editorControl="true"] animatedwidgets--HoverIconButton#resetButton[editorControl="true"] {
+    qproperty-backgroundHover: #333b63;
+    qproperty-contentNormal: #98a7c0;
+    qproperty-contentHover: #aab3ff;
+}
+
+#StyleWidgetTreeRow[editorControl="true"] animatedwidgets--HoverIconButton[editorControl="true"] {
+    qproperty-backgroundHover: #3e4775;
+    qproperty-contentNormal: #98a7c0;
+    qproperty-contentHover: #aab3ff;
+}
+
+#StyleIconResourcePopup[editorControl="true"] animatedwidgets--OutlineButton[editorControl="true"] {
+    qproperty-borderNormal: #414d64;
+    qproperty-borderHover: #7180f5;
+    qproperty-contentNormal: #e7ecf5;
+    qproperty-contentHover: #aab3ff;
+}
+
+#StyleIconResourcePopup[editorControl="true"] animatedwidgets--FilledButton[editorControl="true"] {
+    qproperty-backgroundNormal: #7180f5;
+    qproperty-contentNormal: #ffffff;
+}
+
+#ColorPickerDialog[editorControl="true"] animatedwidgets--FilledButton[colorPickerControl="true"][editorControl="true"] {
+    qproperty-backgroundNormal: #7180f5;
+    qproperty-backgroundHover: #93a0ff;
+    qproperty-backgroundPressed: #5868dd;
+    qproperty-backgroundDisabled: #465379;
+    qproperty-contentNormal: #ffffff;
+}
+
+#ColorPickerDialog[editorControl="true"] animatedwidgets--FilledButton#btn_cancel[editorControl="true"],
+#ColorPickerDialog[editorControl="true"] animatedwidgets--FilledButton#btn_automatic[editorControl="true"] {
+    qproperty-backgroundNormal: #2b3345;
+    qproperty-backgroundHover: #384258;
+    qproperty-backgroundPressed: #434e65;
+    qproperty-contentNormal: #c1cadb;
+}
+
+#ColorPickerDialog[editorControl="true"] animatedwidgets--HoverIconButton#btn_close[editorControl="true"] {
+    qproperty-backgroundHover: #e84d62;
+    qproperty-contentNormal: #c1cadb;
+    qproperty-contentHover: white;
+}
+
+#StyleMessagePopup[editorControl="true"] animatedwidgets--FilledButton[editorControl="true"] {
+    qproperty-backgroundNormal: #7180f5;
+    qproperty-backgroundHover: #8390ff;
+    qproperty-contentNormal: #ffffff;
+}
+
+#StyleMessagePopup[editorControl="true"] animatedwidgets--OutlineButton[editorControl="true"] {
+    qproperty-borderNormal: #414d64;
+    qproperty-borderHover: #7180f5;
+    qproperty-contentNormal: #e7ecf5;
+    qproperty-contentHover: #aab3ff;
+}
+
+#StyleWidgetItemPopup[editorControl="true"] animatedwidgets--FilledButton[editorControl="true"] {
+    qproperty-backgroundNormal: #7180f5;
+    qproperty-backgroundHover: #8390ff;
+    qproperty-contentNormal: #ffffff;
+}
+
+#StyleWidgetItemPopup[editorControl="true"] animatedwidgets--OutlineButton[editorControl="true"] {
+    qproperty-borderNormal: #414d64;
+    qproperty-borderHover: #7180f5;
+    qproperty-contentNormal: #e7ecf5;
+    qproperty-contentHover: #aab3ff;
+}
+
+animatedwidgets--BorderedButton#previewWidthAutoButton[editorControl="true"],
+animatedwidgets--BorderedButton#previewHeightAutoButton[editorControl="true"] {
+    qproperty-backgroundDisabled: #2b3345;
+    qproperty-borderDisabled: #343e52;
+    qproperty-contentDisabled: #66748e;
+}
+
+animatedwidgets--Switch[editorControl="true"] {
+    qproperty-disabledTrackColor: #384258;
+}
+
+animatedwidgets--BorderedButton[editorControl="true"] {
+    qproperty-backgroundDisabled: #2b3345;
+    qproperty-borderDisabled: #343e52;
+    qproperty-contentDisabled: #66748e;
+}
+
+animatedwidgets--FilledButton[editorControl="true"] {
+    qproperty-backgroundDisabled: #414d64;
+    qproperty-contentDisabled: #98a7c0;
+}
+
+animatedwidgets--OutlineButton[editorControl="true"] {
+    qproperty-borderDisabled: #343e52;
+    qproperty-contentDisabled: #66748e;
+}

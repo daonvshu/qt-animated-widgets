@@ -1,0 +1,30 @@
+QListWidget[editorControl="true"] {
+    padding: 6px;
+    background: transparent;
+    border: none;
+    outline: none;
+}
+
+QListWidget[editorControl="true"]::item {
+    padding: 11px 10px;
+    margin-bottom: 4px;
+    border-radius: 9px;
+}
+
+QListWidget[editorControl="true"]::item:selected {
+    font-weight: 650;
+}
+
+QWidget#qt_scrollarea_viewport[editorControl="true"] {
+    background: transparent;
+}
+
+viv--VirtualTreeView[editorControl="true"] {
+    background: transparent;
+    border: none;
+}
+
+QTreeWidget#propertyList[editorControl="true"]::branch {
+    border-image: none;
+    image: none;
+}

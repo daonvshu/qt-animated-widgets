@@ -1,0 +1,27 @@
+<RCC>
+    <qresource prefix="/styleeditor/styles">
+        <file alias="comm/labels.css">styles/comm/labels.css</file>
+        <file alias="comm/scrollbar.css">styles/comm/scrollbar.css</file>
+        <file alias="comm/views.css">styles/comm/views.css</file>
+        <file alias="comm/buttons.css">styles/comm/buttons.css</file>
+        <file alias="comm/inputs.css">styles/comm/inputs.css</file>
+        <file alias="light/surfaces.css">styles/light/surfaces.css</file>
+        <file alias="light/labels.css">styles/light/labels.css</file>
+        <file alias="light/views.css">styles/light/views.css</file>
+        <file alias="light/branchclosed.svg">styles/light/branchclosed.svg</file>
+        <file alias="light/branchopen.svg">styles/light/branchopen.svg</file>
+        <file alias="light/scrollbar.css">styles/light/scrollbar.css</file>
+        <file alias="light/buttons.css">styles/light/buttons.css</file>
+        <file alias="light/inputs.css">styles/light/inputs.css</file>
+        <file alias="light/palette.css">styles/light/palette.css</file>
+        <file alias="dark/surfaces.css">styles/dark/surfaces.css</file>
+        <file alias="dark/labels.css">styles/dark/labels.css</file>
+        <file alias="dark/views.css">styles/dark/views.css</file>
+        <file alias="dark/branchclosed.svg">styles/dark/branchclosed.svg</file>
+        <file alias="dark/branchopen.svg">styles/dark/branchopen.svg</file>
+        <file alias="dark/scrollbar.css">styles/dark/scrollbar.css</file>
+        <file alias="dark/buttons.css">styles/dark/buttons.css</file>
+        <file alias="dark/inputs.css">styles/dark/inputs.css</file>
+        <file alias="dark/palette.css">styles/dark/palette.css</file>
+    </qresource>
+</RCC>

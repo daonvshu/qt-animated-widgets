@@ -2,6 +2,7 @@
 <ui version="4.0">
  <class>StyleEditorWindow</class>
  <widget class="QMainWindow" name="StyleEditorWindow">
+  <property name="editorControl" stdset="0"><bool>true</bool></property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -13,75 +14,13 @@
   <property name="windowTitle">
    <string>Custom Widget Styles</string>
   </property>
-  <property name="styleSheet">
-   <string notr="true">QWidget#centralWidget { font-family: &quot;Segoe UI&quot;; font-size: 13px; }
-QMainWindow, QWidget#centralWidget, QWidget#main, QWidget#workspace { background: #f5f7fb; }
-QLabel { color: #172033; background: transparent; }
-QLabel#sectionDescription, QLabel#sectionStatus { color: #7c879a; background: transparent; }
-QLabel#muted { color: #7c879a; }
-QFrame#sidebar { background: #ffffff; border-right: 1px solid #e6eaf0; }
-QFrame#topbar { background: #ffffff; border-bottom: 1px solid #e6eaf0; }
-QFrame#documentPanel, QFrame#inspector, QFrame#previewCard, QFrame#codeCard, QFrame#sectionCard {
-    background: #ffffff; border: 1px solid #e6eaf0; border-radius: 16px;
-}
-QLabel#brandLogo { color: #ffffff; background: #6571ff; border-radius: 11px; font-size: 15px; font-weight: 800; }
-QLabel#brandName { color: #172033; font-size: 16px; font-weight: 750; }
-QLabel#brandSubtitle, QLabel#pageDescription, QLabel#documentPathLabel, QLabel#documentHintLabel { color: #7c879a; font-size: 11px; }
-QLabel#navigationLabel, QLabel#resourceLabel { padding: 15px 10px 8px; color: #7c879a; font-size: 11px; letter-spacing: 1px; }
-QLabel#pageTitle, QLabel#sectionTitle { color: #172033; font-size: 20px; font-weight: 750; }
-QLabel#documentPanelTitle, QLabel#propertiesTitle, QLabel#previewTitle, QLabel#codeTitle, QLabel#documentInfoTitle { color: #172033; font-size: 14px; font-weight: 700; }
-QLabel#documentCountLabel { padding: 3px 7px; color: #5b67f1; background: #eef0ff; border-radius: 20px; font-size: 11px; }
-QLabel#selectedControlLabel { padding: 10px 11px; color: #5b67f1; background: #eef0ff; border-radius: 9px; font-size: 12px; }
-QFrame#documentInfoPanel { background: transparent; border-top: 1px solid #e6eaf0; }
-QListWidget { padding: 6px; color: #7c879a; background: transparent; border: none; outline: none; }
-QListWidget::item { padding: 11px 10px; margin-bottom: 4px; border-radius: 9px; }
-QListWidget::item:hover { color: #5b67f1; background: #eef0ff; }
-QListWidget::item:selected { color: #5b67f1; background: #eef0ff; font-weight: 650; }
-QTreeWidget#propertyList { color: #172033; background: transparent; border: none; outline: none; }
-QTreeWidget#propertyList::item { border: none; }
-QTreeWidget#propertyList::item:hover { background: #f7f8fc; }
-QTreeWidget#propertyList::item:selected { background: #eef0ff; }
-QFrame#previewCanvas { background: #f5f7fb; border: 1px dashed #d7dde8; border-radius: 12px; }
-QScrollBar:vertical { width: 8px; margin: 2px; background: transparent; }
-QScrollBar::handle:vertical { min-height: 24px; background: #c5ccda; border-radius: 4px; }
-QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical { height: 0; }
-animatedwidgets--FilledButton[editorControl=&quot;true&quot;] {
-    min-height: 36px; min-width: 48px;
-    qproperty-backgroundNormal: #5b67f1; qproperty-backgroundHover: #6975fa;
-    qproperty-contentNormal: #ffffff; qproperty-cornerRadius: 9;
-    qproperty-animateContentColor: true; qproperty-iconHint: true; qproperty-animationDuration: 300;
-}
-animatedwidgets--OutlineButton[editorControl=&quot;true&quot;] {
-    min-height: 36px; min-width: 64px;
-    qproperty-borderNormal: #d7dde8; qproperty-borderHover: #5b67f1;
-    qproperty-contentNormal: #172033; qproperty-contentHover: #5b67f1;
-    qproperty-cornerRadius: 9; qproperty-animateContentColor: true; qproperty-iconHint: true; qproperty-animationDuration: 300;
-}
-animatedwidgets--HoverButton[editorControl=&quot;true&quot;] {
-    min-height: 38px;
-    qproperty-backgroundHover: #eef0ff; qproperty-backgroundChecked: #eef0ff;
-    qproperty-contentNormal: #7c879a; qproperty-contentHover: #5b67f1; qproperty-contentChecked: #5b67f1;
-    qproperty-cornerRadius: 11; qproperty-animateContentColor: true; qproperty-iconHint: true; qproperty-animationDuration: 300;
-}
-animatedwidgets--LineEdit[editorControl=&quot;true&quot;], animatedwidgets--ComboBox[editorControl=&quot;true&quot;] {
-    min-height: 34px; min-width: 48px;
-    qproperty-backgroundNormal: #f5f7fb; qproperty-backgroundHover: #f5f7fb; qproperty-backgroundFocus: #f5f7fb;
-    qproperty-borderNormal: #e6eaf0; qproperty-borderHover: #5b67f1; qproperty-borderFocus: #5b67f1;
-    qproperty-textColor: #172033; qproperty-cornerRadius: 8; qproperty-contentPadding: 9;
-}
-animatedwidgets--LineEdit#documentSearchEdit {
-    background: transparent; border: none;
-    qproperty-borderVisible: true; qproperty-borderWidth: 1; qproperty-borderNormal: #d7dde8;
-}
-animatedwidgets--PlainTextEdit[editorControl=&quot;true&quot;] {
-    qproperty-backgroundNormal: #171b27; qproperty-backgroundHover: #171b27; qproperty-backgroundFocus: #171b27;
-    qproperty-textColor: #aebaff; qproperty-borderVisible: false; qproperty-cornerRadius: 12; qproperty-contentPadding: 15;
-}
-animatedwidgets--Switch[editorControl=&quot;true&quot;] {
-    qproperty-checkedTrackColor: #5b67f1; qproperty-uncheckedTrackColor: #d7dde8; qproperty-animationDuration: 300;
-}</string>
-  </property>
-  <widget class="QWidget" name="centralWidget">
+
+  <widget class="StyleThemeScope" name="centralWidget">
+   <property name="editorControl" stdset="0"><bool>true</bool></property>
+      <property name="styleSheet"><string notr="true">QWidget#centralWidget[editorControl=&quot;true&quot;] {
+    font-family: &quot;Segoe UI&quot;;
+    font-size: 13px;
+}</string></property>
    <layout class="QHBoxLayout" name="appLayout">
     <property name="spacing">
      <number>0</number>
@@ -100,6 +39,46 @@ animatedwidgets--Switch[editorControl=&quot;true&quot;] {
     </property>
     <item>
      <widget class="QFrame" name="sidebar">
+      <property name="editorControl" stdset="0"><bool>true</bool></property>
+      <property name="styleSheet"><string notr="true">QFrame#sidebar[editorControl=&quot;true&quot;] {
+    border-right-width: 1px;
+    border-right-style: solid;
+}
+
+QLabel#brandLogo[editorControl=&quot;true&quot;] {
+    border-radius: 11px;
+    font-size: 15px;
+    font-weight: 800;
+}
+
+QLabel#brandName[editorControl=&quot;true&quot;] {
+    font-size: 16px;
+    font-weight: 750;
+}
+
+QLabel#brandSubtitle[editorControl=&quot;true&quot;] {
+    font-size: 11px;
+}
+
+QLabel#navigationLabel[editorControl=&quot;true&quot;] {
+    padding: 15px 10px 8px;
+    font-size: 11px;
+    letter-spacing: 1px;
+}
+
+QLabel#resourceLabel[editorControl=&quot;true&quot;] {
+    padding: 15px 10px 8px;
+    font-size: 11px;
+    letter-spacing: 1px;
+}
+
+animatedwidgets--HoverButton[editorControl=&quot;true&quot;] {
+    min-height: 38px;
+    qproperty-cornerRadius: 11;
+    qproperty-animateContentColor: true;
+    qproperty-iconHint: true;
+    qproperty-animationDuration: 300;
+}</string></property>
       <property name="minimumSize">
        <size>
         <width>235</width>
@@ -141,6 +120,7 @@ animatedwidgets--Switch[editorControl=&quot;true&quot;] {
          </property>
          <item>
           <widget class="QLabel" name="brandLogo">
+           <property name="editorControl" stdset="0"><bool>true</bool></property>
            <property name="minimumSize">
             <size>
              <width>36</width>
@@ -168,6 +148,7 @@ animatedwidgets--Switch[editorControl=&quot;true&quot;] {
            </property>
            <item>
             <widget class="QLabel" name="brandName">
+             <property name="editorControl" stdset="0"><bool>true</bool></property>
              <property name="text">
               <string>StyleForge</string>
              </property>
@@ -175,6 +156,7 @@ animatedwidgets--Switch[editorControl=&quot;true&quot;] {
            </item>
            <item>
             <widget class="QLabel" name="brandSubtitle">
+             <property name="editorControl" stdset="0"><bool>true</bool></property>
              <property name="text">
               <string>Widget style editor</string>
              </property>
@@ -186,6 +168,7 @@ animatedwidgets--Switch[editorControl=&quot;true&quot;] {
        </item>
        <item>
         <widget class="QLabel" name="navigationLabel">
+         <property name="editorControl" stdset="0"><bool>true</bool></property>
          <property name="text">
           <string>WORKSPACE</string>
          </property>
@@ -336,6 +319,7 @@ animatedwidgets--Switch[editorControl=&quot;true&quot;] {
        </item>
        <item>
         <widget class="QLabel" name="resourceLabel">
+         <property name="editorControl" stdset="0"><bool>true</bool></property>
          <property name="text">
           <string>RESOURCES</string>
          </property>
@@ -426,6 +410,39 @@ animatedwidgets--Switch[editorControl=&quot;true&quot;] {
        </item>
        <item>
         <widget class="QFrame" name="documentInfoPanel">
+         <property name="editorControl" stdset="0"><bool>true</bool></property>
+      <property name="styleSheet"><string notr="true">QLabel#documentPathLabel[editorControl=&quot;true&quot;] {
+    font-size: 11px;
+}
+
+QLabel#documentHintLabel[editorControl=&quot;true&quot;] {
+    font-size: 11px;
+}
+
+QLabel#documentInfoTitle[editorControl=&quot;true&quot;] {
+    font-size: 14px;
+    font-weight: 700;
+}
+
+QFrame#documentInfoPanel[editorControl=&quot;true&quot;] {
+    background: transparent;
+    border-top-width: 1px;
+    border-top-style: solid;
+}
+
+animatedwidgets--LineEdit[editorControl=&quot;true&quot;] {
+    min-height: 34px;
+    min-width: 48px;
+    qproperty-cornerRadius: 8;
+    qproperty-contentPadding: 9;
+}
+
+animatedwidgets--ComboBox[editorControl=&quot;true&quot;] {
+    min-height: 34px;
+    min-width: 48px;
+    qproperty-cornerRadius: 8;
+    qproperty-contentPadding: 9;
+}</string></property>
          <property name="frameShape">
           <enum>QFrame::NoFrame</enum>
          </property>
@@ -447,6 +464,7 @@ animatedwidgets--Switch[editorControl=&quot;true&quot;] {
           </property>
           <item>
            <widget class="QLabel" name="documentInfoTitle">
+            <property name="editorControl" stdset="0"><bool>true</bool></property>
             <property name="text">
              <string>Document</string>
             </property>
@@ -454,6 +472,7 @@ animatedwidgets--Switch[editorControl=&quot;true&quot;] {
           </item>
           <item>
            <widget class="QLabel" name="documentNameLabel">
+            <property name="editorControl" stdset="0"><bool>true</bool></property>
             <property name="text">
              <string>Document name</string>
             </property>
@@ -471,6 +490,7 @@ animatedwidgets--Switch[editorControl=&quot;true&quot;] {
           </item>
           <item>
            <widget class="QLabel" name="documentPathLabel">
+            <property name="editorControl" stdset="0"><bool>true</bool></property>
             <property name="sizePolicy">
              <sizepolicy hsizetype="Ignored" vsizetype="Preferred">
               <horstretch>0</horstretch>
@@ -487,6 +507,7 @@ animatedwidgets--Switch[editorControl=&quot;true&quot;] {
           </item>
           <item>
            <widget class="QLabel" name="documentHintLabel">
+            <property name="editorControl" stdset="0"><bool>true</bool></property>
             <property name="text">
              <string>Save the document to keep your widget styles.</string>
             </property>
@@ -520,6 +541,38 @@ animatedwidgets--Switch[editorControl=&quot;true&quot;] {
       </property>
       <item>
        <widget class="QFrame" name="topbar">
+        <property name="editorControl" stdset="0"><bool>true</bool></property>
+      <property name="styleSheet"><string notr="true">QFrame#topbar[editorControl=&quot;true&quot;] {
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+}
+
+QLabel#pageDescription[editorControl=&quot;true&quot;] {
+    font-size: 11px;
+}
+
+QLabel#pageTitle[editorControl=&quot;true&quot;] {
+    font-size: 20px;
+    font-weight: 750;
+}
+
+animatedwidgets--FilledButton[editorControl=&quot;true&quot;] {
+    min-height: 36px;
+    min-width: 48px;
+    qproperty-cornerRadius: 9;
+    qproperty-animateContentColor: true;
+    qproperty-iconHint: true;
+    qproperty-animationDuration: 300;
+}
+
+animatedwidgets--OutlineButton[editorControl=&quot;true&quot;] {
+    min-height: 36px;
+    min-width: 64px;
+    qproperty-cornerRadius: 9;
+    qproperty-animateContentColor: true;
+    qproperty-iconHint: true;
+    qproperty-animationDuration: 300;
+}</string></property>
         <property name="minimumSize">
          <size>
           <width>0</width>
@@ -549,6 +602,7 @@ animatedwidgets--Switch[editorControl=&quot;true&quot;] {
            </property>
            <item>
             <widget class="QLabel" name="pageTitle">
+             <property name="editorControl" stdset="0"><bool>true</bool></property>
              <property name="text">
               <string>Custom widget styles</string>
              </property>
@@ -556,6 +610,7 @@ animatedwidgets--Switch[editorControl=&quot;true&quot;] {
            </item>
            <item>
             <widget class="QLabel" name="pageDescription">
+             <property name="editorControl" stdset="0"><bool>true</bool></property>
              <property name="text">
               <string>Adjust properties visually and generate style code in real time.</string>
              </property>
@@ -628,6 +683,7 @@ animatedwidgets--Switch[editorControl=&quot;true&quot;] {
   </widget>
  </widget>
  <customwidgets>
+  <customwidget><class>StyleThemeScope</class><extends>QWidget</extends><header>themes/stylethemescope.h</header><container>1</container></customwidget>
   <customwidget>
    <class>aw::FilledButton</class>
    <extends>QPushButton</extends>

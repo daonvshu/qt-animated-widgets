@@ -1,5 +1,7 @@
 #include "stylepopupdialog.h"
 
+#include "../themes/stylethememanager.h"
+
 #include <QKeyEvent>
 
 StylePopupDialog::StylePopupDialog(QWidget* parent)
@@ -17,6 +19,7 @@ StylePopupDialog::StylePopupDialog(QWidget* parent)
 }
 
 void StylePopupDialog::showDialog() {
+    StyleThemeManager::prepareWidget(this);
     ensureShadowSizeExpanded();
     if (const QWidget* owner = parentWidget()) {
         const QRect ownerRect(owner->mapToGlobal(QPoint()), owner->size());

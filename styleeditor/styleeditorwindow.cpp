@@ -4,7 +4,9 @@
 #include "dialogs/stylemessagepopup.h"
 #include "navigation/styleworkspacerouter.h"
 #include "pages/workspacepage.h"
+#include "pages/thememanagerpage.h"
 #include "plugins/stylepluginregistry.h"
+#include "themes/stylethememanager.h"
 
 #include <QApplication>
 #include <QCloseEvent>
@@ -41,6 +43,8 @@ void StyleEditorWindow::closeEvent(QCloseEvent* event) {
 
 void StyleEditorWindow::createLayout() {
     ui.setupUi(this);
+
+    themeManager = new StyleThemeManager(this, ui.centralWidget);
 
     pluginRegistry = new StylePluginRegistry(this);
     pluginRegistry->load(QApplication::applicationDirPath() + QStringLiteral("/plugins/styleeditor"));
@@ -132,6 +136,13 @@ void StyleEditorWindow::updateDocumentHeader() {
 }
 
 void StyleEditorWindow::initializePage(WorkspacePage* page) {
+    StyleThemeManager::prepareWidget(page);
+    if (auto* themePage = qobject_cast<ThemeManagerPage*>(page)) {
+        themePage->setTheme(themeManager->theme());
+        connect(themePage, &ThemeManagerPage::themeRequested, themeManager, &StyleThemeManager::setTheme);
+        connect(themeManager, &StyleThemeManager::themeChanged, themePage, &ThemeManagerPage::setTheme);
+    }
+
     {
         const QSignalBlocker blocker(page);
         page->loadDocument(documentSession->document());

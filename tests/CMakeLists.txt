@@ -45,6 +45,15 @@ target_link_libraries(tstpopupmenufiltermodel PRIVATE AnimatedWidgets::Widgets Q
 add_test(NAME tstpopupmenufiltermodel COMMAND tstpopupmenufiltermodel)
 
 if(BUILD_STYLE_EDITOR)
+    add_executable(tststylethemeutils
+        tststylethemeutils.cpp
+        ../styleeditor/utils/stylethemeutils.h
+        ../styleeditor/utils/stylethemeutils.cpp
+        ../styleeditor/resources/stylethemes.qrc
+    )
+    target_link_libraries(tststylethemeutils PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Test)
+    add_test(NAME tststylethemeutils COMMAND tststylethemeutils)
+
     add_executable(tststyleicontreemodel
         tststyleicontreemodel.cpp
         ../styleeditor/panels/styleicontreemodel.h

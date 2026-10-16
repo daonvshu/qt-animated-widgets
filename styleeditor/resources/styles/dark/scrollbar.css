@@ -1,0 +1,7 @@
+QScrollBar[editorControl="true"]::handle:vertical {
+    background: #56647f;
+}
+
+QScrollBar[editorControl="true"]::handle:horizontal {
+    background: #56647f;
+}

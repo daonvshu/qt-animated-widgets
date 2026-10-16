@@ -2,6 +2,7 @@
 <ui version="4.0">
  <class>StylePreviewPanel</class>
  <widget class="QWidget" name="StylePreviewPanel">
+  <property name="editorControl" stdset="0"><bool>true</bool></property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,27 +12,50 @@
    </rect>
   </property>
   <property name="styleSheet">
-   <string notr="true">QScrollArea#previewScrollArea, QWidget#previewHost { background: transparent; border: none; }
-animatedwidgets--LineEdit#previewWidthEdit, animatedwidgets--LineEdit#previewHeightEdit {
-    background: transparent; border: none;
-    qproperty-borderVisible: true; qproperty-borderWidth: 1;
+   <string notr="true">StylePreviewPanel[editorControl=&quot;true&quot;] QScrollArea#previewScrollArea[editorControl=&quot;true&quot;],
+StylePreviewPanel[editorControl=&quot;true&quot;] QWidget#previewHost[editorControl=&quot;true&quot;] {
+    background: transparent;
+    border: none;
 }
-animatedwidgets--BorderedButton#previewWidthAutoButton, animatedwidgets--BorderedButton#previewHeightAutoButton {
-    border: none; padding: 0px; min-width: 0px;
-    qproperty-cornerRadius: 4; qproperty-borderWidth: 1;
-    qproperty-backgroundNormal: #ffffff; qproperty-backgroundHover: #f5f7fb;
-    qproperty-backgroundPressed: #e5e9ff; qproperty-backgroundChecked: #eef0ff;
-    qproperty-borderNormal: #d7dde8; qproperty-borderHover: #5b67f1; qproperty-borderChecked: #5b67f1;
-    qproperty-contentNormal: #657084; qproperty-contentHover: #5b67f1; qproperty-contentChecked: #5b67f1;
-    qproperty-animateContentColor: true; qproperty-animationDuration: 180;
+
+StylePreviewPanel[editorControl=&quot;true&quot;] animatedwidgets--LineEdit#previewWidthEdit[editorControl=&quot;true&quot;],
+StylePreviewPanel[editorControl=&quot;true&quot;] animatedwidgets--LineEdit#previewHeightEdit[editorControl=&quot;true&quot;] {
+    background: transparent;
+    border: none;
+    qproperty-borderVisible: true;
+    qproperty-borderWidth: 1;
 }
-animatedwidgets--LineEdit#previewWidthEdit, animatedwidgets--LineEdit#previewHeightEdit,
-animatedwidgets--BorderedButton#previewWidthAutoButton, animatedwidgets--BorderedButton#previewHeightAutoButton,
-animatedwidgets--BorderedButton#previewBackgroundButton, animatedwidgets--OutlineButton#resetPreviewButton {
-    min-height: 28px; max-height: 28px;
+
+StylePreviewPanel[editorControl=&quot;true&quot;] animatedwidgets--BorderedButton#previewWidthAutoButton[editorControl=&quot;true&quot;],
+StylePreviewPanel[editorControl=&quot;true&quot;] animatedwidgets--BorderedButton#previewHeightAutoButton[editorControl=&quot;true&quot;] {
+    border: none;
+    padding: 0px;
+    min-width: 0px;
+    qproperty-cornerRadius: 4;
+    qproperty-borderWidth: 1;
+    qproperty-animateContentColor: true;
+    qproperty-animationDuration: 180;
 }
-animatedwidgets--BorderedButton#previewWidthAutoButton, animatedwidgets--BorderedButton#previewHeightAutoButton,
-animatedwidgets--BorderedButton#previewBackgroundButton, animatedwidgets--OutlineButton#resetPreviewButton {
+
+StylePreviewPanel[editorControl=&quot;true&quot;] animatedwidgets--LineEdit#previewWidthEdit[editorControl=&quot;true&quot;],
+StylePreviewPanel[editorControl=&quot;true&quot;] animatedwidgets--LineEdit#previewHeightEdit[editorControl=&quot;true&quot;],
+StylePreviewPanel[editorControl=&quot;true&quot;] animatedwidgets--BorderedButton#previewWidthAutoButton[editorControl=&quot;true&quot;],
+StylePreviewPanel[editorControl=&quot;true&quot;] animatedwidgets--BorderedButton#previewHeightAutoButton[editorControl=&quot;true&quot;],
+StylePreviewPanel[editorControl=&quot;true&quot;] animatedwidgets--BorderedButton#previewBackgroundButton[editorControl=&quot;true&quot;],
+StylePreviewPanel[editorControl=&quot;true&quot;] animatedwidgets--OutlineButton#resetPreviewButton[editorControl=&quot;true&quot;] {
+    min-height: 28px;
+    max-height: 28px;
+}
+
+StylePreviewPanel[editorControl=&quot;true&quot;] animatedwidgets--BorderedButton#previewWidthAutoButton[editorControl=&quot;true&quot;],
+StylePreviewPanel[editorControl=&quot;true&quot;] animatedwidgets--BorderedButton#previewHeightAutoButton[editorControl=&quot;true&quot;],
+StylePreviewPanel[editorControl=&quot;true&quot;] animatedwidgets--BorderedButton#previewBackgroundButton[editorControl=&quot;true&quot;],
+StylePreviewPanel[editorControl=&quot;true&quot;] animatedwidgets--OutlineButton#resetPreviewButton[editorControl=&quot;true&quot;] {
+    qproperty-cornerRadius: 4;
+}
+
+animatedwidgets--LineEdit#previewWidthEdit[editorControl=&quot;true&quot;],
+animatedwidgets--LineEdit#previewHeightEdit[editorControl=&quot;true&quot;] {
     qproperty-cornerRadius: 4;
 }</string>
   </property>
@@ -75,6 +99,7 @@ animatedwidgets--BorderedButton#previewBackgroundButton, animatedwidgets--Outlin
        </property>
        <item>
         <widget class="QLabel" name="previewWidthLabel">
+         <property name="editorControl" stdset="0"><bool>true</bool></property>
          <property name="text">
           <string>W</string>
          </property>
@@ -113,6 +138,7 @@ animatedwidgets--BorderedButton#previewBackgroundButton, animatedwidgets--Outlin
        </item>
        <item>
         <widget class="aw::BorderedButton" name="previewWidthAutoButton">
+         <property name="editorControl" stdset="0"><bool>true</bool></property>
          <property name="minimumSize">
           <size>
            <width>0</width>
@@ -145,6 +171,7 @@ animatedwidgets--BorderedButton#previewBackgroundButton, animatedwidgets--Outlin
        </property>
        <item>
         <widget class="QLabel" name="previewHeightLabel">
+         <property name="editorControl" stdset="0"><bool>true</bool></property>
          <property name="text">
           <string>H</string>
          </property>
@@ -183,6 +210,7 @@ animatedwidgets--BorderedButton#previewBackgroundButton, animatedwidgets--Outlin
        </item>
        <item>
         <widget class="aw::BorderedButton" name="previewHeightAutoButton">
+         <property name="editorControl" stdset="0"><bool>true</bool></property>
          <property name="minimumSize">
           <size>
            <width>0</width>
@@ -210,6 +238,7 @@ animatedwidgets--BorderedButton#previewBackgroundButton, animatedwidgets--Outlin
      </item>
      <item>
       <widget class="QLabel" name="previewBackgroundLabel">
+       <property name="editorControl" stdset="0"><bool>true</bool></property>
        <property name="text">
         <string>Background</string>
        </property>
@@ -217,6 +246,7 @@ animatedwidgets--BorderedButton#previewBackgroundButton, animatedwidgets--Outlin
      </item>
      <item>
       <widget class="aw::BorderedButton" name="previewBackgroundButton">
+       <property name="editorControl" stdset="0"><bool>true</bool></property>
        <property name="minimumSize">
         <size>
          <width>64</width>
@@ -279,11 +309,9 @@ animatedwidgets--BorderedButton#previewBackgroundButton, animatedwidgets--Outlin
    </item>
    <item>
     <widget class="QFrame" name="previewCanvas">
+     <property name="editorControl" stdset="0"><bool>true</bool></property>
      <property name="frameShape">
       <enum>QFrame::NoFrame</enum>
-     </property>
-     <property name="backgroundStyleTemplate" stdset="0">
-      <string notr="true">QFrame#previewCanvas { background-color: %1; }</string>
      </property>
      <layout class="QVBoxLayout" name="canvasLayout">
       <property name="leftMargin">
@@ -300,6 +328,7 @@ animatedwidgets--BorderedButton#previewBackgroundButton, animatedwidgets--Outlin
       </property>
       <item>
        <widget class="QScrollArea" name="previewScrollArea">
+        <property name="editorControl" stdset="0"><bool>true</bool></property>
         <property name="frameShape">
          <enum>QFrame::NoFrame</enum>
         </property>
@@ -310,6 +339,8 @@ animatedwidgets--BorderedButton#previewBackgroundButton, animatedwidgets--Outlin
          <set>Qt::AlignCenter</set>
         </property>
         <widget class="QWidget" name="previewHost">
+         <property name="editorPreview" stdset="0"><bool>true</bool></property>
+         <property name="editorControl" stdset="0"><bool>true</bool></property>
          <property name="geometry">
           <rect>
            <x>0</x>

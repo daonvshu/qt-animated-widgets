@@ -1,0 +1,62 @@
+QMainWindow[editorControl="true"],
+QWidget#centralWidget[editorControl="true"],
+QWidget#main[editorControl="true"],
+QWidget#workspace[editorControl="true"] {
+    background: #171c28;
+}
+
+QFrame#sidebar[editorControl="true"] {
+    background: #202636;
+    border-right-color: #343e52;
+}
+
+QFrame#topbar[editorControl="true"] {
+    background: #202636;
+    border-bottom-color: #343e52;
+}
+
+QFrame#documentPanel[editorControl="true"],
+QFrame#inspector[editorControl="true"],
+QFrame#previewCard[editorControl="true"],
+QFrame#codeCard[editorControl="true"],
+QFrame#sectionCard[editorControl="true"] {
+    background: #202636;
+    border-color: #343e52;
+}
+
+QFrame#documentInfoPanel[editorControl="true"] {
+    border-top-color: #343e52;
+}
+
+QFrame#previewCanvas[editorControl="true"] {
+    background: #171c28;
+    border-color: #414d64;
+}
+
+QWidget#StyleIconResourcePopup[editorControl="true"] {
+    background: #202636;
+    border-color: #343e52;
+}
+
+#StyleIconResourcePopup[editorControl="true"] QWidget#qt_scrollarea_viewport[editorControl="true"] {
+    background: #171c28;
+}
+
+QWidget#ColorPickerDialog[editorControl="true"] {
+    background: #202636;
+    border-color: #384258;
+}
+
+#ColorPickerDialog[editorControl="true"] QFrame#separator[editorControl="true"] {
+    background: #384258;
+}
+
+QWidget#StyleMessagePopup[editorControl="true"] {
+    background: #202636;
+    border-color: #343e52;
+}
+
+QWidget#StyleWidgetItemPopup[editorControl="true"] {
+    background: #202636;
+    border-color: #343e52;
+}

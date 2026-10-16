@@ -66,9 +66,6 @@ void StyleEditorPage::createLayout() {
     ui.widgetTree->setRowGridLinesVisible(false);
     ui.widgetTree->setVisualStateBackgroundVisible(true);
     ui.widgetTree->setVisualStateCornerRadius(8);
-    ui.widgetTree->setHoverBackgroundColor(QColor(QStringLiteral("#f2f3f5")));
-    ui.widgetTree->setSelectedBackgroundColor(QColor(QStringLiteral("#eef0ff")));
-    ui.widgetTree->setBranchIconColor(QColor(QStringLiteral("#7c879a")));
     ui.widgetTree->setBranchIconSize(12);
     ui.widgetTree->setExpandedBranchIcon(QIcon(QStringLiteral(":/styleeditor/icons/chevrondown.svg")));
     ui.widgetTree->setCollapsedBranchIcon(QIcon(QStringLiteral(":/styleeditor/icons/chevronright.svg")));

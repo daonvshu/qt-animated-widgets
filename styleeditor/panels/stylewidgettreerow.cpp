@@ -1,6 +1,7 @@
 #include "stylewidgettreerow.h"
 
 #include "stylewidgettreemodel.h"
+#include "../themes/stylethememanager.h"
 
 StyleWidgetTreeRow::StyleWidgetTreeRow(QWidget* parent)
     : QWidget(parent)
@@ -12,6 +13,7 @@ void StyleWidgetTreeRow::createLayout() {
     ui.setupUi(this);
     ui.nameLabel->setAttribute(Qt::WA_TransparentForMouseEvents);
     ui.detailLabel->setAttribute(Qt::WA_TransparentForMouseEvents);
+    StyleThemeManager::prepareWidget(this);
 }
 
 void StyleWidgetTreeRow::bind(const QModelIndex& index) {

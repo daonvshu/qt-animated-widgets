@@ -1,5 +1,7 @@
 #include "colorpickerdialog.h"
 
+#include "../themes/stylethememanager.h"
+
 #include "animatedwidgets/popups/defaultpopupmenumodel.h"
 #include "animatedwidgets/popups/popupmenu.h"
 
@@ -260,6 +262,7 @@ void ColorPickerDialog::on_alphaValueEdit_trailingIconClicked() {
     m_alphaFormatPopup = popup;
     popup->setStrings({QStringLiteral("Decimal (0-255)"), QStringLiteral("Percentage"), QStringLiteral("Hexadecimal")});
     popup->defaultModel()->setCurrentIndex(static_cast<int>(m_alphaDisplayFormat));
+    StyleThemeManager::preparePopup(popup);
     popup->setAdaptiveHeight(180);
     popup->moveToTargetBottom(ui.alphaValueEdit, Qt::AlignRight);
 

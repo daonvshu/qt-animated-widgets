@@ -49,9 +49,6 @@ void StyleIconResourcePopup::createLayout() {
     ui.iconTree->setRowGridLinesVisible(false);
     ui.iconTree->setVisualStateBackgroundVisible(true);
     ui.iconTree->setVisualStateCornerRadius(4);
-    ui.iconTree->setHoverBackgroundColor(QColor(QStringLiteral("#f2f3f5")));
-    ui.iconTree->setSelectedBackgroundColor(QColor(QStringLiteral("#e3f3ff")));
-    ui.iconTree->setBranchIconColor(QColor(QStringLiteral("#7c879a")));
     ui.iconTree->setBranchIconSize(12);
     ui.iconTree->setExpandedBranchIcon(QIcon(QStringLiteral(":/styleeditor/icons/chevrondown.svg")));
     ui.iconTree->setCollapsedBranchIcon(QIcon(QStringLiteral(":/styleeditor/icons/chevronright.svg")));

@@ -27,6 +27,7 @@ void StylePreviewPanel::createLayout() {
     ui.previewHeightEdit->setValidator(new QIntValidator(1, 4096, ui.previewHeightEdit));
     animatedwidgets::SmoothScrolling::install(ui.previewScrollArea);
     ui.previewScrollArea->viewport()->setAutoFillBackground(false);
+    ui.previewHost->setAutoFillBackground(false);
 
     setPreview(nullptr);
 }
@@ -88,10 +89,10 @@ void StylePreviewPanel::updateBackground() {
     if (!m_layoutReady || m_updatingBackground)
         return;
     const QScopedValueRollback<bool> updating(m_updatingBackground, true);
-    window()->ensurePolished();
-    const QColor color = m_settings.background.isValid() ? m_settings.background : window()->palette().color(QPalette::Window);
+    const QColor color = m_settings.background.isValid() ? m_settings.background
+        : m_themeBackground.isValid() ? m_themeBackground : palette().color(QPalette::Window);
     const QString rgba = QStringLiteral("rgba(%1, %2, %3, %4)").arg(color.red()).arg(color.green()).arg(color.blue()).arg(color.alpha());
-    const QString style = ui.previewCanvas->property("backgroundStyleTemplate").toString().arg(rgba);
+    const QString style = QStringLiteral("QFrame#previewCanvas[editorControl=\"true\"] {\n    background-color: %1;\n}").arg(rgba);
     if (ui.previewCanvas->styleSheet() != style)
         ui.previewCanvas->setStyleSheet(style);
 
@@ -101,6 +102,13 @@ void StylePreviewPanel::updateBackground() {
     ui.previewBackgroundButton->setContentNormal(color.lightness() < 128 ? QColor(Qt::white) : QColor(Qt::black));
     ui.previewBackgroundButton->setText(m_settings.background.isValid() ? QString() : QStringLiteral("Theme"));
     ui.previewBackgroundButton->setToolTip(m_settings.background.isValid() ? color.name(QColor::HexArgb) : QStringLiteral("Editor background"));
+}
+
+void StylePreviewPanel::setThemeBackground(const QColor& color) {
+    if (m_themeBackground == color)
+        return;
+    m_themeBackground = color;
+    updateBackground();
 }
 
 void StylePreviewPanel::applySizeInput() {
@@ -171,7 +179,7 @@ void StylePreviewPanel::on_previewBackgroundButton_clicked() {
     if (!m_preview || m_colorPopup)
         return;
 
-    const QColor color = m_settings.background.isValid() ? m_settings.background : window()->palette().color(QPalette::Window);
+    const QColor color = m_settings.background.isValid() ? m_settings.background : m_themeBackground;
     auto* popup = new ColorPickerDialog(color, window());
     m_colorPopup = popup;
     const quint64 generation = m_generation;

@@ -1,0 +1,120 @@
+QLabel[editorControl="true"] {
+    color: #e7ecf5;
+}
+
+QLabel#sectionDescription[editorControl="true"],
+QLabel#sectionStatus[editorControl="true"] {
+    color: #98a7c0;
+}
+
+QLabel#muted[editorControl="true"] {
+    color: #98a7c0;
+}
+
+QLabel#brandLogo[editorControl="true"] {
+    color: #ffffff;
+    background: #7180f5;
+}
+
+QLabel#brandName[editorControl="true"] {
+    color: #e7ecf5;
+}
+
+QLabel#brandSubtitle[editorControl="true"],
+QLabel#pageDescription[editorControl="true"],
+QLabel#documentPathLabel[editorControl="true"],
+QLabel#documentHintLabel[editorControl="true"] {
+    color: #98a7c0;
+}
+
+QLabel#navigationLabel[editorControl="true"],
+QLabel#resourceLabel[editorControl="true"] {
+    color: #98a7c0;
+}
+
+QLabel#pageTitle[editorControl="true"],
+QLabel#sectionTitle[editorControl="true"] {
+    color: #e7ecf5;
+}
+
+QLabel#documentPanelTitle[editorControl="true"],
+QLabel#propertiesTitle[editorControl="true"],
+QLabel#previewTitle[editorControl="true"],
+QLabel#codeTitle[editorControl="true"],
+QLabel#documentInfoTitle[editorControl="true"] {
+    color: #e7ecf5;
+}
+
+QLabel#documentCountLabel[editorControl="true"] {
+    color: #aab3ff;
+    background: #333b63;
+}
+
+QLabel#selectedControlLabel[editorControl="true"] {
+    color: #aab3ff;
+    background: #333b63;
+}
+
+#StylePropertyRow[editorControl="true"] QLabel#nameLabel[editorControl="true"] {
+    color: #b1bdd1;
+}
+
+#StylePropertyRow[editorControl="true"] QLabel#nameLabel[editorControl="true"]:disabled {
+    color: #66748e;
+}
+
+#StyleWidgetTreeRow[editorControl="true"] QLabel#nameLabel[editorControl="true"] {
+    color: #e7ecf5;
+}
+
+#StyleWidgetTreeRow[editorControl="true"] QLabel#detailLabel[editorControl="true"] {
+    color: #98a7c0;
+}
+
+#StyleIconResourcePopup[editorControl="true"] QLabel[editorControl="true"] {
+    color: #b1bdd1;
+}
+
+#StyleIconResourcePopup[editorControl="true"] QLabel#titleLabel[editorControl="true"] {
+    color: #e7ecf5;
+}
+
+#StyleIconResourcePopup[editorControl="true"] QLabel#selectionLabel[editorControl="true"] {
+    color: #aab3ff;
+}
+
+#StyleIconResourcePopup[editorControl="true"] QWidget#qt_scrollarea_viewport QLabel[editorControl="true"] {
+    color: #e7ecf5;
+}
+
+#ColorPickerDialog[editorControl="true"] QLabel[editorControl="true"] {
+    color: #c1cadb;
+}
+
+#ColorPickerDialog[editorControl="true"] QLabel#titleLabel[editorControl="true"] {
+    color: #e7ecf5;
+}
+
+#StyleMessagePopup[editorControl="true"] QLabel[editorControl="true"] {
+    color: #e7ecf5;
+}
+
+#StyleMessagePopup[editorControl="true"] QLabel#messageLabel[editorControl="true"] {
+    color: #b1bdd1;
+}
+
+#StyleWidgetItemPopup[editorControl="true"] QLabel[editorControl="true"] {
+    color: #e7ecf5;
+}
+
+#StyleWidgetItemPopup[editorControl="true"] QLabel#categoryLabel[editorControl="true"] {
+    color: #aab3ff;
+}
+
+#StyleWidgetItemPopup[editorControl="true"] QLabel#hintLabel[editorControl="true"] {
+    color: #98a7c0;
+}
+
+QLabel[editorControl="true"]:disabled {
+    color: #66748e;
+}

@@ -1,0 +1,134 @@
+animatedwidgets--LineEdit[editorControl="true"],
+animatedwidgets--ComboBox[editorControl="true"] {
+    qproperty-backgroundNormal: #171c28;
+    qproperty-backgroundHover: #171c28;
+    qproperty-backgroundFocus: #171c28;
+    qproperty-borderNormal: #343e52;
+    qproperty-borderHover: #7180f5;
+    qproperty-borderFocus: #7180f5;
+    qproperty-textColor: #e7ecf5;
+}
+
+animatedwidgets--LineEdit#documentSearchEdit[editorControl="true"] {
+    qproperty-borderNormal: #414d64;
+}
+
+animatedwidgets--PlainTextEdit[editorControl="true"] {
+    qproperty-backgroundNormal: #10141f;
+    qproperty-backgroundHover: #10141f;
+    qproperty-backgroundFocus: #10141f;
+    qproperty-textColor: #b8c4ff;
+}
+
+#StyleIconResourcePopup[editorControl="true"] animatedwidgets--LineEdit#searchEdit[editorControl="true"] {
+    qproperty-borderNormal: #414d64;
+    qproperty-borderHover: #7180f5;
+    qproperty-borderFocus: #7180f5;
+    qproperty-backgroundNormal: #171c28;
+}
+
+#StyleIconResourcePopup[editorControl="true"] animatedwidgets--ComboBox#qrcCombo[editorControl="true"] {
+    qproperty-borderNormal: #414d64;
+    qproperty-borderHover: #7180f5;
+    qproperty-borderFocus: #7180f5;
+    qproperty-backgroundNormal: #202636;
+    qproperty-textColor: #e7ecf5;
+}
+
+#ColorPickerDialog[editorControl="true"] QSlider#alphaSlider[editorControl="true"]::groove:horizontal {
+    background: #384258;
+}
+
+#ColorPickerDialog[editorControl="true"] QSlider#alphaSlider[editorControl="true"]::sub-page:horizontal {
+    background: #7180f5;
+}
+
+#ColorPickerDialog[editorControl="true"] QSlider#alphaSlider[editorControl="true"]::handle:horizontal {
+    background: #202636;
+    border-color: #7180f5;
+}
+
+#ColorPickerDialog[editorControl="true"] QSlider#alphaSlider[editorControl="true"]::handle:horizontal:hover {
+    border-color: #93a0ff;
+}
+
+#ColorPickerDialog[editorControl="true"] animatedwidgets--LineEdit[colorPickerControl="true"][editorControl="true"] {
+    qproperty-backgroundNormal: #202636;
+    qproperty-backgroundHover: #202636;
+    qproperty-backgroundFocus: #202636;
+    qproperty-borderNormal: #384258;
+    qproperty-borderHover: #93a0ff;
+    qproperty-borderFocus: #7180f5;
+    qproperty-textColor: #c1cadb;
+}
+
+#ColorPickerDialog[editorControl="true"] animatedwidgets--ComboBox[colorPickerControl="true"][editorControl="true"] {
+    qproperty-backgroundNormal: #202636;
+    qproperty-backgroundHover: #202636;
+    qproperty-backgroundFocus: #202636;
+    qproperty-borderNormal: #384258;
+    qproperty-borderHover: #93a0ff;
+    qproperty-borderFocus: #7180f5;
+    qproperty-textColor: #c1cadb;
+}
+
+#ColorPickerDialog[editorControl="true"] animatedwidgets--IconLineEdit#alphaValueEdit[editorControl="true"] {
+    qproperty-backgroundNormal: #202636;
+    qproperty-backgroundHover: #2b3345;
+    qproperty-backgroundFocus: #202636;
+    qproperty-borderNormal: transparent;
+    qproperty-borderHover: #384258;
+    qproperty-borderFocus: #7180f5;
+    qproperty-textColor: #c1cadb;
+    qproperty-trailingIconNormalColor: #c1cadb;
+    qproperty-trailingIconHoverColor: #7180f5;
+}
+
+#StyleWidgetItemPopup[editorControl="true"] animatedwidgets--LineEdit[editorControl="true"],
+#StyleWidgetItemPopup[editorControl="true"] animatedwidgets--ComboBox[editorControl="true"] {
+    qproperty-backgroundNormal: #171c28;
+    qproperty-backgroundHover: #171c28;
+    qproperty-backgroundFocus: #171c28;
+    qproperty-borderNormal: #343e52;
+    qproperty-borderHover: #7180f5;
+    qproperty-borderFocus: #7180f5;
+    qproperty-textColor: #e7ecf5;
+}
+
+#StyleWidgetItemPopup[editorControl="true"] animatedwidgets--LineEdit#nameEdit[editorControl="true"] {
+    qproperty-borderNormal: #414d64;
+}
+
+animatedwidgets--LineEdit[editorControl="true"],
+animatedwidgets--ComboBox[editorControl="true"],
+animatedwidgets--SpinBox[editorControl="true"] > QLineEdit[editorControl="true"] {
+    color: #e7ecf5;
+    selection-background-color: #333b63;
+    selection-color: #e7ecf5;
+}
+
+animatedwidgets--LineEdit[editorControl="true"],
+animatedwidgets--ComboBox[editorControl="true"] {
+    qproperty-backgroundDisabled: #2b3345;
+    qproperty-borderDisabled: #343e52;
+    qproperty-disabledTextColor: #66748e;
+}
+
+animatedwidgets--SpinBox[editorControl="true"] {
+    qproperty-backgroundNormal: #171c28;
+    qproperty-backgroundHover: #171c28;
+    qproperty-backgroundFocus: #171c28;
+    qproperty-backgroundDisabled: #2b3345;
+    qproperty-borderNormal: #343e52;
+    qproperty-borderHover: #7180f5;
+    qproperty-borderFocus: #7180f5;
+    qproperty-borderDisabled: #343e52;
+    qproperty-textColor: #e7ecf5;
+    qproperty-disabledTextColor: #66748e;
+}
+
+animatedwidgets--LineEdit[editorControl="true"]:disabled,
+animatedwidgets--ComboBox[editorControl="true"]:disabled,
+animatedwidgets--SpinBox[editorControl="true"] > QLineEdit[editorControl="true"]:disabled {
+    color: #66748e;
+}

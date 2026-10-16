@@ -1,16 +1,35 @@
 # Style editor
 
 The optional `animatedwidgets-styleeditor` application edits the public QWidget
-button properties and generates C++ setter code. It uses a light card-based UI
+button properties and generates C++ setter code. It uses a card-based UI
 with a live preview, grouped property rows, state preview controls and a code
 copy action.
 
 The editor uses AnimatedWidgets buttons, line edits, combo boxes and a plain
 text editor, with switches for boolean properties. Fixed controls are declared
-in the window and page `.ui` files; the editor theme is in
-`styleeditorwindow.ui`. Theme selectors are scoped
-to controls marked with `editorControl` so widget previews retain their own
-styles. The application links AnimatedWidgets; the plugin API target remains
+in the window and page `.ui` files. Theme colors are resource files under
+`resources/styles/light` and `resources/styles/dark`, with matching CSS filenames
+for buttons, inputs, labels, surfaces, views, scrollbars and the shared color
+palette. `resources/styles/comm` holds reusable structure such as scrollbar
+metrics and transparent native input backgrounds. Each theme also supplies
+matching branch icons for the property tree. Each declaration occupies its own
+line. `StyleThemeUtils` concatenates
+the common files first, followed by the selected theme, and `StyleThemeManager`
+loads the result on the main window. Page and dialog `.ui` styles retain local
+layout, typography and shape settings without fixed theme colors.
+
+Use **Theme manager** in the sidebar to choose Light or Dark. The selection is
+remembered separately from documents. `StyleThemeScope` exposes color properties
+for custom-painted trees and popup style objects that cannot consume QSS directly;
+their colors are defined in each theme's `palette.css`. Newly created rows,
+dialogs and editor dropdown menus receive the current theme automatically.
+Theme selectors require `editorControl` on the target widget. The preview host
+marks the boundary with `editorPreview`, so its preview widgets and descendants
+are excluded from editor control registration. Changing the editor theme preserves
+widget properties, generated code and explicit preview backgrounds; a preview
+using the default background follows the editor theme.
+
+The application links AnimatedWidgets; the plugin API target remains
 independent of the widget library.
 
 Designer forms use short namespaced widget names such as `aw::FilledButton`.
@@ -26,7 +45,8 @@ The application separates its implementation by responsibility:
 - `pages/StyleEditorPage` owns the editor layout, selection and property editing.
 - `pages/WorkspacePage` defines the page document contract: `loadDocument`,
   `collectDocument` and `contentChanged`.
-- The other workspace pages currently display their purpose and reserved status;
+- `pages/ThemeManagerPage` selects the editor appearance without editing documents.
+- The remaining workspace pages currently display their purpose and reserved status;
   they share the `WorkspaceSectionPage` presentation layout.
 - `document/StyleDocumentSession` manages serializable content, file persistence
   and document metadata as a child of the main window.
@@ -80,8 +100,8 @@ independent of these dependencies.
 The main window keeps its sidebar and document toolbar while QRouter switches
 the lower workspace. The editor page remains alive when another section is
 selected, preserving document contents, property values and the current preview.
-Page layouts are declared in their `.ui` files, and the shared application theme
-remains in `styleeditorwindow.ui`. Future pages derive from `WorkspacePage`,
+Page layouts and local shape styles are declared in their `.ui` files; shared
+theme colors are loaded from resources. Future pages derive from `WorkspacePage`,
 provide a `Q_INVOKABLE` constructor taking `const QVariant&` and `QWidget*`, and
 are registered in `StyleWorkspaceRouter` before navigation.
 
