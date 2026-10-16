@@ -1,13 +1,16 @@
 #include "colorpickerdialog.h"
 
 #include "../themes/stylethememanager.h"
+#include "../widgets/colors/screencolorpicker.h"
 
 #include "animatedwidgets/popups/defaultpopupmenumodel.h"
 #include "animatedwidgets/popups/popupmenu.h"
 
+#include <QApplication>
 #include <QIntValidator>
 #include <QRegularExpressionValidator>
 #include <QSignalBlocker>
+#include <QToolTip>
 
 ColorPickerDialog::ColorPickerDialog(const QColor& baseColor, QWidget* parent)
     : StylePopupDialog(parent)
@@ -41,6 +44,24 @@ void ColorPickerDialog::createLayout() {
         connect(input, &QLineEdit::textChanged, this, [this] { refreshAcceptEnabled(); });
     }
     connect(ui.alphaValueEdit, &QLineEdit::textChanged, this, [this] { refreshAcceptEnabled(); });
+
+    m_screenPicker = new ScreenColorPicker(this);
+    connect(this, &StylePopupDialog::closeRequested, m_screenPicker, &ScreenColorPicker::cancel);
+    connect(m_screenPicker, &ScreenColorPicker::colorSelected, this, [this](const QColor& color) {
+        QColor selected = color;
+        selected.setAlpha(m_color.alpha());
+        updateColor(selected);
+    });
+    connect(m_screenPicker, &ScreenColorPicker::finished, this, [this] {
+        ui.btn_screen->setEnabled(true);
+        if (isVisible() && isEnabled() && qApp->applicationState() == Qt::ApplicationActive) {
+            raise();
+            activateWindow();
+            if (m_screenPickFocus)
+                m_screenPickFocus->setFocus();
+        }
+        m_screenPickFocus.clear();
+    });
 }
 
 void ColorPickerDialog::updateColor(const QColor& color, QLineEdit* source) {
@@ -138,6 +159,17 @@ void ColorPickerDialog::on_btn_confirm_clicked() {
 void ColorPickerDialog::on_btn_automatic_clicked() {
     m_acceptedColor = QColor();
     finish(1);
+}
+
+void ColorPickerDialog::on_btn_screen_clicked() {
+    m_screenPickFocus = focusWidget();
+    ui.btn_screen->setEnabled(false);
+    if (!m_screenPicker->start()) {
+        ui.btn_screen->setEnabled(true);
+        m_screenPickFocus.clear();
+        QToolTip::showText(ui.btn_screen->mapToGlobal(QPoint(0, ui.btn_screen->height())),
+                          QStringLiteral("Screen capture is unavailable. Check screen recording permissions."), ui.btn_screen);
+    }
 }
 
 void ColorPickerDialog::on_sv_picker_colorChanged(const QColor& color) {

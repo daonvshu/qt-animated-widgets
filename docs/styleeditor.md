@@ -82,6 +82,12 @@ The application separates its implementation by responsibility:
   and pickers. Apply updates the property after
   the close animation; Cancel leaves it unchanged, and Auto restores color
   derivation. The picker widgets live under `widgets/colors/`.
+  The eyedropper beside the value inputs captures each screen and opens temporary
+  overlays with a pixel magnifier and HEX preview. Click to sample RGB while
+  retaining the current alpha, or press Escape or right-click to cancel. Picking
+  updates the dialog; Apply still confirms the property change. Captures remain
+  in memory and are released when the overlays close. Coordinate conversion uses
+  each screen's geometry and capture dimensions to support display scaling.
   Unset colors are stored as JSON `null`, separately from fully transparent
   colors, and the built-in plugin exports them as `QColor()`.
 - `panels/StyleWidgetTreeModel` groups document styles by plugin category;

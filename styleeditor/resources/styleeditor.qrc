@@ -10,6 +10,7 @@
         <file alias="edit.svg">edit.svg</file>
         <file alias="reset.svg">reset.svg</file>
         <file alias="close.svg">close.svg</file>
+        <file alias="eyedropper.svg">eyedropper.svg</file>
         <file alias="chevronright.svg">chevronright.svg</file>
         <file alias="chevrondown.svg">chevrondown.svg</file>
     </qresource>

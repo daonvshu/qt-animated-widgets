@@ -45,6 +45,14 @@ target_link_libraries(tstpopupmenufiltermodel PRIVATE AnimatedWidgets::Widgets Q
 add_test(NAME tstpopupmenufiltermodel COMMAND tstpopupmenufiltermodel)
 
 if(BUILD_STYLE_EDITOR)
+    add_executable(tstscreencolorutils
+        tstscreencolorutils.cpp
+        ../styleeditor/utils/screencolorutils.h
+        ../styleeditor/utils/screencolorutils.cpp
+    )
+    target_link_libraries(tstscreencolorutils PRIVATE Qt${QT_VERSION_MAJOR}::Gui Qt${QT_VERSION_MAJOR}::Test)
+    add_test(NAME tstscreencolorutils COMMAND tstscreencolorutils)
+
     find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Network)
 
     add_executable(tststylepreviewprotocol

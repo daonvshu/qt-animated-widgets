@@ -96,6 +96,13 @@ StylePreviewPanel animatedwidgets--BorderedButton#previewBackgroundButton {
     qproperty-contentNormal: #4e5969;
 }
 
+#ColorPickerDialog animatedwidgets--HoverIconButton#btn_screen {
+    qproperty-backgroundHover: #f2f3f5;
+    qproperty-contentNormal: #4e5969;
+    qproperty-contentHover: #1557f0;
+    qproperty-contentDisabled: #a8b1bf;
+}
+
 #ColorPickerDialog animatedwidgets--HoverIconButton#btn_close {
     qproperty-backgroundHover: #f53f3f;
     qproperty-contentNormal: #4e5969;

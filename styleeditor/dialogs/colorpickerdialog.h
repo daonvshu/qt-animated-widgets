@@ -8,6 +8,7 @@
 
 class QLineEdit;
 class QRegularExpressionValidator;
+class ScreenColorPicker;
 
 namespace animatedwidgets {
 class PopupMenu;
@@ -27,6 +28,7 @@ private slots:
     void on_btn_confirm_clicked();
     void on_btn_cancel_clicked();
     void on_btn_automatic_clicked();
+    void on_btn_screen_clicked();
     void on_sv_picker_colorChanged(const QColor& color);
     void on_h_picker_colorChanged(const QColor& color);
     void on_preset_picker_colorChanged(const QColor& color);
@@ -63,4 +65,6 @@ private:
     AlphaDisplayFormat m_alphaDisplayFormat = AlphaDisplayFormat::Decimal;
     QRegularExpressionValidator* m_alphaValidator = nullptr;
     QPointer<animatedwidgets::PopupMenu> m_alphaFormatPopup;
+    ScreenColorPicker* m_screenPicker = nullptr;
+    QPointer<QWidget> m_screenPickFocus;
 };

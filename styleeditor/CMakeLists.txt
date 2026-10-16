@@ -91,6 +91,10 @@ add_executable(animatedwidgets-styleeditor
     widgets/colors/hcolorpicker.cpp
     widgets/colors/presetcolorpicker.h
     widgets/colors/presetcolorpicker.cpp
+    widgets/colors/screencolorpicker.h
+    widgets/colors/screencolorpicker.cpp
+    widgets/colors/screencoloroverlay.h
+    widgets/colors/screencoloroverlay.cpp
 
     panels/stylewidgettreemodel.h
     panels/stylewidgettreemodel.cpp
@@ -122,6 +126,8 @@ add_executable(animatedwidgets-styleeditor
     utils/stylepreviewutils.cpp
     utils/stylethemeutils.h
     utils/stylethemeutils.cpp
+    utils/screencolorutils.h
+    utils/screencolorutils.cpp
     utils/objectfindtool.h
     utils/objectfindtool.cpp
 )

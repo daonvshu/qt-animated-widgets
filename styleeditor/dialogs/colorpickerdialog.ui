@@ -99,6 +99,12 @@
     qproperty-iconHint: true;
 }
 
+#ColorPickerDialog animatedwidgets--HoverIconButton#btn_screen {
+    qproperty-animateContentColor: true;
+    qproperty-iconHint: true;
+    qproperty-cornerRadius: 4;
+}
+
 #ColorPickerDialog animatedwidgets--HoverIconButton#btn_close {
     qproperty-animateContentColor: true;
     qproperty-iconHint: true;
@@ -226,7 +232,7 @@
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="valueLayout" stretch="0,1">
+    <layout class="QHBoxLayout" name="valueLayout" stretch="0,1,0">
      <property name="spacing">
       <number>8</number>
      </property>
@@ -447,6 +453,18 @@
          </item>
         </layout>
        </widget>
+      </widget>
+     </item>
+     <item>
+      <widget class="aw::HoverIconButton" name="btn_screen">
+       <property name="minimumSize"><size><width>32</width><height>32</height></size></property>
+       <property name="maximumSize"><size><width>32</width><height>32</height></size></property>
+       <property name="toolTip"><string>Pick a color from the screen</string></property>
+       <property name="accessibleName"><string>Screen color picker</string></property>
+       <property name="icon">
+        <iconset resource="../resources/styleeditor.qrc"><normaloff>:/styleeditor/icons/eyedropper.svg</normaloff>:/styleeditor/icons/eyedropper.svg</iconset>
+       </property>
+       <property name="iconSize"><size><width>18</width><height>18</height></size></property>
       </widget>
      </item>
     </layout>
