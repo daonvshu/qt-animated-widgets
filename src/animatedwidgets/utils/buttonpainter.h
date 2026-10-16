@@ -25,6 +25,8 @@ struct ButtonContentOptions {
     int horizontalPadding = 0;
     int verticalPadding = 0;
     Qt::LayoutDirection direction = Qt::LeftToRight;
+    bool iconHint = false;
+    bool enabled = true;
 };
 
 struct ButtonSurfaceOptions {

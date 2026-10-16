@@ -4,5 +4,5 @@
 
 class StyleCodeGenerator {
 public:
-    static QString generate(const StyleEditorItem& item);
+    static QString generate(const StyleEditorItem& item, const QString& projectDirectory = {});
 };

@@ -10,6 +10,15 @@ animatedwidgets--LineEdit[compactPropertyEditor="true"], animatedwidgets--ComboB
     qproperty-cornerRadius: 4; qproperty-contentPadding: 5;
 }
 animatedwidgets--LineEdit[compactPropertyEditor="true"] { background: transparent; border: none; qproperty-borderVisible: true; }
+animatedwidgets--SpinBox[compactPropertyEditor="true"] {
+    min-height: 22px; max-height: 24px; min-width: 0px; font-size: 11px;
+    qproperty-cornerRadius: 4; qproperty-contentPadding: 4; qproperty-borderVisible: true;
+}
+animatedwidgets--BorderedButton#iconResourceButton {
+    font-size: 11px; qproperty-backgroundNormal: #f5f7fb; qproperty-borderNormal: #cbd3df;
+    qproperty-borderHover: #5b67f1; qproperty-contentNormal: #172033;
+    qproperty-contentHorizontalPadding: 5; qproperty-contentVerticalPadding: 0; qproperty-cornerRadius: 4;
+}
 animatedwidgets--BorderedButton#colorSwatch {
     font-size: 10px; qproperty-borderNormal: #cbd3df; qproperty-borderHover: #5b67f1;
     qproperty-contentNormal: #657084; qproperty-borderWidth: 1; qproperty-cornerRadius: 4;
@@ -17,7 +26,7 @@ animatedwidgets--BorderedButton#colorSwatch {
 }
 animatedwidgets--HoverIconButton#resetButton {
     qproperty-backgroundHover: #eef0ff; qproperty-contentNormal: #7c879a; qproperty-contentHover: #5b67f1;
-    qproperty-animateContentColor: true; qproperty-cornerRadius: 4;
+    qproperty-animateContentColor: true; qproperty-iconHint: true; qproperty-cornerRadius: 4;
 }</string></property>
   <layout class="QHBoxLayout" name="rowLayout" stretch="4,5,0">
    <property name="spacing"><number>6</number></property>

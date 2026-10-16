@@ -1,6 +1,7 @@
 #include "animatedwidgets/popups/popupmenuitemdelegate.h"
 #include "animatedwidgets/popups/popupmenurowtype.h"
 #include "animatedwidgets/utils/popupmenuresources.h"
+#include "animatedwidgets/utils/iconpainter.h"
 
 #include <QPainter>
 #include <QAbstractItemModel>
@@ -70,7 +71,7 @@ void PopupMenuItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem&
         painter->setPen(groupTitleText);
         const QRect content = itemRect.adjusted(qMax(0, contentPadding), 0, -qMax(0, contentPadding), 0);
         painter->drawText(content, Qt::AlignVCenter | Qt::AlignLeft,
-                          itemOption.fontMetrics.elidedText(itemOption.text, Qt::ElideRight, qMax(0, content.width())));
+                          itemOption.fontMetrics.elidedText(itemOption.text, itemOption.textElideMode, qMax(0, content.width())));
         painter->restore();
         return;
     }
@@ -96,6 +97,8 @@ void PopupMenuItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem&
 
     const bool enabled = index.flags().testFlag(Qt::ItemIsEnabled);
     painter->setPen(enabled ? itemText : itemDisabledText);
+    const QColor iconColor = iconHint ? (enabled ? itemText : itemDisabledText) : QColor();
+    const QIcon::Mode iconMode = enabled ? QIcon::Normal : QIcon::Disabled;
 
     const int padding = qMax(0, contentPadding);
     QRect contentRect = itemRect.adjusted(padding, 0, -padding, 0);
@@ -103,7 +106,7 @@ void PopupMenuItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem&
         const QRect iconRect(contentRect.right() - submenuIconSize.width() + 1,
                              contentRect.center().y() - submenuIconSize.height() / 2,
                              submenuIconSize.width(), submenuIconSize.height());
-        submenuIcon.paint(painter, iconRect, Qt::AlignCenter, enabled ? QIcon::Normal : QIcon::Disabled);
+        IconPainter::draw(*painter, iconRect, submenuIcon, iconColor, iconMode);
         contentRect.setRight(iconRect.left() - 1 - submenuIconSpacing);
     } else if (drawCheckedIcon && checkState.isValid() && (!checkedIcon.isNull() || !uncheckedIcon.isNull())) {
         const bool rightAligned = checkedIconAlignment.testFlag(Qt::AlignRight);
@@ -112,7 +115,7 @@ void PopupMenuItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem&
                              checkedIconSize.width(), checkedIconSize.height());
         const QIcon indicator = checkState.toInt() == Qt::Checked ? checkedIcon
             : checkState.toInt() == Qt::Unchecked ? uncheckedIcon : QIcon();
-        indicator.paint(painter, iconRect, Qt::AlignCenter, enabled ? QIcon::Normal : QIcon::Disabled);
+        IconPainter::draw(*painter, iconRect, indicator, iconColor, iconMode);
         if (rightAligned)
             contentRect.setRight(iconRect.left() - 1 - checkedIconSpacing);
         else
@@ -124,7 +127,7 @@ void PopupMenuItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem&
         const QSize iconSize = itemIconSize.expandedTo(QSize(1, 1));
         const QRect iconRect(contentRect.left(), contentRect.center().y() - iconSize.height() / 2,
                              iconSize.width(), iconSize.height());
-        icon.paint(painter, iconRect, Qt::AlignCenter, enabled ? QIcon::Normal : QIcon::Disabled);
+        IconPainter::draw(*painter, iconRect, icon, iconColor, iconMode);
         contentRect.setLeft(iconRect.right() + 1 + itemIconSpacing);
     }
 
@@ -158,7 +161,7 @@ void PopupMenuItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem&
         painter->restore();
     } else {
         painter->drawText(contentRect, Qt::AlignVCenter | Qt::AlignLeft,
-                          itemOption.fontMetrics.elidedText(text, Qt::ElideRight, qMax(0, contentRect.width())));
+                          itemOption.fontMetrics.elidedText(text, itemOption.textElideMode, qMax(0, contentRect.width())));
     }
 
     if (drawSeparator && hasNextItem) {

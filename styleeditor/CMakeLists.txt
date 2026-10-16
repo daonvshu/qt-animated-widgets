@@ -3,9 +3,11 @@ find_package(VirtualItemViews REQUIRED CONFIG)
 
 add_executable(animatedwidgets-styleeditor
     main.cpp
+
     styleeditorwindow.h
     styleeditorwindow.cpp
     styleeditorwindow.ui
+
     pages/styleeditorpage.h
     pages/styleeditorpage.cpp
     pages/styleeditorpage.ui
@@ -24,30 +26,37 @@ add_executable(animatedwidgets-styleeditor
     pages/designguidelinespage.cpp
     pages/helpdocumentationpage.h
     pages/helpdocumentationpage.cpp
+
     navigation/styleworkspacerouter.h
     navigation/styleworkspacerouter.cpp
+
     resources/styleeditor.qrc
+
     dialogs/stylepopupdialog.h
     dialogs/stylepopupdialog.cpp
     dialogs/stylemessagepopup.h
     dialogs/stylemessagepopup.cpp
     dialogs/stylemessagepopup.ui
-    dialogs/styledocumentfilepopup.h
-    dialogs/styledocumentfilepopup.cpp
-    dialogs/styledocumentfilepopup.ui
     dialogs/stylewidgetitempopup.h
     dialogs/stylewidgetitempopup.cpp
     dialogs/stylewidgetitempopup.ui
+    dialogs/styleiconresourcepopup.h
+    dialogs/styleiconresourcepopup.cpp
+    dialogs/styleiconresourcepopup.ui
     dialogs/colorpickerdialog.h
     dialogs/colorpickerdialog.cpp
     dialogs/colorpickerdialog.ui
+
     document/styledocument.h
     document/stylepreviewsettings.h
+    document/styleresourcesettings.h
+    document/styleresourceentry.h
     document/styleeditoritem.h
     document/styleeditorsession.h
     document/styleeditorsession.cpp
     document/styledocumentsession.h
     document/styledocumentsession.cpp
+
     panels/stylepropertyinspector.h
     panels/stylepropertyinspector.cpp
     panels/stylepreviewpanel.h
@@ -56,12 +65,14 @@ add_executable(animatedwidgets-styleeditor
     panels/stylepropertyrow.h
     panels/stylepropertyrow.cpp
     panels/stylepropertyrow.ui
+
     widgets/colors/vscolorpicker.h
     widgets/colors/vscolorpicker.cpp
     widgets/colors/hcolorpicker.h
     widgets/colors/hcolorpicker.cpp
     widgets/colors/presetcolorpicker.h
     widgets/colors/presetcolorpicker.cpp
+
     panels/stylewidgettreemodel.h
     panels/stylewidgettreemodel.cpp
     panels/stylewidgettreeadapter.h
@@ -69,16 +80,29 @@ add_executable(animatedwidgets-styleeditor
     panels/stylewidgettreerow.h
     panels/stylewidgettreerow.cpp
     panels/stylewidgettreerow.ui
+
+    panels/styleicontreemodel.h
+    panels/styleicontreemodel.cpp
+    panels/styleicontreeadapter.h
+    panels/styleicontreeadapter.cpp
+    panels/styleicontreerow.h
+    panels/styleicontreerow.cpp
+
     plugins/stylepluginregistry.h
     plugins/stylepluginregistry.cpp
+
     utils/styledocumentcodec.h
     utils/styledocumentcodec.cpp
     utils/stylecodegenerator.h
     utils/stylecodegenerator.cpp
+    utils/styleresourceutils.h
+    utils/styleresourceutils.cpp
     utils/stylepropertyeditorutils.h
     utils/stylepropertyeditorutils.cpp
     utils/stylepreviewutils.h
     utils/stylepreviewutils.cpp
+    utils/objectfindtool.h
+    utils/objectfindtool.cpp
 )
 
 target_link_libraries(animatedwidgets-styleeditor PRIVATE

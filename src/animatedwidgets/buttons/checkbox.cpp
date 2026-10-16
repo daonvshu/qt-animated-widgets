@@ -42,6 +42,14 @@ void CheckBox::setPartiallyCheckedIcon(const QPixmap& icon) {
     updateGeometry();
 }
 
+bool CheckBox::iconHint() const {
+    return m_animator.iconHint();
+}
+
+void CheckBox::setIconHint(bool enabled) {
+    m_animator.setIconHint(enabled);
+}
+
 QColor CheckBox::checkedIconColor() const {
     return m_animator.color(CheckableIconAnimator::Checked);
 }

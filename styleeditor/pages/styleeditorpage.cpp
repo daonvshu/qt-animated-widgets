@@ -14,6 +14,7 @@
 
 #include <QApplication>
 #include <QClipboard>
+#include <QIcon>
 #include <QLabel>
 #include <QPlainTextEdit>
 #include <QSignalBlocker>
@@ -30,6 +31,8 @@ void StyleEditorPage::loadDocument(const StyleDocument& document) {
     const QSignalBlocker selectionBlocker(ui.widgetTree->selectionModel());
     propertyInspector->clear();
     ui.previewPanel->setPreview(nullptr);
+    editorSession->setResourceSettings(document.resources);
+    propertyInspector->setResourceSettings(document.resources);
     editorSession->loadItems(document.items);
 
     currentItem = -1;
@@ -40,6 +43,7 @@ void StyleEditorPage::loadDocument(const StyleDocument& document) {
 
 void StyleEditorPage::collectDocument(StyleDocument& document) const {
     document.items = editorSession->collectItems();
+    document.resources = editorSession->resourceSettings();
 }
 
 void StyleEditorPage::createLayout() {
@@ -65,6 +69,9 @@ void StyleEditorPage::createLayout() {
     ui.widgetTree->setHoverBackgroundColor(QColor(QStringLiteral("#f2f3f5")));
     ui.widgetTree->setSelectedBackgroundColor(QColor(QStringLiteral("#eef0ff")));
     ui.widgetTree->setBranchIconColor(QColor(QStringLiteral("#7c879a")));
+    ui.widgetTree->setBranchIconSize(12);
+    ui.widgetTree->setExpandedBranchIcon(QIcon(QStringLiteral(":/styleeditor/icons/chevrondown.svg")));
+    ui.widgetTree->setCollapsedBranchIcon(QIcon(QStringLiteral(":/styleeditor/icons/chevronright.svg")));
     ui.widgetTree->setFrameShape(QFrame::NoFrame);
     ui.widgetTree->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui.widgetTree->setSelectionMode(viv::VirtualItemView::SelectionMode::SingleSelection);
@@ -92,10 +99,16 @@ void StyleEditorPage::connectEditorSignals() {
         editorSession->setPreviewSettings(currentItem, settings);
     });
     connect(propertyInspector, &StylePropertyInspector::dialogRequested, this, &WorkspacePage::dialogRequested);
+    connect(propertyInspector, &StylePropertyInspector::resourceSettingsEdited, this, [this](const StyleResourceSettings& settings) {
+        editorSession->setResourceSettings(settings);
+        rebuildCode();
+    });
     connect(editorSession, &StyleEditorSession::contentChanged, this, &WorkspacePage::contentChanged);
     connect(editorSession, &StyleEditorSession::propertyValuesChanged, this, [this](int index) {
-        if (index == currentItem)
+        if (index == currentItem) {
+            on_stateCombo_currentIndexChanged(ui.stateCombo->currentIndex());
             rebuildCode();
+        }
     });
     connect(propertyInspector, &StylePropertyInspector::valueEdited, this, [this](const QString& name, const QVariant& value) {
         editorSession->setPropertyValue(currentItem, name, value);
@@ -236,7 +249,7 @@ void StyleEditorPage::on_stateCombo_currentIndexChanged(int index) {
     const QList<StyleEditorItem>& items = editorSession->items();
     if (currentItem < 0 || currentItem >= items.size())
         return;
-    StylePreviewUtils::applyState(items.at(currentItem).preview.data(), index);
+    StylePreviewUtils::applyState(items.at(currentItem).preview.data(), index, items.at(currentItem).properties);
 }
 
 void StyleEditorPage::rebuildCode() {
@@ -247,7 +260,7 @@ void StyleEditorPage::rebuildCode() {
         ui.codeEdit->clear();
         return;
     }
-    ui.codeEdit->setPlainText(StyleCodeGenerator::generate(items.at(currentItem)));
+    ui.codeEdit->setPlainText(StyleCodeGenerator::generate(items.at(currentItem), editorSession->resourceSettings().projectDirectory));
 }
 
 void StyleEditorPage::on_resetAllButton_clicked() {

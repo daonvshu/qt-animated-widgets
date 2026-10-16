@@ -24,6 +24,9 @@ public:
     void setColor(int state, const QColor& color);
     QColor color(int state) const;
 
+    bool iconHint() const;
+    void setIconHint(bool enabled);
+
     QSize iconSize() const;
     void setIconSize(const QSize& size);
     int duration() const;
@@ -48,6 +51,7 @@ private:
     int m_toState = Unchecked;
     QPixmap m_transitionPixmap;
     bool m_transitionUsesPixmap = false;
+    bool m_iconHint = false;
     ValueTransition m_progress;
 };
 

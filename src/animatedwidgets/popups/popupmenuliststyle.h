@@ -12,6 +12,8 @@ public:
 
     virtual void apply(QAbstractItemView* view) const = 0;
     virtual QMargins margins() const = 0;
+
+    bool iconHint = false; // Tint icons with item text colors; false preserves original icon colors.
 };
 
 } // namespace animatedwidgets

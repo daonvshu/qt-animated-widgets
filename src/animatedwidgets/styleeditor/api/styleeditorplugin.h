@@ -29,5 +29,5 @@ public:
 
 } // namespace animatedwidgets::styleeditor
 
-#define ANIMATEDWIDGETS_STYLE_EDITOR_PLUGIN_IID "org.animatedwidgets.StyleEditorPlugin/3.0"
+#define ANIMATEDWIDGETS_STYLE_EDITOR_PLUGIN_IID "org.animatedwidgets.StyleEditorPlugin/4.0"
 Q_DECLARE_INTERFACE(animatedwidgets::styleeditor::StyleEditorPlugin, ANIMATEDWIDGETS_STYLE_EDITOR_PLUGIN_IID)

@@ -49,19 +49,19 @@ animatedwidgets--FilledButton[editorControl=&quot;true&quot;] {
     min-height: 36px; min-width: 48px;
     qproperty-backgroundNormal: #5b67f1; qproperty-backgroundHover: #6975fa;
     qproperty-contentNormal: #ffffff; qproperty-cornerRadius: 9;
-    qproperty-animateContentColor: true; qproperty-animationDuration: 300;
+    qproperty-animateContentColor: true; qproperty-iconHint: true; qproperty-animationDuration: 300;
 }
 animatedwidgets--OutlineButton[editorControl=&quot;true&quot;] {
     min-height: 36px; min-width: 64px;
     qproperty-borderNormal: #d7dde8; qproperty-borderHover: #5b67f1;
     qproperty-contentNormal: #172033; qproperty-contentHover: #5b67f1;
-    qproperty-cornerRadius: 9; qproperty-animateContentColor: true; qproperty-animationDuration: 300;
+    qproperty-cornerRadius: 9; qproperty-animateContentColor: true; qproperty-iconHint: true; qproperty-animationDuration: 300;
 }
 animatedwidgets--HoverButton[editorControl=&quot;true&quot;] {
     min-height: 38px;
     qproperty-backgroundHover: #eef0ff; qproperty-backgroundChecked: #eef0ff;
     qproperty-contentNormal: #7c879a; qproperty-contentHover: #5b67f1; qproperty-contentChecked: #5b67f1;
-    qproperty-cornerRadius: 11; qproperty-animateContentColor: true; qproperty-animationDuration: 300;
+    qproperty-cornerRadius: 11; qproperty-animateContentColor: true; qproperty-iconHint: true; qproperty-animationDuration: 300;
 }
 animatedwidgets--LineEdit[editorControl=&quot;true&quot;], animatedwidgets--ComboBox[editorControl=&quot;true&quot;] {
     min-height: 34px; min-width: 48px;

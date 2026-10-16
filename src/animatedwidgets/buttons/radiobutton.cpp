@@ -34,6 +34,14 @@ void RadioButton::setUncheckedIcon(const QPixmap& icon) {
     updateGeometry();
 }
 
+bool RadioButton::iconHint() const {
+    return m_animator.iconHint();
+}
+
+void RadioButton::setIconHint(bool enabled) {
+    m_animator.setIconHint(enabled);
+}
+
 QColor RadioButton::checkedIconColor() const {
     return m_animator.color(CheckableIconAnimator::Checked);
 }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "styleeditoritem.h"
+#include "styleresourceentry.h"
 
 #include "animatedwidgets/styleeditor/api/styleeditorplugin.h"
 
@@ -27,6 +28,9 @@ public:
 
     void setPreviewSettings(int itemIndex, const StylePreviewSettings& settings);
 
+    const StyleResourceSettings& resourceSettings() const;
+    void setResourceSettings(const StyleResourceSettings& settings);
+
 signals:
     void contentChanged();
     void propertyValuesChanged(int itemIndex);
@@ -38,4 +42,7 @@ private:
     const StylePluginRegistry& m_registry;
     QPointer<QWidget> m_previewParent;
     QList<StyleEditorItem> m_items;
+
+    StyleResourceSettings m_resources;
+    QList<StyleResourceEntry> m_resourceEntries;
 };

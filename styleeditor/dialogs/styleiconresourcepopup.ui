@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>StyleIconResourcePopup</class>
+ <widget class="QWidget" name="StyleIconResourcePopup">
+  <property name="geometry"><rect><x>0</x><y>0</y><width>700</width><height>560</height></rect></property>
+  <property name="minimumSize"><size><width>620</width><height>480</height></size></property>
+  <property name="styleSheet"><string notr="true">QWidget#StyleIconResourcePopup { background: #ffffff; border: 1px solid #e6eaf0; border-radius: 12px; }
+QLabel { color: #657084; background: transparent; }
+QLabel#titleLabel { color: #172033; font-size: 18px; font-weight: 700; }
+QLabel#selectionLabel { color: #5b67f1; }
+viv--VirtualTreeView#iconTree { background: #f5f7fb; border: 1px solid #e6eaf0; border-radius: 4px; }
+QWidget#qt_scrollarea_viewport { background: #f5f7fb; }
+QWidget#qt_scrollarea_viewport QLabel { color: #172033; }
+animatedwidgets--LineEdit#searchEdit { background: transparent; border: none; min-height: 30px; qproperty-borderVisible: true; qproperty-borderWidth: 1; qproperty-borderNormal: #d7dde8; qproperty-borderHover: #5b67f1; qproperty-borderFocus: #5b67f1; qproperty-backgroundNormal: #f5f7fb; qproperty-cornerRadius: 4; qproperty-contentPadding: 8; }
+animatedwidgets--OutlineButton { min-height: 28px; qproperty-borderNormal: #d7dde8; qproperty-borderHover: #5b67f1; qproperty-contentNormal: #172033; qproperty-contentHover: #5b67f1; qproperty-animateContentColor: true; qproperty-cornerRadius: 4; }
+animatedwidgets--ComboBox#qrcCombo { background: transparent; border: none; qproperty-borderVisible: true; qproperty-borderWidth: 1; qproperty-borderNormal: #d7dde8; qproperty-borderHover: #5b67f1; qproperty-borderFocus: #5b67f1; qproperty-backgroundNormal: #ffffff; qproperty-textColor: #172033; qproperty-cornerRadius: 4; qproperty-contentPadding: 8; }
+animatedwidgets--FilledButton { min-height: 28px; qproperty-backgroundNormal: #5b67f1; qproperty-contentNormal: #ffffff; qproperty-cornerRadius: 4; }
+</string></property>
+  <layout class="QVBoxLayout" name="dialogLayout">
+   <property name="spacing"><number>12</number></property>
+   <property name="leftMargin"><number>24</number></property><property name="topMargin"><number>24</number></property>
+   <property name="rightMargin"><number>24</number></property><property name="bottomMargin"><number>24</number></property>
+   <item><widget class="QLabel" name="titleLabel"><property name="text"><string>Choose icon</string></property></widget></item>
+   <item><layout class="QHBoxLayout" name="sourceLayout" stretch="1,0">
+    <property name="spacing"><number>8</number></property>
+    <item><widget class="QLabel" name="sourcePathLabel"><property name="wordWrap"><bool>true</bool></property><property name="textFormat"><enum>Qt::PlainText</enum></property></widget></item>
+    <item><widget class="aw::ComboBox" name="qrcCombo">
+     <property name="minimumSize"><size><width>220</width><height>32</height></size></property>
+     <property name="maximumSize"><size><width>220</width><height>32</height></size></property>
+     <property name="popupAlign"><set>Qt::AlignRight</set></property>
+    </widget></item>
+   </layout></item>
+   <item><widget class="aw::LineEdit" name="searchEdit"><property name="placeholderText"><string>Search icons...</string></property></widget></item>
+   <item><widget class="viv::VirtualTreeView" name="iconTree">
+    <property name="sizePolicy"><sizepolicy hsizetype="Expanding" vsizetype="Expanding"><horstretch>0</horstretch><verstretch>1</verstretch></sizepolicy></property>
+   </widget></item>
+   <item><widget class="QLabel" name="selectionLabel"><property name="wordWrap"><bool>true</bool></property><property name="textFormat"><enum>Qt::PlainText</enum></property></widget></item>
+   <item><widget class="QLabel" name="statusLabel"><property name="wordWrap"><bool>true</bool></property><property name="textFormat"><enum>Qt::PlainText</enum></property></widget></item>
+   <item><layout class="QHBoxLayout" name="actionLayout">
+    <item><widget class="aw::OutlineButton" name="clearButton"><property name="text"><string>Clear icon</string></property></widget></item>
+    <item><spacer name="actionSpacer"><property name="orientation"><enum>Qt::Horizontal</enum></property><property name="sizeHint" stdset="0"><size><width>20</width><height>20</height></size></property></spacer></item>
+    <item><widget class="aw::OutlineButton" name="cancelButton"><property name="text"><string>Cancel</string></property></widget></item>
+    <item><widget class="aw::FilledButton" name="acceptButton"><property name="text"><string>Use icon</string></property></widget></item>
+   </layout></item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget><class>aw::FilledButton</class><extends>QPushButton</extends><header>animatedwidgets/buttons/filledbutton.h</header></customwidget>
+  <customwidget><class>aw::OutlineButton</class><extends>QPushButton</extends><header>animatedwidgets/buttons/outlinebutton.h</header></customwidget>
+  <customwidget><class>aw::LineEdit</class><extends>QLineEdit</extends><header>animatedwidgets/inputs/lineedit.h</header></customwidget>
+  <customwidget><class>aw::ComboBox</class><extends>QComboBox</extends><header>animatedwidgets/comboboxes/combobox.h</header></customwidget>
+  <customwidget><class>viv::VirtualTreeView</class><extends>QAbstractScrollArea</extends><header>virtualitemviews/virtualtreeview.h</header></customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

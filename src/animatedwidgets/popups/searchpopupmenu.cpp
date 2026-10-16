@@ -65,6 +65,12 @@ IconLineEdit* SearchPopupMenu::searchEditor() const {
     return m_searchEditor;
 }
 
+void SearchPopupMenu::setIconHint(bool enabled) {
+    if (m_searchEditor)
+        m_searchEditor->setIconHint(enabled);
+    PopupMenu::setIconHint(enabled);
+}
+
 PopupMenuFilterModel* SearchPopupMenu::filterModel() const {
     return m_filterModel;
 }

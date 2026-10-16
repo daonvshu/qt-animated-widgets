@@ -2,7 +2,9 @@
 
 #include <QColor>
 #include <QIcon>
+#include <QKeySequence>
 #include <QObject>
+#include <QSize>
 
 class StylePropertyTestObject : public QObject {
     Q_OBJECT
@@ -12,6 +14,9 @@ class StylePropertyTestObject : public QObject {
     Q_PROPERTY(bool animateContentColor MEMBER animateContentColor)
     Q_PROPERTY(QColor backgroundHover MEMBER backgroundHover)
     Q_PROPERTY(QIcon icon READ icon WRITE setIcon)
+    Q_PROPERTY(bool iconHint MEMBER iconHint)
+    Q_PROPERTY(QSize iconSize MEMBER iconSize)
+    Q_PROPERTY(QKeySequence shortcut MEMBER shortcut)
     Q_PROPERTY(Placement placement MEMBER placement)
     Q_PROPERTY(Qt::Alignment contentAlignment MEMBER contentAlignment)
     Q_PROPERTY(int readOnly READ readOnly)
@@ -33,9 +38,12 @@ public:
     }
 
     QString text;
+    QSize iconSize = QSize(16, 16);
+    QKeySequence shortcut;
     int cornerRadius = 6;
     double borderWidth = 1.0;
     bool animateContentColor = false;
+    bool iconHint = false;
     QColor backgroundHover;
     Placement placement = Placement::BeforeText;
     Qt::Alignment contentAlignment = Qt::AlignCenter;

@@ -1,7 +1,6 @@
 #include "styleeditorwindow.h"
 
 #include "document/styledocumentsession.h"
-#include "dialogs/styledocumentfilepopup.h"
 #include "dialogs/stylemessagepopup.h"
 #include "navigation/styleworkspacerouter.h"
 #include "pages/workspacepage.h"
@@ -9,6 +8,7 @@
 
 #include <QApplication>
 #include <QCloseEvent>
+#include <QFileDialog>
 #include <QSignalBlocker>
 
 StyleEditorWindow::StyleEditorWindow(QWidget* parent)
@@ -92,18 +92,17 @@ void StyleEditorWindow::on_newDocumentButton_clicked() {
 
 void StyleEditorWindow::on_openDocumentButton_clicked() {
     confirmDiscardChanges([this] {
-        auto* popup = new StyleDocumentFilePopup(StyleDocumentFilePopup::Mode::Open, documentSession->document().filePath, this);
-        connect(popup, &StyleDocumentFilePopup::fileSelected, this, [this, popup](const QString& filePath) {
-            if (activePopup == popup)
-                activePopup = nullptr;
-            QString errorMessage;
-            if (!documentSession->open(filePath, errorMessage)) {
-                showError(QStringLiteral("Open failed"), errorMessage);
-                return;
-            }
-            reloadPages();
-        });
-        showPopup(popup);
+        const QString filePath = QFileDialog::getOpenFileName(this, QStringLiteral("Open style document"),
+            documentSession->document().filePath, QStringLiteral("Style documents (*.json)"));
+        if (filePath.isEmpty())
+            return;
+
+        QString errorMessage;
+        if (!documentSession->open(filePath, errorMessage)) {
+            showError(QStringLiteral("Open failed"), errorMessage);
+            return;
+        }
+        reloadPages();
     });
 }
 
@@ -174,19 +173,20 @@ void StyleEditorWindow::saveDocument(const std::function<void(bool)>& completed)
 }
 
 void StyleEditorWindow::saveDocumentAs(const std::function<void(bool)>& completed) {
-    auto* popup = new StyleDocumentFilePopup(StyleDocumentFilePopup::Mode::Save, documentSession->document().filePath, this);
-    connect(popup, &StyleDocumentFilePopup::fileSelected, this, [this, popup, completed](const QString& filePath) {
-        if (activePopup == popup)
-            activePopup = nullptr;
-        const bool saved = writeDocument(filePath);
+    QFileDialog dialog(this, QStringLiteral("Save style document"), documentSession->document().filePath,
+        QStringLiteral("Style documents (*.json)"));
+    dialog.setAcceptMode(QFileDialog::AcceptSave);
+    dialog.setFileMode(QFileDialog::AnyFile);
+    dialog.setDefaultSuffix(QStringLiteral("json"));
+    if (dialog.exec() != QDialog::Accepted || dialog.selectedFiles().isEmpty()) {
         if (completed)
-            completed(saved);
-    });
-    connect(popup, &StylePopupDialog::finished, this, [completed](int result) {
-        if (result == 0 && completed)
             completed(false);
-    });
-    showPopup(popup);
+        return;
+    }
+
+    const bool saved = writeDocument(dialog.selectedFiles().first());
+    if (completed)
+        completed(saved);
 }
 
 bool StyleEditorWindow::writeDocument(const QString& filePath) {

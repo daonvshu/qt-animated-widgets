@@ -22,6 +22,7 @@ public:
     explicit SearchPopupMenu(QWidget* parent = nullptr);
 
     IconLineEdit* searchEditor() const;
+    void setIconHint(bool enabled) override;
     PopupMenuFilterModel* filterModel() const;
     QAbstractItemModel* sourceModel() const;
     void setModel(QAbstractItemModel* model) override;

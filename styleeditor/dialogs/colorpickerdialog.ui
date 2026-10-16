@@ -53,10 +53,11 @@ animatedwidgets--IconLineEdit#alphaValueEdit {
     qproperty-borderVisible: true; qproperty-borderWidth: 1; qproperty-textColor: #4e5969;
     qproperty-cornerRadius: 4; qproperty-contentPadding: 2;
     qproperty-trailingIconNormalColor: #4e5969; qproperty-trailingIconHoverColor: #1557f0;
+    qproperty-iconHint: true;
 }
 animatedwidgets--HoverIconButton#btn_close {
     qproperty-backgroundHover: #f53f3f; qproperty-contentNormal: #4e5969; qproperty-contentHover: white;
-    qproperty-animateContentColor: true; qproperty-cornerRadius: 2;
+    qproperty-animateContentColor: true; qproperty-iconHint: true; qproperty-cornerRadius: 2;
 }</string>
   </property>
   <layout class="QVBoxLayout" name="dialogLayout">

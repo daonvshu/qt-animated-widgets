@@ -1,4 +1,5 @@
 #include "animatedwidgets/switches/switch.h"
+#include "animatedwidgets/utils/iconpainter.h"
 
 #include <QEvent>
 #include <QFontMetrics>
@@ -116,6 +117,17 @@ void Switch::setHandleIcon(const QIcon& icon) {
     update();
 }
 
+bool Switch::iconHint() const {
+    return m_iconHint;
+}
+
+void Switch::setIconHint(bool enabled) {
+    if (m_iconHint == enabled)
+        return;
+    m_iconHint = enabled;
+    update();
+}
+
 int Switch::textSpacing() const {
     return m_textSpacing;
 }
@@ -178,7 +190,7 @@ void Switch::paintEvent(QPaintEvent*) {
     } else {
         const QIcon::Mode mode = isEnabled() ? QIcon::Normal : QIcon::Disabled;
         const QIcon::State state = isChecked() ? QIcon::On : QIcon::Off;
-        m_handleIcon.paint(&painter, handle.toRect(), Qt::AlignCenter, mode, state);
+        IconPainter::draw(painter, handle.toRect(), m_handleIcon, m_iconHint ? m_thumbColor.current().value<QColor>() : QColor(), mode, state);
     }
 
     if (!text().isEmpty()) {

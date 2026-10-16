@@ -105,6 +105,15 @@ void DoubleSpinBox::setStepDownIcon(const QIcon& icon) {
     m_downButton->setIcon(icon);
 }
 
+bool DoubleSpinBox::iconHint() const {
+    return m_upButton->iconHint() && m_downButton->iconHint();
+}
+
+void DoubleSpinBox::setIconHint(bool enabled) {
+    m_upButton->setIconHint(enabled);
+    m_downButton->setIconHint(enabled);
+}
+
 bool DoubleSpinBox::stepButtonsVisible() const {
     return m_stepButtonsVisible;
 }

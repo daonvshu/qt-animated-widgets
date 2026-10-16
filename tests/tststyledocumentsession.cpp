@@ -305,6 +305,7 @@ void StyleDocumentSessionTest::previewSettingsRoundTrip() {
 
     document.items[0].previewSettings.size = QSize(240, 56);
     document.items[0].previewSettings.background = QColor(24, 48, 96, 0);
+    document.items[0].previewSettings.widthAuto = true;
     StyleDocumentSession session;
     session.updateContent(document);
     QVERIFY(session.document().modified);
@@ -314,8 +315,10 @@ void StyleDocumentSessionTest::previewSettingsRoundTrip() {
 
     StyleDocumentSession reopened;
     QVERIFY2(reopened.open(path, error), qPrintable(error));
-    QCOMPARE(reopened.document().items.first().previewSettings.size, QSize(240, 56));
+    QCOMPARE(reopened.document().items.first().previewSettings.size, QSize(-1, 56));
     QCOMPARE(reopened.document().items.first().previewSettings.background, QColor(24, 48, 96, 0));
+    QVERIFY(reopened.document().items.first().previewSettings.widthAuto);
+    QVERIFY(!reopened.document().items.first().previewSettings.heightAuto);
 
     StyleEditorItem editorItem;
     static_cast<StyleDocumentItem&>(editorItem) = reopened.document().items.first();
@@ -329,6 +332,8 @@ void StyleDocumentSessionTest::previewSettingsRoundTrip() {
     QVERIFY2(session.open(path, error), qPrintable(error));
     QVERIFY(!session.document().items.first().previewSettings.size.isValid());
     QVERIFY(!session.document().items.first().previewSettings.background.isValid());
+    QVERIFY(!session.document().items.first().previewSettings.widthAuto);
+    QVERIFY(!session.document().items.first().previewSettings.heightAuto);
 }
 
 void StyleDocumentSessionTest::previewSizeFallback() {
@@ -337,6 +342,8 @@ void StyleDocumentSessionTest::previewSizeFallback() {
     QCOMPARE(StylePreviewUtils::resolveSize({}, {}, QSize(80, 30)), QSize(80, 30));
     QCOMPARE(StylePreviewUtils::resolveSize({}, {}, {}), QSize(150, 42));
     QCOMPARE(StylePreviewUtils::resolveSize(QSize(9000, 7000), {}, {}), QSize(4096, 4096));
+    QCOMPARE(StylePreviewUtils::resolveSize(QSize(220, 60), QSize(150, 42), QSize(80, 30), true, false), QSize(80, 60));
+    QCOMPARE(StylePreviewUtils::resolveSize(QSize(220, 60), QSize(150, 42), QSize(80, 30), false, true), QSize(220, 30));
 }
 
 QTEST_APPLESS_MAIN(StyleDocumentSessionTest)

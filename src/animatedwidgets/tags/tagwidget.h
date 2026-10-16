@@ -14,6 +14,7 @@ class TagWidget : public QWidget {
     Q_OBJECT
     Q_PROPERTY(QString text READ text WRITE setText)
     Q_PROPERTY(QIcon icon READ icon WRITE setIcon)
+    Q_PROPERTY(bool iconHint READ iconHint WRITE setIconHint)
     Q_PROPERTY(QColor background READ background WRITE setBackground)
     Q_PROPERTY(QColor border READ border WRITE setBorder)
     Q_PROPERTY(QColor content READ content WRITE setContent)
@@ -35,6 +36,8 @@ public:
     void setText(const QString& text);
     QIcon icon() const;
     void setIcon(const QIcon& icon);
+    bool iconHint() const;
+    void setIconHint(bool enabled);
 
     TagStyle tagStyle() const;
     void setTagStyle(const TagStyle& style);

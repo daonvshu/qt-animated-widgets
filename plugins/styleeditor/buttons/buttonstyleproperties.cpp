@@ -42,7 +42,7 @@ void ButtonStyleProperties::hover(StylePropertyBuilder& builder) {
 void ButtonStyleProperties::filledIcon(StylePropertyBuilder& builder) {
     addIconContent(builder);
     addBackground(builder);
-    addContentColors(builder);
+    addContentColors(builder, true);
     addCornerRadius(builder);
     addAnimation(builder);
     addIconShape(builder);
@@ -51,7 +51,7 @@ void ButtonStyleProperties::filledIcon(StylePropertyBuilder& builder) {
 void ButtonStyleProperties::outlineIcon(StylePropertyBuilder& builder) {
     addIconContent(builder);
     addBorder(builder);
-    addContentColors(builder);
+    addContentColors(builder, true);
     addCornerRadius(builder);
     addAnimation(builder);
     addIconShape(builder);
@@ -61,7 +61,7 @@ void ButtonStyleProperties::borderedIcon(StylePropertyBuilder& builder) {
     addIconContent(builder);
     addBackground(builder);
     addBorder(builder);
-    addContentColors(builder);
+    addContentColors(builder, true);
     addCornerRadius(builder);
     addAnimation(builder);
     addIconShape(builder);
@@ -70,20 +70,41 @@ void ButtonStyleProperties::borderedIcon(StylePropertyBuilder& builder) {
 void ButtonStyleProperties::hoverIcon(StylePropertyBuilder& builder) {
     addIconContent(builder);
     addHoverBackground(builder);
-    addContentColors(builder);
+    addContentColors(builder, true);
     addCornerRadius(builder);
     addAnimation(builder);
     addIconShape(builder);
 }
 
 void ButtonStyleProperties::addTextContent(StylePropertyBuilder& builder) {
+    addButtonProperties(builder);
     builder.setGroup(QStringLiteral("Content"));
     builder.add(QStringLiteral("text"), QStringLiteral("Text"), QStringLiteral("Button label text."));
+    builder.icon(QStringLiteral("icon"), QStringLiteral("Icon"), {}, {}, QStringLiteral("Choose an icon from project resources."));
+    builder.add(QStringLiteral("iconSize"), QStringLiteral("Icon size"), QStringLiteral("Icon width and height in pixels."));
+    builder.add(QStringLiteral("iconHint"), QStringLiteral("Tint icon"),
+                QStringLiteral("Tint the icon with the content color. Disabled by default to preserve the original icon colors."));
 }
 
 void ButtonStyleProperties::addIconContent(StylePropertyBuilder& builder) {
     addTextContent(builder);
-    builder.icon(QStringLiteral("icon"), QStringLiteral("Icon resource"), {}, {}, QStringLiteral("Qt resource path or file path for the icon."));
+}
+
+void ButtonStyleProperties::addButtonProperties(StylePropertyBuilder& builder) {
+    builder.setGroup(QStringLiteral("Button"));
+    builder.add(QStringLiteral("enabled"), QStringLiteral("Enabled"));
+    builder.add(QStringLiteral("checkable"), QStringLiteral("Checkable"));
+    builder.add(QStringLiteral("checked"), QStringLiteral("Checked"));
+    builder.enabledWhen(QStringLiteral("checked"), QStringLiteral("checkable"));
+    builder.add(QStringLiteral("shortcut"), QStringLiteral("Shortcut"), QStringLiteral("Keyboard shortcut, for example Ctrl+Return."));
+    builder.add(QStringLiteral("autoRepeat"), QStringLiteral("Auto repeat"));
+    builder.add(QStringLiteral("autoRepeatDelay"), QStringLiteral("Repeat delay"), QStringLiteral("Initial repeat delay in milliseconds."));
+    builder.add(QStringLiteral("autoRepeatInterval"), QStringLiteral("Repeat interval"), QStringLiteral("Repeat interval in milliseconds."));
+    builder.enabledWhen(QStringLiteral("autoRepeatDelay"), QStringLiteral("autoRepeat"));
+    builder.enabledWhen(QStringLiteral("autoRepeatInterval"), QStringLiteral("autoRepeat"));
+    builder.add(QStringLiteral("autoDefault"), QStringLiteral("Auto default"));
+    builder.add(QStringLiteral("default"), QStringLiteral("Default button"));
+    builder.add(QStringLiteral("toolTip"), QStringLiteral("Tooltip"));
 }
 
 void ButtonStyleProperties::addBackground(StylePropertyBuilder& builder) {
@@ -110,12 +131,14 @@ void ButtonStyleProperties::addHoverBackground(StylePropertyBuilder& builder) {
     }
 }
 
-void ButtonStyleProperties::addContentColors(StylePropertyBuilder& builder) {
+void ButtonStyleProperties::addContentColors(StylePropertyBuilder& builder, bool iconOnly) {
     builder.setGroup(QStringLiteral("Content"));
     for (const QString& state : {QStringLiteral("Normal"), QStringLiteral("Hover"), QStringLiteral("Pressed"),
                                 QStringLiteral("Disabled"), QStringLiteral("Checked")}) {
         builder.add(QStringLiteral("content") + state, QStringLiteral("Color %1").arg(state),
-                    QStringLiteral("Text and icon color for the %1 state.").arg(state));
+                    QStringLiteral("Text color for the %1 state; also applies to icons when iconHint is enabled.").arg(state));
+        if (iconOnly)
+            builder.enabledWhen(QStringLiteral("content") + state, QStringLiteral("iconHint"));
     }
 }
 
@@ -129,7 +152,7 @@ void ButtonStyleProperties::addAnimation(StylePropertyBuilder& builder) {
     builder.add(QStringLiteral("animationDuration"), QStringLiteral("Duration"), QStringLiteral("Color transition duration in milliseconds."));
     builder.add(QStringLiteral("darkerStep"), QStringLiteral("Darker step"), QStringLiteral("Fallback darkening step for undefined states."));
     builder.add(QStringLiteral("animateContentColor"), QStringLiteral("Animate content"),
-                QStringLiteral("Animate text and icon colors with the button state."));
+                QStringLiteral("Animate content colors with the button state. Icons follow only when iconHint is enabled."));
 
     for (const QString& state : {QStringLiteral("Hover"), QStringLiteral("Pressed"), QStringLiteral("Disabled"), QStringLiteral("Checked")})
         builder.enabledWhen(QStringLiteral("content") + state, QStringLiteral("animateContentColor"));
@@ -150,6 +173,7 @@ void ButtonStyleProperties::addTextLayout(StylePropertyBuilder& builder) {
 }
 
 void ButtonStyleProperties::addIconShape(StylePropertyBuilder& builder) {
+    builder.enabledWhen(QStringLiteral("animateContentColor"), QStringLiteral("iconHint"));
     builder.setGroup(QStringLiteral("Shape"));
     builder.enumeration(QStringLiteral("shape"), QStringLiteral("Shape"), QStringLiteral("animatedwidgets::AnimatedButtonBase::Shape"),
                         QStringLiteral("Circle or rounded rectangle icon button shape."));

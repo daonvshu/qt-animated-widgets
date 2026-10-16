@@ -6,9 +6,11 @@
 #include "animatedwidgets/styleeditor/utils/stylecodeexpressions.h"
 
 #include <QIcon>
+#include <QKeySequence>
 #include <QMetaEnum>
 #include <QMetaProperty>
 #include <QPointer>
+#include <QSize>
 
 namespace animatedwidgets::styleeditor {
 
@@ -57,6 +59,21 @@ public:
                 property.type = StylePropertyType::Real;
                 property.codeExpression = [](const QVariant& value) { return StyleCodeExpressions::real(value.toDouble()); };
                 break;
+            case QMetaType::QSize:
+                property.type = StylePropertyType::Size;
+                property.codeExpression = [](const QVariant& value) {
+                    const QSize size = value.toSize();
+                    return QStringLiteral("QSize(%1, %2)").arg(size.width()).arg(size.height());
+                };
+                break;
+            case QMetaType::QKeySequence:
+                property.type = StylePropertyType::KeySequence;
+                property.value = meta.read(m_object.data()).value<QKeySequence>().toString(QKeySequence::PortableText);
+                property.defaultValue = meta.read(m_defaults.data()).value<QKeySequence>().toString(QKeySequence::PortableText);
+                property.codeExpression = [](const QVariant& value) {
+                    return QStringLiteral("QKeySequence(%1, QKeySequence::PortableText)").arg(StyleCodeExpressions::text(value.toString()));
+                };
+                break;
             default:
                 m_errors.append(QStringLiteral("Property '%1' requires an enum, icon or custom binding.").arg(name));
                 return false;
@@ -64,7 +81,8 @@ public:
 
         property.apply = [object = m_object, meta](const QVariant& value) {
             if (object)
-                meta.write(object.data(), value);
+                meta.write(object.data(), meta.userType() == QMetaType::QKeySequence
+                    ? QVariant::fromValue(QKeySequence(value.toString(), QKeySequence::PortableText)) : value);
         };
         return append(property);
     }
@@ -156,7 +174,7 @@ public:
         }
 
         StyleProperty property = describe(meta, name, label, description);
-        property.type = StylePropertyType::Text;
+        property.type = StylePropertyType::Icon;
         property.value = resource;
         property.defaultValue = defaultResource;
         property.apply = [object = m_object, meta](const QVariant& value) {

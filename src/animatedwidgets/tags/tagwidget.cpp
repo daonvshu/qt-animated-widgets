@@ -45,6 +45,17 @@ void TagWidget::setIcon(const QIcon& icon) {
     update();
 }
 
+bool TagWidget::iconHint() const {
+    return m_style.iconHint;
+}
+
+void TagWidget::setIconHint(bool enabled) {
+    if (m_style.iconHint == enabled)
+        return;
+    m_style.iconHint = enabled;
+    applyStyle();
+}
+
 TagStyle TagWidget::tagStyle() const {
     return m_style;
 }
@@ -195,6 +206,7 @@ QSize TagWidget::minimumSizeHint() const {
 void TagWidget::applyStyle() {
     m_closeButton->setIcon(m_style.closeIcon.isNull() ? QIcon(QStringLiteral(":/animatedwidgets/inputs/clear.svg")) : m_style.closeIcon);
     m_closeButton->setIconSize(m_style.closeIconSize);
+    m_closeButton->setIconHint(m_style.iconHint);
     m_closeButton->setVisible(m_style.closeButtonVisible);
     m_closeButton->setContentNormal(m_style.content);
     m_closeButton->setContentHover(m_style.content);
@@ -238,6 +250,8 @@ void TagWidget::paintEvent(QPaintEvent*) {
             bounds.adjust(reserved, 0, 0, 0);
     }
     ButtonContentOptions options{m_icon, m_style.iconSize, m_text, font(), isEnabled() ? m_style.content : m_style.disabledContent, m_style.iconSpacing};
+    options.iconHint = m_style.iconHint;
+    options.enabled = isEnabled();
     if (layoutDirection() == Qt::RightToLeft)
         options.placement = ButtonContentOptions::Placement::AfterText;
     ButtonPainter::drawContent(painter, bounds, options);

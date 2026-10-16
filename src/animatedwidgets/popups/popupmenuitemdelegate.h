@@ -55,6 +55,7 @@ public:
     int itemIconSpacing = 4;
     int checkedIconSpacing = 4;
     bool drawCheckedIcon = true;
+    bool iconHint = false;
     bool drawSeparator = false;
     QColor separatorColor = QColor(QStringLiteral("#e5e8ec"));
 

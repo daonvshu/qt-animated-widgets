@@ -72,6 +72,14 @@ void CompositeLineEdit::setContentPadding(int padding) {
     updateGeometry();
 }
 
+bool CompositeLineEdit::iconHint() const {
+    return m_editor->iconHint();
+}
+
+void CompositeLineEdit::setIconHint(bool enabled) {
+    m_editor->setIconHint(enabled);
+}
+
 QSize CompositeLineEdit::sizeHint() const {
     QSize hint = CompositeInputBase::sizeHint();
     hint.setHeight(qMax(36, hint.height()));

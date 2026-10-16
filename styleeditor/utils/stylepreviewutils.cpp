@@ -3,23 +3,37 @@
 #include <QAbstractButton>
 #include <QVariant>
 
-QSize StylePreviewUtils::resolveSize(const QSize& requested, const QSize& suggested, const QSize& hint) {
-    QSize size = hint;
-    if (suggested.width() > 0 && suggested.height() > 0)
-        size = suggested;
-    if (requested.width() > 0 && requested.height() > 0)
-        size = requested;
-    return QSize(qBound(1, size.width() > 0 ? size.width() : 150, 4096), qBound(1, size.height() > 0 ? size.height() : 42, 4096));
+int StylePreviewUtils::resolveDimension(int requested, int suggested, int hint, bool autoSize, int fallback) {
+    const int value = autoSize ? hint : requested > 0 ? requested : suggested > 0 ? suggested : hint;
+    return qBound(1, value > 0 ? value : fallback, 4096);
 }
 
-void StylePreviewUtils::applyState(QWidget* preview, int state) {
+QSize StylePreviewUtils::resolveSize(const QSize& requested, const QSize& suggested, const QSize& hint,
+                                     bool widthAuto, bool heightAuto) {
+    return QSize(resolveDimension(requested.width(), suggested.width(), hint.width(), widthAuto, 150),
+                 resolveDimension(requested.height(), suggested.height(), hint.height(), heightAuto, 42));
+}
+
+void StylePreviewUtils::applyState(QWidget* preview, int state, const QList<animatedwidgets::styleeditor::StyleProperty>& properties) {
     if (!preview)
         return;
 
-    preview->setEnabled(state != 3);
+    bool enabled = true;
+    bool checked = false;
+    bool checkable = false;
+    for (const auto& property : properties) {
+        if (property.name == QStringLiteral("enabled"))
+            enabled = property.value.toBool();
+        else if (property.name == QStringLiteral("checked"))
+            checked = property.value.toBool();
+        else if (property.name == QStringLiteral("checkable"))
+            checkable = property.value.toBool();
+    }
+    preview->setEnabled(enabled && state != 3);
     preview->setProperty("styleEditorState", state);
     if (auto* button = qobject_cast<QAbstractButton*>(preview)) {
-        button->setChecked(state == 4);
+        button->setCheckable(checkable || state == 4);
+        button->setChecked((checkable && checked) || state == 4);
         button->setDown(state == 2);
     }
     preview->update();

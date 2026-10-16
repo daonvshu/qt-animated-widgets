@@ -37,6 +37,7 @@ class DoubleSpinBox : public QDoubleSpinBox, public SpinBoxAppearance {
     Q_PROPERTY(QSize stepIconSize READ stepIconSize WRITE setStepIconSize)
     Q_PROPERTY(QIcon stepUpIcon READ stepUpIcon WRITE setStepUpIcon)
     Q_PROPERTY(QIcon stepDownIcon READ stepDownIcon WRITE setStepDownIcon)
+    Q_PROPERTY(bool iconHint READ iconHint WRITE setIconHint)
     Q_PROPERTY(bool stepButtonsVisible READ stepButtonsVisible WRITE setStepButtonsVisible)
     Q_PROPERTY(QColor stepButtonNormalColor READ stepButtonNormalColor WRITE setStepButtonNormalColor)
     Q_PROPERTY(QColor stepButtonHoverColor READ stepButtonHoverColor WRITE setStepButtonHoverColor)
@@ -62,6 +63,8 @@ public:
     void setStepUpIcon(const QIcon& icon);
     QIcon stepDownIcon() const;
     void setStepDownIcon(const QIcon& icon);
+    bool iconHint() const;
+    void setIconHint(bool enabled);
     bool stepButtonsVisible() const;
     void setStepButtonsVisible(bool visible);
     QColor stepButtonNormalColor() const;

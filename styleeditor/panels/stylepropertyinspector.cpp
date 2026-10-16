@@ -2,6 +2,8 @@
 
 #include "stylepropertyrow.h"
 #include "../dialogs/colorpickerdialog.h"
+#include "../dialogs/styleiconresourcepopup.h"
+#include "../utils/styleresourceutils.h"
 
 #include "animatedwidgets/styleeditor/utils/stylepropertystateutils.h"
 
@@ -68,10 +70,24 @@ void StylePropertyInspector::clear() {
     setProperties({});
 }
 
+void StylePropertyInspector::setResourceSettings(const StyleResourceSettings& settings) {
+    m_resources = settings;
+    QString error;
+    m_resourceEntries = StyleResourceUtils::scanAll(settings, error);
+    for (const StyleProperty& property : m_properties) {
+        if (property.type != animatedwidgets::styleeditor::StylePropertyType::Icon)
+            continue;
+        if (auto* row = qobject_cast<StylePropertyRow*>(m_tree->itemWidget(m_propertyItems.value(property.name), 0)))
+            row->setIconPreview(StyleResourceUtils::resolve(settings, m_resourceEntries, property.value.toString()));
+    }
+}
+
 QWidget* StylePropertyInspector::createRow(const StyleProperty& property) {
     auto* row = new StylePropertyRow(property, m_tree);
     const QString name = property.name;
     const quint64 generation = m_generation;
+    if (property.type == animatedwidgets::styleeditor::StylePropertyType::Icon)
+        row->setIconPreview(StyleResourceUtils::resolve(m_resources, m_resourceEntries, property.value.toString()));
 
     connect(row, &StylePropertyRow::valueEdited, this, [this, name, generation](const QVariant& value) {
         if (generation == m_generation)
@@ -80,6 +96,10 @@ QWidget* StylePropertyInspector::createRow(const StyleProperty& property) {
     connect(row, &StylePropertyRow::colorRequested, this, [this, row, generation](const QColor& color) {
         if (generation == m_generation)
             showColorPopup(row, color, generation);
+    });
+    connect(row, &StylePropertyRow::iconRequested, this, [this, row, generation](const QString& reference) {
+        if (generation == m_generation)
+            showIconPopup(row, reference, generation);
     });
     connect(row, &StylePropertyRow::resetRequested, this, [this, name, generation, defaultValue = property.defaultValue] {
         if (generation != m_generation)
@@ -90,6 +110,22 @@ QWidget* StylePropertyInspector::createRow(const StyleProperty& property) {
             setProperties(m_properties);
     });
     return row;
+}
+
+void StylePropertyInspector::showIconPopup(StylePropertyRow* row, const QString& reference, quint64 generation) {
+    if (m_iconPopup || !row->isEnabled())
+        return;
+    auto* popup = new StyleIconResourcePopup(m_resources, reference, m_tree->window());
+    m_iconPopup = popup;
+    const QPointer<StylePropertyRow> target(row);
+    connect(popup, &StyleIconResourcePopup::iconAccepted, this, [this, popup, target, generation](const QString& selected) {
+        if (!target || !target->isEnabled() || generation != m_generation)
+            return;
+        setResourceSettings(popup->settings());
+        emit resourceSettingsEdited(m_resources);
+        target->setIconReference(selected, StyleResourceUtils::resolve(m_resources, m_resourceEntries, selected));
+    });
+    emit dialogRequested(popup);
 }
 
 void StylePropertyInspector::showColorPopup(StylePropertyRow* row, const QColor& color, quint64 generation) {

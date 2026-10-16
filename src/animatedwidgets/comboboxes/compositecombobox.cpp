@@ -72,6 +72,14 @@ void CompositeComboBox::setArrowVisible(bool visible) {
     m_editor->setArrowVisible(visible);
 }
 
+bool CompositeComboBox::iconHint() const {
+    return m_editor->iconHint();
+}
+
+void CompositeComboBox::setIconHint(bool enabled) {
+    m_editor->setIconHint(enabled);
+}
+
 int CompositeComboBox::contentPadding() const {
     return m_editor->contentPadding();
 }

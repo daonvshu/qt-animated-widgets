@@ -2,6 +2,8 @@
 
 #include "../utils/stylepropertyeditorutils.h"
 
+#include <QFileInfo>
+
 StylePropertyRow::StylePropertyRow(const animatedwidgets::styleeditor::StyleProperty& property, QWidget* parent)
     : QWidget(parent)
     , m_property(property)
@@ -26,6 +28,17 @@ void StylePropertyRow::createLayout() {
         connect(m_colorButton, &animatedwidgets::BorderedButton::clicked, this, [this] {
             emit colorRequested(m_property.value.value<QColor>());
         });
+    } else if (m_property.type == animatedwidgets::styleeditor::StylePropertyType::Icon) {
+        m_iconButton = new animatedwidgets::BorderedButton(ui.editorHost);
+        m_iconButton->setObjectName(QStringLiteral("iconResourceButton"));
+        m_iconButton->setFixedHeight(24);
+        m_iconButton->setIconSize(QSize(16, 16));
+        m_iconButton->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Fixed);
+        ui.editorLayout->addWidget(m_iconButton);
+        setIconPreview(m_property.value.toString());
+        connect(m_iconButton, &animatedwidgets::BorderedButton::clicked, this, [this] {
+            emit iconRequested(m_property.value.toString());
+        });
     } else {
         QWidget* editor = StylePropertyEditorUtils::createEditor(m_property, ui.editorHost, [this](const QVariant& value) {
             m_property.value = value;
@@ -37,6 +50,23 @@ void StylePropertyRow::createLayout() {
         if (m_property.type == animatedwidgets::styleeditor::StylePropertyType::Boolean)
             ui.editorLayout->addStretch();
     }
+}
+
+void StylePropertyRow::setIconReference(const QString& reference, const QString& previewPath) {
+    if (!isEnabled())
+        return;
+    m_property.value = reference;
+    setIconPreview(previewPath);
+    emit valueEdited(reference);
+}
+
+void StylePropertyRow::setIconPreview(const QString& previewPath) {
+    if (!m_iconButton)
+        return;
+    const QString reference = m_property.value.toString();
+    m_iconButton->setIcon(QIcon(previewPath));
+    m_iconButton->setText(reference.isEmpty() ? QStringLiteral("Choose...") : QFileInfo(reference).fileName());
+    m_iconButton->setToolTip(reference.isEmpty() ? QStringLiteral("Choose an icon from project resources") : reference);
 }
 
 void StylePropertyRow::setColor(const QColor& color) {

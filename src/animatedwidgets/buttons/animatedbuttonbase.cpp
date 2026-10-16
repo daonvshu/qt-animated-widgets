@@ -51,6 +51,17 @@ void AnimatedButtonBase::setAnimateContentColor(bool enabled) {
     refreshButtonState();
 }
 
+bool AnimatedButtonBase::iconHint() const {
+    return m_iconHint;
+}
+
+void AnimatedButtonBase::setIconHint(bool enabled) {
+    if (m_iconHint == enabled)
+        return;
+    m_iconHint = enabled;
+    update();
+}
+
 ButtonState AnimatedButtonBase::buttonState() const {
     QStyleOptionButton option;
     initStyleOption(&option);

@@ -51,6 +51,11 @@ IconLineEdit* TreePopupMenu::searchEditor() const {
     return m_searchEditor;
 }
 
+void TreePopupMenu::setIconHint(bool enabled) {
+    m_searchEditor->setIconHint(enabled);
+    PopupMenu::setIconHint(enabled);
+}
+
 bool TreePopupMenu::leafOnly() const {
     return static_cast<TreePopupModel*>(selectionModel())->leafOnly();
 }

@@ -33,9 +33,10 @@ The application separates its implementation by responsibility:
 - `document/StyleEditorSession` manages editable properties and preview lifetimes
   as a child of the editor page; it has no file or document metadata APIs.
 - `dialogs/StylePopupDialog` inherits `BasePopupDlg` and supplies animated,
-  window-modal dialogs. `StyleMessagePopup` handles messages and confirmations;
-  `StyleDocumentFilePopup` browses directories and selects JSON documents.
-  Their layouts and appearance are declared in their `.ui` files.
+  window-modal dialogs. `StyleMessagePopup` handles messages and confirmations.
+  Their layouts and appearance are declared in their `.ui` files. File and
+  directory selection uses `QFileDialog`, including document open/save and
+  resource browsing.
 - `plugins/StylePluginRegistry` loads plugins and resolves widget types.
 - `panels/StylePropertyInspector` builds and manages the property rows.
 - Property categories are collapsible tree nodes. `StylePropertyRow` puts the
@@ -174,7 +175,7 @@ The public API is under `animatedwidgets/styleeditor/api`:
 - `StyleWidgetTypeOptions` supplies named registration fields: ID, display name,
   category, optional C++ type name, suggested size and property definition callback.
 - `StylePropertyBuilder` groups properties and binds ordinary `Q_PROPERTY`
-  declarations. Text, color, bool, int, float and double types are inferred;
+  declarations. Text, color, bool, int, float, double, QSize and QKeySequence types are inferred;
   enums, flag combinations and icon resource paths have explicit methods.
 - `StyleEnumOption` maps a stable option name to its numeric value and C++
   expression. Use explicit options for combinations such as alignment flags.
@@ -184,7 +185,7 @@ The public API is under `animatedwidgets/styleeditor/api`:
 The builder API is header-only and remains part of the lightweight
 `AnimatedWidgets::StyleEditorApi` target. Existing plugins can still return
 `StyleEditorWidgetType` and `StyleProperty` directly. Property descriptors now carry
-enable conditions, so the plugin IID is version 3.0. Rebuild external plugins
+enable conditions and dedicated icon, size and shortcut editors, so the plugin IID is version 4.0. Rebuild external plugins
 against this API. Existing document property keys are unchanged.
 
 Define property groups in named functions rather than mixing registration,
@@ -234,12 +235,17 @@ Generated setters are omitted when the current value equals its known default.
 
 `panels/StylePreviewPanel` owns the preview layout and settings. Its Designer
 form provides width and height inputs (1-4096 pixels), a background color swatch
-and Reset preview. Widgets remain centered inside a scrollable canvas at the
-chosen dimensions. Without a custom size, the editor uses the plugin's suggested
-size, then the widget's size hint. Background defaults to the main window's theme
+and independent Auto switches for width and height, plus Reset preview. An Auto
+dimension uses the preview widget's size hint and size policy so a widget's own
+layout can determine that dimension; a fixed dimension uses the entered pixel
+value. Widgets remain centered inside a scrollable canvas at the chosen dimensions.
+Without a custom size, the editor uses the plugin's suggested size, then the
+widget's size hint. Background defaults to the main window's theme
 color; Auto in the color picker restores that default. Custom sizes and
 background colors are stored per document item in the optional `preview` JSON
-object. These editor settings are excluded from generated widget setter code.
+object. Auto dimensions are stored as `widthAuto` and `heightAuto`; their fixed
+pixel values are omitted while Auto is enabled. These editor settings are excluded
+from generated widget setter code.
 
 Use `enumeration(name, label, scope)` for a `Q_ENUM` property. The scope is its
 fully qualified C++ enum type. For flag combinations or a curated option list,
@@ -255,8 +261,42 @@ combined value; generated code uses a single setter such as
 values remain compatible, and the centered default still omits the setter.
 
 `icon(name, label, resource, defaultResource)` edits a `QIcon` property through
-its resource path. Supply the current and default paths when either is nonempty;
+a resource picker. Use the QRC dropdown to select a `.qrc` file from any directory.
+Its first entry opens `QFileDialog`; subsequent
+entries switch between previously selected QRC files without adding duplicates.
+History entries show full paths to distinguish files with the same name.
+The searchable virtual tree groups icons by resource prefixes and alias directories.
+Rows display icon previews and names; selection displays the complete reference.
+Clear icon restores an empty icon. No manual icon-path entry is required.
+QRC images use `:/prefix/alias`, including QRC aliases. The editor resolves images
+from all remembered QRC files for preview, with the active QRC taking precedence
+when resource references overlap. Switching QRC files preserves other icon previews.
+Include the QRC files in the consuming application's build so generated `:/`
+references are available at runtime.
+
+Resource settings are shared by document items and saved in an optional
+`resources` object. The first QRC's directory becomes the automatic path base,
+stored relative to the JSON file in `projectDirectory` for compatibility with
+existing documents. The active source and `qrcFiles` history are relative to that
+base, including parent-directory references; files on other drives retain absolute
+paths. No project selection is required. Temporary documents also support resource
+selection. Moving the directory tree together with its JSON and resources
+preserves these relative references. Changing the resource source refreshes
+preview resolution for all icon properties.
+
+Supply the current and default paths when either is nonempty;
 QIcon does not retain a recoverable source path. Both paths default to empty.
+QSize properties use separate width and height inputs and generate `QSize(w, h)`.
+Shortcuts use portable Qt key-sequence text and generate a `QKeySequence` setter.
+Button plugins expose text, icon, icon size, enabled, checkable/checked, shortcut,
+auto-repeat settings, auto-default/default and tooltip properties. Checked is
+editable only when checkable is enabled; repeat timing requires auto-repeat.
+The Content group's Tint icon switch controls `iconHint`: it defaults to false,
+preserving original icon colors regardless of the content color. Enable it to
+apply content colors to the icon; Animate content controls state transitions
+independently. Icon-only variants disable content color and animation controls
+until Tint icon is enabled. JSON stores the switch and generated C++ emits
+`setIconHint(true)` only when it differs from the default.
 For nonstandard properties, construct a `StyleProperty` with custom callbacks
 and pass it to `builder.add(property)`. Callback safety for such custom bindings
 is the plugin's responsibility; automatic bindings guard the target with QPointer.

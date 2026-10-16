@@ -105,6 +105,15 @@ void SpinBox::setStepDownIcon(const QIcon& icon) {
     m_downButton->setIcon(icon);
 }
 
+bool SpinBox::iconHint() const {
+    return m_upButton->iconHint() && m_downButton->iconHint();
+}
+
+void SpinBox::setIconHint(bool enabled) {
+    m_upButton->setIconHint(enabled);
+    m_downButton->setIconHint(enabled);
+}
+
 bool SpinBox::stepButtonsVisible() const {
     return m_stepButtonsVisible;
 }

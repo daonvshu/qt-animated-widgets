@@ -33,6 +33,7 @@ void CalendarStyleUtils::applyChildren(QWidget* widget, const CalendarStyle& sty
         if (auto* navigation = qobject_cast<HoverIconButton*>(button)) {
             navigation->setFixedSize(style.navigationButtonSize);
             navigation->setIconSize(style.navigationIconSize);
+            navigation->setIconHint(style.iconHint);
             navigation->setAnimateContentColor(true);
             navigation->setContentNormal(style.navigationContent);
             navigation->setContentHover(style.navigationHoverContent);
@@ -42,6 +43,7 @@ void CalendarStyleUtils::applyChildren(QWidget* widget, const CalendarStyle& sty
             navigation->setBackgroundPressed(style.buttonPressedBackground);
             navigation->setCornerRadius(style.buttonCornerRadius);
         } else if (auto* action = qobject_cast<HoverButton*>(button)) {
+            action->setIconHint(style.iconHint);
             const bool dateTitle = action->objectName() == QStringLiteral("calendarDateTitleButton");
             action->setFont(dateTitle ? style.dateTitleFont : style.titleFont);
             action->setContentNormal(style.content);
@@ -56,6 +58,7 @@ void CalendarStyleUtils::applyChildren(QWidget* widget, const CalendarStyle& sty
                     action->setFixedHeight(style.dateTitleButtonSize.height());
             }
         } else if (auto* confirm = qobject_cast<FilledButton*>(button)) {
+            confirm->setIconHint(style.iconHint);
             confirm->setFont(style.itemFont);
             confirm->setBackgroundNormal(style.actionBackground);
             confirm->setContentNormal(style.actionContent);

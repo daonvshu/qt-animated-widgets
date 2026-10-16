@@ -56,6 +56,15 @@ void IconLineEdit::setTrailingIcon(const QIcon& icon) {
     updateGeometry();
 }
 
+bool IconLineEdit::iconHint() const {
+    return m_leadingButton->iconHint() && m_trailingButton->iconHint();
+}
+
+void IconLineEdit::setIconHint(bool enabled) {
+    m_leadingButton->setIconHint(enabled);
+    m_trailingButton->setIconHint(enabled);
+}
+
 QSize IconLineEdit::leadingIconSize() const {
     return m_leadingIconSize;
 }

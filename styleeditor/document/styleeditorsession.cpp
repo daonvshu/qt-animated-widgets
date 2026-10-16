@@ -2,12 +2,16 @@
 
 #include "../plugins/stylepluginregistry.h"
 #include "../utils/styledocumentcodec.h"
+#include "../utils/styleresourceutils.h"
 
 #include <QUuid>
 #include <QWidget>
 
+#include <algorithm>
+
 using animatedwidgets::styleeditor::StyleEditorWidgetType;
 using animatedwidgets::styleeditor::StyleProperty;
+using animatedwidgets::styleeditor::StylePropertyType;
 
 StyleEditorSession::StyleEditorSession(const StylePluginRegistry& registry, QWidget* previewParent, QObject* parent)
     : QObject(parent)
@@ -145,6 +149,27 @@ void StyleEditorSession::setPreviewSettings(int itemIndex, const StylePreviewSet
     emit contentChanged();
 }
 
+const StyleResourceSettings& StyleEditorSession::resourceSettings() const {
+    return m_resources;
+}
+
+void StyleEditorSession::setResourceSettings(const StyleResourceSettings& settings) {
+    const bool historyChanged = m_resources.qrcFiles.size() != settings.qrcFiles.size()
+        || !std::equal(m_resources.qrcFiles.cbegin(), m_resources.qrcFiles.cend(), settings.qrcFiles.cbegin());
+    const bool changed = m_resources.projectDirectory != settings.projectDirectory || m_resources.source != settings.source || historyChanged;
+    m_resources = settings;
+    QString error;
+    m_resourceEntries = StyleResourceUtils::scanAll(settings, error);
+    for (const StyleEditorItem& item : m_items) {
+        for (const StyleProperty& property : item.properties) {
+            if (property.type == StylePropertyType::Icon && property.apply)
+                property.apply(property.value);
+        }
+    }
+    if (changed)
+        emit contentChanged();
+}
+
 bool StyleEditorSession::initializeItem(StyleEditorItem& item, const StyleEditorWidgetType& type) {
     if (!type.create || !type.properties)
         return false;
@@ -157,6 +182,14 @@ bool StyleEditorSession::initializeItem(StyleEditorItem& item, const StyleEditor
     item.typeName = type.typeName;
     item.suggestedSize = type.suggestedSize;
     item.properties = type.properties(item.preview);
+    for (StyleProperty& property : item.properties) {
+        if (property.type != StylePropertyType::Icon || !property.apply)
+            continue;
+        property.apply = [session = QPointer<StyleEditorSession>(this), apply = property.apply](const QVariant& value) {
+            if (session)
+                apply(StyleResourceUtils::resolve(session->m_resources, session->m_resourceEntries, value.toString()));
+        };
+    }
     return true;
 }
 

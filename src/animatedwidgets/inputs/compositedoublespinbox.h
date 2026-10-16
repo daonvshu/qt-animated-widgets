@@ -19,6 +19,7 @@ class CompositeDoubleSpinBox : public CompositeInputBase {
     Q_PROPERTY(QString suffix READ suffix WRITE setSuffix)
     Q_PROPERTY(bool readOnly READ isReadOnly WRITE setReadOnly)
     Q_PROPERTY(bool stepButtonsVisible READ stepButtonsVisible WRITE setStepButtonsVisible)
+    Q_PROPERTY(bool iconHint READ iconHint WRITE setIconHint)
     Q_PROPERTY(int contentPadding READ contentPadding WRITE setContentPadding)
 
 public:
@@ -44,6 +45,8 @@ public:
     void setReadOnly(bool readOnly);
     bool stepButtonsVisible() const;
     void setStepButtonsVisible(bool visible);
+    bool iconHint() const;
+    void setIconHint(bool enabled);
     int contentPadding() const;
     void setContentPadding(int padding);
 

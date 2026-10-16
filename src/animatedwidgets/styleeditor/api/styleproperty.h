@@ -18,7 +18,10 @@ enum class StylePropertyType {
     Real,
     Boolean,
     Enum,
-    Alignment
+    Alignment,
+    Icon,
+    Size,
+    KeySequence
 };
 
 struct StyleProperty {

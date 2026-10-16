@@ -15,6 +15,7 @@ class CompositeLineEdit : public CompositeInputBase {
     Q_PROPERTY(bool readOnly READ isReadOnly WRITE setReadOnly)
     Q_PROPERTY(QColor background READ background WRITE setBackground)
     Q_PROPERTY(int contentPadding READ contentPadding WRITE setContentPadding)
+    Q_PROPERTY(bool iconHint READ iconHint WRITE setIconHint)
 
 public:
     explicit CompositeLineEdit(QWidget* parent = nullptr);
@@ -33,6 +34,9 @@ public:
 
     int contentPadding() const;
     void setContentPadding(int padding);
+
+    bool iconHint() const;
+    void setIconHint(bool enabled);
 
     QSize sizeHint() const override;
 

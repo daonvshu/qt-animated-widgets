@@ -16,6 +16,10 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 
+if(MSVC)
+    add_compile_options("$<$<COMPILE_LANGUAGE:CXX>:/utf-8>")
+endif()
+
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Gui Widgets Svg)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Gui Widgets Svg)
 find_package(SmoothScrollbar QUIET CONFIG)
@@ -151,6 +155,8 @@ add_library(AnimatedWidgetsWidgets
     src/animatedwidgets/utils/popupmenuitemdata.cpp
     src/animatedwidgets/utils/buttonpainter.h
     src/animatedwidgets/utils/buttonpainter.cpp
+    src/animatedwidgets/utils/iconpainter.h
+    src/animatedwidgets/utils/iconpainter.cpp
     src/animatedwidgets/utils/checkableiconpainter.h
     src/animatedwidgets/utils/checkableiconpainter.cpp
     src/animatedwidgets/buttons/checkableiconanimator.h

@@ -95,6 +95,14 @@ void CompositeSpinBox::setStepButtonsVisible(bool visible) {
     updateGeometry();
 }
 
+bool CompositeSpinBox::iconHint() const {
+    return m_editor->iconHint();
+}
+
+void CompositeSpinBox::setIconHint(bool enabled) {
+    m_editor->setIconHint(enabled);
+}
+
 int CompositeSpinBox::contentPadding() const {
     return m_editor->contentPadding();
 }

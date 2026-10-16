@@ -1,7 +1,10 @@
 #include "styledocumentcodec.h"
+#include "styleresourceutils.h"
 
 #include <QColor>
+#include <QDir>
 #include <QFile>
+#include <QFileInfo>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonParseError>
@@ -30,6 +33,17 @@ bool StyleDocumentCodec::readFile(const QString& filePath, StyleDocument& docume
     StyleDocument loaded;
     loaded.filePath = filePath;
     loaded.name = root.value(QStringLiteral("name")).toString(QStringLiteral("Untitled"));
+    const QJsonObject resources = root.value(QStringLiteral("resources")).toObject();
+    const QString projectDirectory = resources.value(QStringLiteral("projectDirectory")).toString();
+    if (!projectDirectory.isEmpty())
+        loaded.resources.projectDirectory = QDir::cleanPath(QDir(QFileInfo(filePath).absolutePath()).absoluteFilePath(projectDirectory));
+    loaded.resources.source = resources.value(QStringLiteral("source")).toString();
+    const QJsonArray qrcFiles = resources.value(QStringLiteral("qrcFiles")).toArray();
+    for (const QJsonValue& value : qrcFiles) {
+        if (value.isString())
+            loaded.resources.qrcFiles.append(value.toString());
+    }
+    loaded.resources.qrcFiles = StyleResourceUtils::qrcSources(loaded.resources);
     const QJsonArray items = root.value(QStringLiteral("items")).toArray();
     for (const QJsonValue& itemValue : items) {
         if (!itemValue.isObject())
@@ -43,8 +57,12 @@ bool StyleDocumentCodec::readFile(const QString& filePath, StyleDocument& docume
         const QJsonObject preview = itemObject.value(QStringLiteral("preview")).toObject();
         const int width = preview.value(QStringLiteral("width")).toInt();
         const int height = preview.value(QStringLiteral("height")).toInt();
-        if (width >= 1 && width <= 4096 && height >= 1 && height <= 4096)
-            item.previewSettings.size = QSize(width, height);
+        if (width >= 1 && width <= 4096)
+            item.previewSettings.size.setWidth(width);
+        if (height >= 1 && height <= 4096)
+            item.previewSettings.size.setHeight(height);
+        item.previewSettings.widthAuto = preview.value(QStringLiteral("widthAuto")).toBool();
+        item.previewSettings.heightAuto = preview.value(QStringLiteral("heightAuto")).toBool();
         item.previewSettings.background = QColor(preview.value(QStringLiteral("background")).toString());
         if (item.widgetTypeId.isEmpty())
             continue;
@@ -82,7 +100,8 @@ void StyleDocumentCodec::applyCompatibleProperties(QList<StyleProperty>& propert
         for (const StyleProperty& old : previous) {
             const bool enumCompatible = (property.type == StylePropertyType::Enum || property.type == StylePropertyType::Alignment)
                 && (old.type == StylePropertyType::Enum || old.type == StylePropertyType::Alignment);
-            if (property.name != old.name || (property.type != old.type && !enumCompatible))
+            const bool iconCompatible = property.type == StylePropertyType::Icon && old.type == StylePropertyType::Text;
+            if (property.name != old.name || (property.type != old.type && !enumCompatible && !iconCompatible))
                 continue;
             if (enumCompatible && !property.enumNames.contains(old.value.toString()))
                 break;
@@ -99,6 +118,16 @@ QJsonObject StyleDocumentCodec::toJson(const StyleDocument& document) {
     QJsonObject root;
     root.insert(QStringLiteral("version"), 1);
     root.insert(QStringLiteral("name"), document.name);
+    if (!document.resources.projectDirectory.isEmpty()) {
+        QJsonObject resources;
+        const QDir directory(document.filePath.isEmpty() ? QDir::currentPath() : QFileInfo(document.filePath).absolutePath());
+        resources.insert(QStringLiteral("projectDirectory"), QDir::fromNativeSeparators(directory.relativeFilePath(document.resources.projectDirectory)));
+        resources.insert(QStringLiteral("source"), document.resources.source);
+        const QStringList qrcFiles = StyleResourceUtils::qrcSources(document.resources);
+        if (!qrcFiles.isEmpty())
+            resources.insert(QStringLiteral("qrcFiles"), QJsonArray::fromStringList(qrcFiles));
+        root.insert(QStringLiteral("resources"), resources);
+    }
 
     QJsonArray items;
     for (const StyleDocumentItem& item : document.items) {
@@ -109,10 +138,14 @@ QJsonObject StyleDocumentCodec::toJson(const StyleDocument& document) {
 
         itemObject.insert(QStringLiteral("properties"), item.serializedProperties);
         QJsonObject preview;
-        if (item.previewSettings.size.width() > 0 && item.previewSettings.size.height() > 0) {
+        if (!item.previewSettings.widthAuto && item.previewSettings.size.width() > 0)
             preview.insert(QStringLiteral("width"), item.previewSettings.size.width());
+        if (!item.previewSettings.heightAuto && item.previewSettings.size.height() > 0)
             preview.insert(QStringLiteral("height"), item.previewSettings.size.height());
-        }
+        if (item.previewSettings.widthAuto)
+            preview.insert(QStringLiteral("widthAuto"), true);
+        if (item.previewSettings.heightAuto)
+            preview.insert(QStringLiteral("heightAuto"), true);
         if (item.previewSettings.background.isValid())
             preview.insert(QStringLiteral("background"), item.previewSettings.background.name(QColor::HexArgb));
         if (!preview.isEmpty())
@@ -129,7 +162,9 @@ bool StyleDocumentCodec::writeFile(const QString& filePath, const StyleDocument&
         errorMessage = file.errorString();
         return false;
     }
-    const QByteArray contents = QJsonDocument(toJson(document)).toJson(QJsonDocument::Indented);
+    StyleDocument saved = document;
+    saved.filePath = filePath;
+    const QByteArray contents = QJsonDocument(toJson(saved)).toJson(QJsonDocument::Indented);
     if (file.write(contents) != contents.size() || !file.commit()) {
         errorMessage = file.errorString();
         return false;
@@ -152,6 +187,13 @@ QJsonValue StyleDocumentCodec::variantToJson(const StyleProperty& property, cons
         return value.toInt();
     if (property.type == StylePropertyType::Real)
         return value.toDouble();
+    if (property.type == StylePropertyType::Size) {
+        const QSize size = value.toSize();
+        QJsonObject object;
+        object.insert(QStringLiteral("width"), size.width());
+        object.insert(QStringLiteral("height"), size.height());
+        return object;
+    }
     return value.toString();
 }
 
@@ -163,6 +205,15 @@ bool StyleDocumentCodec::jsonToVariant(const StyleProperty& property, const QJso
     if (value.isUndefined() || value.isNull())
         return false;
     switch (property.type) {
+    case StylePropertyType::Size: {
+        const QJsonObject object = value.toObject();
+        const QJsonValue width = object.value(QStringLiteral("width"));
+        const QJsonValue height = object.value(QStringLiteral("height"));
+        if (!width.isDouble() || !height.isDouble() || width.toInt() < 1 || width.toInt() > 4096 || height.toInt() < 1 || height.toInt() > 4096)
+            return false;
+        result = QSize(width.toInt(), height.toInt());
+        return true;
+    }
     case StylePropertyType::Color: {
         const QColor color(value.toString());
         if (!color.isValid())

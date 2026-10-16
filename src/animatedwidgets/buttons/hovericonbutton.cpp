@@ -188,7 +188,8 @@ void HoverIconButton::paintEvent(QPaintEvent*) {
                                ButtonSurfaceOptions{animatedBackgroundColor(), {}, 0.0, m_cornerRadius, true, false, m_shape == Shape::Circle});
     ButtonPainter::drawContent(
             painter, rect(),
-            ButtonContentOptions{icon(), iconSize(), {}, font(), animatedContentColor(), 0, true, ButtonContentOptions::Placement::BeforeText});
+            ButtonContentOptions{icon(), iconSize(), {}, font(), animatedContentColor(), 0, true, ButtonContentOptions::Placement::BeforeText,
+                                 Qt::AlignCenter, 0, 0, layoutDirection(), iconHint(), isEnabled()});
 }
 
 } // namespace animatedwidgets

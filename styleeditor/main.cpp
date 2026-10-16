@@ -1,10 +1,17 @@
 #include "styleeditorwindow.h"
 
+#include "utils/objectfindtool.h"
+
 #include <QApplication>
 #include <Windows.h>
 
 int main(int argc, char* argv[]) {
+#ifdef QT_DEBUG
+    ObjectFinderApplication app(argc, argv);
+#else
     QApplication app(argc, argv);
+#endif
+
     QApplication::setApplicationName(QStringLiteral("Animated Widgets Style Editor"));
 
 #ifdef Q_OS_WIN

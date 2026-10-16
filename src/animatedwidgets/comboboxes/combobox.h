@@ -37,6 +37,7 @@ class ComboBox : public QComboBox {
     Q_PROPERTY(int contentPadding READ contentPadding WRITE setContentPadding)
     Q_PROPERTY(int animationDuration READ animationDuration WRITE setAnimationDuration)
     Q_PROPERTY(QIcon arrowIcon READ arrowIcon WRITE setArrowIcon)
+    Q_PROPERTY(bool iconHint READ iconHint WRITE setIconHint)
     Q_PROPERTY(QSize arrowIconSize READ arrowIconSize WRITE setArrowIconSize)
     Q_PROPERTY(int arrowRightMargin READ arrowRightMargin WRITE setArrowRightMargin)
     Q_PROPERTY(bool arrowVisible READ arrowVisible WRITE setArrowVisible)
@@ -98,6 +99,8 @@ public:
 
     QIcon arrowIcon() const;
     void setArrowIcon(const QIcon& icon);
+    bool iconHint() const;
+    void setIconHint(bool enabled);
     QSize arrowIconSize() const;
     void setArrowIconSize(const QSize& size);
     int arrowRightMargin() const;
@@ -180,6 +183,7 @@ private:
     Qt::Alignment m_popupAlign = Qt::AlignLeft;
     bool m_borderVisible = true;
     bool m_arrowVisible = true;
+    bool m_iconHint = false;
     bool m_hasError = false;
     bool m_hovered = false;
     bool m_popupOpen = false;

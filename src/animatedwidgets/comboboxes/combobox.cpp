@@ -1,6 +1,7 @@
 #include "animatedwidgets/comboboxes/combobox.h"
 #include "animatedwidgets/comboboxes/combolistpopup.h"
 #include "animatedwidgets/utils/inputcontextmenu.h"
+#include "animatedwidgets/utils/iconpainter.h"
 #include "animatedwidgets/popups/popupdismissfilter.h"
 
 #include <QApplication>
@@ -84,6 +85,19 @@ bool ComboBox::popupOnEdit() const {
 void ComboBox::setPopupOnEdit(bool enabled) {
     m_popupOnEdit = enabled;
     updateCompleter();
+}
+
+bool ComboBox::iconHint() const {
+    return m_iconHint;
+}
+
+void ComboBox::setIconHint(bool enabled) {
+    if (m_iconHint == enabled)
+        return;
+    m_iconHint = enabled;
+    if (m_popup)
+        m_popup->setIconHint(enabled);
+    update();
 }
 
 bool ComboBox::hasError() const {
@@ -549,7 +563,8 @@ void ComboBox::paintEvent(QPaintEvent*) {
     if (m_arrowVisible && !m_arrowIcon.isNull()) {
         const int arrowX = rightToLeft ? m_arrowRightMargin : width() - m_arrowRightMargin - m_arrowIconSize.width();
         const QRect arrowRect(arrowX, (height() - m_arrowIconSize.height()) / 2, m_arrowIconSize.width(), m_arrowIconSize.height());
-        m_arrowIcon.paint(&painter, arrowRect, Qt::AlignCenter, isEnabled() ? QIcon::Normal : QIcon::Disabled);
+        IconPainter::draw(painter, arrowRect, m_arrowIcon, m_iconHint ? (isEnabled() ? m_textColor : m_disabledTextColor) : QColor(),
+                          isEnabled() ? QIcon::Normal : QIcon::Disabled);
     }
 
     if (isEditable())
@@ -566,8 +581,9 @@ void ComboBox::paintEvent(QPaintEvent*) {
     if (!itemIcon.isNull() && textRect.width() > 0) {
         const QSize itemSize = iconSize().boundedTo(textRect.size());
         const int iconX = rightToLeft ? textRect.right() - itemSize.width() + 1 : textRect.left();
-        itemIcon.paint(&painter, QRect(iconX, (height() - itemSize.height()) / 2, itemSize.width(), itemSize.height()), Qt::AlignCenter,
-                       isEnabled() ? QIcon::Normal : QIcon::Disabled);
+        IconPainter::draw(painter, QRect(iconX, (height() - itemSize.height()) / 2, itemSize.width(), itemSize.height()), itemIcon,
+                          m_iconHint ? (isEnabled() ? m_textColor : m_disabledTextColor) : QColor(),
+                          isEnabled() ? QIcon::Normal : QIcon::Disabled);
         if (rightToLeft)
             textRect.setRight(iconX - 7);
         else
@@ -588,6 +604,7 @@ void ComboBox::showPopup() {
     if (!popup)
         return;
     m_popup = popup;
+    popup->setIconHint(m_iconHint);
     if (!m_popupScrollBarStyleSheet.isNull())
         popup->setScrollBarStyleSheet(m_popupScrollBarStyleSheet);
 

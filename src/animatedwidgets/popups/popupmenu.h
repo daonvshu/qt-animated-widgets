@@ -26,6 +26,7 @@ class PopupMenuListStyle;
 
 class PopupMenu : public BasePopupDlg {
     Q_OBJECT
+    Q_PROPERTY(bool iconHint READ iconHint WRITE setIconHint)
 
 public:
     using ViewFactory = std::function<QAbstractItemView*(QWidget*)>;
@@ -53,6 +54,9 @@ public:
     void setSurfaceMetrics(int radius, int cornerRadius);
     PopupMenuListStyle* listStyle() const;
     void setListStyle(PopupMenuListStyle* style);
+
+    bool iconHint() const;
+    virtual void setIconHint(bool enabled);
 
     QString scrollBarStyleSheet() const;
     void setScrollBarStyleSheet(const QString& styleSheet);

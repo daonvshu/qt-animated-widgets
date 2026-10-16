@@ -41,15 +41,22 @@ void StylePreviewPanel::setPreview(QWidget* preview, const StylePreviewSettings&
     m_preview = preview;
     m_settings = settings;
     m_suggestedSize = suggestedSize;
-    ui.previewControls->setEnabled(preview != nullptr);
+
+    QWidget* const controls[] = {ui.previewWidthEdit, ui.previewHeightEdit,
+                                ui.previewWidthAutoButton, ui.previewHeightAutoButton,
+                                ui.previewBackgroundButton, ui.resetPreviewButton};
+    for (QWidget* control : controls)
+        control->setEnabled(preview != nullptr);
+
     if (preview) {
         ui.previewWidgetLayout->addWidget(preview, 0, Qt::AlignCenter);
-        preview->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
         updateSize();
         preview->show();
     } else {
         ui.previewWidthEdit->clear();
         ui.previewHeightEdit->clear();
+        ui.previewWidthAutoButton->setChecked(false);
+        ui.previewHeightAutoButton->setChecked(false);
     }
     updateBackground();
 }
@@ -57,10 +64,24 @@ void StylePreviewPanel::setPreview(QWidget* preview, const StylePreviewSettings&
 void StylePreviewPanel::updateSize() {
     if (!m_preview)
         return;
-    const QSize size = StylePreviewUtils::resolveSize(m_settings.size, m_suggestedSize, m_preview->sizeHint());
-    m_preview->setFixedSize(size);
+    const QSize size = StylePreviewUtils::resolveSize(m_settings.size, m_suggestedSize, m_preview->sizeHint(),
+                                                      m_settings.widthAuto, m_settings.heightAuto);
+    m_preview->setMinimumSize(QSize(0, 0));
+    m_preview->setMaximumSize(QSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX));
+    m_preview->setSizePolicy(m_settings.widthAuto ? QSizePolicy::Preferred : QSizePolicy::Fixed,
+                             m_settings.heightAuto ? QSizePolicy::Preferred : QSizePolicy::Fixed);
+    m_preview->resize(size);
+    if (!m_settings.widthAuto)
+        m_preview->setFixedWidth(size.width());
+    if (!m_settings.heightAuto)
+        m_preview->setFixedHeight(size.height());
+    m_preview->updateGeometry();
     ui.previewWidthEdit->setText(QString::number(size.width()));
     ui.previewHeightEdit->setText(QString::number(size.height()));
+    ui.previewWidthAutoButton->setChecked(m_settings.widthAuto);
+    ui.previewHeightAutoButton->setChecked(m_settings.heightAuto);
+    ui.previewWidthEdit->setEnabled(!m_settings.widthAuto);
+    ui.previewHeightEdit->setEnabled(!m_settings.heightAuto);
 }
 
 void StylePreviewPanel::updateBackground() {
@@ -85,18 +106,23 @@ void StylePreviewPanel::updateBackground() {
 void StylePreviewPanel::applySizeInput() {
     if (!m_preview)
         return;
-    if (!ui.previewWidthEdit->hasAcceptableInput() || !ui.previewHeightEdit->hasAcceptableInput()) {
+    const bool widthValid = m_settings.widthAuto || ui.previewWidthEdit->hasAcceptableInput();
+    const bool heightValid = m_settings.heightAuto || ui.previewHeightEdit->hasAcceptableInput();
+    if (!widthValid || !heightValid) {
         updateSize();
         return;
     }
 
-    const QSize size(ui.previewWidthEdit->text().toInt(), ui.previewHeightEdit->text().toInt());
-    const QSize current = StylePreviewUtils::resolveSize(m_settings.size, m_suggestedSize, m_preview->sizeHint());
-    if (size == current) {
+    QSize requested = m_settings.size;
+    if (!m_settings.widthAuto)
+        requested.setWidth(ui.previewWidthEdit->text().toInt());
+    if (!m_settings.heightAuto)
+        requested.setHeight(ui.previewHeightEdit->text().toInt());
+    if (requested == m_settings.size) {
         updateSize();
         return;
     }
-    m_settings.size = size;
+    m_settings.size = requested;
     updateSize();
     emit settingsEdited(m_settings);
 }
@@ -107,6 +133,38 @@ void StylePreviewPanel::on_previewWidthEdit_editingFinished() {
 
 void StylePreviewPanel::on_previewHeightEdit_editingFinished() {
     applySizeInput();
+}
+
+void StylePreviewPanel::applyAdaptiveSetting(bool width, bool enabled) {
+    if (!m_preview)
+        return;
+
+    const QSize current = StylePreviewUtils::resolveSize(m_settings.size, m_suggestedSize, m_preview->sizeHint(),
+                                                         m_settings.widthAuto, m_settings.heightAuto);
+    bool changed = false;
+    if (width) {
+        changed = m_settings.widthAuto != enabled;
+        m_settings.widthAuto = enabled;
+        if (!enabled && m_settings.size.width() <= 0)
+            m_settings.size.setWidth(current.width());
+    } else {
+        changed = m_settings.heightAuto != enabled;
+        m_settings.heightAuto = enabled;
+        if (!enabled && m_settings.size.height() <= 0)
+            m_settings.size.setHeight(current.height());
+    }
+
+    updateSize();
+    if (changed)
+        emit settingsEdited(m_settings);
+}
+
+void StylePreviewPanel::on_previewWidthAutoButton_toggled(bool checked) {
+    applyAdaptiveSetting(true, checked);
+}
+
+void StylePreviewPanel::on_previewHeightAutoButton_toggled(bool checked) {
+    applyAdaptiveSetting(false, checked);
 }
 
 void StylePreviewPanel::on_previewBackgroundButton_clicked() {

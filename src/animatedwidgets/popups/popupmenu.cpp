@@ -220,6 +220,17 @@ void PopupMenu::setListStyle(PopupMenuListStyle* style) {
     applyStyle();
 }
 
+bool PopupMenu::iconHint() const {
+    return listStyle()->iconHint;
+}
+
+void PopupMenu::setIconHint(bool enabled) {
+    if (listStyle()->iconHint == enabled)
+        return;
+    listStyle()->iconHint = enabled;
+    refreshStyle();
+}
+
 QString PopupMenu::scrollBarStyleSheet() const {
     return m_scrollBarStyleSheet;
 }

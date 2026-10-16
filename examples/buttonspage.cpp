@@ -23,12 +23,14 @@ ButtonsPage::ButtonsPage(QWidget* parent)
         textButtons[i]->setIcon(icon);
         textButtons[i]->setIconSize(QSize(18, 18));
         textButtons[i]->setProperty("animateContentColor", true);
+        textButtons[i]->setProperty("iconHint", true);
         textButtons[i]->setProperty("iconPlacement", i / 3);
     }
     for (int i = 0; i < iconButtons.size(); ++i) {
         iconButtons[i]->setIcon(icon);
         iconButtons[i]->setIconSize(QSize(20, 20));
         iconButtons[i]->setProperty("animateContentColor", true);
+        iconButtons[i]->setProperty("iconHint", true);
         iconButtons[i]->setProperty("shape", (i / 3) % 2);
     }
 

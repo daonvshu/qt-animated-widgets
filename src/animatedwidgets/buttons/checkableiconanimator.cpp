@@ -32,6 +32,18 @@ QColor CheckableIconAnimator::color(int state) const {
     return m_colors[state];
 }
 
+bool CheckableIconAnimator::iconHint() const {
+    return m_iconHint;
+}
+
+void CheckableIconAnimator::setIconHint(bool enabled) {
+    if (m_iconHint == enabled)
+        return;
+    m_iconHint = enabled;
+    reset();
+    emit changed();
+}
+
 QSize CheckableIconAnimator::iconSize() const {
     return m_iconSize;
 }
@@ -94,15 +106,15 @@ QPixmap CheckableIconAnimator::composite() const {
     if (m_transitionUsesPixmap) {
         CheckableIconPainter::draw(painter, snapshot.rect(), m_transitionPixmap, {}, 1.0 - mix);
     } else {
-        CheckableIconPainter::draw(painter, snapshot.rect(), m_icons[m_fromState], m_colors[m_fromState], 1.0 - mix);
+        CheckableIconPainter::draw(painter, snapshot.rect(), m_icons[m_fromState], m_iconHint ? m_colors[m_fromState] : QColor(), 1.0 - mix);
     }
-    CheckableIconPainter::draw(painter, snapshot.rect(), m_icons[m_toState], m_colors[m_toState], mix);
+    CheckableIconPainter::draw(painter, snapshot.rect(), m_icons[m_toState], m_iconHint ? m_colors[m_toState] : QColor(), mix);
     return snapshot;
 }
 
 void CheckableIconAnimator::paint(QPainter& painter, const QRect& rect, qreal opacity) const {
     if (!m_progress.isRunning()) {
-        CheckableIconPainter::draw(painter, rect, m_icons[m_toState], m_colors[m_toState], opacity);
+        CheckableIconPainter::draw(painter, rect, m_icons[m_toState], m_iconHint ? m_colors[m_toState] : QColor(), opacity);
         return;
     }
 
@@ -110,9 +122,9 @@ void CheckableIconAnimator::paint(QPainter& painter, const QRect& rect, qreal op
     if (m_transitionUsesPixmap) {
         CheckableIconPainter::draw(painter, rect, m_transitionPixmap, {}, (1.0 - mix) * opacity);
     } else {
-        CheckableIconPainter::draw(painter, rect, m_icons[m_fromState], m_colors[m_fromState], (1.0 - mix) * opacity);
+        CheckableIconPainter::draw(painter, rect, m_icons[m_fromState], m_iconHint ? m_colors[m_fromState] : QColor(), (1.0 - mix) * opacity);
     }
-    CheckableIconPainter::draw(painter, rect, m_icons[m_toState], m_colors[m_toState], mix * opacity);
+    CheckableIconPainter::draw(painter, rect, m_icons[m_toState], m_iconHint ? m_colors[m_toState] : QColor(), mix * opacity);
 }
 
 } // namespace animatedwidgets

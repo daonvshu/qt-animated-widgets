@@ -24,6 +24,8 @@ private slots:
     void splitAlignmentBindingAndPersistence();
     void sparseExportAfterDocumentRestore();
     void textAndIconExpressionsEscapeResources();
+    void sizeAndShortcutBindingsRoundTrip();
+    void iconHintPersistenceAndSparseExport();
     void invalidDefinitionsAreRejected();
     void callbacksSurviveTargetDeletion();
     void customBindingsAndRegistration();
@@ -277,10 +279,78 @@ void StylePropertyBuilderTest::textAndIconExpressionsEscapeResources() {
     QVERIFY(builder.add(QStringLiteral("text"), QStringLiteral("Text")));
     QVERIFY(builder.icon(QStringLiteral("icon"), QStringLiteral("Icon")));
     const QList<StyleProperty> properties = builder.properties();
+    QCOMPARE(properties.at(1).type, StylePropertyType::Icon);
     const QString text = QStringLiteral("A\"B\\C\nD\rE\tF");
     QCOMPARE(properties.at(0).codeExpression(text), QStringLiteral("QStringLiteral(\"A\\\"B\\\\C\\nD\\rE\\tF\")"));
     QCOMPARE(properties.at(1).codeExpression(QStringLiteral(":/icons/a\"b.svg")), QStringLiteral("QIcon(QStringLiteral(\":/icons/a\\\"b.svg\"))"));
     QCOMPARE(properties.at(1).codeExpression(QString()), QStringLiteral("QIcon()"));
+}
+
+void StylePropertyBuilderTest::sizeAndShortcutBindingsRoundTrip() {
+    StylePropertyTestObject defaults;
+    auto* object = new StylePropertyTestObject;
+    StylePropertyBuilder builder(object, &defaults);
+    QVERIFY(builder.add(QStringLiteral("iconSize"), QStringLiteral("Icon size")));
+    QVERIFY(builder.add(QStringLiteral("shortcut"), QStringLiteral("Shortcut")));
+    QVERIFY(builder.errors().isEmpty());
+
+    StyleEditorItem item;
+    item.typeName = QStringLiteral("ExampleButton");
+    item.properties = builder.properties();
+    QCOMPARE(item.properties.at(0).type, StylePropertyType::Size);
+    QCOMPARE(item.properties.at(1).type, StylePropertyType::KeySequence);
+    QVERIFY(!StyleCodeGenerator::generate(item).contains(QStringLiteral("widget->set")));
+
+    item.properties[0].value = QSize(24, 20);
+    item.properties[1].value = QStringLiteral("Ctrl+Return");
+    const QJsonObject stored = StyleDocumentCodec::serializeProperties(item.properties);
+    item.properties = builder.properties();
+    StyleDocumentCodec::applySerializedProperties(item.properties, stored);
+    QCOMPARE(object->iconSize, QSize(24, 20));
+    QCOMPARE(object->shortcut.toString(QKeySequence::PortableText), QStringLiteral("Ctrl+Return"));
+    const QString code = StyleCodeGenerator::generate(item);
+    QVERIFY(code.contains(QStringLiteral("setIconSize(QSize(24, 20))")));
+    QVERIFY(code.contains(QStringLiteral("setShortcut(QKeySequence(QStringLiteral(\"Ctrl+Return\"), QKeySequence::PortableText))")));
+
+    QJsonObject invalid = stored;
+    QJsonObject size;
+    size.insert(QStringLiteral("width"), -1);
+    size.insert(QStringLiteral("height"), 32);
+    invalid.insert(QStringLiteral("iconSize"), size);
+    StyleDocumentCodec::applySerializedProperties(item.properties, invalid);
+    QCOMPARE(object->iconSize, QSize(24, 20));
+
+    for (auto& property : item.properties)
+        property.apply(property.defaultValue);
+    QCOMPARE(object->iconSize, QSize(16, 16));
+    QVERIFY(object->shortcut.isEmpty());
+    delete object;
+    item.properties.at(0).apply(QSize(32, 32));
+    item.properties.at(1).apply(QStringLiteral("Ctrl+A"));
+}
+
+void StylePropertyBuilderTest::iconHintPersistenceAndSparseExport() {
+    StylePropertyTestObject defaults;
+    StylePropertyTestObject object;
+    StylePropertyBuilder builder(&object, &defaults);
+    QVERIFY(builder.add(QStringLiteral("iconHint"), QStringLiteral("Tint icon")));
+
+    StyleEditorItem item;
+    item.typeName = QStringLiteral("ExampleButton");
+    item.properties = builder.properties();
+    QVERIFY(!StyleCodeGenerator::generate(item).contains(QStringLiteral("setIconHint")));
+
+    item.properties[0].value = true;
+    const QJsonObject stored = StyleDocumentCodec::serializeProperties(item.properties);
+    item.properties = builder.properties();
+    StyleDocumentCodec::applySerializedProperties(item.properties, stored);
+    QVERIFY(object.iconHint);
+    QVERIFY(StyleCodeGenerator::generate(item).contains(QStringLiteral("setIconHint(true)")));
+
+    item.properties[0].value = false;
+    item.properties[0].apply(false);
+    QVERIFY(!object.iconHint);
+    QVERIFY(!StyleCodeGenerator::generate(item).contains(QStringLiteral("setIconHint")));
 }
 
 void StylePropertyBuilderTest::invalidDefinitionsAreRejected() {

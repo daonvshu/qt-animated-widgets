@@ -263,7 +263,8 @@ void BorderedIconButton::paintEvent(QPaintEvent*) {
             ButtonSurfaceOptions{animatedBackgroundColor(), animatedBorderColor(), m_borderWidth, m_cornerRadius, true, true, m_shape == Shape::Circle});
     ButtonPainter::drawContent(
             painter, rect(),
-            ButtonContentOptions{icon(), iconSize(), {}, font(), animatedContentColor(), 0, true, ButtonContentOptions::Placement::BeforeText});
+            ButtonContentOptions{icon(), iconSize(), {}, font(), animatedContentColor(), 0, true, ButtonContentOptions::Placement::BeforeText,
+                                 Qt::AlignCenter, 0, 0, layoutDirection(), iconHint(), isEnabled()});
 }
 
 } // namespace animatedwidgets

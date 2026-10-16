@@ -16,6 +16,7 @@ public:
 
     QTreeView* treeView() const;
     IconLineEdit* searchEditor() const;
+    void setIconHint(bool enabled) override;
 
     bool leafOnly() const;
     void setLeafOnly(bool enabled);

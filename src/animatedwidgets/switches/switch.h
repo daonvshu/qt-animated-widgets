@@ -22,6 +22,7 @@ class Switch : public QCheckBox {
     Q_PROPERTY(int thumbMargin READ thumbMargin WRITE setThumbMargin)
     Q_PROPERTY(int handleRadius READ handleRadius WRITE setHandleRadius)
     Q_PROPERTY(QIcon handleIcon READ handleIcon WRITE setHandleIcon)
+    Q_PROPERTY(bool iconHint READ iconHint WRITE setIconHint)
     Q_PROPERTY(int textSpacing READ textSpacing WRITE setTextSpacing)
     Q_PROPERTY(int animationDuration READ animationDuration WRITE setAnimationDuration)
 
@@ -48,6 +49,8 @@ public:
     void setHandleRadius(int radius);
     QIcon handleIcon() const;
     void setHandleIcon(const QIcon& icon);
+    bool iconHint() const;
+    void setIconHint(bool enabled);
     int textSpacing() const;
     void setTextSpacing(int spacing);
     int animationDuration() const;
@@ -75,6 +78,7 @@ private:
     int m_thumbMargin = 3;
     int m_handleRadius = 0;
     QIcon m_handleIcon;
+    bool m_iconHint = false;
     int m_textSpacing = 8;
     ValueTransition m_position;
     ValueTransition m_trackColor;

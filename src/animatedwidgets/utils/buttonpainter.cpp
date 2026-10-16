@@ -1,4 +1,5 @@
 #include "animatedwidgets/utils/buttonpainter.h"
+#include "animatedwidgets/utils/iconpainter.h"
 
 #include <QPainter>
 #include <QStyle>
@@ -101,13 +102,8 @@ void ButtonPainter::drawContent(QPainter& painter, const QRect& bounds, const Bu
     painter.setClipRect(available, Qt::IntersectClip);
 
     if (hasIcon) {
-        QPixmap pixmap = options.icon.pixmap(options.iconSize, QIcon::Normal, QIcon::Off);
-        if (options.color.isValid() && !pixmap.isNull()) {
-            QPainter tint(&pixmap);
-            tint.setCompositionMode(QPainter::CompositionMode_SourceIn);
-            tint.fillRect(pixmap.rect(), options.color);
-        }
-        painter.drawPixmap(iconRect, pixmap);
+        IconPainter::draw(painter, iconRect, options.icon, options.iconHint ? options.color : QColor(),
+                          options.enabled ? QIcon::Normal : QIcon::Disabled);
     }
     if (hasText) {
         painter.setPen(options.color);

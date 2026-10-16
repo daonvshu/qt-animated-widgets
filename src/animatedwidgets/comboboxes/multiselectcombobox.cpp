@@ -225,6 +225,20 @@ void MultiSelectComboBox::setSearchText(const QString& text) {
     m_editor->setText(m_searchable ? text : QString());
 }
 
+bool MultiSelectComboBox::iconHint() const {
+    return m_iconHint;
+}
+
+void MultiSelectComboBox::setIconHint(bool enabled) {
+    m_iconHint = enabled;
+    m_tagStyle.iconHint = enabled;
+    m_clearButton->setIconHint(enabled);
+    m_arrowButton->setIconHint(enabled);
+    if (m_popup)
+        m_popup->setIconHint(enabled);
+    refreshTags();
+}
+
 int MultiSelectComboBox::contentPadding() const {
     return m_contentPadding;
 }
@@ -519,6 +533,7 @@ void MultiSelectComboBox::showPopup() {
     style->checkedIcon = QIcon(QStringLiteral(":/animatedwidgets/comboboxes/checked.svg"));
     style->checkedIconAlignment = Qt::AlignRight;
     popup->setListStyle(style);
+    popup->setIconHint(m_iconHint);
     if (!m_scrollBarStyleSheet.isNull())
         popup->setScrollBarStyleSheet(m_scrollBarStyleSheet);
 

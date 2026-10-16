@@ -6,4 +6,6 @@
 struct StylePreviewSettings {
     QSize size;
     QColor background;
+    bool widthAuto = false;
+    bool heightAuto = false;
 };

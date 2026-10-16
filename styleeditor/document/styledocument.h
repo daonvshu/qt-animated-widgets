@@ -1,6 +1,7 @@
 #pragma once
 
 #include "stylepreviewsettings.h"
+#include "styleresourcesettings.h"
 
 #include <QJsonObject>
 #include <QList>
@@ -18,5 +19,6 @@ struct StyleDocument {
     QString filePath;
     QString name = QStringLiteral("Untitled");
     QList<StyleDocumentItem> items;
+    StyleResourceSettings resources;
     bool modified = false;
 };

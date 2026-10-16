@@ -16,6 +16,7 @@ class CompositeComboBox : public CompositeInputBase {
     Q_PROPERTY(bool editable READ isEditable WRITE setEditable)
     Q_PROPERTY(bool popupOnEdit READ popupOnEdit WRITE setPopupOnEdit)
     Q_PROPERTY(bool arrowVisible READ arrowVisible WRITE setArrowVisible)
+    Q_PROPERTY(bool iconHint READ iconHint WRITE setIconHint)
     Q_PROPERTY(int contentPadding READ contentPadding WRITE setContentPadding)
     Q_PROPERTY(QString popupScrollBarStyleSheet READ popupScrollBarStyleSheet WRITE setPopupScrollBarStyleSheet)
 
@@ -34,6 +35,8 @@ public:
     void setPopupOnEdit(bool enabled);
     bool arrowVisible() const;
     void setArrowVisible(bool visible);
+    bool iconHint() const;
+    void setIconHint(bool enabled);
     int contentPadding() const;
     void setContentPadding(int padding);
 

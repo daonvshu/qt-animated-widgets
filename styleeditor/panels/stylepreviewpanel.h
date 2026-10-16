@@ -28,6 +28,8 @@ protected:
 private slots:
     void on_previewWidthEdit_editingFinished();
     void on_previewHeightEdit_editingFinished();
+    void on_previewWidthAutoButton_toggled(bool checked);
+    void on_previewHeightAutoButton_toggled(bool checked);
     void on_previewBackgroundButton_clicked();
     void on_resetPreviewButton_clicked();
 
@@ -36,6 +38,7 @@ private:
     void updateSize();
     void updateBackground();
     void applySizeInput();
+    void applyAdaptiveSetting(bool width, bool enabled);
 
     Ui::StylePreviewPanel ui;
 

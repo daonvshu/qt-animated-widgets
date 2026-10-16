@@ -239,7 +239,7 @@ void FilledButton::paintEvent(QPaintEvent*) {
     ButtonPainter::drawContent(
             painter, rect(),
             ButtonContentOptions{icon(), iconSize(), text(), font(), animatedContentColor(), m_iconSpacing, false, contentPlacement(m_iconPlacement),
-                                 m_contentAlignment, m_contentHorizontalPadding, m_contentVerticalPadding, layoutDirection()});
+                                 m_contentAlignment, m_contentHorizontalPadding, m_contentVerticalPadding, layoutDirection(), iconHint(), isEnabled()});
 }
 
 } // namespace animatedwidgets

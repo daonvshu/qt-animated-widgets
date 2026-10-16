@@ -2,9 +2,11 @@
 
 #include "animatedwidgets/comboboxes/combobox.h"
 #include "animatedwidgets/inputs/lineedit.h"
+#include "animatedwidgets/inputs/spinbox.h"
 #include "animatedwidgets/switches/switch.h"
 #include "animatedwidgets/styleeditor/utils/stylealignmentutils.h"
 
+#include <QHBoxLayout>
 #include <QVBoxLayout>
 
 using animatedwidgets::styleeditor::StyleAlignmentUtils;
@@ -14,6 +16,8 @@ using animatedwidgets::styleeditor::StylePropertyType;
 QWidget* StylePropertyEditorUtils::createEditor(const StyleProperty& property, QWidget* parent, const ValueChanged& changed) {
     if (property.type == StylePropertyType::Alignment)
         return createAlignmentEditor(property, parent, changed);
+    if (property.type == StylePropertyType::Size)
+        return createSizeEditor(property, parent, changed);
 
     if (property.type == StylePropertyType::Boolean) {
         auto* check = new Switch(parent);
@@ -57,6 +61,36 @@ QWidget* StylePropertyEditorUtils::createEditor(const StyleProperty& property, Q
         changed(value);
     });
     return edit;
+}
+
+QWidget* StylePropertyEditorUtils::createSizeEditor(const StyleProperty& property, QWidget* parent, const ValueChanged& changed) {
+    auto* editor = new QWidget(parent);
+    auto* layout = new QHBoxLayout(editor);
+    layout->setContentsMargins(0, 0, 0, 0);
+    layout->setSpacing(4);
+
+    auto* width = new SpinBox(editor);
+    auto* height = new SpinBox(editor);
+    for (SpinBox* spin : {width, height}) {
+        spin->setProperty("compactPropertyEditor", true);
+        spin->setRange(1, 4096);
+        spin->setStepButtonsVisible(false);
+        layout->addWidget(spin);
+    }
+    width->setToolTip(QStringLiteral("Width"));
+    height->setToolTip(QStringLiteral("Height"));
+    width->setAccessibleName(QStringLiteral("Icon width"));
+    height->setAccessibleName(QStringLiteral("Icon height"));
+    width->setValue(property.value.toSize().width());
+    height->setValue(property.value.toSize().height());
+
+    QObject::connect(width, QOverload<int>::of(&SpinBox::valueChanged), editor, [width, height, changed](int) {
+        changed(QSize(width->value(), height->value()));
+    });
+    QObject::connect(height, QOverload<int>::of(&SpinBox::valueChanged), editor, [width, height, changed](int) {
+        changed(QSize(width->value(), height->value()));
+    });
+    return editor;
 }
 
 QWidget* StylePropertyEditorUtils::createAlignmentEditor(const StyleProperty& property, QWidget* parent, const ValueChanged& changed) {

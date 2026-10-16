@@ -103,6 +103,14 @@ void CompositeDoubleSpinBox::setStepButtonsVisible(bool visible) {
     updateGeometry();
 }
 
+bool CompositeDoubleSpinBox::iconHint() const {
+    return m_editor->iconHint();
+}
+
+void CompositeDoubleSpinBox::setIconHint(bool enabled) {
+    m_editor->setIconHint(enabled);
+}
+
 int CompositeDoubleSpinBox::contentPadding() const {
     return m_editor->contentPadding();
 }

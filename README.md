@@ -54,6 +54,23 @@ Each concrete button selects its own state targets and only exposes properties
 that its surface actually uses; no concrete class branches on another variant's
 background, border, or text configuration.
 
+## Icon colors
+
+Controls with icons expose `iconHint`, which defaults to `false` and preserves
+the original icon colors. Set it to `true` to tint icons with the configured
+content or icon-state color. Text colors and background animations remain
+independent. On buttons, `animateContentColor` animates tinted icons as well as
+text. Qt icon modes and the checkable controls' disabled opacity still apply.
+
+The setting covers button variants, check/radio indicators, switch handles,
+input icon buttons, spin buttons, tags, combo boxes and popup menus. Composite
+inputs forward it to their editor. Combo boxes forward it to their popup;
+multi-select combos also apply it to their shared tag style and clear/arrow
+buttons. A per-item tag style factory can override the shared tag setting.
+Popup list styles expose the same `iconHint` flag, shared with submenus, and
+`CalendarStyle::iconHint` controls calendar button icons. Custom item delegates
+remain responsible for drawing their own icons.
+
 ## Switch
 
 `Switch` is a two-state `QCheckBox` with a sliding thumb and animated track and
@@ -61,8 +78,9 @@ thumb colors. It supports text, keyboard toggling, right-to-left layout, and
 separate checked, unchecked, and disabled colors. Track size, thumb margin,
 handle radius, text spacing, and animation duration are configurable. Set
 `handleIcon` to replace the circular handle; its `QIcon` On/Off and Disabled
-images are used when available, while the handle color properties apply to the
-default circle. A zero handle radius restores automatic sizing. Repeated toggles
+images are used when available. Handle color properties apply to the default
+circle and to the icon when `iconHint` is enabled. A zero handle radius restores
+automatic sizing. Repeated toggles
 continue from the current animation value. The gallery shows it on a separate
 Switches page, and Qt Designer registers it in the `animated-widgets` group.
 

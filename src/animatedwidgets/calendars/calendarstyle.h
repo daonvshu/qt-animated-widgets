@@ -58,6 +58,7 @@ public:
     QColor navigationContent = QColor(0xBFC1C7); /**< Navigation icon color. */
     QColor navigationHoverContent = QColor(0x1778FF); /**< Navigation icon hover color. */
     QSize navigationIconSize = QSize(16, 16); /**< Navigation icon size in pixels. */
+    bool iconHint = false; /**< Tint button icons with their content colors; false preserves original icon colors. */
     QSize navigationButtonSize = QSize(28, 28); /**< Navigation button size in pixels. */
     QSize dateTitleButtonSize = QSize(0, 28); /**< Year/month title button size; zero width keeps automatic sizing. */
     QColor actionBackground = QColor(0x1778FF); /**< Action button background. */

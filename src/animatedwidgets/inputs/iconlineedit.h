@@ -16,6 +16,7 @@ class IconLineEdit : public LineEdit {
     Q_OBJECT
     Q_PROPERTY(QIcon leadingIcon READ leadingIcon WRITE setLeadingIcon)
     Q_PROPERTY(QIcon trailingIcon READ trailingIcon WRITE setTrailingIcon)
+    Q_PROPERTY(bool iconHint READ iconHint WRITE setIconHint)
     Q_PROPERTY(QSize leadingIconSize READ leadingIconSize WRITE setLeadingIconSize)
     Q_PROPERTY(QSize trailingIconSize READ trailingIconSize WRITE setTrailingIconSize)
     Q_PROPERTY(bool leadingIconVisible READ leadingIconVisible WRITE setLeadingIconVisible)
@@ -43,6 +44,8 @@ public:
     void setLeadingIcon(const QIcon& icon);
     QIcon trailingIcon() const;
     void setTrailingIcon(const QIcon& icon);
+    bool iconHint() const;
+    void setIconHint(bool enabled);
     QSize leadingIconSize() const;
     void setLeadingIconSize(const QSize& size);
     QSize trailingIconSize() const;

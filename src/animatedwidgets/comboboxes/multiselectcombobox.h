@@ -45,6 +45,7 @@ class MultiSelectComboBox : public CompositeInputBase {
     Q_PROPERTY(bool clearButtonVisible READ clearButtonVisible WRITE setClearButtonVisible)
     Q_PROPERTY(bool arrowVisible READ arrowVisible WRITE setArrowVisible)
     Q_PROPERTY(QIcon arrowIcon READ arrowIcon WRITE setArrowIcon)
+    Q_PROPERTY(bool iconHint READ iconHint WRITE setIconHint)
     Q_PROPERTY(QSize arrowIconSize READ arrowIconSize WRITE setArrowIconSize)
     Q_PROPERTY(int popupWidth READ popupWidth WRITE setPopupWidth)
     Q_PROPERTY(int maxVisibleItems READ maxVisibleItems WRITE setMaxVisibleItems)
@@ -116,6 +117,8 @@ public:
     void setArrowVisible(bool visible);
     QIcon arrowIcon() const;
     void setArrowIcon(const QIcon& icon);
+    bool iconHint() const;
+    void setIconHint(bool enabled);
     QSize arrowIconSize() const;
     void setArrowIconSize(const QSize& size);
 
@@ -177,6 +180,7 @@ private:
     bool m_searchable = true;
     bool m_clearButtonVisible = true;
     bool m_arrowVisible = true;
+    bool m_iconHint = false;
     bool m_popupLayoutPending = false;
     bool m_preediting = false;
 };

@@ -14,6 +14,7 @@ class RadioButton : public QRadioButton {
     Q_OBJECT
     Q_PROPERTY(QPixmap checkedIcon READ checkedIcon WRITE setCheckedIcon)
     Q_PROPERTY(QPixmap uncheckedIcon READ uncheckedIcon WRITE setUncheckedIcon)
+    Q_PROPERTY(bool iconHint READ iconHint WRITE setIconHint)
     Q_PROPERTY(QColor checkedIconColor READ checkedIconColor WRITE setCheckedIconColor)
     Q_PROPERTY(QColor uncheckedIconColor READ uncheckedIconColor WRITE setUncheckedIconColor)
     Q_PROPERTY(QSize iconSize READ iconSize WRITE setIconSize)
@@ -27,6 +28,8 @@ public:
     void setCheckedIcon(const QPixmap& icon);
     QPixmap uncheckedIcon() const;
     void setUncheckedIcon(const QPixmap& icon);
+    bool iconHint() const;
+    void setIconHint(bool enabled);
     QColor checkedIconColor() const;
     void setCheckedIconColor(const QColor& color);
     QColor uncheckedIconColor() const;

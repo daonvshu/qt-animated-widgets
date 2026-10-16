@@ -10,6 +10,7 @@ namespace animatedwidgets {
 
 class AnimatedButtonBase : public QPushButton {
     Q_OBJECT
+    Q_PROPERTY(bool iconHint READ iconHint WRITE setIconHint)
 
 public:
     enum IconPlacement { BeforeText, AfterText, AboveText, BelowText };
@@ -23,6 +24,9 @@ public:
     void setDarkerStep(int step);
     bool animateContentColor() const;
     void setAnimateContentColor(bool enabled);
+
+    bool iconHint() const;
+    void setIconHint(bool enabled);
 
 protected:
     explicit AnimatedButtonBase(QWidget* parent = nullptr);
@@ -46,6 +50,7 @@ private:
     int m_animationDuration = 180;
     int m_darkerStep = 15;
     bool m_animateContentColor = false;
+    bool m_iconHint = false;
 };
 
 } // namespace animatedwidgets

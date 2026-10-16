@@ -22,10 +22,12 @@ void StyleDocumentSession::setName(const QString& name) {
 void StyleDocumentSession::updateContent(const StyleDocument& content) {
     StyleDocument updated = m_document;
     updated.items = content.items;
+    updated.resources = content.resources;
     if (StyleDocumentCodec::toJson(updated) == StyleDocumentCodec::toJson(m_document))
         return;
 
     m_document.items = updated.items;
+    m_document.resources = updated.resources;
     markModified();
 }
 

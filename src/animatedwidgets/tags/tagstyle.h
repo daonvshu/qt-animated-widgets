@@ -20,6 +20,7 @@ struct TagStyle {
     QSize closeIconSize = QSize(12, 12);
     int closeButtonSize = 18;
     bool closeButtonVisible = true;
+    bool iconHint = false;
 };
 
 } // namespace animatedwidgets

@@ -15,6 +15,7 @@ class CheckBox : public QCheckBox {
     Q_PROPERTY(QPixmap checkedIcon READ checkedIcon WRITE setCheckedIcon)
     Q_PROPERTY(QPixmap uncheckedIcon READ uncheckedIcon WRITE setUncheckedIcon)
     Q_PROPERTY(QPixmap partiallyCheckedIcon READ partiallyCheckedIcon WRITE setPartiallyCheckedIcon)
+    Q_PROPERTY(bool iconHint READ iconHint WRITE setIconHint)
     Q_PROPERTY(QColor checkedIconColor READ checkedIconColor WRITE setCheckedIconColor)
     Q_PROPERTY(QColor uncheckedIconColor READ uncheckedIconColor WRITE setUncheckedIconColor)
     Q_PROPERTY(QColor partiallyCheckedIconColor READ partiallyCheckedIconColor WRITE setPartiallyCheckedIconColor)
@@ -31,6 +32,8 @@ public:
     void setUncheckedIcon(const QPixmap& icon);
     QPixmap partiallyCheckedIcon() const;
     void setPartiallyCheckedIcon(const QPixmap& icon);
+    bool iconHint() const;
+    void setIconHint(bool enabled);
     QColor checkedIconColor() const;
     void setCheckedIconColor(const QColor& color);
     QColor uncheckedIconColor() const;
