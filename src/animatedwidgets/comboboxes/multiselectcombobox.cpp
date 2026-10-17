@@ -13,6 +13,7 @@
 
 #include <QAbstractItemView>
 #include <QApplication>
+#include <QFontMetricsF>
 #include <QHBoxLayout>
 #include <QInputMethodEvent>
 #include <QKeyEvent>
@@ -22,6 +23,7 @@
 #include <QScrollBar>
 #include <QTimer>
 #include <QWheelEvent>
+#include <QtMath>
 #include <utility>
 
 namespace animatedwidgets {
@@ -495,7 +497,8 @@ void MultiSelectComboBox::updateContentLayout() {
     m_arrowButton->setVisible(m_arrowVisible);
 
     const QString text = m_editor->text().isEmpty() && m_tags.isEmpty() ? placeholderText() : m_editor->text();
-    m_editor->setFixedWidth(qMax(64, m_editor->fontMetrics().horizontalAdvance(text) + 16));
+    const QFontMetricsF metrics(m_editor->font());
+    m_editor->setFixedWidth(qMax(64, qCeil(metrics.horizontalAdvance(text)) + 16));
     m_editor->setFixedHeight(qMax(24, m_editor->QLineEdit::sizeHint().height()));
     int height = qMax(m_editor->height(), qMax(m_clearButton->height(), m_arrowButton->height()));
     for (const auto* tag : m_tags)

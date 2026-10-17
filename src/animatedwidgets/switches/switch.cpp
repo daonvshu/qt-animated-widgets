@@ -2,11 +2,12 @@
 #include "animatedwidgets/utils/iconpainter.h"
 
 #include <QEvent>
-#include <QFontMetrics>
+#include <QFontMetricsF>
 #include <QPainter>
 #include <QShowEvent>
 #include <QStyle>
 #include <QStyleOptionFocusRect>
+#include <QtMath>
 
 namespace animatedwidgets {
 
@@ -152,9 +153,9 @@ void Switch::setAnimationDuration(int duration) {
 
 QSize Switch::sizeHint() const {
     const bool hasText = !text().isEmpty();
-    const QFontMetrics metrics(font());
-    const int width = m_trackSize.width() + (hasText ? m_textSpacing + metrics.horizontalAdvance(text()) : 0);
-    return QSize(width + 4, qMax(m_trackSize.height(), hasText ? metrics.height() : 0) + 4);
+    const QFontMetricsF metrics(font());
+    const int width = m_trackSize.width() + (hasText ? m_textSpacing + qCeil(metrics.horizontalAdvance(text())) : 0);
+    return QSize(width + 4, qMax(m_trackSize.height(), hasText ? qCeil(metrics.height()) : 0) + 4);
 }
 
 void Switch::updateTargets(bool immediate) {

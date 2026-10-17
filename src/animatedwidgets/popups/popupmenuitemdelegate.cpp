@@ -5,11 +5,13 @@
 
 #include <QPainter>
 #include <QAbstractItemModel>
+#include <QFontMetricsF>
 #include <QStyle>
 #include <QStyleOptionViewItem>
 #include <QTextDocument>
 #include <QAbstractTextDocumentLayout>
 #include <QTextOption>
+#include <QtMath>
 
 namespace animatedwidgets {
 
@@ -60,7 +62,7 @@ void PopupMenuItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem&
     const QFont& font = index.data(TypeRole).toInt() == static_cast<int>(PopupMenuRowType::GroupTitle)
         ? groupTitleFont : itemFont;
     itemOption.font = font.resolve(itemOption.font);
-    itemOption.fontMetrics = QFontMetrics(itemOption.font);
+    const QFontMetricsF metrics(itemOption.font);
     painter->setFont(itemOption.font);
 
     const bool hasNextItem = index.row() < index.model()->rowCount(index.parent()) - 1;
@@ -71,7 +73,7 @@ void PopupMenuItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem&
         painter->setPen(groupTitleText);
         const QRect content = itemRect.adjusted(qMax(0, contentPadding), 0, -qMax(0, contentPadding), 0);
         painter->drawText(content, Qt::AlignVCenter | Qt::AlignLeft,
-                          itemOption.fontMetrics.elidedText(itemOption.text, itemOption.textElideMode, qMax(0, content.width())));
+                          metrics.elidedText(itemOption.text, itemOption.textElideMode, qMax(0, content.width())));
         painter->restore();
         return;
     }
@@ -133,7 +135,7 @@ void PopupMenuItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem&
 
     const QString shortcut = index.data(ShortcutRole).toString();
     if (!shortcut.isEmpty()) {
-        const int shortcutWidth = itemOption.fontMetrics.horizontalAdvance(shortcut);
+        const int shortcutWidth = qCeil(metrics.horizontalAdvance(shortcut));
         const QRect shortcutRect(contentRect.right() - shortcutWidth + 1, contentRect.top(),
                                  shortcutWidth, contentRect.height());
         painter->drawText(shortcutRect, Qt::AlignVCenter | Qt::AlignRight, shortcut);
@@ -161,7 +163,7 @@ void PopupMenuItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem&
         painter->restore();
     } else {
         painter->drawText(contentRect, Qt::AlignVCenter | Qt::AlignLeft,
-                          itemOption.fontMetrics.elidedText(text, itemOption.textElideMode, qMax(0, contentRect.width())));
+                          metrics.elidedText(text, itemOption.textElideMode, qMax(0, contentRect.width())));
     }
 
     if (drawSeparator && hasNextItem) {
@@ -181,13 +183,13 @@ QSize PopupMenuItemDelegate::sizeHint(const QStyleOptionViewItem& option, const 
     const QFont& font = index.data(TypeRole).toInt() == static_cast<int>(PopupMenuRowType::GroupTitle)
         ? groupTitleFont : itemFont;
     itemOption.font = font.resolve(itemOption.font);
-    itemOption.fontMetrics = QFontMetrics(itemOption.font);
+    const QFontMetricsF metrics(itemOption.font);
     const QVariant explicitSize = index.data(Qt::SizeHintRole);
     QSize size = explicitSize.isValid() ? explicitSize.toSize()
-        : QSize(itemOption.fontMetrics.horizontalAdvance(itemOption.text), itemOption.fontMetrics.height());
+        : QSize(qCeil(metrics.horizontalAdvance(itemOption.text)), qCeil(metrics.height()));
     const QString shortcut = index.data(ShortcutRole).toString();
     if (!shortcut.isEmpty()) {
-        size.rwidth() += itemOption.fontMetrics.horizontalAdvance(shortcut) + qMax(8, checkedIconSpacing);
+        size.rwidth() += qCeil(metrics.horizontalAdvance(shortcut)) + qMax(8, checkedIconSpacing);
     }
     const bool hasChildren = hasChildItems(index);
     if (hasChildren) {

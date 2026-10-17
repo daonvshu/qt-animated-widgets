@@ -1,17 +1,19 @@
 #include "animatedwidgets/utils/buttonpainter.h"
 #include "animatedwidgets/utils/iconpainter.h"
 
+#include <QFontMetricsF>
 #include <QPainter>
 #include <QStyle>
+#include <QtMath>
 
 namespace animatedwidgets {
 
 QSize ButtonPainter::contentSize(const ButtonContentOptions& options) {
     const bool hasIcon = !options.icon.isNull();
     const bool hasText = !options.iconOnly && !options.text.isEmpty();
-    const QFontMetrics metrics(options.font);
-    const int textWidth = hasText ? metrics.horizontalAdvance(options.text) : 0;
-    const int textHeight = hasText ? metrics.height() : 0;
+    const QFontMetricsF metrics(options.font);
+    const int textWidth = hasText ? qCeil(metrics.horizontalAdvance(options.text)) : 0;
+    const int textHeight = hasText ? qCeil(metrics.height()) : 0;
     const int iconWidth = hasIcon ? options.iconSize.width() : 0;
     const int iconHeight = hasIcon ? options.iconSize.height() : 0;
     const bool vertical = options.placement == ButtonContentOptions::Placement::AboveText || options.placement == ButtonContentOptions::Placement::BelowText;
@@ -32,7 +34,9 @@ QSize ButtonPainter::iconSizeHint(const QSize& iconSize) {
 }
 
 QSize ButtonPainter::checkableSizeHint(const QSize& indicatorSize, int spacing, const QFontMetrics& fontMetrics, const QString& text) {
-    return QSize(indicatorSize.width() + spacing + fontMetrics.horizontalAdvance(text) + 4, qMax(indicatorSize.height(), fontMetrics.height()) + 4);
+    const QFontMetricsF metrics(fontMetrics);
+    return QSize(indicatorSize.width() + spacing + qCeil(metrics.horizontalAdvance(text)) + 4,
+                 qMax(indicatorSize.height(), qCeil(metrics.height())) + 4);
 }
 
 QRect ButtonPainter::checkableIndicatorRect(const QRect& bounds, const QSize& indicatorSize, Qt::LayoutDirection direction) {
@@ -67,15 +71,16 @@ void ButtonPainter::drawContent(QPainter& painter, const QRect& bounds, const Bu
 
     const bool hasIcon = !options.icon.isNull();
     const bool hasText = !options.iconOnly && !options.text.isEmpty();
-    const QFontMetrics metrics(options.font);
-    const int textHeight = hasText ? metrics.height() : 0;
+    const QFontMetricsF metrics(options.font);
+    const int textHeight = hasText ? qCeil(metrics.height()) : 0;
     const int iconWidth = hasIcon ? options.iconSize.width() : 0;
     const int iconHeight = hasIcon ? options.iconSize.height() : 0;
     const int gap = hasIcon && hasText ? options.spacing : 0;
     const bool vertical = options.placement == ButtonContentOptions::Placement::AboveText || options.placement == ButtonContentOptions::Placement::BelowText;
     const bool iconFirst = options.placement == ButtonContentOptions::Placement::BeforeText || options.placement == ButtonContentOptions::Placement::AboveText;
     const int textSpace = vertical ? available.width() : qMax(0, available.width() - iconWidth - gap);
-    const int textWidth = hasText ? qMin(metrics.horizontalAdvance(options.text), textSpace) : 0;
+    const QString displayText = hasText ? metrics.elidedText(options.text, Qt::ElideRight, textSpace) : QString();
+    const int textWidth = hasText ? qMin(qCeil(metrics.horizontalAdvance(displayText)), textSpace) : 0;
     const int contentWidth = vertical ? qMax(textWidth, iconWidth) : textWidth + iconWidth + gap;
     const int contentHeight = vertical ? textHeight + iconHeight + gap : qMax(textHeight, iconHeight);
     const Qt::Alignment alignment = QStyle::visualAlignment(options.direction, options.alignment);
@@ -108,7 +113,7 @@ void ButtonPainter::drawContent(QPainter& painter, const QRect& bounds, const Bu
     if (hasText) {
         painter.setPen(options.color);
         painter.setFont(options.font);
-        painter.drawText(textRect, Qt::AlignCenter, metrics.elidedText(options.text, Qt::ElideRight, textRect.width()));
+        painter.drawText(textRect, Qt::AlignCenter, displayText);
     }
     painter.restore();
 }

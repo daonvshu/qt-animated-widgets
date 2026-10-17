@@ -7,6 +7,7 @@
 #include <QApplication>
 #include <QAbstractItemView>
 #include <QEvent>
+#include <QFontMetricsF>
 #include <QKeyEvent>
 #include <QLineEdit>
 #include <QMouseEvent>
@@ -591,7 +592,7 @@ void ComboBox::paintEvent(QPaintEvent*) {
     }
 
     painter.setPen(isEnabled() ? m_textColor : m_disabledTextColor);
-    const QString label = fontMetrics().elidedText(displayText(), Qt::ElideRight, qMax(0, textRect.width()));
+    const QString label = QFontMetricsF(font()).elidedText(displayText(), Qt::ElideRight, qMax(0, textRect.width()));
     painter.drawText(textRect, Qt::AlignVCenter | (rightToLeft ? Qt::AlignRight : Qt::AlignLeft), label);
 }
 
