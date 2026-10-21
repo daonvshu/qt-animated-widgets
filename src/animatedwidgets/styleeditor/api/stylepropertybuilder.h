@@ -2,6 +2,7 @@
 
 #include "styleenumoption.h"
 #include "styleproperty.h"
+#include "stylepropertygroup.h"
 #include "animatedwidgets/styleeditor/utils/stylealignmentutils.h"
 #include "animatedwidgets/styleeditor/utils/stylecodeexpressions.h"
 
@@ -24,6 +25,33 @@ public:
 
     void setGroup(const QString& group) {
         m_group = group;
+    }
+
+    bool addGroups(const QList<StylePropertyGroup>& groups) {
+        StylePropertyBuilder pending = *this;
+        for (const StylePropertyGroup& group : groups) {
+            pending.setGroup(group.name.isEmpty() ? m_group : group.name);
+            for (const StylePropertyOptions& options : group.properties) {
+                if (!pending.bind(options)) {
+                    m_errors = pending.m_errors;
+                    return false;
+                }
+            }
+        }
+
+        for (const StylePropertyGroup& group : groups) {
+            for (const StylePropertyOptions& options : group.properties) {
+                for (const StylePropertyCondition& condition : options.enabledWhen) {
+                    if (!pending.enabledWhen(options.name, condition.propertyName, condition.value)) {
+                        m_errors = pending.m_errors;
+                        return false;
+                    }
+                }
+            }
+        }
+
+        m_properties = pending.m_properties;
+        return true;
     }
 
     bool add(const QString& name, const QString& label, const QString& description = {}) {
@@ -226,6 +254,26 @@ public:
     }
 
 private:
+    bool bind(const StylePropertyOptions& options) {
+        switch (options.binding) {
+            case StylePropertyOptions::Binding::Automatic:
+                return add(options.name, options.label, options.description);
+            case StylePropertyOptions::Binding::Icon:
+                return icon(options.name, options.label, options.iconResource, options.defaultIconResource, options.description);
+            case StylePropertyOptions::Binding::Enumeration:
+                if (!options.enumOptions.isEmpty())
+                    return enumeration(options.name, options.label, options.enumOptions, options.description);
+                if (!options.enumScope.isEmpty())
+                    return enumeration(options.name, options.label, options.enumScope, options.description);
+                break;
+            case StylePropertyOptions::Binding::Alignment:
+                return alignment(options.name, options.label, options.description);
+        }
+
+        m_errors.append(QStringLiteral("Property '%1' has an invalid or incomplete binding.").arg(options.name));
+        return false;
+    }
+
     QMetaProperty metaProperty(const QString& name) {
         const int index = m_object ? m_object->metaObject()->indexOfProperty(name.toLatin1().constData()) : -1;
         const int defaultIndex = m_defaults ? m_defaults->metaObject()->indexOfProperty(name.toLatin1().constData()) : -1;

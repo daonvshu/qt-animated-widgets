@@ -35,7 +35,7 @@ private:
     QPropertyAnimation* m_hideGeometry = nullptr;
     std::function<void()> m_showFinished;
     std::function<void()> m_hideFinished;
-    int m_duration = 180;
+    int m_duration = 300;
     int m_slideDistance = 30;
 };
 

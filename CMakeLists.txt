@@ -278,6 +278,7 @@ endif()
 if(BUILD_STYLE_EDITOR)
     add_subdirectory(styleeditor)
     add_subdirectory(plugins/styleeditor)
+    add_dependencies(animatedwidgets-styleeditor animatedwidgetsstyleeditorbuttons)
 endif()
 
 if(BUILD_EXAMPLES)

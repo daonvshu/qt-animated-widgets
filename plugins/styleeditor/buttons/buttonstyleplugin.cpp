@@ -83,15 +83,27 @@ QList<StyleEditorWidgetType> ButtonStylePlugin::widgetTypes() const {
     hoverIcon.suggestedSize = QSize(48, 48);
     hoverIcon.defineProperties = &ButtonStyleProperties::hoverIcon;
 
-    return {
+    QList<StyleEditorWidgetType> types = {
         StyleWidgetTypeBuilder::create<FilledButton>(filled),
         StyleWidgetTypeBuilder::create<OutlineButton>(outline),
         StyleWidgetTypeBuilder::create<BorderedButton>(bordered),
-        StyleWidgetTypeBuilder::create<HoverButton>(hover),
+        StyleWidgetTypeBuilder::create<HoverButton>(hover)
+    };
 
+    for (StyleEditorWidgetType& type : types) {
+        const auto create = type.create;
+        type.create = [create](QWidget* parent) {
+            QWidget* button = create(parent);
+            button->setProperty("text", QStringLiteral("Preview"));
+            return button;
+        };
+    }
+
+    types.append({
         StyleWidgetTypeBuilder::create<FilledIconButton>(filledIcon),
         StyleWidgetTypeBuilder::create<OutlineIconButton>(outlineIcon),
         StyleWidgetTypeBuilder::create<BorderedIconButton>(borderedIcon),
         StyleWidgetTypeBuilder::create<HoverIconButton>(hoverIcon)
-    };
+    });
+    return types;
 }

@@ -33,7 +33,7 @@ StylePreviewPanel animatedwidgets--BorderedButton#previewHeightAutoButton {
     qproperty-cornerRadius: 4;
     qproperty-borderWidth: 1;
     qproperty-animateContentColor: true;
-    qproperty-animationDuration: 180;
+    qproperty-animationDuration: 300;
 }
 
 StylePreviewPanel animatedwidgets--LineEdit#previewWidthEdit,

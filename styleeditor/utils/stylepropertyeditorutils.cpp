@@ -2,11 +2,11 @@
 
 #include "animatedwidgets/comboboxes/combobox.h"
 #include "animatedwidgets/inputs/lineedit.h"
-#include "animatedwidgets/inputs/spinbox.h"
 #include "animatedwidgets/switches/switch.h"
 #include "animatedwidgets/styleeditor/utils/stylealignmentutils.h"
 
 #include <QHBoxLayout>
+#include <QIntValidator>
 #include <QVBoxLayout>
 
 using animatedwidgets::styleeditor::StyleAlignmentUtils;
@@ -66,27 +66,26 @@ QWidget* StylePropertyEditorUtils::createSizeEditor(const StyleProperty& propert
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(4);
 
-    auto* width = new SpinBox(editor);
-    auto* height = new SpinBox(editor);
-    for (SpinBox* spin : {width, height}) {
-        spin->setProperty("compactPropertyEditor", true);
-        spin->setRange(1, 4096);
-        spin->setStepButtonsVisible(false);
-        layout->addWidget(spin);
+    auto* width = new LineEdit(editor);
+    auto* height = new LineEdit(editor);
+    for (LineEdit* edit : {width, height}) {
+        edit->setProperty("compactPropertyEditor", true);
+        edit->setValidator(new QIntValidator(1, 4096, edit));
+        layout->addWidget(edit);
     }
     width->setToolTip(QStringLiteral("Width"));
     height->setToolTip(QStringLiteral("Height"));
     width->setAccessibleName(QStringLiteral("Icon width"));
     height->setAccessibleName(QStringLiteral("Icon height"));
-    width->setValue(property.value.toSize().width());
-    height->setValue(property.value.toSize().height());
+    width->setText(QString::number(qBound(1, property.value.toSize().width(), 4096)));
+    height->setText(QString::number(qBound(1, property.value.toSize().height(), 4096)));
 
-    QObject::connect(width, QOverload<int>::of(&SpinBox::valueChanged), editor, [width, height, changed](int) {
-        changed(QSize(width->value(), height->value()));
-    });
-    QObject::connect(height, QOverload<int>::of(&SpinBox::valueChanged), editor, [width, height, changed](int) {
-        changed(QSize(width->value(), height->value()));
-    });
+    const auto update = [width, height, changed] {
+        if (width->hasAcceptableInput() && height->hasAcceptableInput())
+            changed(QSize(width->text().toInt(), height->text().toInt()));
+    };
+    QObject::connect(width, &LineEdit::editingFinished, editor, update);
+    QObject::connect(height, &LineEdit::editingFinished, editor, update);
     return editor;
 }
 

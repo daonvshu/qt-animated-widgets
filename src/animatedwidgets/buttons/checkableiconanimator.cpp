@@ -9,7 +9,7 @@ namespace animatedwidgets {
 CheckableIconAnimator::CheckableIconAnimator(QObject* parent)
     : QObject(parent)
 {
-    m_progress.setDuration(180);
+    m_progress.setDuration(300);
     m_progress.setEasingCurve(QEasingCurve::InOutQuad);
     connect(&m_progress, &ValueTransition::valueChanged, this, &CheckableIconAnimator::changed);
 }

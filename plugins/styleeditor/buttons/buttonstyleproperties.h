@@ -15,15 +15,14 @@ public:
     static void hoverIcon(animatedwidgets::styleeditor::StylePropertyBuilder& builder);
 
 private:
-    static void addButtonProperties(animatedwidgets::styleeditor::StylePropertyBuilder& builder);
-    static void addTextContent(animatedwidgets::styleeditor::StylePropertyBuilder& builder);
-    static void addIconContent(animatedwidgets::styleeditor::StylePropertyBuilder& builder);
-    static void addBackground(animatedwidgets::styleeditor::StylePropertyBuilder& builder);
-    static void addHoverBackground(animatedwidgets::styleeditor::StylePropertyBuilder& builder);
-    static void addBorder(animatedwidgets::styleeditor::StylePropertyBuilder& builder);
-    static void addContentColors(animatedwidgets::styleeditor::StylePropertyBuilder& builder, bool iconOnly = false);
-    static void addCornerRadius(animatedwidgets::styleeditor::StylePropertyBuilder& builder);
-    static void addAnimation(animatedwidgets::styleeditor::StylePropertyBuilder& builder);
-    static void addTextLayout(animatedwidgets::styleeditor::StylePropertyBuilder& builder);
-    static void addIconShape(animatedwidgets::styleeditor::StylePropertyBuilder& builder);
+    static animatedwidgets::styleeditor::StylePropertyGroup buttonProperties();
+    static animatedwidgets::styleeditor::StylePropertyGroup textContent();
+    static animatedwidgets::styleeditor::StylePropertyGroup background();
+    static animatedwidgets::styleeditor::StylePropertyGroup hoverBackground();
+    static animatedwidgets::styleeditor::StylePropertyGroup border();
+    static animatedwidgets::styleeditor::StylePropertyGroup contentColors(bool iconOnly = false);
+    static animatedwidgets::styleeditor::StylePropertyGroup cornerRadius();
+    static animatedwidgets::styleeditor::StylePropertyGroup animation(bool iconOnly = false);
+    static animatedwidgets::styleeditor::StylePropertyGroup textLayout();
+    static animatedwidgets::styleeditor::StylePropertyGroup iconShape();
 };

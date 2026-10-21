@@ -8,8 +8,12 @@
 
 #include <QtTest>
 
+#include <algorithm>
+
 using animatedwidgets::styleeditor::StyleProperty;
 using animatedwidgets::styleeditor::StylePropertyBuilder;
+using animatedwidgets::styleeditor::StylePropertyGroup;
+using animatedwidgets::styleeditor::StylePropertyOptions;
 using animatedwidgets::styleeditor::StylePropertyType;
 using animatedwidgets::styleeditor::StylePropertyStateUtils;
 using animatedwidgets::styleeditor::StyleWidgetTypeBuilder;
@@ -32,7 +36,214 @@ private slots:
     void propertyEnableConditions();
     void invalidEnableConditions();
     void enableConditionsSurviveDocumentRestore();
+    void structuredGroupsAndBindings();
+    void structuredExplicitEnumOptions();
+    void structuredGroupsAreAtomic_data();
+    void structuredGroupsAreAtomic();
 };
+
+void StylePropertyBuilderTest::structuredGroupsAndBindings() {
+    StylePropertyTestObject defaults;
+    StylePropertyTestObject object;
+    object.cornerRadius = 12;
+    StylePropertyBuilder builder(&object, &defaults);
+    builder.setGroup(QStringLiteral("Existing"));
+    QVERIFY(builder.add(QStringLiteral("text"), QStringLiteral("Text")));
+
+    StylePropertyOptions hover;
+    hover.name = QStringLiteral("backgroundHover");
+    hover.label = QStringLiteral("Hover");
+    hover.description = QStringLiteral("Hover color.");
+    hover.enabledWhen = {{QStringLiteral("animateContentColor"), true}, {QStringLiteral("placement"), QStringLiteral("AfterText")}};
+
+    StylePropertyOptions icon;
+    icon.name = QStringLiteral("icon");
+    icon.label = QStringLiteral("Icon");
+    icon.binding = StylePropertyOptions::Binding::Icon;
+    icon.iconResource = QStringLiteral(":/icons/current.svg");
+    icon.defaultIconResource = QStringLiteral(":/icons/default.svg");
+
+    StylePropertyOptions size;
+    size.name = QStringLiteral("iconSize");
+    size.label = QStringLiteral("Icon size");
+
+    StylePropertyOptions shortcut;
+    shortcut.name = QStringLiteral("shortcut");
+    shortcut.label = QStringLiteral("Shortcut");
+
+    StylePropertyOptions radius;
+    radius.name = QStringLiteral("cornerRadius");
+    radius.label = QStringLiteral("Radius");
+
+    StylePropertyOptions placement;
+    placement.name = QStringLiteral("placement");
+    placement.label = QStringLiteral("Placement");
+    placement.binding = StylePropertyOptions::Binding::Enumeration;
+    placement.enumScope = QStringLiteral("StylePropertyTestObject::Placement");
+
+    StylePropertyOptions alignment;
+    alignment.name = QStringLiteral("contentAlignment");
+    alignment.label = QStringLiteral("Alignment");
+    alignment.binding = StylePropertyOptions::Binding::Alignment;
+
+    StylePropertyOptions animate;
+    animate.name = QStringLiteral("animateContentColor");
+    animate.label = QStringLiteral("Animate");
+
+    StylePropertyGroup content;
+    content.name = QStringLiteral("Content");
+    content.properties = {hover, icon, size, shortcut};
+
+    StylePropertyGroup shape;
+    shape.name = QStringLiteral("Shape");
+    shape.properties = {radius, placement, alignment};
+
+    StylePropertyGroup animation;
+    animation.properties = {animate};
+    QVERIFY(builder.addGroups({content, shape, animation}));
+    QVERIFY(builder.errors().isEmpty());
+
+    StylePropertyBuilder reference(&object, &defaults);
+    reference.setGroup(QStringLiteral("Existing"));
+    QVERIFY(reference.add(QStringLiteral("text"), QStringLiteral("Text")));
+    reference.setGroup(QStringLiteral("Content"));
+    QVERIFY(reference.add(hover.name, hover.label, hover.description));
+    QVERIFY(reference.icon(icon.name, icon.label, icon.iconResource, icon.defaultIconResource));
+    QVERIFY(reference.add(size.name, size.label));
+    QVERIFY(reference.add(shortcut.name, shortcut.label));
+    reference.setGroup(QStringLiteral("Shape"));
+    QVERIFY(reference.add(radius.name, radius.label));
+    QVERIFY(reference.enumeration(placement.name, placement.label, placement.enumScope));
+    QVERIFY(reference.alignment(alignment.name, alignment.label));
+    reference.setGroup(QStringLiteral("Existing"));
+    QVERIFY(reference.add(animate.name, animate.label));
+    QVERIFY(reference.enabledWhen(hover.name, animate.name));
+    QVERIFY(reference.enabledWhen(hover.name, placement.name, QStringLiteral("AfterText")));
+
+    QList<StyleProperty> properties = builder.properties();
+    const QList<StyleProperty> expected = reference.properties();
+    QCOMPARE(properties.size(), expected.size());
+    for (int index = 0; index < properties.size(); ++index) {
+        const StyleProperty& actual = properties.at(index);
+        const StyleProperty& original = expected.at(index);
+        QCOMPARE(actual.name, original.name);
+        QCOMPARE(actual.group, original.group);
+        QCOMPARE(actual.label, original.label);
+        QCOMPARE(actual.description, original.description);
+        QCOMPARE(actual.type, original.type);
+        QCOMPARE(actual.value, original.value);
+        QCOMPARE(actual.defaultValue, original.defaultValue);
+        QCOMPARE(actual.enumNames.size(), original.enumNames.size());
+        QVERIFY(std::equal(actual.enumNames.cbegin(), actual.enumNames.cend(), original.enumNames.cbegin()));
+        QCOMPARE(actual.enumExpressions.size(), original.enumExpressions.size());
+        QVERIFY(std::equal(actual.enumExpressions.cbegin(), actual.enumExpressions.cend(), original.enumExpressions.cbegin()));
+        QCOMPARE(actual.codeExpression(actual.value), original.codeExpression(original.value));
+        QCOMPARE(actual.enabledWhen.size(), original.enabledWhen.size());
+        for (int condition = 0; condition < actual.enabledWhen.size(); ++condition) {
+            QCOMPARE(actual.enabledWhen.at(condition).propertyName, original.enabledWhen.at(condition).propertyName);
+            QCOMPARE(actual.enabledWhen.at(condition).value, original.enabledWhen.at(condition).value);
+        }
+    }
+
+    QVERIFY(!StylePropertyStateUtils::isEnabled(properties.at(1), properties));
+    properties[8].value = true;
+    properties[6].value = QStringLiteral("AfterText");
+    QVERIFY(StylePropertyStateUtils::isEnabled(properties.at(1), properties));
+    properties.at(5).apply(17);
+    QCOMPARE(object.cornerRadius, 17);
+    properties.at(6).apply(QStringLiteral("AfterText"));
+    QCOMPARE(object.placement, StylePropertyTestObject::Placement::AfterText);
+    properties.at(7).apply(QStringLiteral("AlignLeft|AlignBottom"));
+    QCOMPARE(object.contentAlignment, Qt::Alignment(Qt::AlignLeft | Qt::AlignBottom));
+    QCOMPARE(defaults.cornerRadius, 6);
+
+    QVERIFY(builder.add(QStringLiteral("borderWidth"), QStringLiteral("Width")));
+    QCOMPARE(builder.properties().last().group, QStringLiteral("Existing"));
+}
+
+void StylePropertyBuilderTest::structuredExplicitEnumOptions() {
+    StylePropertyTestObject defaults;
+    StylePropertyTestObject object;
+    StylePropertyBuilder builder(&object, &defaults);
+
+    StylePropertyOptions alignment;
+    alignment.name = QStringLiteral("contentAlignment");
+    alignment.label = QStringLiteral("Alignment");
+    alignment.binding = StylePropertyOptions::Binding::Enumeration;
+    alignment.enumOptions = {
+        {QStringLiteral("Center"), Qt::AlignCenter, QStringLiteral("Qt::AlignCenter")},
+        {QStringLiteral("Left"), Qt::AlignLeft, QStringLiteral("Qt::AlignLeft")}
+    };
+
+    StylePropertyGroup group;
+    group.name = QStringLiteral("Layout");
+    group.properties = {alignment};
+    QVERIFY(builder.addGroups({group}));
+    QVERIFY(builder.errors().isEmpty());
+    const StyleProperty property = builder.properties().first();
+    QCOMPARE(property.type, StylePropertyType::Enum);
+    QCOMPARE(property.defaultValue.toString(), QStringLiteral("Center"));
+    QCOMPARE(property.codeExpression(QStringLiteral("Left")), QStringLiteral("Qt::AlignLeft"));
+    property.apply(QStringLiteral("Left"));
+    QCOMPARE(object.contentAlignment, Qt::Alignment(Qt::AlignLeft));
+}
+
+void StylePropertyBuilderTest::structuredGroupsAreAtomic_data() {
+    QTest::addColumn<QString>("failure");
+    QTest::newRow("duplicate-name") << QStringLiteral("duplicate");
+    QTest::newRow("missing-controller") << QStringLiteral("missing");
+    QTest::newRow("self-dependency") << QStringLiteral("self");
+    QTest::newRow("duplicate-controller") << QStringLiteral("condition");
+    QTest::newRow("incomplete-enum") << QStringLiteral("enum");
+    QTest::newRow("wrong-binding") << QStringLiteral("icon");
+}
+
+void StylePropertyBuilderTest::structuredGroupsAreAtomic() {
+    QFETCH(QString, failure);
+    StylePropertyTestObject defaults;
+    StylePropertyTestObject object;
+    StylePropertyBuilder builder(&object, &defaults);
+    builder.setGroup(QStringLiteral("Existing"));
+    QVERIFY(builder.add(QStringLiteral("text"), QStringLiteral("Text")));
+
+    StylePropertyOptions radius;
+    radius.name = QStringLiteral("cornerRadius");
+    radius.label = QStringLiteral("Radius");
+
+    StylePropertyOptions hover;
+    hover.name = QStringLiteral("backgroundHover");
+    hover.label = QStringLiteral("Hover");
+
+    if (failure == QStringLiteral("duplicate"))
+        hover.name = QStringLiteral("text");
+    else if (failure == QStringLiteral("missing"))
+        hover.enabledWhen = {{QStringLiteral("missing"), true}};
+    else if (failure == QStringLiteral("self"))
+        hover.enabledWhen = {{hover.name, true}};
+    else if (failure == QStringLiteral("condition"))
+        hover.enabledWhen = {{radius.name, 6}, {radius.name, 6}};
+    else if (failure == QStringLiteral("enum"))
+        hover.binding = StylePropertyOptions::Binding::Enumeration;
+    else if (failure == QStringLiteral("icon"))
+        hover.binding = StylePropertyOptions::Binding::Icon;
+
+    StylePropertyGroup shape;
+    shape.name = QStringLiteral("Shape");
+    shape.properties = {radius};
+
+    StylePropertyGroup content;
+    content.name = QStringLiteral("Content");
+    content.properties = {hover};
+    QVERIFY(!builder.addGroups({shape, content}));
+    QVERIFY(!builder.errors().isEmpty());
+    QCOMPARE(builder.properties().size(), 1);
+    QCOMPARE(builder.properties().first().name, QStringLiteral("text"));
+    QCOMPARE(object.cornerRadius, defaults.cornerRadius);
+    QVERIFY(!object.backgroundHover.isValid());
+
+    QVERIFY(builder.add(QStringLiteral("borderWidth"), QStringLiteral("Width")));
+    QCOMPARE(builder.properties().last().group, QStringLiteral("Existing"));
+}
 
 void StylePropertyBuilderTest::propertyEnableConditions() {
     StylePropertyTestObject defaults;

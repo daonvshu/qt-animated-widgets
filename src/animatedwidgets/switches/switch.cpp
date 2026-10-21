@@ -19,7 +19,7 @@ Switch::Switch(QWidget* parent)
 {
     setTristate(false);
     for (auto* transition : {&m_position, &m_trackColor, &m_thumbColor}) {
-        transition->setDuration(180);
+        transition->setDuration(300);
         connect(transition, &ValueTransition::valueChanged, this, [this] { update(); });
     }
     connect(this, &QCheckBox::toggled, this, [this] { updateTargets(); });

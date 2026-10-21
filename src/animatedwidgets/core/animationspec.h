@@ -5,7 +5,7 @@
 namespace animatedwidgets {
 
 struct AnimationSpec {
-    int duration = 180;
+    int duration = 300;
     QEasingCurve easing = QEasingCurve::OutCubic;
 };
 

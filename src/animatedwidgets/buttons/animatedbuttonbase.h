@@ -47,7 +47,7 @@ private:
     ValueTransition m_backgroundTransition;
     ValueTransition m_borderTransition;
     ValueTransition m_contentTransition;
-    int m_animationDuration = 180;
+    int m_animationDuration = 300;
     int m_darkerStep = 15;
     bool m_animateContentColor = false;
     bool m_iconHint = false;

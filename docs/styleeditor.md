@@ -181,9 +181,8 @@ The editor loads style editor plugins from:
 ```
 
 The built-in button plugin is emitted there as
-`animatedwidgets-styleeditor-buttons`. Build `animatedwidgets-styleeditor` and
-`animatedwidgetsstyleeditorbuttons` together, then launch the editor from its
-output directory.
+`animatedwidgets-styleeditor-buttons`. Building `animatedwidgets-styleeditor`
+also builds this plugin. Launch the editor from its output directory.
 
 External plugins only need the lightweight
 `AnimatedWidgets::StyleEditorApi` target. They can describe their own QWidget
@@ -208,6 +207,12 @@ The public API is under `animatedwidgets/styleeditor/api`:
 - `StylePropertyBuilder` groups properties and binds ordinary `Q_PROPERTY`
   declarations. Text, color, bool, int, float, double, QSize and QKeySequence types are inferred;
   enums, flag combinations and icon resource paths have explicit methods.
+- `StylePropertyOptions` describes a property with named fields for its name,
+  label, description, binding and enable conditions. Optional enum options or
+  scope and current/default icon resources configure explicit bindings.
+- `StylePropertyGroup` contains a category name and its property options.
+  `StylePropertyBuilder::addGroups` registers all groups before resolving their
+  enable conditions, so controllers can appear later in the same batch.
 - `StyleEnumOption` maps a stable option name to its numeric value and C++
   expression. Use explicit options for combinations such as alignment flags.
 - `StyleCodeExpressions`, under `styleeditor/utils`, formats escaped text,
@@ -230,19 +235,31 @@ namespace se = animatedwidgets::styleeditor;
 class CustomerStyleProperties {
 public:
     static void define(se::StylePropertyBuilder& builder) {
-        content(builder);
-        shape(builder);
+        builder.addGroups({content(), shape()});
     }
 
 private:
-    static void content(se::StylePropertyBuilder& builder) {
-        builder.setGroup(QStringLiteral("Content"));
-        builder.add(QStringLiteral("text"), QStringLiteral("Text"));
+    static se::StylePropertyGroup content() {
+        se::StylePropertyOptions text;
+        text.name = QStringLiteral("text");
+        text.label = QStringLiteral("Text");
+        text.description = QStringLiteral("Widget label text.");
+
+        se::StylePropertyGroup group;
+        group.name = QStringLiteral("Content");
+        group.properties = {text};
+        return group;
     }
 
-    static void shape(se::StylePropertyBuilder& builder) {
-        builder.setGroup(QStringLiteral("Shape"));
-        builder.add(QStringLiteral("cornerRadius"), QStringLiteral("Radius"));
+    static se::StylePropertyGroup shape() {
+        se::StylePropertyOptions radius;
+        radius.name = QStringLiteral("cornerRadius");
+        radius.label = QStringLiteral("Radius");
+
+        se::StylePropertyGroup group;
+        group.name = QStringLiteral("Shape");
+        group.properties = {radius};
+        return group;
     }
 };
 
@@ -360,6 +377,23 @@ Builder methods return false for missing, read-only, unsupported or duplicate
 properties and invalid enum options. `errors()` exposes definition diagnostics;
 the type builder reports them when building the property list.
 
+Structured groups use `Binding::Automatic` by default. Set `binding` to `Icon`,
+`Enumeration` or `Alignment` for explicit bindings; enum bindings use `enumScope`
+or `enumOptions`. Define conditions on the affected property itself:
+
+```cpp
+se::StylePropertyOptions hover;
+hover.name = QStringLiteral("contentHover");
+hover.label = QStringLiteral("Hover");
+hover.enabledWhen = {{QStringLiteral("animateContentColor"), true}};
+```
+
+Register the target and controller in the same `addGroups` batch, or register the
+controller beforehand. Batches preserve property order and the builder's current
+group. If any binding or enable condition is invalid, the entire batch is rejected
+without changing previously registered properties; diagnostics remain in `errors()`.
+The original individual registration methods remain available.
+
 Declare enable conditions after registering both properties:
 
 ```cpp
@@ -378,7 +412,8 @@ while saved JSON and generated setters retain disabled properties' configured va
 
 The built-in button plugin is divided into `ButtonStylePlugin` for registration
 and suggested sizes, and `ButtonStyleProperties` for explicit per-type property
-groups. Each button type lists the
+groups. Its helpers return structured groups, keeping descriptions, binding kinds
+and enable conditions together. Each button type lists the
 groups it supports, including the four state backgrounds supported by hover
 buttons; no background-normal or border properties are declared for those types.
 Hover, pressed, disabled and checked content colors require `Animate content`.
