@@ -133,8 +133,7 @@ void StyleEditorSession::setPreviewSettings(int itemIndex, const StylePreviewSet
         return;
 
     StylePreviewSettings& current = m_items[itemIndex].previewSettings;
-    if (current.size == settings.size && current.background == settings.background
-        && current.widthAuto == settings.widthAuto && current.heightAuto == settings.heightAuto)
+    if (current.size == settings.size && current.widthAuto == settings.widthAuto && current.heightAuto == settings.heightAuto)
         return;
     current = settings;
     emit contentChanged();

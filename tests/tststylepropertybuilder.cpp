@@ -5,6 +5,7 @@
 #include "animatedwidgets/styleeditor/utils/stylepropertystateutils.h"
 #include "../styleeditor/utils/stylecodegenerator.h"
 #include "../styleeditor/utils/styledocumentcodec.h"
+#include "../plugins/styleeditor/utils/styleobjectproperties.h"
 
 #include <QtTest>
 
@@ -33,6 +34,8 @@ private slots:
     void invalidDefinitionsAreRejected();
     void callbacksSurviveTargetDeletion();
     void customBindingsAndRegistration();
+    void styleMembersPreserveOtherFields();
+    void customStatementsAndSparseExport();
     void propertyEnableConditions();
     void invalidEnableConditions();
     void enableConditionsSurviveDocumentRestore();
@@ -635,6 +638,77 @@ void StylePropertyBuilderTest::customBindingsAndRegistration() {
     const auto named = StyleWidgetTypeBuilder::create<QWidget>(namedOptions);
     QCOMPARE(named.typeName, QStringLiteral("ExampleWidget"));
     QVERIFY(!named.suggestedSize.isValid());
+}
+
+void StylePropertyBuilderTest::styleMembersPreserveOtherFields() {
+    using Object = StylePropertyTestObject;
+    using Appearance = Object::Appearance;
+    Object defaults;
+    auto* object = new Object;
+    StylePropertyBuilder builder(object, &defaults);
+    const auto getter = [](Object* target) { return target->appearance(); };
+    const auto setter = [](Object* target, const Appearance& style) { target->setAppearance(style); };
+    const QString getterCode = QStringLiteral("widget->appearance()");
+    const QString setterCode = QStringLiteral("setAppearance(style)");
+
+    StyleObjectProperties::add<Object>(builder, QStringLiteral("Appearance"), QStringLiteral("style.background"), QStringLiteral("Background"),
+        &Appearance::background, getter, setter, getterCode, setterCode);
+    StyleObjectProperties::add<Object>(builder, QStringLiteral("Appearance"), QStringLiteral("style.radius"), QStringLiteral("Radius"),
+        &Appearance::radius, getter, setter, getterCode, setterCode);
+    StyleObjectProperties::margins<Object, Appearance>(builder, QStringLiteral("Padding"), QStringLiteral("style.padding"),
+        &Appearance::padding, getter, setter, getterCode, setterCode);
+    StyleObjectProperties::choice<Object>(builder, QStringLiteral("Appearance"), QStringLiteral("style.checkAlignment"), QStringLiteral("Alignment"),
+        &Appearance::checkAlignment, getter, setter,
+        {{QStringLiteral("Left"), Qt::AlignLeft, QStringLiteral("Qt::AlignLeft")},
+         {QStringLiteral("Right"), Qt::AlignRight, QStringLiteral("Qt::AlignRight")}},
+        getterCode, setterCode);
+    QVERIFY(builder.errors().isEmpty());
+    const auto properties = builder.properties();
+    QCOMPARE(properties.size(), 7);
+    QCOMPARE(properties.first().defaultValue.value<QColor>(), QColor(Qt::white));
+    properties.at(0).apply(QColor(Qt::blue));
+    properties.at(1).apply(12);
+    properties.at(2).apply(9);
+    properties.at(6).apply(QStringLiteral("Right"));
+    QCOMPARE(object->appearance().background, QColor(Qt::blue));
+    QCOMPARE(object->appearance().radius, 12);
+    QCOMPARE(object->appearance().padding, QMargins(9, 3, 4, 5));
+    QCOMPARE(object->appearance().checkAlignment, Qt::Alignment(Qt::AlignRight));
+    QVERIFY(properties.at(2).codeStatement(9).contains(QStringLiteral("style.padding.setLeft(9);")));
+    QVERIFY(properties.at(6).codeStatement(QStringLiteral("Right")).contains(QStringLiteral("style.checkAlignment = Qt::AlignRight;")));
+    QVERIFY(properties.first().codeStatement(QColor(Qt::blue)).contains(QStringLiteral("auto style = widget->appearance();")));
+
+    delete object;
+    for (const auto& property : properties)
+        property.apply(property.defaultValue);
+}
+
+void StylePropertyBuilderTest::customStatementsAndSparseExport() {
+    StylePropertyTestObject defaults;
+    StylePropertyTestObject object;
+    StylePropertyBuilder builder(&object, &defaults);
+    StyleProperty statement;
+    statement.name = QStringLiteral("editor.text");
+    statement.type = StylePropertyType::Text;
+    statement.value = QString();
+    statement.defaultValue = QString();
+    statement.apply = [&object](const QVariant& value) { object.text = value.toString(); };
+    statement.codeStatement = [](const QVariant& value) {
+        return QStringLiteral("widget->editor()->setText(%1);\n").arg(animatedwidgets::styleeditor::StyleCodeExpressions::text(value.toString()));
+    };
+    QVERIFY(builder.add(statement));
+
+    StyleEditorItem item;
+    item.typeName = QStringLiteral("ExampleComposite");
+    item.properties = builder.properties();
+    QVERIFY(!StyleCodeGenerator::generate(item).contains(QStringLiteral("setText")));
+    QJsonObject values;
+    values.insert(QStringLiteral("editor.text"), QStringLiteral("Preview"));
+    StyleDocumentCodec::applySerializedProperties(item.properties, values);
+    QCOMPARE(object.text, QStringLiteral("Preview"));
+    QVERIFY(StyleCodeGenerator::generate(item).contains(QStringLiteral("widget->editor()->setText(QStringLiteral(\"Preview\"));")));
+    QVERIFY(!StyleCodeGenerator::generate(item).contains(QStringLiteral("setEditor.text")));
+    QCOMPARE(StyleDocumentCodec::serializeProperties(item.properties).value(QStringLiteral("editor.text")).toString(), QStringLiteral("Preview"));
 }
 
 QTEST_APPLESS_MAIN(StylePropertyBuilderTest)

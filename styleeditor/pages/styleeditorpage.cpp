@@ -29,6 +29,7 @@ void StyleEditorPage::loadDocument(const StyleDocument& document) {
     const QSignalBlocker selectionBlocker(ui.widgetTree->selectionModel());
     propertyInspector->clear();
     ui.previewPanel->setPreview(nullptr);
+    ui.previewPanel->setPreviewBackground(document.previewBackground);
     editorSession->setResourceSettings(document.resources);
     propertyInspector->setResourceSettings(document.resources);
     editorSession->loadItems(document.items);
@@ -42,6 +43,7 @@ void StyleEditorPage::loadDocument(const StyleDocument& document) {
 void StyleEditorPage::collectDocument(StyleDocument& document) const {
     document.items = editorSession->collectItems();
     document.resources = editorSession->resourceSettings();
+    document.previewBackground = ui.previewPanel->previewBackground();
 }
 
 void StyleEditorPage::createLayout() {
@@ -60,7 +62,7 @@ void StyleEditorPage::createLayout() {
     ui.widgetTree->setUniformItemHeight(48);
     ui.widgetTree->setRowSpacing(4);
     ui.widgetTree->setIndentation(18);
-    ui.widgetTree->setIndentLeafItems(false);
+    ui.widgetTree->setIndentLeafItems(true);
     ui.widgetTree->setRowGridLinesVisible(false);
     ui.widgetTree->setVisualStateBackgroundVisible(true);
     ui.widgetTree->setVisualStateCornerRadius(8);
@@ -93,6 +95,7 @@ void StyleEditorPage::connectEditorSignals() {
     connect(ui.previewPanel, &StylePreviewPanel::settingsEdited, this, [this](const StylePreviewSettings& settings) {
         editorSession->setPreviewSettings(currentItem, settings);
     });
+    connect(ui.previewPanel, &StylePreviewPanel::backgroundEdited, this, &WorkspacePage::contentChanged);
     connect(propertyInspector, &StylePropertyInspector::dialogRequested, this, &WorkspacePage::dialogRequested);
     connect(propertyInspector, &StylePropertyInspector::resourceSettingsEdited, this, [this](const StyleResourceSettings& settings) {
         editorSession->setResourceSettings(settings);

@@ -23,11 +23,13 @@ void StyleDocumentSession::updateContent(const StyleDocument& content) {
     StyleDocument updated = m_document;
     updated.items = content.items;
     updated.resources = content.resources;
+    updated.previewBackground = content.previewBackground;
     if (StyleDocumentCodec::toJson(updated) == StyleDocumentCodec::toJson(m_document))
         return;
 
     m_document.items = updated.items;
     m_document.resources = updated.resources;
+    m_document.previewBackground = updated.previewBackground;
     markModified();
 }
 

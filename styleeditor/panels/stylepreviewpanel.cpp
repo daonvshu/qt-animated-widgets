@@ -111,7 +111,7 @@ void StylePreviewPanel::requestPreview() {
     QJsonObject snapshot;
     snapshot.insert(QStringLiteral("item"), m_itemData);
     snapshot.insert(QStringLiteral("state"), m_state);
-    const QColor background = m_settings.background.isValid() ? m_settings.background : m_themeBackground;
+    const QColor background = m_background.isValid() ? m_background : m_themeBackground;
     snapshot.insert(QStringLiteral("background"), background.isValid() ? background.name(QColor::HexArgb) : QString());
 
     QJsonObject settings;
@@ -206,7 +206,7 @@ void StylePreviewPanel::updateBackground() {
     if (!m_layoutReady || m_updatingBackground)
         return;
     const QScopedValueRollback<bool> updating(m_updatingBackground, true);
-    const QColor color = m_settings.background.isValid() ? m_settings.background
+    const QColor color = m_background.isValid() ? m_background
         : m_themeBackground.isValid() ? m_themeBackground : palette().color(QPalette::Window);
     const QString rgba = QStringLiteral("rgba(%1, %2, %3, %4)").arg(color.red()).arg(color.green()).arg(color.blue()).arg(color.alpha());
     const QString style = QStringLiteral("QFrame#previewCanvas {\n    background-color: %1;\n}").arg(rgba);
@@ -217,8 +217,20 @@ void StylePreviewPanel::updateBackground() {
     ui.previewBackgroundButton->setBackgroundHover(color);
     ui.previewBackgroundButton->setBackgroundPressed(color);
     ui.previewBackgroundButton->setContentNormal(color.lightness() < 128 ? QColor(Qt::white) : QColor(Qt::black));
-    ui.previewBackgroundButton->setText(m_settings.background.isValid() ? QString() : QStringLiteral("Theme"));
-    ui.previewBackgroundButton->setToolTip(m_settings.background.isValid() ? color.name(QColor::HexArgb) : QStringLiteral("Editor background"));
+    ui.previewBackgroundButton->setText(m_background.isValid() ? QString() : QStringLiteral("Theme"));
+    ui.previewBackgroundButton->setToolTip(m_background.isValid() ? color.name(QColor::HexArgb) : QStringLiteral("Editor background"));
+}
+
+QColor StylePreviewPanel::previewBackground() const {
+    return m_background;
+}
+
+void StylePreviewPanel::setPreviewBackground(const QColor& color) {
+    if (m_background == color)
+        return;
+    m_background = color;
+    updateBackground();
+    requestPreview();
 }
 
 void StylePreviewPanel::setThemeBackground(const QColor& color) {
@@ -293,17 +305,15 @@ void StylePreviewPanel::on_previewHeightAutoButton_toggled(bool checked) {
 void StylePreviewPanel::on_previewBackgroundButton_clicked() {
     if (m_itemData.isEmpty() || m_colorPopup)
         return;
-    const QColor color = m_settings.background.isValid() ? m_settings.background : m_themeBackground;
+    const QColor color = m_background.isValid() ? m_background : m_themeBackground;
     auto* popup = new ColorPickerDialog(color, window());
     m_colorPopup = popup;
     const quint64 generation = m_generation;
     connect(popup, &ColorPickerDialog::colorAccepted, this, [this, generation](const QColor& color) {
-        if (m_itemData.isEmpty() || generation != m_generation || color == m_settings.background)
+        if (m_itemData.isEmpty() || generation != m_generation || color == m_background)
             return;
-        m_settings.background = color;
-        updateBackground();
-        requestPreview();
-        emit settingsEdited(m_settings);
+        setPreviewBackground(color);
+        emit backgroundEdited(m_background);
     });
     emit dialogRequested(popup);
 }
@@ -312,10 +322,14 @@ void StylePreviewPanel::on_resetPreviewButton_clicked() {
     if (m_itemData.isEmpty())
         return;
     m_settings = {};
+    const bool backgroundChanged = m_background.isValid();
+    m_background = QColor();
     updateSize();
     updateBackground();
     requestPreview();
     emit settingsEdited(m_settings);
+    if (backgroundChanged)
+        emit backgroundEdited(m_background);
 }
 
 void StylePreviewPanel::on_previewRetryButton_clicked() {

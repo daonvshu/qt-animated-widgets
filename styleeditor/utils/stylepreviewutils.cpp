@@ -18,9 +18,11 @@ void StylePreviewUtils::applyState(QWidget* preview, int state, const QList<anim
     if (!preview)
         return;
 
+    auto* button = qobject_cast<QAbstractButton*>(preview);
     bool enabled = true;
-    bool checked = false;
-    bool checkable = false;
+    bool checked = button && button->isChecked();
+    bool checkable = button && button->isCheckable();
+    const animatedwidgets::styleeditor::StyleProperty* checkState = nullptr;
     for (const auto& property : properties) {
         if (property.name == QStringLiteral("enabled"))
             enabled = property.value.toBool();
@@ -28,12 +30,20 @@ void StylePreviewUtils::applyState(QWidget* preview, int state, const QList<anim
             checked = property.value.toBool();
         else if (property.name == QStringLiteral("checkable"))
             checkable = property.value.toBool();
+        else if (property.name == QStringLiteral("checkState"))
+            checkState = &property;
     }
     preview->setEnabled(enabled && state != 3);
     preview->setProperty("styleEditorState", state);
-    if (auto* button = qobject_cast<QAbstractButton*>(preview)) {
+    if (button) {
         button->setCheckable(checkable || state == 4);
-        button->setChecked((checkable && checked) || state == 4);
+        if (state != 4 && checkState && checkState->apply) {
+            checkState->apply(checkState->value);
+        } else {
+            const bool targetChecked = (checkable && checked) || state == 4;
+            if (button->isChecked() != targetChecked)
+                button->setChecked(targetChecked);
+        }
         button->setDown(state == 2);
     }
     preview->update();

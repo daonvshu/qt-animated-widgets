@@ -45,6 +45,18 @@ target_link_libraries(tstpopupmenufiltermodel PRIVATE AnimatedWidgets::Widgets Q
 add_test(NAME tstpopupmenufiltermodel COMMAND tstpopupmenufiltermodel)
 
 if(BUILD_STYLE_EDITOR)
+    add_executable(tststylepluginregistry
+        tststylepluginregistry.cpp
+        ../styleeditor/plugins/stylepluginregistry.cpp
+        ../styleeditor/utils/stylewidgettypeutils.cpp
+    )
+    target_link_libraries(tststylepluginregistry PRIVATE AnimatedWidgets::StyleEditorApi Qt${QT_VERSION_MAJOR}::Test)
+    target_compile_definitions(tststylepluginregistry PRIVATE
+        STYLE_PLUGIN_DIRECTORY="$<TARGET_FILE_DIR:animatedwidgets-styleeditor>/plugins/styleeditor"
+    )
+    add_dependencies(tststylepluginregistry animatedwidgetsstyleeditorplugins)
+    add_test(NAME tststylepluginregistry COMMAND tststylepluginregistry)
+
     add_executable(tstscreencolorutils
         tstscreencolorutils.cpp
         ../styleeditor/utils/screencolorutils.h
@@ -129,6 +141,8 @@ if(BUILD_STYLE_EDITOR)
         tststylewidgettreemodel.cpp
         ../styleeditor/panels/stylewidgettreemodel.h
         ../styleeditor/panels/stylewidgettreemodel.cpp
+        ../styleeditor/utils/stylewidgettypeutils.h
+        ../styleeditor/utils/stylewidgettypeutils.cpp
     )
     target_link_libraries(tststylewidgettreemodel PRIVATE AnimatedWidgets::StyleEditorApi Qt${QT_VERSION_MAJOR}::Test)
     add_test(NAME tststylewidgettreemodel COMMAND tststylewidgettreemodel)

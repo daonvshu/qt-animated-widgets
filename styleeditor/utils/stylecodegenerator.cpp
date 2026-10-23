@@ -7,7 +7,7 @@ using animatedwidgets::styleeditor::StylePropertyType;
 QString StyleCodeGenerator::generate(const StyleEditorItem& item, const QString& projectDirectory) {
     QString code = QStringLiteral("// %1\nauto* widget = new %2(parent);\n").arg(item.displayName, item.typeName);
     for (const StyleProperty& property : item.properties) {
-        if (!property.apply || !property.codeExpression)
+        if (!property.apply || (!property.codeExpression && !property.codeStatement))
             continue;
         if (property.defaultValue.isValid() && property.value == property.defaultValue)
             continue;
@@ -22,7 +22,10 @@ QString StyleCodeGenerator::generate(const StyleEditorItem& item, const QString&
                 continue;
             value = reference;
         }
-        code += QStringLiteral("widget->set%1(%2);\n").arg(setter, property.codeExpression(value));
+        if (property.codeStatement)
+            code += property.codeStatement(value);
+        else
+            code += QStringLiteral("widget->set%1(%2);\n").arg(setter, property.codeExpression(value));
     }
     return code;
 }

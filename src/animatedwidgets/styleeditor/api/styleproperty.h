@@ -38,6 +38,7 @@ struct StyleProperty {
 
     std::function<void(const QVariant&)> apply;
     std::function<QString(const QVariant&)> codeExpression;
+    std::function<QString(const QVariant&)> codeStatement;
 };
 
 } // namespace animatedwidgets::styleeditor

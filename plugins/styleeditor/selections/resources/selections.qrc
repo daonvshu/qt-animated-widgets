@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/animatedwidgets/styleeditor/selections">
+        <file>checkboxchecked.svg</file>
+        <file>checkboxunchecked.svg</file>
+        <file>checkboxpartial.svg</file>
+        <file>radiochecked.svg</file>
+        <file>radiounchecked.svg</file>
+    </qresource>
+</RCC>

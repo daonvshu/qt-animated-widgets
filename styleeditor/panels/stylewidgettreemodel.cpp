@@ -1,5 +1,7 @@
 #include "stylewidgettreemodel.h"
 
+#include "../utils/stylewidgettypeutils.h"
+
 #include <QHash>
 
 using animatedwidgets::styleeditor::StyleEditorWidgetType;
@@ -10,7 +12,7 @@ StyleWidgetTreeModel::StyleWidgetTreeModel(QObject* parent)
 }
 
 QString StyleWidgetTreeModel::categoryName(const StyleEditorWidgetType& type) {
-    return type.category.trimmed().isEmpty() ? QStringLiteral("Other widgets") : type.category;
+    return StyleWidgetTypeUtils::categoryName(type);
 }
 
 void StyleWidgetTreeModel::rebuild(const QList<StyleEditorWidgetType>& types, const QList<StyleDocumentItem>& items, const QString& filter) {

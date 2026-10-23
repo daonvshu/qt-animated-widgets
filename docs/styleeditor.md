@@ -1,7 +1,7 @@
 # Style editor
 
 The optional `animatedwidgets-styleeditor` application edits the public QWidget
-button properties and generates C++ setter code. It uses a card-based UI
+widget properties and generates C++ setter code. It uses a card-based UI
 with a live preview, grouped property rows, state preview controls and a code
 copy action.
 
@@ -180,9 +180,62 @@ The editor loads style editor plugins from:
 <editor directory>/plugins/styleeditor/
 ```
 
-The built-in button plugin is emitted there as
-`animatedwidgets-styleeditor-buttons`. Building `animatedwidgets-styleeditor`
-also builds this plugin. Launch the editor from its output directory.
+Each built-in category is a separate CMake MODULE target and a separate DLL on
+Windows. Building `animatedwidgets-styleeditor` also builds all categories through
+the `animatedwidgetsstyleeditorplugins` dependency target. Launch the editor from
+its output directory.
+
+| Category | Independent target | Widget types |
+| --- | --- | --- |
+| Buttons | `animatedwidgetsstyleeditorbuttons` | Filled, outline, bordered and hover buttons, with text or icon |
+| Selections | `animatedwidgetsstyleeditorselections` | CheckBox, RadioButton |
+| Switches | `animatedwidgetsstyleeditorswitches` | Switch |
+| Progress bars | `animatedwidgetsstyleeditorprogressbars` | ProgressBar |
+| Sliders | `animatedwidgetsstyleeditorsliders` | Slider |
+| Inputs | `animatedwidgetsstyleeditorinputs` | LineEdit, IconLineEdit, PasswordLineEdit, PlainTextEdit, SpinBox, DoubleSpinBox and four composite variants |
+| Combo boxes | `animatedwidgetsstyleeditorcomboboxes` | ComboBox, SearchComboBox, CreatableComboBox, TreeComboBox, CascaderComboBox, MultiSelectComboBox, CompositeComboBox |
+| Tags | `animatedwidgetsstyleeditortags` | TagWidget |
+| Calendars | `animatedwidgetsstyleeditorcalendars` | Date, month, year and time selectors; date, date/time, date range, month and year popups |
+| Popups | `animatedwidgetsstyleeditorpopups` | PopupMenu, SearchPopupMenu, TreePopupMenu, CascaderPopupMenu |
+
+DLL output names follow `animatedwidgets-styleeditor-<category>`. For example,
+build only the inputs plugin with
+`cmake --build <BUILD_DIRECTORY> --target animatedwidgetsstyleeditorinputs`.
+Each category has its own directory, CMakeLists, metadata, registration class and
+property definitions under `plugins/styleeditor/`. The `utils/` directory shares
+property and preview helpers at compile time; it does not combine plugin DLLs.
+
+Display order is independent of DLL filenames. `StyleWidgetTypeOptions` and
+`StyleEditorWidgetType` expose `double categoryOrder` and `double order`, both
+defaulting to `1000.0`. Smaller values appear first; fractional values such as
+`150.5` insert external categories between existing ones. Built-in categories
+use Buttons 100, Selections 200, Switches 300, Inputs 400, Combo boxes 500,
+Sliders 600, Progress bars 700, Tags 800, Calendars 900 and Popups 1000.
+Built-in types within each category use steps of 100 in their declared order.
+
+When multiple plugins contribute to one category, its smallest `categoryOrder`
+determines the position of the whole category. Equal category orders fall back
+to category names; equal type orders within a category fall back to type IDs.
+Non-finite order values use the default. The registry applies these rules after
+loading all plugins, so both the category tree and the add-style type selector
+share the same order. Existing document styles retain their document order,
+and unavailable widget types remain in the final group. Display order is plugin
+metadata and is not stored in style documents or generated widget code.
+
+Property definitions include the supported state colors, geometry, animation
+settings and resource-backed icons. Composite controls also expose editor-owned
+properties with an `editor.` prefix. Their generated statements address
+`widget->editor()`; shared frame settings remain on the outer control.
+CalendarStyle and the default popup body/list styles are edited through member
+bindings. Applying one member preserves the others, and code generation reads,
+updates and reapplies the corresponding style object. Font settings include
+family, pixel size, bold and italic; margins expose four independent edges.
+
+Preview choices, tree models and selection icons are demonstration fixtures.
+Models, application callbacks, composite slot widgets and these sample resources
+are not exported as application data. Choose application-owned icon resources
+when exporting a selection control. Popup previews are embedded in the preview
+canvas; generated code constructs the original popup class.
 
 External plugins only need the lightweight
 `AnimatedWidgets::StyleEditorApi` target. They can describe their own QWidget
@@ -194,19 +247,23 @@ The public API is under `animatedwidgets/styleeditor/api`:
 
 - `StyleEditorPlugin` identifies a plugin and returns widget descriptors.
 - `StyleEditorWidgetType` creates a widget, describes its editable properties and
-  optionally returns `suggestedSize` for the editor.
+  supplies display order metadata and an optional `suggestedSize` for the editor.
 - `StyleProperty` declares the editor type, default value, apply callback and C++
-  code expression, plus optional `enabledWhen` conditions.
+  code expression, plus optional `enabledWhen` conditions. An optional
+  `codeStatement` callback replaces the generated setter statement for style
+  objects, nested editors and other non-property APIs.
 - `StylePropertyCondition` matches a controlling property's name and expected
   value. Multiple conditions must all match; no conditions means always enabled.
 - `StyleWidgetTypeBuilder` registers a QWidget type, its property definitions and
   an optional suggested size. Creation returns an unmodified widget; default
   values come from another fresh instance of the same type.
 - `StyleWidgetTypeOptions` supplies named registration fields: ID, display name,
-  category, optional C++ type name, suggested size and property definition callback.
+  category, floating-point category/type order, optional C++ type name, suggested
+  size and property definition callback.
 - `StylePropertyBuilder` groups properties and binds ordinary `Q_PROPERTY`
   declarations. Text, color, bool, int, float, double, QSize and QKeySequence types are inferred;
-  enums, flag combinations and icon resource paths have explicit methods.
+  enums, flag combinations and QIcon/QPixmap resource paths have explicit methods.
+  `object()` and `defaults()` provide targets for custom member bindings.
 - `StylePropertyOptions` describes a property with named fields for its name,
   label, description, binding and enable conditions. Optional enum options or
   scope and current/default icon resources configure explicit bindings.
@@ -221,7 +278,9 @@ The public API is under `animatedwidgets/styleeditor/api`:
 The builder API is header-only and remains part of the lightweight
 `AnimatedWidgets::StyleEditorApi` target. Existing plugins can still return
 `StyleEditorWidgetType` and `StyleProperty` directly. Property descriptors now carry
-enable conditions and dedicated icon, size and shortcut editors, so the plugin IID is version 4.0. Rebuild external plugins
+enable conditions, custom code statements and dedicated icon, size and shortcut
+editors. Widget descriptors also carry display order values, so the plugin IID
+is version 6.0. Rebuild external plugins
 against this API. Existing document property keys are unchanged.
 
 Define property groups in named functions rather than mixing registration,
@@ -268,6 +327,8 @@ se::StyleWidgetTypeOptions options;
 options.id = QStringLiteral("customerwidget");
 options.name = QStringLiteral("Customer Widget");
 options.category = QStringLiteral("Custom");
+options.categoryOrder = 150.5;
+options.order = 100.25;
 options.suggestedSize = QSize(150, 42);
 options.defineProperties = &CustomerStyleProperties::define;
 
@@ -289,8 +350,10 @@ layout can determine that dimension; a fixed dimension uses the entered pixel
 value. Widgets remain centered inside a scrollable canvas at the chosen dimensions.
 Without a custom size, the editor uses the plugin's suggested size, then the
 widget's size hint. Background defaults to the main window's theme
-color; Auto in the color picker restores that default. Custom sizes and
-background colors are stored per document item in the optional `preview` JSON
+color; Auto in the color picker restores that default. The preview background is
+shared by all styles in the current document and stored in the root `preview`
+JSON object. Older documents use the first valid item preview background as the
+shared color. Custom sizes are stored per document item in its optional `preview`
 object. Auto dimensions are stored as `widthAuto` and `heightAuto`; their fixed
 pixel values are omitted while Auto is enabled. These editor settings are excluded
 from generated widget setter code.

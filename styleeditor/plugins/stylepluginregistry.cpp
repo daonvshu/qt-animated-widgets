@@ -1,5 +1,7 @@
 #include "stylepluginregistry.h"
 
+#include "../utils/stylewidgettypeutils.h"
+
 #include <QDir>
 #include <QPluginLoader>
 
@@ -23,6 +25,8 @@ void StylePluginRegistry::load(const QString& directory) {
 
         m_widgetTypes.append(plugin->widgetTypes());
     }
+
+    StyleWidgetTypeUtils::sort(m_widgetTypes);
 }
 
 const QList<StyleEditorWidgetType>& StylePluginRegistry::widgetTypes() const {

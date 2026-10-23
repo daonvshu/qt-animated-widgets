@@ -1,6 +1,11 @@
 #include "../styleeditor/panels/stylewidgettreemodel.h"
+#include "../styleeditor/utils/stylewidgettypeutils.h"
+#include "animatedwidgets/styleeditor/api/stylewidgettypebuilder.h"
 
 #include <QtTest>
+
+#include <algorithm>
+#include <limits>
 
 using animatedwidgets::styleeditor::StyleEditorWidgetType;
 
@@ -11,17 +16,25 @@ private slots:
     void categoriesAndDocumentIndices();
     void searchByCategoryStyleAndType();
     void unavailableTypesAndStableIds();
+    void floatingPointOrderAndDocumentIndices();
+    void sharedCategoriesAndDeterministicTies();
+    void nonFiniteOrdersUseDefaults();
+    void builderForwardsOrderMetadata();
 
 private:
-    static StyleEditorWidgetType widgetType(const QString& id, const QString& name, const QString& category);
+    static StyleEditorWidgetType widgetType(const QString& id, const QString& name, const QString& category,
+                                           double categoryOrder = 1000.0, double order = 1000.0);
     static StyleDocumentItem documentItem(const QString& id, const QString& name, const QString& typeId);
 };
 
-StyleEditorWidgetType StyleWidgetTreeModelTest::widgetType(const QString& id, const QString& name, const QString& category) {
+StyleEditorWidgetType StyleWidgetTreeModelTest::widgetType(const QString& id, const QString& name, const QString& category,
+                                                          double categoryOrder, double order) {
     StyleEditorWidgetType type;
     type.id = id;
     type.name = name;
     type.category = category;
+    type.categoryOrder = categoryOrder;
+    type.order = order;
     return type;
 }
 
@@ -118,6 +131,85 @@ void StyleWidgetTreeModelTest::unavailableTypesAndStableIds() {
     QCOMPARE(model.rowCount(), 1);
     QVERIFY(!model.indexForItem(QStringLiteral("stable")).data(StyleWidgetTreeModel::ActionEnabledRole).toBool());
     QCOMPARE(items.at(1).widgetTypeId, QStringLiteral("missing-plugin"));
+}
+
+void StyleWidgetTreeModelTest::floatingPointOrderAndDocumentIndices() {
+    QList<StyleEditorWidgetType> types{
+        widgetType(QStringLiteral("input"), QStringLiteral("Input"), QStringLiteral("Inputs"), 200.0),
+        widgetType(QStringLiteral("late"), QStringLiteral("A late button"), QStringLiteral("Buttons"), 100.0, 200.0),
+        widgetType(QStringLiteral("custom"), QStringLiteral("Custom"), QStringLiteral("Custom widgets"), 150.5),
+        widgetType(QStringLiteral("middle"), QStringLiteral("Z middle button"), QStringLiteral("Buttons"), 100.0, 100.5),
+        widgetType(QStringLiteral("early"), QStringLiteral("Early button"), QStringLiteral("Buttons"), 100.0, 100.25)};
+    StyleWidgetTypeUtils::sort(types);
+    const QStringList expected = {QStringLiteral("early"), QStringLiteral("middle"), QStringLiteral("late"),
+                                  QStringLiteral("custom"), QStringLiteral("input")};
+    QCOMPARE(types.size(), expected.size());
+    for (int index = 0; index < types.size(); ++index)
+        QCOMPARE(types.at(index).id, expected.at(index));
+
+    const QList<StyleDocumentItem> items{
+        documentItem(QStringLiteral("late-style"), QStringLiteral("Z first created"), QStringLiteral("late")),
+        documentItem(QStringLiteral("early-style"), QStringLiteral("A second created"), QStringLiteral("early")),
+        documentItem(QStringLiteral("missing"), QStringLiteral("Missing"), QStringLiteral("external"))};
+    StyleWidgetTreeModel model;
+    model.rebuild(types, items, QString());
+    QCOMPARE(model.index(0, 0).data().toString(), QStringLiteral("Buttons"));
+    QCOMPARE(model.index(1, 0).data().toString(), QStringLiteral("Custom widgets"));
+    QCOMPARE(model.index(2, 0).data().toString(), QStringLiteral("Inputs"));
+    QCOMPARE(model.index(3, 0).data().toString(), QStringLiteral("Unavailable widgets"));
+    const QModelIndex late = model.indexForItem(QStringLiteral("late-style"));
+    const QModelIndex early = model.indexForItem(QStringLiteral("early-style"));
+    QCOMPARE(late.row(), 0);
+    QCOMPARE(early.row(), 1);
+    QCOMPARE(late.data(StyleWidgetTreeModel::ItemIndexRole).toInt(), 0);
+    QCOMPARE(early.data(StyleWidgetTreeModel::ItemIndexRole).toInt(), 1);
+}
+
+void StyleWidgetTreeModelTest::sharedCategoriesAndDeterministicTies() {
+    QList<StyleEditorWidgetType> types{
+        widgetType(QStringLiteral("z"), QStringLiteral("First name"), QStringLiteral("Buttons"), 900.0, 50.5),
+        widgetType(QStringLiteral("input"), QStringLiteral("Input"), QStringLiteral("Inputs"), 150.0),
+        widgetType(QStringLiteral("a"), QStringLiteral("Last name"), QStringLiteral("Buttons"), 100.0, 50.5),
+        widgetType(QStringLiteral("alpha"), QStringLiteral("Alpha"), QStringLiteral("Alpha"), 100.0)};
+    const QStringList expected = {QStringLiteral("alpha"), QStringLiteral("a"), QStringLiteral("z"), QStringLiteral("input")};
+    for (int pass = 0; pass < 2; ++pass) {
+        StyleWidgetTypeUtils::sort(types);
+        for (int index = 0; index < types.size(); ++index)
+            QCOMPARE(types.at(index).id, expected.at(index));
+        std::reverse(types.begin(), types.end());
+    }
+}
+
+void StyleWidgetTreeModelTest::nonFiniteOrdersUseDefaults() {
+    const double nan = std::numeric_limits<double>::quiet_NaN();
+    const double infinity = std::numeric_limits<double>::infinity();
+    QList<StyleEditorWidgetType> types{
+        widgetType(QStringLiteral("nan"), QStringLiteral("NaN"), QStringLiteral("Other widgets"), nan, nan),
+        widgetType(QStringLiteral("negative"), QStringLiteral("Negative"), QStringLiteral("Other widgets"), 1000.0, -0.5),
+        widgetType(QStringLiteral("infinity"), QStringLiteral("Infinity"), QStringLiteral("  "), infinity, -infinity),
+        widgetType(QStringLiteral("last"), QStringLiteral("Last"), QStringLiteral("Other widgets"), 1000.0, 1000.5),
+        widgetType(QStringLiteral("first"), QStringLiteral("First"), QStringLiteral("First"), 999.5)};
+    StyleWidgetTypeUtils::sort(types);
+    const QStringList expected = {QStringLiteral("first"), QStringLiteral("negative"), QStringLiteral("infinity"),
+                                  QStringLiteral("nan"), QStringLiteral("last")};
+    for (int index = 0; index < types.size(); ++index)
+        QCOMPARE(types.at(index).id, expected.at(index));
+}
+
+void StyleWidgetTreeModelTest::builderForwardsOrderMetadata() {
+    using animatedwidgets::styleeditor::StyleWidgetTypeBuilder;
+    using animatedwidgets::styleeditor::StyleWidgetTypeOptions;
+
+    StyleWidgetTypeOptions options;
+    const StyleEditorWidgetType defaults = StyleWidgetTypeBuilder::create<QWidget>(options);
+    QCOMPARE(defaults.categoryOrder, 1000.0);
+    QCOMPARE(defaults.order, 1000.0);
+
+    options.categoryOrder = 150.5;
+    options.order = 100.25;
+    const StyleEditorWidgetType custom = StyleWidgetTypeBuilder::create<QWidget>(options);
+    QCOMPARE(custom.categoryOrder, options.categoryOrder);
+    QCOMPARE(custom.order, options.order);
 }
 
 QTEST_APPLESS_MAIN(StyleWidgetTreeModelTest)

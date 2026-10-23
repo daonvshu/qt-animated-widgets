@@ -33,6 +33,9 @@ bool StyleDocumentCodec::readFile(const QString& filePath, StyleDocument& docume
     StyleDocument loaded;
     loaded.filePath = filePath;
     loaded.name = root.value(QStringLiteral("name")).toString(QStringLiteral("Untitled"));
+    const QJsonObject documentPreview = root.value(QStringLiteral("preview")).toObject();
+    const bool hasSharedBackground = documentPreview.contains(QStringLiteral("background"));
+    loaded.previewBackground = QColor(documentPreview.value(QStringLiteral("background")).toString());
     const QJsonObject resources = root.value(QStringLiteral("resources")).toObject();
     const QString projectDirectory = resources.value(QStringLiteral("projectDirectory")).toString();
     if (!projectDirectory.isEmpty())
@@ -63,13 +66,14 @@ bool StyleDocumentCodec::readFile(const QString& filePath, StyleDocument& docume
             item.previewSettings.size.setHeight(height);
         item.previewSettings.widthAuto = preview.value(QStringLiteral("widthAuto")).toBool();
         item.previewSettings.heightAuto = preview.value(QStringLiteral("heightAuto")).toBool();
-        item.previewSettings.background = QColor(preview.value(QStringLiteral("background")).toString());
         if (item.widgetTypeId.isEmpty())
             continue;
         if (item.id.isEmpty())
             item.id = item.widgetTypeId;
         if (item.displayName.isEmpty())
             item.displayName = item.widgetTypeId;
+        if (!hasSharedBackground && !loaded.previewBackground.isValid())
+            loaded.previewBackground = QColor(preview.value(QStringLiteral("background")).toString());
         loaded.items.append(item);
     }
     loaded.modified = false;
@@ -118,6 +122,11 @@ QJsonObject StyleDocumentCodec::toJson(const StyleDocument& document) {
     QJsonObject root;
     root.insert(QStringLiteral("version"), 1);
     root.insert(QStringLiteral("name"), document.name);
+    if (document.previewBackground.isValid()) {
+        QJsonObject preview;
+        preview.insert(QStringLiteral("background"), document.previewBackground.name(QColor::HexArgb));
+        root.insert(QStringLiteral("preview"), preview);
+    }
     if (!document.resources.projectDirectory.isEmpty()) {
         QJsonObject resources;
         const QDir directory(document.filePath.isEmpty() ? QDir::currentPath() : QFileInfo(document.filePath).absolutePath());
@@ -146,8 +155,6 @@ QJsonObject StyleDocumentCodec::toJson(const StyleDocument& document) {
             preview.insert(QStringLiteral("widthAuto"), true);
         if (item.previewSettings.heightAuto)
             preview.insert(QStringLiteral("heightAuto"), true);
-        if (item.previewSettings.background.isValid())
-            preview.insert(QStringLiteral("background"), item.previewSettings.background.name(QColor::HexArgb));
         if (!preview.isEmpty())
             itemObject.insert(QStringLiteral("preview"), preview);
         items.append(itemObject);

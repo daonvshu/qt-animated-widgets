@@ -16,6 +16,9 @@ struct StyleEditorWidgetType {
     std::function<QWidget*(QWidget*)> create;
     std::function<QList<StyleProperty>(QWidget*)> properties;
     QSize suggestedSize;
+
+    double categoryOrder = 1000.0;
+    double order = 1000.0;
 };
 
 class StyleEditorPlugin {
@@ -29,5 +32,5 @@ public:
 
 } // namespace animatedwidgets::styleeditor
 
-#define ANIMATEDWIDGETS_STYLE_EDITOR_PLUGIN_IID "org.animatedwidgets.StyleEditorPlugin/4.0"
+#define ANIMATEDWIDGETS_STYLE_EDITOR_PLUGIN_IID "org.animatedwidgets.StyleEditorPlugin/6.0"
 Q_DECLARE_INTERFACE(animatedwidgets::styleeditor::StyleEditorPlugin, ANIMATEDWIDGETS_STYLE_EDITOR_PLUGIN_IID)

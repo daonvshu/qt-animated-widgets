@@ -31,6 +31,8 @@ QList<StyleEditorWidgetType> ButtonStylePlugin::widgetTypes() const {
     filled.id = QStringLiteral("filledbutton");
     filled.name = QStringLiteral("Filled Button");
     filled.category = category;
+    filled.categoryOrder = 100.0;
+    filled.order = 100.0;
     filled.suggestedSize = QSize(150, 42);
     filled.defineProperties = &ButtonStyleProperties::filled;
 
@@ -38,6 +40,8 @@ QList<StyleEditorWidgetType> ButtonStylePlugin::widgetTypes() const {
     outline.id = QStringLiteral("outlinebutton");
     outline.name = QStringLiteral("Outline Button");
     outline.category = category;
+    outline.categoryOrder = 100.0;
+    outline.order = 200.0;
     outline.suggestedSize = QSize(150, 42);
     outline.defineProperties = &ButtonStyleProperties::outline;
 
@@ -45,6 +49,8 @@ QList<StyleEditorWidgetType> ButtonStylePlugin::widgetTypes() const {
     bordered.id = QStringLiteral("borderedbutton");
     bordered.name = QStringLiteral("Bordered Button");
     bordered.category = category;
+    bordered.categoryOrder = 100.0;
+    bordered.order = 300.0;
     bordered.suggestedSize = QSize(150, 42);
     bordered.defineProperties = &ButtonStyleProperties::bordered;
 
@@ -52,6 +58,8 @@ QList<StyleEditorWidgetType> ButtonStylePlugin::widgetTypes() const {
     hover.id = QStringLiteral("hoverbutton");
     hover.name = QStringLiteral("Hover Button");
     hover.category = category;
+    hover.categoryOrder = 100.0;
+    hover.order = 400.0;
     hover.suggestedSize = QSize(150, 42);
     hover.defineProperties = &ButtonStyleProperties::hover;
 
@@ -59,6 +67,8 @@ QList<StyleEditorWidgetType> ButtonStylePlugin::widgetTypes() const {
     filledIcon.id = QStringLiteral("fillediconbutton");
     filledIcon.name = QStringLiteral("Filled Icon Button");
     filledIcon.category = category;
+    filledIcon.categoryOrder = 100.0;
+    filledIcon.order = 500.0;
     filledIcon.suggestedSize = QSize(48, 48);
     filledIcon.defineProperties = &ButtonStyleProperties::filledIcon;
 
@@ -66,6 +76,8 @@ QList<StyleEditorWidgetType> ButtonStylePlugin::widgetTypes() const {
     outlineIcon.id = QStringLiteral("outlineiconbutton");
     outlineIcon.name = QStringLiteral("Outline Icon Button");
     outlineIcon.category = category;
+    outlineIcon.categoryOrder = 100.0;
+    outlineIcon.order = 600.0;
     outlineIcon.suggestedSize = QSize(48, 48);
     outlineIcon.defineProperties = &ButtonStyleProperties::outlineIcon;
 
@@ -73,6 +85,8 @@ QList<StyleEditorWidgetType> ButtonStylePlugin::widgetTypes() const {
     borderedIcon.id = QStringLiteral("borderediconbutton");
     borderedIcon.name = QStringLiteral("Bordered Icon Button");
     borderedIcon.category = category;
+    borderedIcon.categoryOrder = 100.0;
+    borderedIcon.order = 700.0;
     borderedIcon.suggestedSize = QSize(48, 48);
     borderedIcon.defineProperties = &ButtonStyleProperties::borderedIcon;
 
@@ -80,6 +94,8 @@ QList<StyleEditorWidgetType> ButtonStylePlugin::widgetTypes() const {
     hoverIcon.id = QStringLiteral("hovericonbutton");
     hoverIcon.name = QStringLiteral("Hover Icon Button");
     hoverIcon.category = category;
+    hoverIcon.categoryOrder = 100.0;
+    hoverIcon.order = 800.0;
     hoverIcon.suggestedSize = QSize(48, 48);
     hoverIcon.defineProperties = &ButtonStyleProperties::hoverIcon;
 

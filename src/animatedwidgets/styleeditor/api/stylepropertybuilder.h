@@ -11,6 +11,7 @@
 #include <QMetaEnum>
 #include <QMetaProperty>
 #include <QPointer>
+#include <QPixmap>
 #include <QSize>
 
 namespace animatedwidgets::styleeditor {
@@ -25,6 +26,14 @@ public:
 
     void setGroup(const QString& group) {
         m_group = group;
+    }
+
+    QObject* object() const {
+        return m_object.data();
+    }
+
+    QObject* defaults() const {
+        return m_defaults.data();
     }
 
     bool addGroups(const QList<StylePropertyGroup>& groups) {
@@ -196,8 +205,8 @@ public:
         const QMetaProperty meta = metaProperty(name);
         if (!meta.isValid())
             return false;
-        if (meta.userType() != QMetaType::QIcon) {
-            m_errors.append(QStringLiteral("Property '%1' is not a QIcon.").arg(name));
+        if (meta.userType() != QMetaType::QIcon && meta.userType() != QMetaType::QPixmap) {
+            m_errors.append(QStringLiteral("Property '%1' is not a QIcon or QPixmap.").arg(name));
             return false;
         }
 
@@ -206,10 +215,19 @@ public:
         property.value = resource;
         property.defaultValue = defaultResource;
         property.apply = [object = m_object, meta](const QVariant& value) {
-            if (object)
+            if (!object)
+                return;
+            if (meta.userType() == QMetaType::QPixmap)
+                meta.write(object.data(), QPixmap(value.toString()));
+            else
                 meta.write(object.data(), QIcon(value.toString()));
         };
-        property.codeExpression = [](const QVariant& value) { return StyleCodeExpressions::icon(value.toString()); };
+        property.codeExpression = [pixmap = meta.userType() == QMetaType::QPixmap](const QVariant& value) {
+            if (pixmap)
+                return value.toString().isEmpty() ? QStringLiteral("QPixmap()")
+                    : QStringLiteral("QPixmap(%1)").arg(StyleCodeExpressions::text(value.toString()));
+            return StyleCodeExpressions::icon(value.toString());
+        };
         return append(property);
     }
 
@@ -298,8 +316,8 @@ private:
     }
 
     bool append(const StyleProperty& property) {
-        if (property.name.isEmpty() || !property.apply || !property.codeExpression) {
-            m_errors.append(QStringLiteral("A property requires a name, an apply callback and a code expression."));
+        if (property.name.isEmpty() || !property.apply || (!property.codeExpression && !property.codeStatement)) {
+            m_errors.append(QStringLiteral("A property requires a name, an apply callback and a code expression or statement."));
             return false;
         }
         for (const StyleProperty& existing : m_properties) {

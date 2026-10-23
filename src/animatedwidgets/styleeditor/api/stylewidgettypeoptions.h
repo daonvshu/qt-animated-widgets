@@ -17,6 +17,9 @@ struct StyleWidgetTypeOptions {
 
     QSize suggestedSize;
 
+    double categoryOrder = 1000.0;
+    double order = 1000.0;
+
     std::function<void(StylePropertyBuilder&)> defineProperties;
 };
 

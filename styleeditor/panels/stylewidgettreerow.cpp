@@ -19,8 +19,6 @@ void StyleWidgetTreeRow::createLayout() {
 void StyleWidgetTreeRow::bind(const QModelIndex& index) {
     m_index = QPersistentModelIndex(index);
     const bool category = !index.parent().isValid();
-    const bool emptyCategory = category && !index.model()->hasChildren(index);
-    ui.rowLayout->setContentsMargins(emptyCategory ? 12 : 4, 4, 4, 4);
     ui.nameLabel->setText(index.data().toString());
     ui.detailLabel->setText(index.data(StyleWidgetTreeModel::DetailRole).toString());
     setToolTip(index.data(Qt::ToolTipRole).toString());

@@ -18,10 +18,15 @@ public:
     ~StylePreviewPanel() override;
 
     void setPreview(const StyleEditorItem* item, const StyleResourceSettings& resources = {}, int state = 0);
+
+    QColor previewBackground() const;
+    void setPreviewBackground(const QColor& color);
+
     void setThemeBackground(const QColor& color);
 
 signals:
     void settingsEdited(const StylePreviewSettings& settings);
+    void backgroundEdited(const QColor& color);
     void dialogRequested(StylePopupDialog* popup);
     void previewUpdated(const QString& itemId, const QList<animatedwidgets::styleeditor::StyleProperty>& properties, const QString& code);
 
@@ -58,6 +63,7 @@ private:
     QPointer<QWindow> m_foreignWindow;
     QPointer<ColorPickerDialog> m_colorPopup;
     StylePreviewSettings m_settings;
+    QColor m_background;
     QColor m_themeBackground;
     QSize m_suggestedSize;
     QSize m_sizeHint;

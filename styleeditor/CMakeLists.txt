@@ -118,6 +118,8 @@ add_executable(animatedwidgets-styleeditor
     utils/styledocumentcodec.cpp
     utils/stylecodegenerator.h
     utils/stylecodegenerator.cpp
+    utils/stylewidgettypeutils.h
+    utils/stylewidgettypeutils.cpp
     utils/styleresourceutils.h
     utils/styleresourceutils.cpp
     utils/stylepropertyeditorutils.h

@@ -1,8 +1,10 @@
 #pragma once
 
 #include <QColor>
+#include <QFont>
 #include <QIcon>
 #include <QKeySequence>
+#include <QMargins>
 #include <QObject>
 #include <QSize>
 
@@ -22,6 +24,22 @@ class StylePropertyTestObject : public QObject {
     Q_PROPERTY(int readOnly READ readOnly)
 
 public:
+    struct Appearance {
+        QColor background = Qt::white;
+        int radius = 4;
+        QMargins padding = QMargins(2, 3, 4, 5);
+        Qt::Alignment checkAlignment = Qt::AlignLeft;
+        QFont font;
+    };
+
+    Appearance appearance() const {
+        return m_appearance;
+    }
+
+    void setAppearance(const Appearance& style) {
+        m_appearance = style;
+    }
+
     enum class Placement { BeforeText, AfterText };
     Q_ENUM(Placement)
 
@@ -49,5 +67,6 @@ public:
     Qt::Alignment contentAlignment = Qt::AlignCenter;
 
 private:
+    Appearance m_appearance;
     QIcon m_icon;
 };

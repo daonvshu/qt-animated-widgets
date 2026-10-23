@@ -4,7 +4,9 @@
 #include "../styleeditor/utils/stylepreviewutils.h"
 
 #include <QTemporaryDir>
+#include <QFile>
 #include <QJsonArray>
+#include <QJsonDocument>
 #include <QtTest>
 
 class StyleDocumentSessionTest : public QObject {
@@ -20,6 +22,8 @@ private slots:
     void sparseCodeExportAndReset();
     void codeExportPreservesExplicitColors();
     void previewSettingsRoundTrip();
+    void legacyPreviewBackground_data();
+    void legacyPreviewBackground();
     void previewSizeFallback();
 };
 
@@ -120,6 +124,7 @@ void StyleDocumentSessionTest::newDocumentClearsContent() {
     item.widgetTypeId = QStringLiteral("filledbutton");
     item.displayName = QStringLiteral("Primary");
     content.items.append(item);
+    content.previewBackground = QColor(Qt::blue);
     session.updateContent(content);
     QString error;
     QVERIFY2(session.save(directory.filePath(QStringLiteral("styles.json")), error), qPrintable(error));
@@ -127,6 +132,7 @@ void StyleDocumentSessionTest::newDocumentClearsContent() {
 
     session.newDocument();
     QVERIFY(session.document().items.isEmpty());
+    QVERIFY(!session.document().previewBackground.isValid());
     QVERIFY(session.document().filePath.isEmpty());
     QVERIFY(!session.document().modified);
     QCOMPARE(session.document().name, QStringLiteral("Untitled"));
@@ -301,11 +307,20 @@ void StyleDocumentSessionTest::previewSettingsRoundTrip() {
     item.widgetTypeId = QStringLiteral("filledbutton");
     item.displayName = QStringLiteral("Primary");
     document.items.append(item);
+    QVERIFY(!StyleDocumentCodec::toJson(document).contains(QStringLiteral("preview")));
     QVERIFY(!StyleDocumentCodec::toJson(document).value(QStringLiteral("items")).toArray().first().toObject().contains(QStringLiteral("preview")));
 
     document.items[0].previewSettings.size = QSize(240, 56);
-    document.items[0].previewSettings.background = QColor(24, 48, 96, 0);
     document.items[0].previewSettings.widthAuto = true;
+    document.previewBackground = QColor(24, 48, 96, 0);
+    item.id = QStringLiteral("secondary");
+    item.previewSettings.size = QSize(180, 40);
+    document.items.append(item);
+    const QJsonObject json = StyleDocumentCodec::toJson(document);
+    QCOMPARE(json.value(QStringLiteral("preview")).toObject().value(QStringLiteral("background")).toString(), QStringLiteral("#00183060"));
+    for (const QJsonValue& value : json.value(QStringLiteral("items")).toArray())
+        QVERIFY(!value.toObject().value(QStringLiteral("preview")).toObject().contains(QStringLiteral("background")));
+
     StyleDocumentSession session;
     session.updateContent(document);
     QVERIFY(session.document().modified);
@@ -316,7 +331,8 @@ void StyleDocumentSessionTest::previewSettingsRoundTrip() {
     StyleDocumentSession reopened;
     QVERIFY2(reopened.open(path, error), qPrintable(error));
     QCOMPARE(reopened.document().items.first().previewSettings.size, QSize(-1, 56));
-    QCOMPARE(reopened.document().items.first().previewSettings.background, QColor(24, 48, 96, 0));
+    QCOMPARE(reopened.document().previewBackground, QColor(24, 48, 96, 0));
+    QCOMPARE(reopened.document().items.at(1).previewSettings.size, QSize(180, 40));
     QVERIFY(reopened.document().items.first().previewSettings.widthAuto);
     QVERIFY(!reopened.document().items.first().previewSettings.heightAuto);
 
@@ -325,15 +341,77 @@ void StyleDocumentSessionTest::previewSettingsRoundTrip() {
     editorItem.typeName = QStringLiteral("ExampleButton");
     QVERIFY(!StyleCodeGenerator::generate(editorItem).contains(QStringLiteral("widget->set")));
 
-    document.items[0].previewSettings = {};
+    document = reopened.document();
+    document.previewBackground = QColor();
+    QSignalSpy changes(&reopened, &StyleDocumentSession::metadataChanged);
     reopened.updateContent(document);
     QVERIFY(reopened.document().modified);
+    QCOMPARE(changes.count(), 1);
+    reopened.updateContent(document);
+    QCOMPARE(changes.count(), 1);
+    QVERIFY2(reopened.save(path, error), qPrintable(error));
+    QVERIFY2(session.open(path, error), qPrintable(error));
+    QVERIFY(!session.document().previewBackground.isValid());
+    QVERIFY(!StyleDocumentCodec::toJson(session.document()).contains(QStringLiteral("preview")));
+    QCOMPARE(session.document().items.first().previewSettings.size, QSize(-1, 56));
+
+    document.items[0].previewSettings = {};
+    reopened.updateContent(document);
     QVERIFY2(reopened.save(path, error), qPrintable(error));
     QVERIFY2(session.open(path, error), qPrintable(error));
     QVERIFY(!session.document().items.first().previewSettings.size.isValid());
-    QVERIFY(!session.document().items.first().previewSettings.background.isValid());
     QVERIFY(!session.document().items.first().previewSettings.widthAuto);
     QVERIFY(!session.document().items.first().previewSettings.heightAuto);
+}
+
+void StyleDocumentSessionTest::legacyPreviewBackground_data() {
+    QTest::addColumn<QJsonObject>("sharedPreview");
+    QTest::addColumn<QColor>("expected");
+
+    QTest::newRow("first-valid-legacy-background") << QJsonObject() << QColor(24, 48, 96, 0);
+    QTest::newRow("shared-background-takes-precedence")
+        << QJsonObject{{QStringLiteral("background"), QStringLiteral("#ff112233")}} << QColor(QStringLiteral("#ff112233"));
+    QTest::newRow("explicit-theme-takes-precedence")
+        << QJsonObject{{QStringLiteral("background"), QJsonValue(QJsonValue::Null)}} << QColor();
+}
+
+void StyleDocumentSessionTest::legacyPreviewBackground() {
+    QFETCH(QJsonObject, sharedPreview);
+    QFETCH(QColor, expected);
+
+    QTemporaryDir directory;
+    QVERIFY(directory.isValid());
+    StyleDocument document;
+    for (int index = 0; index < 3; ++index) {
+        StyleDocumentItem item;
+        item.id = QString::number(index);
+        item.widgetTypeId = QStringLiteral("filledbutton");
+        document.items.append(item);
+    }
+    QJsonObject root = StyleDocumentCodec::toJson(document);
+    root.insert(QStringLiteral("preview"), sharedPreview);
+    QJsonArray items = root.value(QStringLiteral("items")).toArray();
+    const QStringList backgrounds = {QStringLiteral("invalid"), QStringLiteral("#00183060"), QStringLiteral("#ffabcdef")};
+    for (int index = 0; index < items.size(); ++index) {
+        QJsonObject item = items.at(index).toObject();
+        item.insert(QStringLiteral("preview"), QJsonObject{{QStringLiteral("background"), backgrounds.at(index)}});
+        items[index] = item;
+    }
+    root.insert(QStringLiteral("items"), items);
+
+    const QString path = directory.filePath(QStringLiteral("legacy.json"));
+    QFile file(path);
+    QVERIFY(file.open(QIODevice::WriteOnly));
+    const QByteArray contents = QJsonDocument(root).toJson();
+    QCOMPARE(file.write(contents), qint64(contents.size()));
+    file.close();
+
+    QString error;
+    QVERIFY2(StyleDocumentCodec::readFile(path, document, error), qPrintable(error));
+    QCOMPARE(document.previewBackground, expected);
+    QVERIFY(!document.modified);
+    for (const QJsonValue& value : StyleDocumentCodec::toJson(document).value(QStringLiteral("items")).toArray())
+        QVERIFY(!value.toObject().contains(QStringLiteral("preview")));
 }
 
 void StyleDocumentSessionTest::previewSizeFallback() {

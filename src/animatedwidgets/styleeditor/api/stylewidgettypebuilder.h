@@ -23,6 +23,8 @@ public:
         type.category = options.category;
         type.typeName = options.typeName.isEmpty() ? QString::fromLatin1(Widget::staticMetaObject.className()) : options.typeName;
         type.suggestedSize = options.suggestedSize;
+        type.categoryOrder = options.categoryOrder;
+        type.order = options.order;
         type.create = [](QWidget* parent) { return new Widget(parent); };
         type.properties = [defineProperties = options.defineProperties](QWidget* widget) {
             if (!qobject_cast<Widget*>(widget) || !defineProperties)
