@@ -172,8 +172,9 @@ void Switch::paintEvent(QPaintEvent*) {
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
     const QRect bounds = rect();
+    const qreal centerY = bounds.top() + bounds.height() / 2.0;
     const int trackX = layoutDirection() == Qt::RightToLeft ? bounds.right() - m_trackSize.width() - 1 : bounds.left() + 2;
-    const QRectF track(trackX, bounds.center().y() - m_trackSize.height() / 2.0, m_trackSize.width(), m_trackSize.height());
+    const QRectF track(trackX, centerY - m_trackSize.height() / 2.0, m_trackSize.width(), m_trackSize.height());
     painter.setPen(Qt::NoPen);
     painter.setBrush(m_trackColor.current().value<QColor>());
     painter.drawRoundedRect(track, track.height() / 2, track.height() / 2);
@@ -191,7 +192,7 @@ void Switch::paintEvent(QPaintEvent*) {
     } else {
         const QIcon::Mode mode = isEnabled() ? QIcon::Normal : QIcon::Disabled;
         const QIcon::State state = isChecked() ? QIcon::On : QIcon::Off;
-        IconPainter::draw(painter, handle.toRect(), m_handleIcon, m_iconHint ? m_thumbColor.current().value<QColor>() : QColor(), mode, state);
+        IconPainter::draw(painter, handle, m_handleIcon, m_iconHint ? m_thumbColor.current().value<QColor>() : QColor(), mode, state);
     }
 
     if (!text().isEmpty()) {

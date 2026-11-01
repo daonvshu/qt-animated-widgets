@@ -5,6 +5,7 @@
 #include "animatedwidgets/buttons/checkableiconanimator.h"
 
 #include <QColor>
+#include <QIcon>
 #include <QPixmap>
 #include <QRadioButton>
 
@@ -26,8 +27,10 @@ public:
 
     QPixmap checkedIcon() const;
     void setCheckedIcon(const QPixmap& icon);
+    void setCheckedIcon(const QIcon& icon);
     QPixmap uncheckedIcon() const;
     void setUncheckedIcon(const QPixmap& icon);
+    void setUncheckedIcon(const QIcon& icon);
     bool iconHint() const;
     void setIconHint(bool enabled);
     QColor checkedIconColor() const;

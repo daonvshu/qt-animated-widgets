@@ -35,19 +35,22 @@ QSize ButtonPainter::iconSizeHint(const QSize& iconSize) {
 
 QSize ButtonPainter::checkableSizeHint(const QSize& indicatorSize, int spacing, const QFontMetrics& fontMetrics, const QString& text) {
     const QFontMetricsF metrics(fontMetrics);
-    return QSize(indicatorSize.width() + spacing + qCeil(metrics.horizontalAdvance(text)) + 4,
+    const bool hasText = !text.isEmpty();
+    const int gap = hasText ? qMax(0, spacing) : 0;
+    const int textWidth = hasText ? qCeil(metrics.horizontalAdvance(text)) : 0;
+    return QSize(indicatorSize.width() + gap + textWidth + 4,
                  qMax(indicatorSize.height(), qCeil(metrics.height())) + 4);
 }
 
-QRect ButtonPainter::checkableIndicatorRect(const QRect& bounds, const QSize& indicatorSize, Qt::LayoutDirection direction) {
-    const int x = direction == Qt::RightToLeft ? bounds.right() - indicatorSize.width() + 1 : bounds.left();
-    return QRect(x, bounds.top() + (bounds.height() - indicatorSize.height()) / 2, indicatorSize.width(), indicatorSize.height());
+QRectF ButtonPainter::checkableIndicatorRect(const QRectF& bounds, const QSize& indicatorSize, Qt::LayoutDirection direction) {
+    const qreal x = direction == Qt::RightToLeft ? bounds.right() - indicatorSize.width() : bounds.left();
+    return QRectF(x, bounds.center().y() - indicatorSize.height() / 2.0, indicatorSize.width(), indicatorSize.height());
 }
 
-QRect ButtonPainter::checkableTextRect(const QRect& bounds, const QSize& indicatorSize, int spacing, Qt::LayoutDirection direction) {
-    const int x = direction == Qt::RightToLeft ? bounds.left() : bounds.left() + indicatorSize.width() + spacing;
-    const int width = bounds.width() - indicatorSize.width() - spacing - 1;
-    return QRect(x, bounds.top(), width, bounds.height());
+QRectF ButtonPainter::checkableTextRect(const QRectF& bounds, const QSize& indicatorSize, int spacing, Qt::LayoutDirection direction) {
+    const qreal x = direction == Qt::RightToLeft ? bounds.left() : bounds.left() + indicatorSize.width() + spacing;
+    const qreal width = bounds.width() - indicatorSize.width() - spacing - 1;
+    return QRectF(x, bounds.top(), width, bounds.height());
 }
 
 void ButtonPainter::drawSurface(QPainter& painter, const QRectF& rect, const ButtonSurfaceOptions& options) {
@@ -62,46 +65,46 @@ void ButtonPainter::drawSurface(QPainter& painter, const QRectF& rect, const But
     }
 }
 
-void ButtonPainter::drawContent(QPainter& painter, const QRect& bounds, const ButtonContentOptions& options) {
-    const int horizontalPadding = qMax(0, options.horizontalPadding);
-    const int verticalPadding = qMax(0, options.verticalPadding);
-    const QRect available = bounds.adjusted(horizontalPadding, verticalPadding, -horizontalPadding, -verticalPadding);
+void ButtonPainter::drawContent(QPainter& painter, const QRectF& bounds, const ButtonContentOptions& options) {
+    const qreal horizontalPadding = qMax(0, options.horizontalPadding);
+    const qreal verticalPadding = qMax(0, options.verticalPadding);
+    const QRectF available = bounds.adjusted(horizontalPadding, verticalPadding, -horizontalPadding, -verticalPadding);
     if (available.isEmpty())
         return;
 
     const bool hasIcon = !options.icon.isNull();
     const bool hasText = !options.iconOnly && !options.text.isEmpty();
     const QFontMetricsF metrics(options.font);
-    const int textHeight = hasText ? qCeil(metrics.height()) : 0;
-    const int iconWidth = hasIcon ? options.iconSize.width() : 0;
-    const int iconHeight = hasIcon ? options.iconSize.height() : 0;
-    const int gap = hasIcon && hasText ? options.spacing : 0;
+    const qreal textHeight = hasText ? metrics.height() : 0.0;
+    const qreal iconWidth = hasIcon ? options.iconSize.width() : 0.0;
+    const qreal iconHeight = hasIcon ? options.iconSize.height() : 0.0;
+    const qreal gap = hasIcon && hasText ? options.spacing : 0.0;
     const bool vertical = options.placement == ButtonContentOptions::Placement::AboveText || options.placement == ButtonContentOptions::Placement::BelowText;
     const bool iconFirst = options.placement == ButtonContentOptions::Placement::BeforeText || options.placement == ButtonContentOptions::Placement::AboveText;
-    const int textSpace = vertical ? available.width() : qMax(0, available.width() - iconWidth - gap);
+    const qreal textSpace = vertical ? available.width() : qMax(qreal(0), available.width() - iconWidth - gap);
     const QString displayText = hasText ? metrics.elidedText(options.text, Qt::ElideRight, textSpace) : QString();
-    const int textWidth = hasText ? qMin(qCeil(metrics.horizontalAdvance(displayText)), textSpace) : 0;
-    const int contentWidth = vertical ? qMax(textWidth, iconWidth) : textWidth + iconWidth + gap;
-    const int contentHeight = vertical ? textHeight + iconHeight + gap : qMax(textHeight, iconHeight);
+    const qreal textWidth = hasText ? qMin(metrics.horizontalAdvance(displayText), textSpace) : 0.0;
+    const qreal contentWidth = vertical ? qMax(textWidth, iconWidth) : textWidth + iconWidth + gap;
+    const qreal contentHeight = vertical ? textHeight + iconHeight + gap : qMax(textHeight, iconHeight);
     const Qt::Alignment alignment = QStyle::visualAlignment(options.direction, options.alignment);
-    int contentX = available.left() + (available.width() - contentWidth) / 2;
+    qreal contentX = available.left() + (available.width() - contentWidth) / 2.0;
     if (alignment.testFlag(Qt::AlignLeft))
         contentX = available.left();
     else if (alignment.testFlag(Qt::AlignRight))
-        contentX = available.right() - contentWidth + 1;
+        contentX = available.right() - contentWidth;
 
-    int contentY = available.top() + (available.height() - contentHeight) / 2;
+    qreal contentY = available.top() + (available.height() - contentHeight) / 2.0;
     if (alignment.testFlag(Qt::AlignTop))
         contentY = available.top();
     else if (alignment.testFlag(Qt::AlignBottom))
-        contentY = available.bottom() - contentHeight + 1;
+        contentY = available.bottom() - contentHeight;
 
-    const QRect content(contentX, contentY, contentWidth, contentHeight);
-    const QRect iconRect(
-            vertical ? QRect(content.left() + (content.width() - iconWidth) / 2, content.top() + (iconFirst ? 0 : textHeight + gap), iconWidth, iconHeight)
-                     : QRect(content.left() + (iconFirst ? 0 : textWidth + gap), content.top() + (content.height() - iconHeight) / 2, iconWidth, iconHeight));
-    const QRect textRect(vertical ? QRect(content.left(), content.top() + (iconFirst ? iconHeight + gap : 0), content.width(), textHeight)
-                                  : QRect(content.left() + (iconFirst ? iconWidth + gap : 0), content.top(), textWidth, content.height()));
+    const QRectF content(contentX, contentY, contentWidth, contentHeight);
+    const QRectF iconRect(
+            vertical ? QRectF(content.left() + (content.width() - iconWidth) / 2.0, content.top() + (iconFirst ? 0.0 : textHeight + gap), iconWidth, iconHeight)
+                     : QRectF(content.left() + (iconFirst ? 0.0 : textWidth + gap), content.top() + (content.height() - iconHeight) / 2.0, iconWidth, iconHeight));
+    const QRectF textRect(vertical ? QRectF(content.left(), content.top() + (iconFirst ? iconHeight + gap : 0.0), content.width(), textHeight)
+                                   : QRectF(content.left() + (iconFirst ? iconWidth + gap : 0.0), content.top(), textWidth, contentHeight));
 
     painter.save();
     painter.setClipRect(available, Qt::IntersectClip);

@@ -5,6 +5,7 @@
 #include <QFontMetrics>
 #include <QIcon>
 #include <QRect>
+#include <QRectF>
 #include <QSize>
 #include <QString>
 
@@ -43,14 +44,14 @@ class ButtonPainter final {
 public:
     static QSize contentSize(const ButtonContentOptions& options);
     static void drawSurface(QPainter& painter, const QRectF& rect, const ButtonSurfaceOptions& options);
-    static void drawContent(QPainter& painter, const QRect& bounds, const ButtonContentOptions& options);
+    static void drawContent(QPainter& painter, const QRectF& bounds, const ButtonContentOptions& options);
 
     static QSize textSizeHint(const QSize& contentSize, int horizontalPadding = 0, int verticalPadding = 0);
     static QSize iconSizeHint(const QSize& iconSize);
 
     static QSize checkableSizeHint(const QSize& indicatorSize, int spacing, const QFontMetrics& fontMetrics, const QString& text);
-    static QRect checkableIndicatorRect(const QRect& bounds, const QSize& indicatorSize, Qt::LayoutDirection direction);
-    static QRect checkableTextRect(const QRect& bounds, const QSize& indicatorSize, int spacing, Qt::LayoutDirection direction);
+    static QRectF checkableIndicatorRect(const QRectF& bounds, const QSize& indicatorSize, Qt::LayoutDirection direction);
+    static QRectF checkableTextRect(const QRectF& bounds, const QSize& indicatorSize, int spacing, Qt::LayoutDirection direction);
 };
 
 } // namespace animatedwidgets

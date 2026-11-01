@@ -4,28 +4,34 @@
 
 namespace animatedwidgets {
 
-void IconPainter::draw(QPainter& painter, const QRect& rect, const QIcon& icon, const QColor& color, QIcon::Mode mode, QIcon::State state) {
+void IconPainter::draw(QPainter& painter, const QRectF& rect, const QIcon& icon, const QColor& color, QIcon::Mode mode, QIcon::State state) {
     if (icon.isNull() || rect.isEmpty())
         return;
-    if (!color.isValid()) {
-        icon.paint(&painter, rect, Qt::AlignCenter, mode, state);
-        return;
-    }
 
-    const qreal ratio = painter.device()->devicePixelRatioF();
-    QPixmap pixmap = icon.pixmap(rect.size() * ratio, mode, state);
+    // Rasterize at the target device resolution so SVG sources are rendered at their final size
+    const qreal ratio = painter.device() ? painter.device()->devicePixelRatioF() : 1.0;
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    QPixmap pixmap = icon.pixmap(rect.size().toSize(), ratio, mode, state);
+#else
+    QPixmap pixmap = icon.pixmap((rect.size() * ratio).toSize(), mode, state);
+    pixmap.setDevicePixelRatio(ratio);
+#endif
     if (pixmap.isNull())
         return;
-    pixmap.setDevicePixelRatio(ratio);
-    {
+
+    const QSizeF logicalSize = QSizeF(pixmap.size()) / pixmap.devicePixelRatio();
+    if (color.isValid()) {
         QPainter tint(&pixmap);
         tint.setCompositionMode(QPainter::CompositionMode_SourceIn);
-        tint.fillRect(pixmap.rect(), color);
+        tint.fillRect(QRectF(QPointF(0, 0), logicalSize), color);
     }
 
-    QRect target(QPoint(), pixmap.size() / ratio);
+    QRectF target(QPointF(0, 0), logicalSize);
     target.moveCenter(rect.center());
-    painter.drawPixmap(target, pixmap);
+    painter.save();
+    painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
+    painter.drawPixmap(target.topLeft(), pixmap);
+    painter.restore();
 }
 
 } // namespace animatedwidgets

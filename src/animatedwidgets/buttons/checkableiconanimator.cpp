@@ -3,6 +3,7 @@
 #include "animatedwidgets/utils/checkableiconpainter.h"
 
 #include <QPainter>
+#include <QWidget>
 
 namespace animatedwidgets {
 
@@ -15,12 +16,21 @@ CheckableIconAnimator::CheckableIconAnimator(QObject* parent)
 }
 
 void CheckableIconAnimator::setIcon(int state, const QPixmap& icon) {
+    m_icons[state] = QIcon(icon);
+    m_iconPixmaps[state] = icon;
+    reset();
+}
+
+void CheckableIconAnimator::setIcon(int state, const QIcon& icon) {
     m_icons[state] = icon;
+    m_iconPixmaps[state] = {};
     reset();
 }
 
 QPixmap CheckableIconAnimator::icon(int state) const {
-    return m_icons[state];
+    if (!m_iconPixmaps[state].isNull())
+        return m_iconPixmaps[state];
+    return m_icons[state].pixmap(m_iconSize);
 }
 
 void CheckableIconAnimator::setColor(int state, const QColor& color) {
@@ -98,21 +108,31 @@ void CheckableIconAnimator::reset() {
     m_transitionUsesPixmap = false;
 }
 
+qreal CheckableIconAnimator::devicePixelRatio() const {
+    if (const auto* widget = qobject_cast<const QWidget*>(parent()))
+        return widget->devicePixelRatioF();
+    return 1.0;
+}
+
 QPixmap CheckableIconAnimator::composite() const {
-    QPixmap snapshot(m_iconSize);
+    const qreal ratio = devicePixelRatio();
+    QPixmap snapshot((QSizeF(m_iconSize) * ratio).toSize());
+    snapshot.setDevicePixelRatio(ratio);
     snapshot.fill(Qt::transparent);
+
     QPainter painter(&snapshot);
+    const QRectF rect(QPointF(0, 0), QSizeF(m_iconSize));
     const qreal mix = m_progress.current().toReal();
     if (m_transitionUsesPixmap) {
-        CheckableIconPainter::draw(painter, snapshot.rect(), m_transitionPixmap, {}, 1.0 - mix);
+        CheckableIconPainter::draw(painter, rect, m_transitionPixmap, {}, 1.0 - mix);
     } else {
-        CheckableIconPainter::draw(painter, snapshot.rect(), m_icons[m_fromState], m_iconHint ? m_colors[m_fromState] : QColor(), 1.0 - mix);
+        CheckableIconPainter::draw(painter, rect, m_icons[m_fromState], m_iconHint ? m_colors[m_fromState] : QColor(), 1.0 - mix);
     }
-    CheckableIconPainter::draw(painter, snapshot.rect(), m_icons[m_toState], m_iconHint ? m_colors[m_toState] : QColor(), mix);
+    CheckableIconPainter::draw(painter, rect, m_icons[m_toState], m_iconHint ? m_colors[m_toState] : QColor(), mix);
     return snapshot;
 }
 
-void CheckableIconAnimator::paint(QPainter& painter, const QRect& rect, qreal opacity) const {
+void CheckableIconAnimator::paint(QPainter& painter, const QRectF& rect, qreal opacity) const {
     if (!m_progress.isRunning()) {
         CheckableIconPainter::draw(painter, rect, m_icons[m_toState], m_iconHint ? m_colors[m_toState] : QColor(), opacity);
         return;

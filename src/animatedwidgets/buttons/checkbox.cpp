@@ -24,6 +24,11 @@ void CheckBox::setCheckedIcon(const QPixmap& icon) {
     updateGeometry();
 }
 
+void CheckBox::setCheckedIcon(const QIcon& icon) {
+    m_animator.setIcon(CheckableIconAnimator::Checked, icon);
+    updateGeometry();
+}
+
 QPixmap CheckBox::uncheckedIcon() const {
     return m_animator.icon(CheckableIconAnimator::Unchecked);
 }
@@ -33,11 +38,21 @@ void CheckBox::setUncheckedIcon(const QPixmap& icon) {
     updateGeometry();
 }
 
+void CheckBox::setUncheckedIcon(const QIcon& icon) {
+    m_animator.setIcon(CheckableIconAnimator::Unchecked, icon);
+    updateGeometry();
+}
+
 QPixmap CheckBox::partiallyCheckedIcon() const {
     return m_animator.icon(CheckableIconAnimator::PartiallyChecked);
 }
 
 void CheckBox::setPartiallyCheckedIcon(const QPixmap& icon) {
+    m_animator.setIcon(CheckableIconAnimator::PartiallyChecked, icon);
+    updateGeometry();
+}
+
+void CheckBox::setPartiallyCheckedIcon(const QIcon& icon) {
     m_animator.setIcon(CheckableIconAnimator::PartiallyChecked, icon);
     updateGeometry();
 }
@@ -109,13 +124,14 @@ void CheckBox::paintEvent(QPaintEvent*) {
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true);
 
+    const QRectF bounds(rect());
     const QSize iconSize = m_animator.iconSize();
-    m_animator.paint(painter, ButtonPainter::checkableIndicatorRect(rect(), iconSize, layoutDirection()), isEnabled() ? 1.0 : 0.45);
+    m_animator.paint(painter, ButtonPainter::checkableIndicatorRect(bounds, iconSize, layoutDirection()), isEnabled() ? 1.0 : 0.45);
 
     const QPalette::ColorGroup group = isEnabled() ? QPalette::Active : QPalette::Disabled;
     painter.setPen(palette().color(group, QPalette::ButtonText));
     painter.setFont(font());
-    painter.drawText(ButtonPainter::checkableTextRect(rect(), iconSize, m_iconSpacing, layoutDirection()), Qt::AlignLeft | Qt::AlignVCenter, text());
+    painter.drawText(ButtonPainter::checkableTextRect(bounds, iconSize, m_iconSpacing, layoutDirection()), Qt::AlignLeft | Qt::AlignVCenter, text());
 }
 
 void CheckBox::changeEvent(QEvent* event) {

@@ -105,32 +105,33 @@ void PopupMenuItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem&
     const int padding = qMax(0, contentPadding);
     QRect contentRect = itemRect.adjusted(padding, 0, -padding, 0);
     if (hasChildren) {
-        const QRect iconRect(contentRect.right() - submenuIconSize.width() + 1,
-                             contentRect.center().y() - submenuIconSize.height() / 2,
-                             submenuIconSize.width(), submenuIconSize.height());
+        const int iconX = contentRect.right() - submenuIconSize.width() + 1;
+        const qreal iconY = contentRect.top() + (contentRect.height() - submenuIconSize.height()) / 2.0;
+        const QRectF iconRect(iconX, iconY, submenuIconSize.width(), submenuIconSize.height());
         IconPainter::draw(*painter, iconRect, submenuIcon, iconColor, iconMode);
-        contentRect.setRight(iconRect.left() - 1 - submenuIconSpacing);
+        contentRect.setRight(iconX - 1 - submenuIconSpacing);
     } else if (drawCheckedIcon && checkState.isValid() && (!checkedIcon.isNull() || !uncheckedIcon.isNull())) {
         const bool rightAligned = checkedIconAlignment.testFlag(Qt::AlignRight);
         const int iconX = rightAligned ? contentRect.right() - checkedIconSize.width() + 1 : contentRect.left();
-        const QRect iconRect(iconX, contentRect.center().y() - checkedIconSize.height() / 2,
-                             checkedIconSize.width(), checkedIconSize.height());
+        const qreal iconY = contentRect.top() + (contentRect.height() - checkedIconSize.height()) / 2.0;
+        const QRectF iconRect(iconX, iconY, checkedIconSize.width(), checkedIconSize.height());
         const QIcon indicator = checkState.toInt() == Qt::Checked ? checkedIcon
             : checkState.toInt() == Qt::Unchecked ? uncheckedIcon : QIcon();
         IconPainter::draw(*painter, iconRect, indicator, iconColor, iconMode);
         if (rightAligned)
-            contentRect.setRight(iconRect.left() - 1 - checkedIconSpacing);
+            contentRect.setRight(iconX - 1 - checkedIconSpacing);
         else
-            contentRect.setLeft(iconRect.right() + 1 + checkedIconSpacing);
+            contentRect.setLeft(iconX + checkedIconSize.width() + checkedIconSpacing);
     }
 
     const QIcon icon = qvariant_cast<QIcon>(index.data(Qt::DecorationRole));
     if (hasItemIcons(index)) {
         const QSize iconSize = itemIconSize.expandedTo(QSize(1, 1));
-        const QRect iconRect(contentRect.left(), contentRect.center().y() - iconSize.height() / 2,
-                             iconSize.width(), iconSize.height());
+        const int iconX = contentRect.left();
+        const qreal iconY = contentRect.top() + (contentRect.height() - iconSize.height()) / 2.0;
+        const QRectF iconRect(iconX, iconY, iconSize.width(), iconSize.height());
         IconPainter::draw(*painter, iconRect, icon, iconColor, iconMode);
-        contentRect.setLeft(iconRect.right() + 1 + itemIconSpacing);
+        contentRect.setLeft(iconX + iconSize.width() + itemIconSpacing);
     }
 
     const QString shortcut = index.data(ShortcutRole).toString();

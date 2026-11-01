@@ -6,6 +6,7 @@
 
 #include <QCheckBox>
 #include <QColor>
+#include <QIcon>
 #include <QPixmap>
 
 namespace animatedwidgets {
@@ -28,10 +29,13 @@ public:
 
     QPixmap checkedIcon() const;
     void setCheckedIcon(const QPixmap& icon);
+    void setCheckedIcon(const QIcon& icon);
     QPixmap uncheckedIcon() const;
     void setUncheckedIcon(const QPixmap& icon);
+    void setUncheckedIcon(const QIcon& icon);
     QPixmap partiallyCheckedIcon() const;
     void setPartiallyCheckedIcon(const QPixmap& icon);
+    void setPartiallyCheckedIcon(const QIcon& icon);
     bool iconHint() const;
     void setIconHint(bool enabled);
     QColor checkedIconColor() const;

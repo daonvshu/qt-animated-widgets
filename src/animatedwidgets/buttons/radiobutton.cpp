@@ -25,11 +25,21 @@ void RadioButton::setCheckedIcon(const QPixmap& icon) {
     updateGeometry();
 }
 
+void RadioButton::setCheckedIcon(const QIcon& icon) {
+    m_animator.setIcon(CheckableIconAnimator::Checked, icon);
+    updateGeometry();
+}
+
 QPixmap RadioButton::uncheckedIcon() const {
     return m_animator.icon(CheckableIconAnimator::Unchecked);
 }
 
 void RadioButton::setUncheckedIcon(const QPixmap& icon) {
+    m_animator.setIcon(CheckableIconAnimator::Unchecked, icon);
+    updateGeometry();
+}
+
+void RadioButton::setUncheckedIcon(const QIcon& icon) {
     m_animator.setIcon(CheckableIconAnimator::Unchecked, icon);
     updateGeometry();
 }
@@ -93,13 +103,14 @@ void RadioButton::paintEvent(QPaintEvent*) {
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true);
 
+    const QRectF bounds(rect());
     const QSize iconSize = m_animator.iconSize();
-    m_animator.paint(painter, ButtonPainter::checkableIndicatorRect(rect(), iconSize, layoutDirection()), isEnabled() ? 1.0 : 0.45);
+    m_animator.paint(painter, ButtonPainter::checkableIndicatorRect(bounds, iconSize, layoutDirection()), isEnabled() ? 1.0 : 0.45);
 
     const QPalette::ColorGroup group = isEnabled() ? QPalette::Active : QPalette::Disabled;
     painter.setPen(palette().color(group, QPalette::ButtonText));
     painter.setFont(font());
-    painter.drawText(ButtonPainter::checkableTextRect(rect(), iconSize, m_iconSpacing, layoutDirection()), Qt::AlignLeft | Qt::AlignVCenter, text());
+    painter.drawText(ButtonPainter::checkableTextRect(bounds, iconSize, m_iconSpacing, layoutDirection()), Qt::AlignLeft | Qt::AlignVCenter, text());
 }
 
 void RadioButton::changeEvent(QEvent* event) {

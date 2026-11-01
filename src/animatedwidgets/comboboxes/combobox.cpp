@@ -563,7 +563,7 @@ void ComboBox::paintEvent(QPaintEvent*) {
     const bool rightToLeft = layoutDirection() == Qt::RightToLeft;
     if (m_arrowVisible && !m_arrowIcon.isNull()) {
         const int arrowX = rightToLeft ? m_arrowRightMargin : width() - m_arrowRightMargin - m_arrowIconSize.width();
-        const QRect arrowRect(arrowX, (height() - m_arrowIconSize.height()) / 2, m_arrowIconSize.width(), m_arrowIconSize.height());
+        const QRectF arrowRect(arrowX, (height() - m_arrowIconSize.height()) / 2.0, m_arrowIconSize.width(), m_arrowIconSize.height());
         IconPainter::draw(painter, arrowRect, m_arrowIcon, m_iconHint ? (isEnabled() ? m_textColor : m_disabledTextColor) : QColor(),
                           isEnabled() ? QIcon::Normal : QIcon::Disabled);
     }
@@ -582,7 +582,7 @@ void ComboBox::paintEvent(QPaintEvent*) {
     if (!itemIcon.isNull() && textRect.width() > 0) {
         const QSize itemSize = iconSize().boundedTo(textRect.size());
         const int iconX = rightToLeft ? textRect.right() - itemSize.width() + 1 : textRect.left();
-        IconPainter::draw(painter, QRect(iconX, (height() - itemSize.height()) / 2, itemSize.width(), itemSize.height()), itemIcon,
+        IconPainter::draw(painter, QRectF(iconX, (height() - itemSize.height()) / 2.0, itemSize.width(), itemSize.height()), itemIcon,
                           m_iconHint ? (isEnabled() ? m_textColor : m_disabledTextColor) : QColor(),
                           isEnabled() ? QIcon::Normal : QIcon::Disabled);
         if (rightToLeft)

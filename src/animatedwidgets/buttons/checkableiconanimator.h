@@ -3,8 +3,9 @@
 #include "animatedwidgets/core/valuetransition.h"
 
 #include <QColor>
+#include <QIcon>
 #include <QPixmap>
-#include <QRect>
+#include <QRectF>
 #include <QSize>
 
 class QPainter;
@@ -20,6 +21,7 @@ public:
     explicit CheckableIconAnimator(QObject* parent = nullptr);
 
     void setIcon(int state, const QPixmap& icon);
+    void setIcon(int state, const QIcon& icon);
     QPixmap icon(int state) const;
     void setColor(int state, const QColor& color);
     QColor color(int state) const;
@@ -36,15 +38,17 @@ public:
     void setState(int state);
     void reset();
 
-    void paint(QPainter& painter, const QRect& rect, qreal opacity = 1.0) const;
+    void paint(QPainter& painter, const QRectF& rect, qreal opacity = 1.0) const;
 
 signals:
     void changed();
 
 private:
+    qreal devicePixelRatio() const;
     QPixmap composite() const;
 
-    QPixmap m_icons[3];
+    QIcon m_icons[3];
+    QPixmap m_iconPixmaps[3];
     QColor m_colors[3];
     QSize m_iconSize = QSize(18, 18);
     int m_fromState = Unchecked;
