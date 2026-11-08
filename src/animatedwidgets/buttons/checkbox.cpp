@@ -15,6 +15,11 @@ CheckBox::CheckBox(QWidget* parent)
     connect(this, QOverload<int>::of(&QCheckBox::stateChanged), this, [this](int state) { m_animator.setState(state); });
 }
 
+void CheckBox::checkStateSet() {
+    QCheckBox::checkStateSet();
+    m_animator.setState(checkState());
+}
+
 QPixmap CheckBox::checkedIcon() const {
     return m_animator.icon(CheckableIconAnimator::Checked);
 }

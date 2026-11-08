@@ -16,6 +16,11 @@ RadioButton::RadioButton(QWidget* parent)
             [this](bool checked) { m_animator.setState(checked ? CheckableIconAnimator::Checked : CheckableIconAnimator::Unchecked); });
 }
 
+void RadioButton::checkStateSet() {
+    QRadioButton::checkStateSet();
+    m_animator.setState(isChecked() ? CheckableIconAnimator::Checked : CheckableIconAnimator::Unchecked);
+}
+
 QPixmap RadioButton::checkedIcon() const {
     return m_animator.icon(CheckableIconAnimator::Checked);
 }

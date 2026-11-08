@@ -49,6 +49,7 @@ public:
 protected:
     void paintEvent(QPaintEvent* event) override;
     void changeEvent(QEvent* event) override;
+    void checkStateSet() override;
 
 private:
     CheckableIconAnimator m_animator;
