@@ -78,7 +78,7 @@ void ProgressBar::setRealValue(double value) {
     m_settingRealValue = true;
     QProgressBar::setValue(int(qRound64(bounded)));
     m_settingRealValue = false;
-    m_valueTransition.setTarget(bounded, !m_animationEnabled);
+    m_valueTransition.setTarget(bounded, !m_animationEnabled || !isVisible());
     emit realValueChanged(bounded);
 }
 

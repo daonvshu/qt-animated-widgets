@@ -238,8 +238,8 @@ QColor PlainTextEdit::targetBackgroundColor() const {
 }
 
 void PlainTextEdit::refreshInputState(bool immediate) {
-    m_borderTransition.setTarget(targetBorderColor(), immediate);
-    m_backgroundTransition.setTarget(targetBackgroundColor(), immediate);
+    m_borderTransition.setTarget(targetBorderColor(), immediate || !isVisible());
+    m_backgroundTransition.setTarget(targetBackgroundColor(), immediate || !isVisible());
 }
 
 void PlainTextEdit::updateTextPalette() {

@@ -81,15 +81,15 @@ void AnimatedButtonBase::refreshButtonState(bool immediate) {
 }
 
 void AnimatedButtonBase::animateBackgroundColor(const QColor& target, bool immediate) {
-    m_backgroundTransition.setTarget(target, immediate);
+    m_backgroundTransition.setTarget(target, immediate || !isVisible());
 }
 
 void AnimatedButtonBase::animateBorderColor(const QColor& target, bool immediate) {
-    m_borderTransition.setTarget(target, immediate);
+    m_borderTransition.setTarget(target, immediate || !isVisible());
 }
 
 void AnimatedButtonBase::animateContentColor(const QColor& target, bool immediate) {
-    m_contentTransition.setTarget(target, immediate);
+    m_contentTransition.setTarget(target, immediate || !isVisible());
 }
 
 QColor AnimatedButtonBase::animatedBackgroundColor() const {

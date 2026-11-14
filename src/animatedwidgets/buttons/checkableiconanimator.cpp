@@ -98,7 +98,9 @@ void CheckableIconAnimator::setState(int state) {
         return;
     }
     m_progress.setTarget(0.0, true);
-    m_progress.setTarget(1.0);
+    // 控件显示前不播放动画，避免首帧出现过渡中的图标
+    const auto* owner = qobject_cast<const QWidget*>(parent());
+    m_progress.setTarget(1.0, !owner || !owner->isVisible());
 }
 
 void CheckableIconAnimator::reset() {

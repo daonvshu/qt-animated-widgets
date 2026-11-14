@@ -256,8 +256,8 @@ QColor SpinBoxAppearance::targetBackgroundColor() const {
 }
 
 void SpinBoxAppearance::refresh(bool immediate) {
-    m_borderTransition.setTarget(targetBorderColor(), immediate);
-    m_backgroundTransition.setTarget(targetBackgroundColor(), immediate);
+    m_borderTransition.setTarget(targetBorderColor(), immediate || !m_owner || !m_owner->isVisible());
+    m_backgroundTransition.setTarget(targetBackgroundColor(), immediate || !m_owner || !m_owner->isVisible());
 }
 
 void SpinBoxAppearance::updateEditorPalette() {
