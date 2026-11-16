@@ -4,6 +4,8 @@
 #include <QEvent>
 #include <QHBoxLayout>
 #include <QPainter>
+
+#include "animatedwidgets/utils/paintutils.h"
 #include <QVBoxLayout>
 
 namespace animatedwidgets {
@@ -477,20 +479,27 @@ bool CompositeInputBase::event(QEvent* event) {
 void CompositeInputBase::paintEvent(QPaintEvent*) {
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
-    const qreal inset = m_borderVisible ? m_borderWidth / 2.0 : 0.0;
-    const QRectF frame = QRectF(rect()).adjusted(inset, inset, -inset, -inset);
+    QRectF frame = QRectF(rect());
+    qreal strokeWidth = -1.0;
+    if (m_borderVisible && m_borderWidth > 0) {
+        const auto stroke = paintutils::borderStrokeForWidget(painter, QRectF(rect()), m_borderWidth);
+        frame = stroke.rect;
+        strokeWidth = stroke.width;
+    }
     painter.setBrush(m_backgroundTransition.current().value<QColor>());
-    painter.setPen(m_borderVisible && m_borderWidth > 0 ? QPen(currentBorderColor(), m_borderWidth) : QPen(Qt::NoPen));
+    painter.setPen(strokeWidth >= 0 ? QPen(currentBorderColor(), strokeWidth) : QPen(Qt::NoPen));
     painter.drawRoundedRect(frame, m_cornerRadius, m_cornerRadius);
     if (!m_borderVisible || m_borderWidth == 0)
         return;
 
+    const qreal dpr = devicePixelRatioF();
     painter.setBrush(Qt::NoBrush);
+    painter.setPen(QPen(currentBorderColor(), strokeWidth));
     for (const QWidget* divider : {m_leadingDivider, m_trailingDivider}) {
         if (divider->isHidden())
             continue;
         const QPoint origin = divider->mapTo(this, QPoint(0, 0));
-        const qreal x = origin.x() + divider->width() / 2.0;
+        const qreal x = paintutils::alignVerticalLine(origin.x() + divider->width() / 2.0, dpr);
         const qreal top = m_middleHost->mapTo(this, QPoint(0, 0)).y();
         painter.drawLine(QPointF(x, top), QPointF(x, top + m_middleHost->height()));
     }
@@ -498,7 +507,7 @@ void CompositeInputBase::paintEvent(QPaintEvent*) {
         if (divider->isHidden())
             continue;
         const QPoint origin = divider->mapTo(this, QPoint(0, 0));
-        const qreal y = origin.y() + divider->height() / 2.0;
+        const qreal y = paintutils::alignHorizontalLine(origin.y() + divider->height() / 2.0, dpr);
         painter.drawLine(QPointF(origin.x(), y), QPointF(origin.x() + divider->width(), y));
     }
 }

@@ -4,6 +4,8 @@
 
 #include <QEvent>
 #include <QPainter>
+
+#include "animatedwidgets/utils/paintutils.h"
 #include <QTextDocument>
 
 namespace animatedwidgets {
@@ -269,11 +271,17 @@ bool PlainTextEdit::event(QEvent* event) {
     if (event->type() == QEvent::Paint) {
         QPainter painter(this);
         painter.setRenderHint(QPainter::Antialiasing);
-        const qreal inset = m_borderVisible ? m_borderWidth / 2.0 : 0.0;
-        const QRectF frame = QRectF(rect()).adjusted(inset, inset, -inset, -inset);
+        QRectF frame = QRectF(rect());
+        qreal strokeWidth = -1.0;
+        if (m_borderVisible && m_borderWidth > 0) {
+            const auto stroke = paintutils::borderStrokeForWidget(painter, QRectF(rect()), m_borderWidth);
+            frame = stroke.rect;
+            strokeWidth = stroke.width;
+        }
         painter.setBrush(m_backgroundTransition.current().value<QColor>());
-        painter.setPen(m_borderVisible && m_borderWidth > 0 ? QPen(m_borderTransition.current().value<QColor>(), m_borderWidth)
-                                                           : QPen(Qt::NoPen));
+        painter.setPen(strokeWidth >= 0
+                               ? QPen(m_borderTransition.current().value<QColor>(), strokeWidth)
+                               : QPen(Qt::NoPen));
         painter.drawRoundedRect(frame, m_cornerRadius, m_cornerRadius);
     }
     switch (event->type()) {

@@ -1,6 +1,8 @@
 #include "animatedwidgets/calendars/calendardateitemdelegate.h"
 
 #include <QPainter>
+
+#include "animatedwidgets/utils/paintutils.h"
 #include <QStyleOptionViewItem>
 
 namespace animatedwidgets {
@@ -59,10 +61,12 @@ void CalendarDateItemDelegate::paint(QPainter* painter, const QStyleOptionViewIt
     painter->save();
     if (isCurrentMonth) {
         if (sectionData->isCurrentDate(dateForItem) && m_calendarStyle.todayBorderWidth > 0) {
-            painter->setPen(QPen(m_calendarStyle.todayBorder, qMax(0, m_calendarStyle.todayBorderWidth)));
-            painter->drawRoundedRect(QRectF(sectionBox).adjusted(m_calendarStyle.todayBorderWidth / 2.0, m_calendarStyle.todayBorderWidth / 2.0,
-                                                       -m_calendarStyle.todayBorderWidth / 2.0, -m_calendarStyle.todayBorderWidth / 2.0),
-                                     qMax(0, m_calendarStyle.dateCornerRadius), qMax(0, m_calendarStyle.dateCornerRadius));
+            const qreal borderWidth = qMax(0, m_calendarStyle.todayBorderWidth);
+            const auto stroke = paintutils::borderStrokeForWidget(*painter, QRectF(sectionBox),
+                                                                  borderWidth);
+            painter->setPen(QPen(m_calendarStyle.todayBorder, stroke.width));
+            painter->drawRoundedRect(stroke.rect, qMax(0, m_calendarStyle.dateCornerRadius),
+                                     qMax(0, m_calendarStyle.dateCornerRadius));
         }
     }
     painter->restore();

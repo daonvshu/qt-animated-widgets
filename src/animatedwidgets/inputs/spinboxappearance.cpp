@@ -6,6 +6,8 @@
 #include <QLineEdit>
 #include <QPainter>
 
+#include "animatedwidgets/utils/paintutils.h"
+
 namespace animatedwidgets {
 
 SpinBoxAppearance::SpinBoxAppearance(QAbstractSpinBox* owner)
@@ -50,10 +52,17 @@ void SpinBoxAppearance::handleEvent(QEvent* event) {
 
 void SpinBoxAppearance::paint(QPainter& painter) const {
     painter.setRenderHint(QPainter::Antialiasing);
-    const qreal inset = m_borderVisible ? m_borderWidth / 2.0 : 0.0;
-    const QRectF frame = QRectF(m_owner->rect()).adjusted(inset, inset, -inset, -inset);
+    QRectF frame = QRectF(m_owner->rect());
+    qreal strokeWidth = -1.0;
+    if (m_borderVisible && m_borderWidth > 0) {
+        const auto stroke = paintutils::borderStrokeForWidget(painter, QRectF(m_owner->rect()), m_borderWidth);
+        frame = stroke.rect;
+        strokeWidth = stroke.width;
+    }
     painter.setBrush(m_backgroundTransition.current().value<QColor>());
-    painter.setPen(m_borderVisible && m_borderWidth > 0 ? QPen(m_borderTransition.current().value<QColor>(), m_borderWidth) : QPen(Qt::NoPen));
+    painter.setPen(strokeWidth >= 0
+                           ? QPen(m_borderTransition.current().value<QColor>(), strokeWidth)
+                           : QPen(Qt::NoPen));
     painter.drawRoundedRect(frame, m_cornerRadius, m_cornerRadius);
 }
 

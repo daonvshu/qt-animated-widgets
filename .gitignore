@@ -8,4 +8,4 @@
 *.suo
 *.vcxproj*
 *.pro.user
-
+build-debug/

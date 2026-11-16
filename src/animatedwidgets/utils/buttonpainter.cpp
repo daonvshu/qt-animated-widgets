@@ -4,6 +4,8 @@
 #include <QFontMetricsF>
 #include <QPainter>
 #include <QStyle>
+
+#include "animatedwidgets/utils/paintutils.h"
 #include <QtMath>
 
 namespace animatedwidgets {
@@ -55,13 +57,24 @@ QRectF ButtonPainter::checkableTextRect(const QRectF& bounds, const QSize& indic
 
 void ButtonPainter::drawSurface(QPainter& painter, const QRectF& rect, const ButtonSurfaceOptions& options) {
     painter.setRenderHint(QPainter::Antialiasing, true);
-    painter.setPen(options.drawBorder && options.borderWidth > 0 ? QPen(options.border, options.borderWidth) : QPen(Qt::NoPen));
+    QRectF surfaceRect = rect;
+    qreal strokeWidth = -1.0;
+    if (options.drawBorder && options.borderWidth > 0) {
+        const auto stroke = paintutils::alignStrokeInClip(
+                painter, rect,
+                rect.adjusted(-options.borderWidth / 2.0, -options.borderWidth / 2.0,
+                              options.borderWidth / 2.0, options.borderWidth / 2.0),
+                options.borderWidth);
+        surfaceRect = stroke.rect;
+        strokeWidth = stroke.width;
+    }
+    painter.setPen(strokeWidth >= 0 ? QPen(options.border, strokeWidth) : QPen(Qt::NoPen));
     painter.setBrush(options.drawBackground ? QBrush(options.background) : QBrush(Qt::NoBrush));
     if (options.circle) {
-        const qreal side = qMin(rect.width(), rect.height());
-        painter.drawEllipse(QRectF(rect.center().x() - side / 2, rect.center().y() - side / 2, side, side));
+        const qreal side = qMin(surfaceRect.width(), surfaceRect.height());
+        painter.drawEllipse(QRectF(surfaceRect.center().x() - side / 2, surfaceRect.center().y() - side / 2, side, side));
     } else {
-        painter.drawRoundedRect(rect, options.cornerRadius, options.cornerRadius);
+        painter.drawRoundedRect(surfaceRect, options.cornerRadius, options.cornerRadius);
     }
 }
 
