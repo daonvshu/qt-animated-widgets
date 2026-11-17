@@ -190,6 +190,8 @@ add_library(AnimatedWidgetsWidgets
     src/animatedwidgets/sliders/slider.cpp
     src/animatedwidgets/inputs/lineedit.h
     src/animatedwidgets/inputs/lineedit.cpp
+    src/animatedwidgets/inputs/searchlineedit.h
+    src/animatedwidgets/inputs/searchlineedit.cpp
     src/animatedwidgets/inputs/compositeinputbase.h
     src/animatedwidgets/inputs/compositeinputbase.cpp
     src/animatedwidgets/inputs/plaintextedit.h

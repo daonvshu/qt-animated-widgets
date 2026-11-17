@@ -57,7 +57,7 @@ QString InputPlugin::domXml() const {
     const QStringList objectNames = {QStringLiteral("lineEdit"), QStringLiteral("iconLineEdit"), QStringLiteral("passwordLineEdit"),
                                      QStringLiteral("compositeLineEdit"), QStringLiteral("plainTextEdit"), QStringLiteral("compositePlainTextEdit"),
                                      QStringLiteral("spinBox"), QStringLiteral("doubleSpinBox"), QStringLiteral("compositeSpinBox"),
-                                     QStringLiteral("compositeDoubleSpinBox")};
+                                     QStringLiteral("compositeDoubleSpinBox"), QStringLiteral("searchLineEdit")};
     const QString objectName = objectNames.at(m_kind);
     if (m_kind >= 6)
         return QStringLiteral("<widget class=\"%1\" name=\"%2\"/>").arg(className, objectName);
@@ -89,6 +89,8 @@ QString InputPlugin::includeFile() const {
         return QStringLiteral("animatedwidgets/inputs/compositespinbox.h");
     if (m_kind == 9)
         return QStringLiteral("animatedwidgets/inputs/compositedoublespinbox.h");
+    if (m_kind == 10)
+        return QStringLiteral("animatedwidgets/inputs/searchlineedit.h");
     return QStringLiteral("animatedwidgets/inputs/compositelineedit.h");
 }
 QString InputPlugin::name() const {
@@ -110,6 +112,8 @@ QString InputPlugin::name() const {
         return QStringLiteral("aw::CompositeSpinBox");
     if (m_kind == 9)
         return QStringLiteral("aw::CompositeDoubleSpinBox");
+    if (m_kind == 10)
+        return QStringLiteral("aw::SearchLineEdit");
     return QStringLiteral("aw::CompositeLineEdit");
 }
 QString InputPlugin::toolTip() const {
@@ -140,6 +144,8 @@ QWidget* InputPlugin::createWidget(QWidget* parent) {
         return new aw::CompositeSpinBox(parent);
     if (m_kind == 9)
         return new aw::CompositeDoubleSpinBox(parent);
+    if (m_kind == 10)
+        return new aw::SearchLineEdit(parent);
     return new aw::CompositeLineEdit(parent);
 }
 void InputPlugin::initialize(QDesignerFormEditorInterface*) {

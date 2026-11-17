@@ -18,7 +18,7 @@ AnimatedWidgetsDesignerPlugin::AnimatedWidgetsDesignerPlugin(QObject* parent)
     m_widgets.append(new SwitchPlugin(this));
     m_widgets.append(new ProgressBarPlugin(this));
     m_widgets.append(new SliderPlugin(this));
-    for (int kind = 0; kind < 10; ++kind) {
+    for (int kind = 0; kind < 11; ++kind) {
         m_widgets.append(new InputPlugin(kind, this));
     }
     for (int kind = 0; kind < 7; ++kind) {

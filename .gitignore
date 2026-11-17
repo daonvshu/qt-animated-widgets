@@ -9,3 +9,4 @@
 *.vcxproj*
 *.pro.user
 build-debug/
+build-designer-release/

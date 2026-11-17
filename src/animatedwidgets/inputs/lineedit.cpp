@@ -18,6 +18,7 @@ LineEdit::LineEdit(QWidget* parent)
     setAttribute(Qt::WA_Hover, true);
     LineEdit::updateContentMargins();
     InputContextMenu::install(this);
+    connect(this, &QLineEdit::returnPressed, this, &QLineEdit::clearFocus);
     for (auto* transition : {&m_borderTransition, &m_backgroundTransition}) {
         transition->setDuration(m_animationDuration);
         transition->setEasingCurve(QEasingCurve::OutCubic);

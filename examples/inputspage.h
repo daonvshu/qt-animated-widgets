@@ -15,4 +15,5 @@ private:
     void initializeCompositeLineEdit(Ui::InputsPage& ui);
     void initializeCompositePlainTextEdit(Ui::InputsPage& ui);
     void initializeNumericInputs(Ui::InputsPage& ui);
+    void initializeSearchLineEdit(Ui::InputsPage& ui);
 };

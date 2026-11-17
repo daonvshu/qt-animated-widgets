@@ -55,6 +55,19 @@ void InputStyleProperties::passwordLineEdit(StylePropertyBuilder& builder) {
     });
 }
 
+void InputStyleProperties::searchLineEdit(StylePropertyBuilder& builder) {
+    builder.addGroups({
+        interaction(),
+        P::inputBackground(),
+        P::inputBorder(),
+        P::inputShape(),
+        P::animation(),
+        lineContent(),
+        P::textColors(),
+        suggestionPopup()
+    });
+}
+
 void InputStyleProperties::plainTextEdit(StylePropertyBuilder& builder) {
     builder.addGroups({
         interaction(),
@@ -279,6 +292,22 @@ StylePropertyGroup InputStyleProperties::passwordIconLayout() {
         P::field(QStringLiteral("trailingIconSize"), QStringLiteral("Password toggle size")),
         P::field(QStringLiteral("iconSpacing"), QStringLiteral("Icon spacing")),
         P::field(QStringLiteral("iconHint"), QStringLiteral("Tint icons"))
+    };
+    return group;
+}
+
+StylePropertyGroup InputStyleProperties::suggestionPopup() {
+    StylePropertyGroup group;
+    group.name = QStringLiteral("Suggestion popup");
+    group.properties = {
+        P::field(QStringLiteral("popupBackground"), QStringLiteral("Background")),
+        P::field(QStringLiteral("popupBorder"), QStringLiteral("Border")),
+        P::field(QStringLiteral("itemText"), QStringLiteral("Item text")),
+        P::field(QStringLiteral("itemHoverBackground"), QStringLiteral("Item hover")),
+        P::field(QStringLiteral("itemSelectedBackground"), QStringLiteral("Item selected")),
+        P::field(QStringLiteral("highlightEnabled"), QStringLiteral("Highlight enabled")),
+        P::field(QStringLiteral("highlightColor"), QStringLiteral("Highlight color")),
+        P::field(QStringLiteral("highlightBold"), QStringLiteral("Highlight bold"))
     };
     return group;
 }

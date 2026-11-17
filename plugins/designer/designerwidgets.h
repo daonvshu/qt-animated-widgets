@@ -22,6 +22,7 @@
 #include "animatedwidgets/inputs/iconlineedit.h"
 #include "animatedwidgets/inputs/lineedit.h"
 #include "animatedwidgets/inputs/passwordlineedit.h"
+#include "animatedwidgets/inputs/searchlineedit.h"
 #include "animatedwidgets/inputs/plaintextedit.h"
 #include "animatedwidgets/inputs/spinbox.h"
 #include "animatedwidgets/progressbars/progressbar.h"
@@ -124,6 +125,11 @@ class LineEdit : public animatedwidgets::LineEdit {
     Q_OBJECT
 public:
     using animatedwidgets::LineEdit::LineEdit;
+};
+class SearchLineEdit : public animatedwidgets::SearchLineEdit {
+    Q_OBJECT
+public:
+    using animatedwidgets::SearchLineEdit::SearchLineEdit;
 };
 class IconLineEdit : public animatedwidgets::IconLineEdit {
     Q_OBJECT

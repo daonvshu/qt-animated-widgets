@@ -2,8 +2,11 @@
 #include "ui_inputspage.h"
 
 #include "animatedwidgets/buttons/hovericonbutton.h"
+#include "animatedwidgets/inputs/searchlineedit.h"
 
 #include <QIcon>
+#include <QGridLayout>
+#include <QVBoxLayout>
 #include <QLabel>
 #include <QPalette>
 #include <QTextCursor>
@@ -19,6 +22,7 @@ InputsPage::InputsPage(QWidget* parent)
     initializeCompositeLineEdit(ui);
     initializeCompositePlainTextEdit(ui);
     initializeNumericInputs(ui);
+    initializeSearchLineEdit(ui);
 }
 
 void InputsPage::initializeBasicInputs(Ui::InputsPage& ui) {
@@ -172,4 +176,68 @@ void InputsPage::initializeNumericInputs(Ui::InputsPage& ui) {
             &CompositeSpinBox::setAnimationDuration);
     connect(ui.inputDurationSpin, QOverload<int>::of(&QSpinBox::valueChanged), ui.inputCompositeDoubleSpin,
             &CompositeDoubleSpinBox::setAnimationDuration);
+}
+void InputsPage::initializeSearchLineEdit(Ui::InputsPage& ui) {
+    constexpr int insertRow = 5;
+    QGridLayout* grid = ui.inputsGrid;
+    // 为新增行腾出位置：把该行及之后的控件整体下移
+    for (int i = grid->count() - 1; i >= 0; --i) {
+        int row = 0;
+        int column = 0;
+        int rowSpan = 1;
+        int columnSpan = 1;
+        grid->getItemPosition(i, &row, &column, &rowSpan, &columnSpan);
+        if (row >= insertRow) {
+            QLayoutItem* item = grid->takeAt(i);
+            grid->addItem(item, row + 1, column, rowSpan, columnSpan);
+        }
+    }
+
+    auto* label = new QLabel(QStringLiteral("Search suggestions"), ui.inputsScrollContent);
+
+    auto* container = new QWidget(ui.inputsScrollContent);
+    auto* layout = new QVBoxLayout(container);
+    layout->setContentsMargins(0, 0, 0, 0);
+    layout->setSpacing(2);
+
+    auto* search = new animatedwidgets::SearchLineEdit(container);
+    search->setPlaceholderText(QStringLiteral("Type to filter suggestions"));
+    search->setMaximumVisibleItems(6);
+    layout->addWidget(search);
+
+    auto* status = new QLabel(QStringLiteral("No suggestion selected"), container);
+    layout->addWidget(status);
+
+    const QStringList candidates = {
+        QStringLiteral("Anime"),
+        QStringLiteral("Animation"),
+        QStringLiteral("Animated widgets"),
+        QStringLiteral("Animated buttons"),
+        QStringLiteral("Search line edit"),
+        QStringLiteral("Search combo box"),
+        QStringLiteral("Suggestion popup"),
+        QStringLiteral("Fuzzy search"),
+    };
+    connect(search, &QLineEdit::textEdited, search, [search, candidates](const QString& text) {
+        const QString keyword = text.trimmed();
+        if (keyword.isEmpty()) {
+            search->clearSuggestions();
+            return;
+        }
+        QStringList matches;
+        for (const QString& candidate : candidates) {
+            if (candidate.contains(keyword, Qt::CaseInsensitive)) {
+                matches.append(candidate);
+            }
+        }
+        search->setSuggestions(matches);
+    });
+
+    connect(search, &animatedwidgets::SearchLineEdit::suggestionActivated, status,
+            [status](const QString& suggestion) {
+                status->setText(QStringLiteral("Selected: %1").arg(suggestion));
+            });
+
+    grid->addWidget(label, insertRow, 0);
+    grid->addWidget(container, insertRow, 1);
 }

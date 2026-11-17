@@ -5,6 +5,7 @@
 #include "animatedwidgets/inputs/lineedit.h"
 #include "animatedwidgets/inputs/iconlineedit.h"
 #include "animatedwidgets/inputs/passwordlineedit.h"
+#include "animatedwidgets/inputs/searchlineedit.h"
 #include "animatedwidgets/inputs/plaintextedit.h"
 #include "animatedwidgets/inputs/spinbox.h"
 #include "animatedwidgets/inputs/doublespinbox.h"
@@ -51,6 +52,15 @@ QList<StyleEditorWidgetType> InputStylePlugin::widgetTypes() const {
     passwordLineEdit.order = 300.0;
     passwordLineEdit.suggestedSize = QSize(240, 40);
     passwordLineEdit.defineProperties = &InputStyleProperties::passwordLineEdit;
+
+    StyleWidgetTypeOptions searchLineEdit;
+    searchLineEdit.id = QStringLiteral("searchlineedit");
+    searchLineEdit.name = QStringLiteral("Search Line Edit");
+    searchLineEdit.category = QStringLiteral("Inputs");
+    searchLineEdit.categoryOrder = 400.0;
+    searchLineEdit.order = 350.0;
+    searchLineEdit.suggestedSize = QSize(240, 40);
+    searchLineEdit.defineProperties = &InputStyleProperties::searchLineEdit;
 
     StyleWidgetTypeOptions plainTextEdit;
     plainTextEdit.id = QStringLiteral("plaintextedit");
@@ -124,6 +134,9 @@ QList<StyleEditorWidgetType> InputStylePlugin::widgetTypes() const {
         }),
         StylePluginTypeUtils::create<animatedwidgets::PasswordLineEdit>(passwordLineEdit, [](animatedwidgets::PasswordLineEdit* widget) {
             widget->setPlaceholderText(QStringLiteral("Preview"));
+        }),
+        StylePluginTypeUtils::create<animatedwidgets::SearchLineEdit>(searchLineEdit, [](animatedwidgets::SearchLineEdit* widget) {
+            widget->setPlaceholderText(QStringLiteral("Search"));
         }),
         StylePluginTypeUtils::create<animatedwidgets::PlainTextEdit>(plainTextEdit, [](animatedwidgets::PlainTextEdit* widget) {
             widget->setPlaceholderText(QStringLiteral("Enter a message..."));

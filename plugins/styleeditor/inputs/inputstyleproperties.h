@@ -7,6 +7,7 @@ public:
     static void lineEdit(animatedwidgets::styleeditor::StylePropertyBuilder& builder);
     static void iconLineEdit(animatedwidgets::styleeditor::StylePropertyBuilder& builder);
     static void passwordLineEdit(animatedwidgets::styleeditor::StylePropertyBuilder& builder);
+    static void searchLineEdit(animatedwidgets::styleeditor::StylePropertyBuilder& builder);
     static void plainTextEdit(animatedwidgets::styleeditor::StylePropertyBuilder& builder);
     static void spinBox(animatedwidgets::styleeditor::StylePropertyBuilder& builder);
     static void doubleSpinBox(animatedwidgets::styleeditor::StylePropertyBuilder& builder);
@@ -26,5 +27,6 @@ private:
     static animatedwidgets::styleeditor::StylePropertyGroup iconLayout();
     static animatedwidgets::styleeditor::StylePropertyGroup passwordIconLayout();
     static animatedwidgets::styleeditor::StylePropertyGroup password();
+    static animatedwidgets::styleeditor::StylePropertyGroup suggestionPopup();
     static animatedwidgets::styleeditor::StylePropertyGroup stepButtons();
 };
