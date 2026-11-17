@@ -179,6 +179,7 @@ void SearchLineEdit::ensurePopup() {
         }
         setText(text);
         emit suggestionActivated(text);
+        clearFocus();
     });
 }
 
@@ -264,6 +265,7 @@ bool SearchLineEdit::activateCurrentSuggestion() {
     hideSuggestions();
     setText(text);
     emit suggestionActivated(text);
+    clearFocus();
     return true;
 }
 

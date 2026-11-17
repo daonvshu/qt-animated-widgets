@@ -10,3 +10,4 @@
 *.pro.user
 build-debug/
 build-designer-release/
+build-install-debug/
