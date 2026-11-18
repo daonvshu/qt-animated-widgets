@@ -13,13 +13,20 @@
 }
 
 #StylePropertyRow animatedwidgets--LineEdit[compactPropertyEditor=&quot;true&quot;],
-#StylePropertyRow animatedwidgets--ComboBox[compactPropertyEditor=&quot;true&quot;] {
+#StylePropertyRow animatedwidgets--ComboBox[compactPropertyEditor=&quot;true&quot;],
+#StylePropertyRow animatedwidgets--SpinBox[compactPropertyEditor=&quot;true&quot;],
+#StylePropertyRow animatedwidgets--DoubleSpinBox[compactPropertyEditor=&quot;true&quot;] {
     min-height: 22px;
     max-height: 24px;
     min-width: 0px;
     font-size: 11px;
     qproperty-cornerRadius: 4;
     qproperty-contentPadding: 5;
+}
+
+#StylePropertyRow animatedwidgets--SpinBox[compactPropertyEditor=&quot;true&quot;] &gt; QLineEdit,
+#StylePropertyRow animatedwidgets--DoubleSpinBox[compactPropertyEditor=&quot;true&quot;] &gt; QLineEdit {
+    font-size: 11px;
 }
 
 #StylePropertyRow animatedwidgets--LineEdit[compactPropertyEditor=&quot;true&quot;] {

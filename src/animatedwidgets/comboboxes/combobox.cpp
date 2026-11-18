@@ -556,23 +556,17 @@ void ComboBox::paintEvent(QPaintEvent*) {
 
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
-    QRectF frame = QRectF(rect());
-    qreal strokeWidth = -1.0;
-    if (m_borderVisible && m_borderWidth > 0) {
-        const auto stroke = paintutils::borderStrokeForWidget(painter, QRectF(rect()), m_borderWidth);
-        frame = stroke.rect;
-        strokeWidth = stroke.width;
-    }
+    const QRectF bounds(rect());
+    const auto border = PaintUtils::borderStroke(painter, bounds, m_borderTransition.current().value<QColor>(),
+                                                m_borderVisible ? m_borderWidth : 0);
     painter.setBrush(m_backgroundTransition.current().value<QColor>());
-    painter.setPen(strokeWidth >= 0
-                           ? QPen(m_borderTransition.current().value<QColor>(), strokeWidth)
-                           : QPen(Qt::NoPen));
-    painter.drawRoundedRect(frame, m_cornerRadius, m_cornerRadius);
+    painter.setPen(border.pen);
+    painter.drawRoundedRect(border.rect, m_cornerRadius, m_cornerRadius);
 
     const bool rightToLeft = layoutDirection() == Qt::RightToLeft;
     if (m_arrowVisible && !m_arrowIcon.isNull()) {
-        const int arrowX = rightToLeft ? m_arrowRightMargin : width() - m_arrowRightMargin - m_arrowIconSize.width();
-        const QRectF arrowRect(arrowX, (height() - m_arrowIconSize.height()) / 2.0, m_arrowIconSize.width(), m_arrowIconSize.height());
+        const qreal arrowX = rightToLeft ? bounds.left() + m_arrowRightMargin : bounds.right() - m_arrowRightMargin - m_arrowIconSize.width();
+        const QRectF arrowRect(arrowX, bounds.center().y() - m_arrowIconSize.height() / 2.0, m_arrowIconSize.width(), m_arrowIconSize.height());
         IconPainter::draw(painter, arrowRect, m_arrowIcon, m_iconHint ? (isEnabled() ? m_textColor : m_disabledTextColor) : QColor(),
                           isEnabled() ? QIcon::Normal : QIcon::Disabled);
     }
@@ -580,28 +574,28 @@ void ComboBox::paintEvent(QPaintEvent*) {
     if (isEditable())
         return;
 
-    const int arrowSpace = m_arrowVisible ? m_arrowIconSize.width() + m_arrowRightMargin + 8 : 0;
-    QRect textRect = rect().adjusted(m_contentPadding, 0, -m_contentPadding, 0);
+    const qreal arrowSpace = m_arrowVisible ? m_arrowIconSize.width() + m_arrowRightMargin + 8.0 : 0.0;
+    QRectF textRect = bounds.adjusted(m_contentPadding, 0, -m_contentPadding, 0);
     if (rightToLeft)
         textRect.setLeft(textRect.left() + arrowSpace);
     else
         textRect.setRight(textRect.right() - arrowSpace);
 
     const QIcon itemIcon = currentIndex() >= 0 ? this->itemIcon(currentIndex()) : QIcon();
-    if (!itemIcon.isNull() && textRect.width() > 0) {
-        const QSize itemSize = iconSize().boundedTo(textRect.size());
-        const int iconX = rightToLeft ? textRect.right() - itemSize.width() + 1 : textRect.left();
-        IconPainter::draw(painter, QRectF(iconX, (height() - itemSize.height()) / 2.0, itemSize.width(), itemSize.height()), itemIcon,
+    if (!itemIcon.isNull() && !textRect.isEmpty()) {
+        const QSizeF itemSize = QSizeF(iconSize()).boundedTo(textRect.size());
+        const qreal iconX = rightToLeft ? textRect.right() - itemSize.width() : textRect.left();
+        IconPainter::draw(painter, QRectF(QPointF(iconX, textRect.center().y() - itemSize.height() / 2.0), itemSize), itemIcon,
                           m_iconHint ? (isEnabled() ? m_textColor : m_disabledTextColor) : QColor(),
                           isEnabled() ? QIcon::Normal : QIcon::Disabled);
         if (rightToLeft)
-            textRect.setRight(iconX - 7);
+            textRect.setRight(iconX - 6);
         else
             textRect.setLeft(iconX + itemSize.width() + 6);
     }
 
     painter.setPen(isEnabled() ? m_textColor : m_disabledTextColor);
-    const QString label = QFontMetricsF(font()).elidedText(displayText(), Qt::ElideRight, qMax(0, textRect.width()));
+    const QString label = QFontMetricsF(font()).elidedText(displayText(), Qt::ElideRight, qMax(qreal(0), textRect.width()));
     painter.drawText(textRect, Qt::AlignVCenter | (rightToLeft ? Qt::AlignRight : Qt::AlignLeft), label);
 }
 

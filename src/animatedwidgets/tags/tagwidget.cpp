@@ -236,8 +236,7 @@ bool TagWidget::event(QEvent* event) {
 void TagWidget::paintEvent(QPaintEvent*) {
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
-    const qreal inset = m_style.borderWidth / 2.0;
-    ButtonPainter::drawSurface(painter, QRectF(rect()).adjusted(inset, inset, -inset, -inset),
+    ButtonPainter::drawSurface(painter, QRectF(rect()),
                                {m_style.background, m_style.border, qreal(m_style.borderWidth), m_style.cornerRadius, true, m_style.borderWidth > 0, false});
 
     const int padding = m_style.contentPadding + m_style.borderWidth;

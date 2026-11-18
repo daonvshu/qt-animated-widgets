@@ -1,4 +1,5 @@
 #include "animatedwidgets/utils/checkableiconpainter.h"
+#include "animatedwidgets/utils/iconpainter.h"
 
 #include <QPainter>
 
@@ -22,7 +23,7 @@ void CheckableIconPainter::draw(QPainter& painter, const QRectF& rect, const QPi
     painter.save();
     painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
     painter.setOpacity(opacity);
-    painter.drawPixmap(target.topLeft(), tinted);
+    painter.drawPixmap(target, tinted, QRectF(tinted.rect()));
     painter.restore();
 }
 
@@ -30,15 +31,10 @@ void CheckableIconPainter::draw(QPainter& painter, const QRectF& rect, const QIc
     if (icon.isNull() || rect.isEmpty() || opacity <= 0.0)
         return;
 
-    // Rasterize at the target device resolution so SVG sources are rendered at their final size
-    const qreal ratio = painter.device() ? painter.device()->devicePixelRatioF() : 1.0;
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-    const QPixmap pixmap = icon.pixmap(rect.size().toSize(), ratio);
-#else
-    QPixmap pixmap = icon.pixmap((rect.size() * ratio).toSize());
-    pixmap.setDevicePixelRatio(ratio);
-#endif
-    draw(painter, rect, pixmap, color, opacity);
+    painter.save();
+    painter.setOpacity(opacity);
+    IconPainter::draw(painter, rect, icon, color);
+    painter.restore();
 }
 
 } // namespace animatedwidgets

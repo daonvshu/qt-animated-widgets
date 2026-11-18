@@ -196,9 +196,10 @@ void Switch::paintEvent(QPaintEvent*) {
     }
 
     if (!text().isEmpty()) {
+        const int trackRight = trackX + m_trackSize.width();
         const QRect textRect = layoutDirection() == Qt::RightToLeft
                 ? QRect(bounds.left() + 2, bounds.top(), qMax(0, trackX - m_textSpacing - bounds.left() - 2), bounds.height())
-                : QRect(int(track.right()) + m_textSpacing, bounds.top(), qMax(0, bounds.right() - int(track.right()) - m_textSpacing), bounds.height());
+                : QRect(trackRight + m_textSpacing, bounds.top(), qMax(0, bounds.right() - trackRight - m_textSpacing), bounds.height());
         const int alignment = Qt::AlignVCenter | (layoutDirection() == Qt::RightToLeft ? Qt::AlignRight : Qt::AlignLeft);
         style()->drawItemText(&painter, textRect, alignment | Qt::TextShowMnemonic, palette(), isEnabled(), text(), QPalette::WindowText);
     }
@@ -206,9 +207,13 @@ void Switch::paintEvent(QPaintEvent*) {
     if (hasFocus()) {
         QStyleOptionFocusRect option;
         option.initFrom(this);
-        option.rect = track.toAlignedRect().adjusted(-2, -2, 2, 2);
+        option.rect = QRect(QPoint(), m_trackSize).adjusted(-2, -2, 2, 2);
         option.backgroundColor = palette().color(QPalette::Window);
+
+        painter.save();
+        painter.translate(track.topLeft());
         style()->drawPrimitive(QStyle::PE_FrameFocusRect, &option, &painter, this);
+        painter.restore();
     }
 }
 

@@ -271,18 +271,11 @@ bool PlainTextEdit::event(QEvent* event) {
     if (event->type() == QEvent::Paint) {
         QPainter painter(this);
         painter.setRenderHint(QPainter::Antialiasing);
-        QRectF frame = QRectF(rect());
-        qreal strokeWidth = -1.0;
-        if (m_borderVisible && m_borderWidth > 0) {
-            const auto stroke = paintutils::borderStrokeForWidget(painter, QRectF(rect()), m_borderWidth);
-            frame = stroke.rect;
-            strokeWidth = stroke.width;
-        }
+        const auto border = PaintUtils::borderStroke(painter, QRectF(rect()), m_borderTransition.current().value<QColor>(),
+                                                    m_borderVisible ? m_borderWidth : 0);
         painter.setBrush(m_backgroundTransition.current().value<QColor>());
-        painter.setPen(strokeWidth >= 0
-                               ? QPen(m_borderTransition.current().value<QColor>(), strokeWidth)
-                               : QPen(Qt::NoPen));
-        painter.drawRoundedRect(frame, m_cornerRadius, m_cornerRadius);
+        painter.setPen(border.pen);
+        painter.drawRoundedRect(border.rect, m_cornerRadius, m_cornerRadius);
     }
     switch (event->type()) {
         case QEvent::Enter:

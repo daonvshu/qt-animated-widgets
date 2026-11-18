@@ -4,6 +4,7 @@
 
 #include "animatedwidgets/calendars/calendarsectiondata.h"
 
+#include <QRectF>
 #include <QSharedPointer>
 #include <QStyledItemDelegate>
 
@@ -28,7 +29,7 @@ private:
     friend class CalendarDateSelector;
 
 private:
-    void drawSelectedBox(QPainter* painter, const QRect& sectionBox, const QRect& dstRect, bool isFromBox, bool isToBox) const;
+    void drawSelectedBox(QPainter* painter, const QRectF& sectionBox, const QRectF& dstRect, bool isFromBox, bool isToBox) const;
 
 private:
     CalendarStyle m_calendarStyle;

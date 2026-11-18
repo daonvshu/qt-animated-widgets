@@ -257,9 +257,8 @@ QSize BorderedIconButton::sizeHint() const {
 
 void BorderedIconButton::paintEvent(QPaintEvent*) {
     QPainter painter(this);
-    const qreal inset = m_borderWidth / 2;
     ButtonPainter::drawSurface(
-            painter, QRectF(rect()).adjusted(inset, inset, -inset, -inset),
+            painter, QRectF(rect()),
             ButtonSurfaceOptions{animatedBackgroundColor(), animatedBorderColor(), m_borderWidth, m_cornerRadius, true, true, m_shape == Shape::Circle});
     ButtonPainter::drawContent(
             painter, rect(),

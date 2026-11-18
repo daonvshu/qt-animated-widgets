@@ -117,9 +117,9 @@ void ShadowWidget::paintEvent(QPaintEvent*) {
     }
 
     QPainter painter(this);
-    painter.drawImage(QPoint(margins.left() - shadowRadius, margins.top() - shadowRadius), shadowImage);
-
     painter.save();
+    painter.setRenderHint(QPainter::SmoothPixmapTransform);
+    painter.drawImage(QPointF(margins.left() - shadowRadius, margins.top() - shadowRadius), shadowImage);
     painter.setRenderHint(QPainter::Antialiasing);
     painter.fillPath(createArrowPath(), arrowFilledColor);
     painter.restore();

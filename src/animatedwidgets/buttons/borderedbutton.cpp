@@ -299,8 +299,7 @@ QSize BorderedButton::sizeHint() const {
 
 void BorderedButton::paintEvent(QPaintEvent*) {
     QPainter painter(this);
-    const qreal inset = m_borderWidth / 2;
-    ButtonPainter::drawSurface(painter, QRectF(rect()).adjusted(inset, inset, -inset, -inset),
+    ButtonPainter::drawSurface(painter, QRectF(rect()),
                                ButtonSurfaceOptions{animatedBackgroundColor(), animatedBorderColor(), m_borderWidth, m_cornerRadius, true, true, false});
     ButtonPainter::drawContent(
             painter, rect(),

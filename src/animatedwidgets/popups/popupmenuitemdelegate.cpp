@@ -48,11 +48,14 @@ bool PopupMenuItemDelegate::isItemSelected(const QStyleOptionViewItem& option, c
 void PopupMenuItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option,
                                   const QModelIndex& index) const {
     painter->save();
-    painter->setClipRect(option.rect);
+    painter->setRenderHint(QPainter::Antialiasing);
+    const QRectF rowRect(option.rect);
+    painter->setClipRect(rowRect, Qt::IntersectClip);
     if (index.data(SeparatorRole).toBool()) {
-        painter->setPen(separatorColor);
-        painter->drawLine(option.rect.left() + qMax(0, contentPadding), option.rect.center().y(),
-                          option.rect.right() - qMax(0, contentPadding), option.rect.center().y());
+        painter->setPen(QPen(separatorColor, 1.0, Qt::SolidLine, Qt::FlatCap));
+        const qreal padding = qMax(0, contentPadding);
+        const qreal centerY = rowRect.center().y();
+        painter->drawLine(QPointF(rowRect.left() + padding, centerY), QPointF(rowRect.right() - padding, centerY));
         painter->restore();
         return;
     }
@@ -66,14 +69,14 @@ void PopupMenuItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem&
     painter->setFont(itemOption.font);
 
     const bool hasNextItem = index.row() < index.model()->rowCount(index.parent()) - 1;
-    const int spacing = hasNextItem ? qBound(0, itemSpacing, qMax(0, option.rect.height() - 1)) : 0;
-    const QRect itemRect = option.rect.adjusted(0, 0, 0, -spacing);
+    const qreal spacing = hasNextItem ? qBound(qreal(0), qreal(itemSpacing), qMax(qreal(0), rowRect.height() - 1.0)) : 0.0;
+    const QRectF itemRect = rowRect.adjusted(0, 0, 0, -spacing);
 
     if (index.data(TypeRole).toInt() == static_cast<int>(PopupMenuRowType::GroupTitle)) {
         painter->setPen(groupTitleText);
-        const QRect content = itemRect.adjusted(qMax(0, contentPadding), 0, -qMax(0, contentPadding), 0);
+        const QRectF content = itemRect.adjusted(qMax(0, contentPadding), 0, -qMax(0, contentPadding), 0);
         painter->drawText(content, Qt::AlignVCenter | Qt::AlignLeft,
-                          metrics.elidedText(itemOption.text, itemOption.textElideMode, qMax(0, content.width())));
+                          metrics.elidedText(itemOption.text, itemOption.textElideMode, qMax(qreal(0), content.width())));
         painter->restore();
         return;
     }
@@ -88,10 +91,9 @@ void PopupMenuItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem&
         background = itemHoverBackground;
     if (itemCornerRadius > 0) {
         painter->save();
-        painter->setRenderHint(QPainter::Antialiasing);
         painter->setPen(Qt::NoPen);
         painter->setBrush(background);
-        painter->drawRoundedRect(QRectF(itemRect), itemCornerRadius, itemCornerRadius);
+        painter->drawRoundedRect(itemRect, itemCornerRadius, itemCornerRadius);
         painter->restore();
     } else {
         painter->fillRect(itemRect, background);
@@ -102,24 +104,24 @@ void PopupMenuItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem&
     const QColor iconColor = iconHint ? (enabled ? itemText : itemDisabledText) : QColor();
     const QIcon::Mode iconMode = enabled ? QIcon::Normal : QIcon::Disabled;
 
-    const int padding = qMax(0, contentPadding);
-    QRect contentRect = itemRect.adjusted(padding, 0, -padding, 0);
+    const qreal padding = qMax(0, contentPadding);
+    QRectF contentRect = itemRect.adjusted(padding, 0, -padding, 0);
     if (hasChildren) {
-        const int iconX = contentRect.right() - submenuIconSize.width() + 1;
-        const qreal iconY = contentRect.top() + (contentRect.height() - submenuIconSize.height()) / 2.0;
+        const qreal iconX = contentRect.right() - submenuIconSize.width();
+        const qreal iconY = contentRect.center().y() - submenuIconSize.height() / 2.0;
         const QRectF iconRect(iconX, iconY, submenuIconSize.width(), submenuIconSize.height());
         IconPainter::draw(*painter, iconRect, submenuIcon, iconColor, iconMode);
-        contentRect.setRight(iconX - 1 - submenuIconSpacing);
+        contentRect.setRight(iconX - submenuIconSpacing);
     } else if (drawCheckedIcon && checkState.isValid() && (!checkedIcon.isNull() || !uncheckedIcon.isNull())) {
         const bool rightAligned = checkedIconAlignment.testFlag(Qt::AlignRight);
-        const int iconX = rightAligned ? contentRect.right() - checkedIconSize.width() + 1 : contentRect.left();
-        const qreal iconY = contentRect.top() + (contentRect.height() - checkedIconSize.height()) / 2.0;
+        const qreal iconX = rightAligned ? contentRect.right() - checkedIconSize.width() : contentRect.left();
+        const qreal iconY = contentRect.center().y() - checkedIconSize.height() / 2.0;
         const QRectF iconRect(iconX, iconY, checkedIconSize.width(), checkedIconSize.height());
         const QIcon indicator = checkState.toInt() == Qt::Checked ? checkedIcon
             : checkState.toInt() == Qt::Unchecked ? uncheckedIcon : QIcon();
         IconPainter::draw(*painter, iconRect, indicator, iconColor, iconMode);
         if (rightAligned)
-            contentRect.setRight(iconX - 1 - checkedIconSpacing);
+            contentRect.setRight(iconX - checkedIconSpacing);
         else
             contentRect.setLeft(iconX + checkedIconSize.width() + checkedIconSpacing);
     }
@@ -127,8 +129,8 @@ void PopupMenuItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem&
     const QIcon icon = qvariant_cast<QIcon>(index.data(Qt::DecorationRole));
     if (hasItemIcons(index)) {
         const QSize iconSize = itemIconSize.expandedTo(QSize(1, 1));
-        const int iconX = contentRect.left();
-        const qreal iconY = contentRect.top() + (contentRect.height() - iconSize.height()) / 2.0;
+        const qreal iconX = contentRect.left();
+        const qreal iconY = contentRect.center().y() - iconSize.height() / 2.0;
         const QRectF iconRect(iconX, iconY, iconSize.width(), iconSize.height());
         IconPainter::draw(*painter, iconRect, icon, iconColor, iconMode);
         contentRect.setLeft(iconX + iconSize.width() + itemIconSpacing);
@@ -136,11 +138,11 @@ void PopupMenuItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem&
 
     const QString shortcut = index.data(ShortcutRole).toString();
     if (!shortcut.isEmpty()) {
-        const int shortcutWidth = qCeil(metrics.horizontalAdvance(shortcut));
-        const QRect shortcutRect(contentRect.right() - shortcutWidth + 1, contentRect.top(),
+        const qreal shortcutWidth = metrics.horizontalAdvance(shortcut);
+        const QRectF shortcutRect(contentRect.right() - shortcutWidth, contentRect.top(),
                                  shortcutWidth, contentRect.height());
         painter->drawText(shortcutRect, Qt::AlignVCenter | Qt::AlignRight, shortcut);
-        contentRect.setRight(shortcutRect.left() - 1 - qMax(8, checkedIconSpacing));
+        contentRect.setRight(shortcutRect.left() - qMax(8, checkedIconSpacing));
     }
 
     const QString text = index.data(Qt::DisplayRole).toString();
@@ -164,12 +166,14 @@ void PopupMenuItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem&
         painter->restore();
     } else {
         painter->drawText(contentRect, Qt::AlignVCenter | Qt::AlignLeft,
-                          metrics.elidedText(text, itemOption.textElideMode, qMax(0, contentRect.width())));
+                          metrics.elidedText(text, itemOption.textElideMode, qMax(qreal(0), contentRect.width())));
     }
 
     if (drawSeparator && hasNextItem) {
-        painter->setPen(separatorColor);
-        painter->drawLine(itemRect.bottomLeft(), itemRect.bottomRight());
+        const QPen pen(separatorColor, 1.0, Qt::SolidLine, Qt::FlatCap);
+        const qreal y = itemRect.bottom() - pen.widthF() / 2.0;
+        painter->setPen(pen);
+        painter->drawLine(QPointF(itemRect.left(), y), QPointF(itemRect.right(), y));
     }
 
     painter->restore();

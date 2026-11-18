@@ -56,7 +56,7 @@ void ButtonStyleProperties::hover(StylePropertyBuilder& builder) {
 void ButtonStyleProperties::filledIcon(StylePropertyBuilder& builder) {
     builder.addGroups({
         buttonProperties(),
-        textContent(),
+        textContent(true),
         background(),
         contentColors(true),
         cornerRadius(),
@@ -68,7 +68,7 @@ void ButtonStyleProperties::filledIcon(StylePropertyBuilder& builder) {
 void ButtonStyleProperties::outlineIcon(StylePropertyBuilder& builder) {
     builder.addGroups({
         buttonProperties(),
-        textContent(),
+        textContent(true),
         border(),
         contentColors(true),
         cornerRadius(),
@@ -80,7 +80,7 @@ void ButtonStyleProperties::outlineIcon(StylePropertyBuilder& builder) {
 void ButtonStyleProperties::borderedIcon(StylePropertyBuilder& builder) {
     builder.addGroups({
         buttonProperties(),
-        textContent(),
+        textContent(true),
         background(),
         border(),
         contentColors(true),
@@ -93,7 +93,7 @@ void ButtonStyleProperties::borderedIcon(StylePropertyBuilder& builder) {
 void ButtonStyleProperties::hoverIcon(StylePropertyBuilder& builder) {
     builder.addGroups({
         buttonProperties(),
-        textContent(),
+        textContent(true),
         hoverBackground(),
         contentColors(true),
         cornerRadius(),
@@ -155,12 +155,7 @@ StylePropertyGroup ButtonStyleProperties::buttonProperties() {
     return group;
 }
 
-StylePropertyGroup ButtonStyleProperties::textContent() {
-    StylePropertyOptions text;
-    text.name = QStringLiteral("text");
-    text.label = QStringLiteral("Text");
-    text.description = QStringLiteral("Button label text.");
-
+StylePropertyGroup ButtonStyleProperties::textContent(bool iconOnly) {
     StylePropertyOptions icon;
     icon.name = QStringLiteral("icon");
     icon.label = QStringLiteral("Icon");
@@ -179,7 +174,14 @@ StylePropertyGroup ButtonStyleProperties::textContent() {
 
     StylePropertyGroup group;
     group.name = QStringLiteral("Content");
-    group.properties = {text, icon, iconSize, iconHint};
+    group.properties = {icon, iconSize, iconHint};
+    if (!iconOnly) {
+        StylePropertyOptions text;
+        text.name = QStringLiteral("text");
+        text.label = QStringLiteral("Text");
+        text.description = QStringLiteral("Button label text.");
+        group.properties.prepend(text);
+    }
     return group;
 }
 

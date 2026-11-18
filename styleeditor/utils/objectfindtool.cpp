@@ -2,6 +2,7 @@
 
 #include <qapplication.h>
 #include <QClipboard>
+#include <QFontMetricsF>
 
 #include "qdebug.h"
 #include <qpainter.h>
@@ -29,6 +30,7 @@ ObjectFinderMaskWidget::ObjectFinderMaskWidget(QWidget* parent)
  */
 void ObjectFinderMaskWidget::paintEvent(QPaintEvent* event) {
     QPainter painter(this);
+    painter.setRenderHint(QPainter::Antialiasing);
 
     if (!targetWidget.isNull() && isActiveWindowChild(targetWidget)) {
 
@@ -36,18 +38,18 @@ void ObjectFinderMaskWidget::paintEvent(QPaintEvent* event) {
 
         //绘制目标控件相对顶级父控件位置
         auto widgetTopLeft = targetWidget->mapTo(activeWindow, QPoint(0, 0));
-        auto tagRect = targetWidget->rect();
+        QRectF tagRect(targetWidget->rect());
         tagRect.moveTopLeft(widgetTopLeft);
-        painter.drawRect(tagRect);
+        painter.drawRect(tagRect.adjusted(0.5, 0.5, -0.5, -0.5));
 
         //绘制顶级父控件在当前屏幕上的位置
-        auto parentRect = activeWindow->rect();
-        painter.drawRect(parentRect.adjusted(0, 0, -1, -1));
+        const QRectF parentRect(activeWindow->rect());
+        painter.drawRect(parentRect.adjusted(0.5, 0.5, -0.5, -0.5));
 
         if (!compareTargetWidget.isNull() && isActiveWindowChild(compareTargetWidget)) {
-            auto compareRect = compareTargetWidget->rect();
+            QRectF compareRect(compareTargetWidget->rect());
             compareRect.moveTopLeft(compareTargetWidget->mapTo(activeWindow, QPoint(0, 0)));
-            painter.drawRect(compareRect);
+            painter.drawRect(compareRect.adjusted(0.5, 0.5, -0.5, -0.5));
 
             if (compareTargetWidget != targetWidget) { //位置比较
                 if (compareRect.contains(tagRect) || tagRect.contains(compareRect)) { //位置相交
@@ -70,9 +72,9 @@ void ObjectFinderMaskWidget::paintEvent(QPaintEvent* event) {
  * @param r1
  * @param r2
  */
-void ObjectFinderMaskWidget::drawInnerRectDistance(QPainter &painter, const QRect &r1, const QRect &r2) const {
+void ObjectFinderMaskWidget::drawInnerRectDistance(QPainter &painter, const QRectF &r1, const QRectF &r2) const {
 
-    QRect inner, outer;
+    QRectF inner, outer;
     if (r1.contains(r2)) {
         inner = r2;
         outer = r1;
@@ -83,16 +85,16 @@ void ObjectFinderMaskWidget::drawInnerRectDistance(QPainter &painter, const QRec
 
     auto tagCenter = inner.center();
 
-    auto leftLine = QLine(outer.left(), tagCenter.y(), inner.left(), tagCenter.y());
+    auto leftLine = QLineF(outer.left(), tagCenter.y(), inner.left(), tagCenter.y());
     drawDistanceLine(painter, leftLine, Qt::Horizontal);
 
-    auto topLine = QLine(tagCenter.x(), outer.top(), tagCenter.x(), inner.top());
+    auto topLine = QLineF(tagCenter.x(), outer.top(), tagCenter.x(), inner.top());
     drawDistanceLine(painter, topLine, Qt::Vertical);
 
-    auto rightLine = QLine(inner.right(), tagCenter.y(), outer.right(), tagCenter.y());
+    auto rightLine = QLineF(inner.right(), tagCenter.y(), outer.right(), tagCenter.y());
     drawDistanceLine(painter, rightLine, Qt::Horizontal);
 
-    auto bottomLine = QLine(tagCenter.x(), inner.bottom(), tagCenter.x(), outer.bottom());
+    auto bottomLine = QLineF(tagCenter.x(), inner.bottom(), tagCenter.x(), outer.bottom());
     drawDistanceLine(painter, bottomLine, Qt::Vertical);
 }
 
@@ -102,7 +104,7 @@ void ObjectFinderMaskWidget::drawInnerRectDistance(QPainter &painter, const QRec
  * @param compare
  * @param target
  */
-void ObjectFinderMaskWidget::drawRectDistance(QPainter &painter, const QRect &compare, const QRect &target) const {
+void ObjectFinderMaskWidget::drawRectDistance(QPainter &painter, const QRectF &compare, const QRectF &target) const {
 
     //测试x轴方向
     auto baseX1 = compare.left();
@@ -115,35 +117,35 @@ void ObjectFinderMaskWidget::drawRectDistance(QPainter &painter, const QRect &co
     auto testY1 = target.top();
     auto testY2 = target.bottom();
 
-    QLine lineX1, lineX2, lineY1, lineY2;
-    QList<QLine> assistLines; //辅助线
+    QLineF lineX1, lineX2, lineY1, lineY2;
+    QList<QLineF> assistLines; //辅助线
 
     //添加Y方向辅助线
-    const auto& appendAssistLine = [&] (const QPoint& testPoint, const QRect& rect, Qt::Orientation orientation) {
+    const auto& appendAssistLine = [&] (const QPointF& testPoint, const QRectF& rect, Qt::Orientation orientation) {
         if (orientation == Qt::Horizontal) { //水平辅助线
             if (testPoint.x() > rect.right()) {
-                assistLines.append(QLine(testPoint.x(), testPoint.y(), rect.right(), testPoint.y()));
+                assistLines.append(QLineF(testPoint.x(), testPoint.y(), rect.right(), testPoint.y()));
             } else if (testPoint.x() < rect.left()) {
-                assistLines.append(QLine(testPoint.x(), testPoint.y(), rect.left(), testPoint.y()));
+                assistLines.append(QLineF(testPoint.x(), testPoint.y(), rect.left(), testPoint.y()));
             }
         } else {
             if (testPoint.y() > rect.bottom()) {
-                assistLines.append(QLine(testPoint.x(), testPoint.y(), testPoint.x(), rect.bottom()));
+                assistLines.append(QLineF(testPoint.x(), testPoint.y(), testPoint.x(), rect.bottom()));
             } else if (testPoint.y() < rect.top()) {
-                assistLines.append(QLine(testPoint.x(), testPoint.y(), testPoint.x(), rect.top()));
+                assistLines.append(QLineF(testPoint.x(), testPoint.y(), testPoint.x(), rect.top()));
             }
         }
     };
 
     if (baseX1 > testX2) { //左边
         //x设置为两个端点x，y设置为compare中心
-        int y = compare.center().y();
+        const qreal y = compare.center().y();
         lineX1.setLine(testX2, y, baseX1, y);
         //测试是否需要垂直辅助线
         appendAssistLine(lineX1.p1(), target, Qt::Vertical);
 
     } else if (baseX2 < testX1) { //右边
-        int y = compare.center().y();
+        const qreal y = compare.center().y();
         lineX2.setLine(testX1, y, baseX2, y);
         //测试是否需要垂直辅助线
         appendAssistLine(lineX2.p1(), target, Qt::Vertical);
@@ -152,14 +154,14 @@ void ObjectFinderMaskWidget::drawRectDistance(QPainter &painter, const QRect &co
 
         //判断左边距离线位置
         if (testX1 < baseX1) { //左端点在左边，y为compare中心
-            int y = compare.center().y();
+            const qreal y = compare.center().y();
             lineX1.setLine(testX1, y, baseX1, y);
 
             //测试是否需要垂直辅助线
             appendAssistLine(lineX1.p1(), target, Qt::Vertical);
 
         } else if (testX1 > baseX1) { //左端点在右边，y为target中心
-            int y = target.center().y();
+            const qreal y = target.center().y();
             lineX1.setLine(baseX1, y, testX1, y);
 
             //测试是否需要垂直辅助线
@@ -169,14 +171,14 @@ void ObjectFinderMaskWidget::drawRectDistance(QPainter &painter, const QRect &co
 
         //判断右边距离线位置，与左边同理
         if (testX2 < baseX2) {
-            int y = target.center().y();
+            const qreal y = target.center().y();
             lineX2.setLine(baseX2, y, testX2, y);
 
             //测试是否需要垂直辅助线
             appendAssistLine(lineX2.p1(), compare, Qt::Vertical);
 
         } else if (testX2 > baseX2) {
-            int y = compare.center().y();
+            const qreal y = compare.center().y();
             lineX2.setLine(testX2, y, baseX2, y);
 
             //测试是否需要垂直辅助线
@@ -187,13 +189,13 @@ void ObjectFinderMaskWidget::drawRectDistance(QPainter &painter, const QRect &co
 
     if (baseY1 > testY2) { //上边
         //y设置为两个端点y，x设置为compare中心
-        int x = compare.center().x();
+        const qreal x = compare.center().x();
         lineY1.setLine(x, testY2, x, baseY1);
         //测试是否需要水平辅助线
         appendAssistLine(lineY1.p1(), target, Qt::Horizontal);
 
     } else if (baseY2 < testY1) { //下边
-        int x = compare.center().x();
+        const qreal x = compare.center().x();
         lineY2.setLine(x, testY1, x, baseY2);
         //测试是否需要水平辅助线
         appendAssistLine(lineY2.p1(), target, Qt::Horizontal);
@@ -202,14 +204,14 @@ void ObjectFinderMaskWidget::drawRectDistance(QPainter &painter, const QRect &co
 
         //判断上边距离线位置
         if (testY1 < baseY1) {
-            int x = compare.center().x();
+            const qreal x = compare.center().x();
             lineY1.setLine(x, testY1, x, baseY1);
 
             //测试是否需要水平辅助线
             appendAssistLine(lineY1.p1(), target, Qt::Horizontal);
 
         } else if (testY1 > baseY1) {
-            int x = target.center().x();
+            const qreal x = target.center().x();
             lineY1.setLine(x, baseY1, x, testY1);
 
             //测试是否需要水平辅助线
@@ -219,14 +221,14 @@ void ObjectFinderMaskWidget::drawRectDistance(QPainter &painter, const QRect &co
 
         //判断下边距离线位置，与上边同理
         if (testY2 < baseY2) {
-            int x = target.center().x();
+            const qreal x = target.center().x();
             lineY2.setLine(x, baseY2, x, testY2);
 
             //测试是否需要水平辅助线
             appendAssistLine(lineY2.p1(), compare, Qt::Horizontal);
 
         } else if (testY2 > baseY2) {
-            int x = compare.center().x();
+            const qreal x = compare.center().x();
             lineY2.setLine(x, testY2, x, baseY2);
 
             //测试是否需要水平辅助线
@@ -262,7 +264,7 @@ void ObjectFinderMaskWidget::drawRectDistance(QPainter &painter, const QRect &co
  * @param line
  * @param orientation 垂直线还是水平线
  */
-void ObjectFinderMaskWidget::drawDistanceLine(QPainter& painter, const QLine &line, Qt::Orientation orientation) const {
+void ObjectFinderMaskWidget::drawDistanceLine(QPainter& painter, const QLineF &line, Qt::Orientation orientation) const {
     //绘制线
     painter.drawLine(line);
     //绘制端点
@@ -271,29 +273,25 @@ void ObjectFinderMaskWidget::drawDistanceLine(QPainter& painter, const QLine &li
     auto pen = painter.pen();
     pen.setStyle(Qt::SolidLine);
     painter.setPen(pen);
-    if (isHorizontal) { //水平线绘制垂直上下3px端点
-        painter.drawLine(line.p1().x(), line.p1().y() - 3, line.p1().x(), line.p1().y() + 3);
-        painter.drawLine(line.p2().x(), line.p2().y() - 3, line.p2().x(), line.p2().y() + 3);
-    } else {
-        painter.drawLine(line.p1().x() - 3, line.p1().y(), line.p1().x() + 3, line.p1().y());
-        painter.drawLine(line.p2().x() - 3, line.p2().y(), line.p2().x() + 3, line.p2().y());
-    }
+    const QPointF tick = isHorizontal ? QPointF(0, 3) : QPointF(3, 0);
+    painter.drawLine(line.p1() - tick, line.p1() + tick);
+    painter.drawLine(line.p2() - tick, line.p2() + tick);
     painter.restore();
     //绘制距离文字
-    int distance = isHorizontal ? qAbs(line.p1().x() - line.p2().x()) : qAbs(line.p1().y() - line.p2().y());
+    const qreal distance = isHorizontal ? qAbs(line.dx()) : qAbs(line.dy());
     auto distanceName = QString::number(distance);
-    auto textRect = fontMetrics().boundingRect(distanceName).adjusted(-2, -2, 2, 2);
+    auto textRect = QFontMetricsF(font()).boundingRect(distanceName).adjusted(-2, -2, 2, 2);
 
     if (isHorizontal) { //水平方向上，在线中间绘制
         auto left = line.center().x() - textRect.width() / 2;
-        left = qMax(left, 0);
+        left = qMax(left, qreal(0));
         if (left + textRect.width() > this->width()) { //超出右边界对齐右边
             textRect.moveRight(this->width());
         } else {
             textRect.moveLeft(left);
         }
 
-        int centerY = line.p1().y();
+        const qreal centerY = line.p1().y();
         if (centerY - textRect.height() > 0) { //上方空间足够
             textRect.moveBottom(centerY);
         } else {
@@ -301,14 +299,14 @@ void ObjectFinderMaskWidget::drawDistanceLine(QPainter& painter, const QLine &li
         }
     } else {
         auto top = line.center().y() - textRect.height() / 2;
-        top = qMax(top, 0);
+        top = qMax(top, qreal(0));
         if (top + textRect.height() > this->height()) { //超出下边界对齐下边
             textRect.moveBottom(this->height());
         } else {
             textRect.moveTop(top);
         }
 
-        int centerX = line.p1().x();
+        const qreal centerX = line.p1().x();
         if (centerX + textRect.width() < this->width()) { //右边空间足够
             textRect.moveLeft(centerX);
         } else {
@@ -325,7 +323,7 @@ void ObjectFinderMaskWidget::drawDistanceLine(QPainter& painter, const QLine &li
  * @param painter
  * @param tagRect 控件位置
  */
-void ObjectFinderMaskWidget::drawControlInfo(QPainter& painter, const QRect &tagRect) const {
+void ObjectFinderMaskWidget::drawControlInfo(QPainter& painter, const QRectF &tagRect) const {
     //绘制对象名和大小信息
     auto name = targetWidget->objectName();
     if (name.isEmpty()) {
@@ -344,14 +342,14 @@ void ObjectFinderMaskWidget::drawControlInfo(QPainter& painter, const QRect &tag
     }
 
     //测量绘制提示信息需要的大小，如果超出绘制边界，将其移动到绘制区域内
-    auto nameRect = fontMetrics().boundingRect(name).adjusted(-2, -2, 2, 2);
+    auto nameRect = QFontMetricsF(font()).boundingRect(name).adjusted(-2, -2, 2, 2);
     if (targetWidget == activeWindow) {
-        nameRect.moveTopLeft(widgetTopLeft + QPoint(2, 2));
+        nameRect.moveTopLeft(widgetTopLeft + QPointF(2, 2));
     } else if (widgetTopLeft.y() - nameRect.height() > 0) { //检测上方是否有足够空间绘制
         nameRect.moveBottomLeft(widgetTopLeft);
     } else { //上方不够移动到下方绘制
         nameRect.moveBottomLeft(
-                QPoint(widgetTopLeft.x(), widgetTopLeft.y() + tagRect.height() + nameRect.height()));
+                QPointF(widgetTopLeft.x(), widgetTopLeft.y() + tagRect.height() + nameRect.height()));
     }
     if (nameRect.right() > this->width()) { //如果右方没有足够空间绘制，则对齐到控件右边绘制
         nameRect.moveRight(widgetTopLeft.x());

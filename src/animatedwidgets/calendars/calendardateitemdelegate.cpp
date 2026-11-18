@@ -17,8 +17,9 @@ void CalendarDateItemDelegate::paint(QPainter* painter, const QStyleOptionViewIt
     painter->save();
     painter->setRenderHint(QPainter::Antialiasing);
 
-    QRect sectionBox(QPoint(), m_calendarStyle.dateBoxSize.expandedTo(QSize(1, 1)));
-    sectionBox.moveCenter(option.rect.center());
+    const QRectF cellRect(option.rect);
+    QRectF sectionBox(QPointF(), QSizeF(m_calendarStyle.dateBoxSize.expandedTo(QSize(1, 1))));
+    sectionBox.moveCenter(cellRect.center());
     bool isCurrentMonth = dateForItem.year() == curDisplayDate.year() && dateForItem.month() == curDisplayDate.month();
 
     // Draw the hover state.
@@ -36,22 +37,22 @@ void CalendarDateItemDelegate::paint(QPainter* painter, const QStyleOptionViewIt
         if (sectionData->rangeModeEnabled && sectionData->rangeValid()) {
             //Draw a complete range.
             if (sectionData->isSelectFrom(dateForItem) && sectionData->isSelectTo(dateForItem)) {
-                drawSelectedBox(painter, sectionBox, option.rect, false, false);
+                drawSelectedBox(painter, sectionBox, cellRect, false, false);
             } else if (sectionData->isSelectFrom(dateForItem)) { //Draw the start boundary.
-                drawSelectedBox(painter, sectionBox, option.rect, true, false);
+                drawSelectedBox(painter, sectionBox, cellRect, true, false);
             } else if (sectionData->isSelectTo(dateForItem)) { //Draw the end boundary.
-                drawSelectedBox(painter, sectionBox, option.rect, false, true);
+                drawSelectedBox(painter, sectionBox, cellRect, false, true);
             } else if (sectionData->isInSelectRange(dateForItem)) {
                 auto box = sectionBox;
-                box.setLeft(option.rect.left());
-                box.setRight(option.rect.right() - 1);
+                box.setLeft(cellRect.left());
+                box.setRight(cellRect.right() - 1.0);
                 painter->fillRect(box, m_calendarStyle.dateRangeBackground);
             }
         } else if (sectionData->rangeModeEnabled && (sectionData->isSelectFrom(dateForItem) || sectionData->isSelectTo(dateForItem))) {
-            drawSelectedBox(painter, sectionBox, option.rect, false, false);
+            drawSelectedBox(painter, sectionBox, cellRect, false, false);
         } else {
             if (!sectionData->rangeModeEnabled && sectionData->isSelectedDate(dateForItem)) {
-                drawSelectedBox(painter, sectionBox, option.rect, false, false);
+                drawSelectedBox(painter, sectionBox, cellRect, false, false);
             }
         }
     }
@@ -61,11 +62,9 @@ void CalendarDateItemDelegate::paint(QPainter* painter, const QStyleOptionViewIt
     painter->save();
     if (isCurrentMonth) {
         if (sectionData->isCurrentDate(dateForItem) && m_calendarStyle.todayBorderWidth > 0) {
-            const qreal borderWidth = qMax(0, m_calendarStyle.todayBorderWidth);
-            const auto stroke = paintutils::borderStrokeForWidget(*painter, QRectF(sectionBox),
-                                                                  borderWidth);
-            painter->setPen(QPen(m_calendarStyle.todayBorder, stroke.width));
-            painter->drawRoundedRect(stroke.rect, qMax(0, m_calendarStyle.dateCornerRadius),
+            const auto border = PaintUtils::borderStroke(*painter, sectionBox, m_calendarStyle.todayBorder, m_calendarStyle.todayBorderWidth);
+            painter->setPen(border.pen);
+            painter->drawRoundedRect(border.rect, qMax(0, m_calendarStyle.dateCornerRadius),
                                      qMax(0, m_calendarStyle.dateCornerRadius));
         }
     }
@@ -92,7 +91,7 @@ void CalendarDateItemDelegate::paint(QPainter* painter, const QStyleOptionViewIt
     painter->restore();
 }
 
-void CalendarDateItemDelegate::drawSelectedBox(QPainter* painter, const QRect& sectionBox, const QRect& dstRect, bool isFromBox, bool isToBox) const {
+void CalendarDateItemDelegate::drawSelectedBox(QPainter* painter, const QRectF& sectionBox, const QRectF& dstRect, bool isFromBox, bool isToBox) const {
     const int boxRadius = qMax(0, m_calendarStyle.dateCornerRadius);
 
     painter->setPen(Qt::NoPen);
@@ -107,7 +106,7 @@ void CalendarDateItemDelegate::drawSelectedBox(QPainter* painter, const QRect& s
         auto rangeRect = sectionBox;
         if (isFromBox) {
             rangeRect.setLeft(sectionBox.center().x());
-            rangeRect.setRight(dstRect.right() - 1);
+            rangeRect.setRight(dstRect.right() - 1.0);
         } else {
             rangeRect.setLeft(dstRect.left());
             rangeRect.setRight(sectionBox.center().x());

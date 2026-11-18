@@ -201,8 +201,7 @@ QSize OutlineIconButton::sizeHint() const {
 
 void OutlineIconButton::paintEvent(QPaintEvent*) {
     QPainter painter(this);
-    const qreal inset = m_borderWidth / 2;
-    ButtonPainter::drawSurface(painter, QRectF(rect()).adjusted(inset, inset, -inset, -inset),
+    ButtonPainter::drawSurface(painter, QRectF(rect()),
                                ButtonSurfaceOptions{{}, animatedBorderColor(), m_borderWidth, m_cornerRadius, false, true, m_shape == Shape::Circle});
     ButtonPainter::drawContent(
             painter, rect(),

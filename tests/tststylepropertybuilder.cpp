@@ -358,7 +358,12 @@ void StylePropertyBuilderTest::scalarBindingsAndDefaults() {
     QCOMPARE(properties.at(1).type, StylePropertyType::Real);
     properties.at(1).apply(1.23456789);
     QCOMPARE(object.borderWidth, 1.23456789);
-    QCOMPARE(properties.at(1).codeExpression(object.borderWidth).toDouble(), object.borderWidth);
+    const auto& realExpression = properties.at(1).codeExpression;
+    QCOMPARE(realExpression(object.borderWidth), QStringLiteral("1.23"));
+    QCOMPARE(realExpression(3.0799999999999996), QStringLiteral("3.08"));
+    QCOMPARE(realExpression(3.10), QStringLiteral("3.1"));
+    QCOMPARE(realExpression(100.0), QStringLiteral("100"));
+    QCOMPARE(realExpression(-0.004), QStringLiteral("0"));
     properties.at(2).apply(true);
     QVERIFY(object.animateContentColor);
     QCOMPARE(properties.at(2).codeExpression(true), QStringLiteral("true"));

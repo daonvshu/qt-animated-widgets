@@ -2,6 +2,7 @@
 
 #include <qwidget.h>
 #include <qapplication.h>
+#include <QLineF>
 #include <qpointer.h>
 
 /**
@@ -26,13 +27,13 @@ private:
     friend class ObjectFinderApplication;
 
 private:
-    void drawInnerRectDistance(QPainter& painter, const QRect& r1, const QRect& r2) const;
+    void drawInnerRectDistance(QPainter& painter, const QRectF& r1, const QRectF& r2) const;
 
-    void drawRectDistance(QPainter& painter, const QRect& compare, const QRect& target) const;
+    void drawRectDistance(QPainter& painter, const QRectF& compare, const QRectF& target) const;
 
-    void drawControlInfo(QPainter& painter, const QRect& tagRect) const;
+    void drawControlInfo(QPainter& painter, const QRectF& tagRect) const;
 
-    void drawDistanceLine(QPainter& painter, const QLine& line, Qt::Orientation orientation) const;
+    void drawDistanceLine(QPainter& painter, const QLineF& line, Qt::Orientation orientation) const;
 
     bool isActiveWindowChild(const QPointer<QWidget>& target) const;
 

@@ -1,5 +1,6 @@
 QLineEdit,
-animatedwidgets--SpinBox {
+animatedwidgets--SpinBox,
+animatedwidgets--DoubleSpinBox {
     background: transparent;
     border: none;
 }

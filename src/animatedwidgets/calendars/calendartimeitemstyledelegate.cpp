@@ -20,7 +20,7 @@ void CalendarTimeItemStyleDelegate::paint(QPainter* painter, const QStyleOptionV
     } else {
         painter->setBrush(m_calendarStyle.timeBackground);
     }
-    QRect backgroundRect = option.rect.marginsRemoved(m_calendarStyle.timeContentPadding);
+    const QRectF backgroundRect = QRectF(option.rect).marginsRemoved(QMarginsF(m_calendarStyle.timeContentPadding));
     painter->drawRoundedRect(backgroundRect, qMax(0, m_calendarStyle.timeCornerRadius), qMax(0, m_calendarStyle.timeCornerRadius));
 
     painter->restore();

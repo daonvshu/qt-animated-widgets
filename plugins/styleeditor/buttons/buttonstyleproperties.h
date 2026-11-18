@@ -16,7 +16,7 @@ public:
 
 private:
     static animatedwidgets::styleeditor::StylePropertyGroup buttonProperties();
-    static animatedwidgets::styleeditor::StylePropertyGroup textContent();
+    static animatedwidgets::styleeditor::StylePropertyGroup textContent(bool iconOnly = false);
     static animatedwidgets::styleeditor::StylePropertyGroup background();
     static animatedwidgets::styleeditor::StylePropertyGroup hoverBackground();
     static animatedwidgets::styleeditor::StylePropertyGroup border();

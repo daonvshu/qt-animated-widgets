@@ -28,6 +28,7 @@ QRectF PresetColorPicker::presetRect(int index) const {
 
 void PresetColorPicker::paintEvent(QPaintEvent*) {
     QPainter painter(this);
+    painter.setRenderHint(QPainter::Antialiasing);
     const QRectF preview = previewRect();
     for (int row = 0; row < 5; ++row) {
         for (int column = 0; column < 5; ++column)

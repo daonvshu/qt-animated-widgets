@@ -102,7 +102,9 @@ animatedwidgets--PlainTextEdit {
 animatedwidgets--LineEdit,
 animatedwidgets--ComboBox,
 animatedwidgets--SpinBox,
-animatedwidgets--SpinBox > QLineEdit {
+animatedwidgets--SpinBox > QLineEdit,
+animatedwidgets--DoubleSpinBox,
+animatedwidgets--DoubleSpinBox > QLineEdit {
     color: #e7ecf5;
     selection-background-color: #333b63;
     selection-color: #e7ecf5;
@@ -115,7 +117,8 @@ animatedwidgets--ComboBox {
     qproperty-disabledTextColor: #66748e;
 }
 
-animatedwidgets--SpinBox {
+animatedwidgets--SpinBox,
+animatedwidgets--DoubleSpinBox {
     qproperty-backgroundNormal: #171c28;
     qproperty-backgroundHover: #171c28;
     qproperty-backgroundFocus: #171c28;
@@ -126,11 +129,17 @@ animatedwidgets--SpinBox {
     qproperty-borderDisabled: #343e52;
     qproperty-textColor: #e7ecf5;
     qproperty-disabledTextColor: #66748e;
+    qproperty-stepButtonNormalColor: #aebaff;
+    qproperty-stepButtonDisabledColor: #66748e;
+    qproperty-stepButtonBackgroundHover: #333b63;
+    qproperty-stepButtonBackgroundPressed: #414d64;
 }
 
 animatedwidgets--LineEdit:disabled,
 animatedwidgets--ComboBox:disabled,
 animatedwidgets--SpinBox:disabled,
-animatedwidgets--SpinBox > QLineEdit:disabled {
+animatedwidgets--SpinBox > QLineEdit:disabled,
+animatedwidgets--DoubleSpinBox:disabled,
+animatedwidgets--DoubleSpinBox > QLineEdit:disabled {
     color: #66748e;
 }
