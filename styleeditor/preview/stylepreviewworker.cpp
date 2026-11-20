@@ -124,7 +124,8 @@ void StylePreviewWorker::updatePreview(const QJsonObject& message) {
         sendError(message, QStringLiteral("The preview window has not been attached to its host."));
         return;
     }
-    m_canvas->setBackground(QColor(message.value(QStringLiteral("background")).toString()));
+    m_canvas->setBackground(QColor(message.value(QStringLiteral("background")).toString()),
+                            QColor(message.value(QStringLiteral("themeBackground")).toString()));
     const QJsonObject data = message.value(QStringLiteral("item")).toObject();
     if (data.isEmpty()) {
         delete m_preview.data();

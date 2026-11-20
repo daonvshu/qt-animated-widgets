@@ -111,8 +111,8 @@ void StylePreviewPanel::requestPreview() {
     QJsonObject snapshot;
     snapshot.insert(QStringLiteral("item"), m_itemData);
     snapshot.insert(QStringLiteral("state"), m_state);
-    const QColor background = m_background.isValid() ? m_background : m_themeBackground;
-    snapshot.insert(QStringLiteral("background"), background.isValid() ? background.name(QColor::HexArgb) : QString());
+    snapshot.insert(QStringLiteral("background"), m_background.isValid() ? m_background.name(QColor::HexArgb) : QString());
+    snapshot.insert(QStringLiteral("themeBackground"), m_themeBackground.isValid() ? m_themeBackground.name(QColor::HexArgb) : QString());
 
     QJsonObject settings;
     settings.insert(QStringLiteral("width"), m_settings.size.width());
@@ -217,8 +217,8 @@ void StylePreviewPanel::updateBackground() {
     ui.previewBackgroundButton->setBackgroundHover(color);
     ui.previewBackgroundButton->setBackgroundPressed(color);
     ui.previewBackgroundButton->setContentNormal(color.lightness() < 128 ? QColor(Qt::white) : QColor(Qt::black));
-    ui.previewBackgroundButton->setText(m_background.isValid() ? QString() : QStringLiteral("Theme"));
-    ui.previewBackgroundButton->setToolTip(m_background.isValid() ? color.name(QColor::HexArgb) : QStringLiteral("Editor background"));
+    ui.previewBackgroundButton->setText(m_background.isValid() ? QString() : QStringLiteral("Grid"));
+    ui.previewBackgroundButton->setToolTip(m_background.isValid() ? color.name(QColor::HexArgb) : QStringLiteral("Checkerboard background"));
 }
 
 QColor StylePreviewPanel::previewBackground() const {
